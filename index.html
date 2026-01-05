@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ラグラージ運用効率化ツール</title>
+    <title>料理チャンス運用効率化ツール</title>
     <style>
         * {
             margin: 0;
@@ -425,12 +425,26 @@
     <!-- メインコンテンツ -->
     <div id="mainContent">
     <div class="container">
-        <h1>🌊 ラグラージ運用効率化ツール</h1>
+        <h1>🌊 料理チャンス運用効率化ツール</h1>
         <p class="subtitle">料理チャンスを何回発動させたら、いつの間に育成に移行すべき？</p>
 
-        <!-- ラグラージのスペック -->
+        <!-- ポケモンのスペック -->
         <div class="section">
-            <div class="section-title">ラグラージのスペック</div>
+            <div class="section-title">ポケモンのスペック</div>
+            
+            <div class="input-group">
+                <span class="input-label">ポケモン選択</span>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="pokemon" value="swampert" id="pokemonSwampert" checked>
+                        <label for="pokemonSwampert">ラグラージ</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="pokemon" value="weavile" id="pokemonWeavile">
+                        <label for="pokemonWeavile">マニューラ</label>
+                    </div>
+                </div>
+            </div>
             
             <div class="input-group">
                 <label class="input-label" for="level">レベル</label>
@@ -489,7 +503,7 @@
                 <div class="radio-group">
                     <div class="radio-item">
                         <input type="radio" name="speedNature" value="0.9" id="speedUp">
-                        <label for="speedUp">-10%</label>
+                        <label for="speedUp">-10% (おてスピup)</label>
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="speedNature" value="1.0" id="speedNormal" checked>
@@ -497,25 +511,7 @@
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="speedNature" value="1.075" id="speedDown">
-                        <label for="speedDown">+7.5%</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <span class="input-label">性格（スキル確率補正）</span>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" name="skillNature" value="0.8" id="skillDown">
-                        <label for="skillDown">-20%</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="skillNature" value="1.0" id="skillNormal" checked>
-                        <label for="skillNormal">通常</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="skillNature" value="1.2" id="skillUp">
-                        <label for="skillUp">+20%</label>
+                        <label for="speedDown">+7.5% (おてスピdown)</label>
                     </div>
                 </div>
             </div>
@@ -524,16 +520,34 @@
                 <span class="input-label">性格（食材確率補正）</span>
                 <div class="radio-group">
                     <div class="radio-item">
-                        <input type="radio" name="foodNature" value="0.8" id="foodDown">
-                        <label for="foodDown">-20%</label>
+                        <input type="radio" name="foodNature" value="1.2" id="foodUp">
+                        <label for="foodUp">+20% (食材up)</label>
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="foodNature" value="1.0" id="foodNormal" checked>
                         <label for="foodNormal">通常</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="foodNature" value="1.2" id="foodUp">
-                        <label for="foodUp">+20%</label>
+                        <input type="radio" name="foodNature" value="0.8" id="foodDown">
+                        <label for="foodDown">-20% (食材down)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <span class="input-label">性格（スキル確率補正）</span>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="skillNature" value="1.2" id="skillUp">
+                        <label for="skillUp">+20% (スキルup)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="skillNature" value="1.0" id="skillNormal" checked>
+                        <label for="skillNormal">通常</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="skillNature" value="0.8" id="skillDown">
+                        <label for="skillDown">-20% (スキルdown)</label>
                     </div>
                 </div>
             </div>
@@ -563,7 +577,7 @@
             </div>
 
             <div class="input-group">
-                <label class="input-label" for="replacementEnergy">入替候補きのみポケモンのエナジー（0の場合はラグラージいつ育）</label>
+                <label class="input-label" for="replacementEnergy">入替候補きのみポケモンのエナジー（0の場合は選択ポケモンいつ育）</label>
                 <input type="number" id="replacementEnergy" value="0" min="0" step="1000">
                 <small style="color: #666; display: block; margin-top: 5px;">※ 他のきのみポケモンと比較したい場合は、そのポケモンの1日エナジーを入力</small>
                 <div style="margin-top: 10px;">
@@ -573,8 +587,34 @@
             </div>
 
             <div class="input-group">
-                <label class="input-label" for="cookEnergy">料理エナジー</label>
-                <input type="number" id="cookEnergy" value="110000" min="0" step="1000">
+                <label class="input-label" for="cookEnergyPreset">料理エナジー</label>
+                <select id="cookEnergyPreset" onchange="updateCookEnergy()">
+                    <option value="custom">カスタム入力</option>
+                    <optgroup label="上位料理（レシピLv65）">
+                        <option value="84041">じならしワカモレチップス (84,041)</option>
+                        <option value="82839">しんりょくアボカドグラタン (82,839)</option>
+                        <option value="81342">ドキドキこわいかおパンケーキ (81,342)</option>
+                        <option value="69756">ドオーのエクレア (69,756)</option>
+                        <option value="68988">いあいぎりすき焼きカレー (68,988)</option>
+                        <option value="67528">まけんきコーヒーサラダ (67,528)</option>
+                        <option value="64439">りんごさんヨーグルトサラダ (64,439)</option>
+                        <option value="63664">めざめるパワーシチュー (63,664)</option>
+                    </optgroup>
+                    <optgroup label="中位料理（レシピLv65）">
+                        <option value="58430">スパークスパイスコーラ (58,430)</option>
+                        <option value="52174">なりきりバケッチャシチュー (52,174)</option>
+                        <option value="46206">フラワーギフトマカロン (46,206)</option>
+                        <option value="45725">れんごくコーンキーマカレー (45,725)</option>
+                        <option value="39683">はなふぶきミモザサラダ (39,683)</option>
+                        <option value="38941">ニンジャサラダ (38,941)</option>
+                        <option value="36490">おちゃかいコーンスコーン (36,490)</option>
+                        <option value="31546">ニンジャカレー (31,546)</option>
+                        <option value="26660">ワカクササラダ (26,660)</option>
+                        <option value="25635">めいそうスイートサラダ (25,635)</option>
+                    </optgroup>
+                </select>
+                <input type="number" id="cookEnergy" value="110000" min="0" step="1000" style="margin-top: 10px;">
+                <small style="color: #666; display: block; margin-top: 5px;">※ プリセットから選択、またはカスタム入力で任意の値を設定</small>
             </div>
 
             <div class="input-group">
@@ -645,7 +685,7 @@
         <!-- 結果表示 -->
         <div class="results" id="results">
             <div class="section">
-                <div class="section-title">ラグラージ スペック</div>
+                <div class="section-title"><span id="pokemonName"></span> スペック</div>
                 <div class="spec-box">
                     <div class="spec-item">レベル：<span id="displayLevel"></span></div>
                     <div class="spec-item">きのみエナジー単価：<span id="berryUnitEnergy"></span></div>
@@ -663,18 +703,20 @@
                     <div class="spec-box" style="background: #fff3cd;">
                         <div class="spec-title" style="color: #856404;">100% 毎分タップ（積極運用）</div>
                         <div class="spec-item">きのみエナジー：<span id="fullActiveBerry"></span>
-                            <br><small style="color: #666;">（個数：<span id="fullActiveBerryCount"></span>個 × 単価：<span id="fullActiveBerryUnit"></span>）</small>
+                            <br><small style="color: #666;">（<span id="fullActiveBerryTotalCount"></span>個 × 単価<span id="fullActiveBerryUnit"></span> × FB<span id="fullActiveBerryFB"></span>）</small>
                         </div>
-                        <div class="spec-item">食材エナジー：<span id="fullActiveFood"></span></div>
-                        <div class="spec-item">料理エナジー：<span id="fullActiveCook"></span>
-                            <br><small style="color: #666;">（スキル発動期待値：<span id="fullActiveSkillExpected"></span>回/日）</small>
+                        <div class="spec-item">食材エナジー：<span id="fullActiveFood"></span>
+                            <br><small style="color: #666;">（食材個数<span id="fullActiveFoodCount"></span>個 × 食材基礎<span id="fullActiveFoodBase"></span> × <span id="fullActiveFoodFormula"></span>）</small>
+                        </div>
+                        <div class="spec-item">スキルエナジー：<span id="fullActiveCook"></span>
+                            <br><small style="color: #666;">（スキル発動<span id="fullActiveSkillExpected"></span>回/日 × <span id="fullActiveSkillPerActivation"></span>/回）</small>
                         </div>
                         <div class="spec-item" style="margin-top: 8px; padding-top: 8px; border-top: 2px solid #856404; font-weight: bold;">合計：<span id="fullActiveTotal"></span></div>
                     </div>
                     <div class="spec-box" style="background: #d1ecf1;">
                         <div class="spec-title" style="color: #0c5460;"><span id="idleModeName">100% いつの間に育成</span></div>
                         <div class="spec-item">きのみエナジー：<span id="fullIdleBerry"></span>
-                            <br><small style="color: #666;" id="fullIdleDetail">（個数：<span id="fullIdleBerryCount"></span>個 × 単価：<span id="fullIdleBerryUnit"></span>）</small>
+                            <br><small style="color: #666;" id="fullIdleDetail">（<span id="fullIdleBerryTotalCount"></span>個 × 単価<span id="fullIdleBerryUnit"></span> × FB<span id="fullIdleBerryFB"></span>）</small>
                         </div>
                         <div class="spec-item" style="margin-top: 8px; padding-top: 8px; border-top: 2px solid #0c5460; font-weight: bold;">合計：<span id="fullIdleTotal"></span></div>
                     </div>
@@ -721,6 +763,30 @@
     </div>
 
     <script>
+        // ポケモンの基礎スペック
+        const POKEMON_STATS = {
+            swampert: {
+                name: 'ラグラージ',
+                baseSpeed: 1260, // lv1の基本おてスピ
+                berryName: 'フィラのみ',
+                berryBaseEnergy: 29,
+                foodProb: 0.146,
+                foodName: 'コーン',
+                foodBaseEnergy: 140,
+                skillProb: 0.034
+            },
+            weavile: {
+                name: 'マニューラ',
+                baseSpeed: 1215, // lv1の基本おてスピ
+                berryName: 'ウイのみ',
+                berryBaseEnergy: 31,
+                foodProb: 0.251,
+                foodName: 'ミート',
+                foodBaseEnergy: 103,
+                skillProb: 0.018
+            }
+        };
+        
         // スキルレベルごとの効果量
         const SKILL_EFFECTS = {
             1: 0.04,
@@ -739,7 +805,24 @@
             return baseRate + (skillEffect * n);
         }
 
+        // 料理エナジーのプリセット選択時の処理
+        function updateCookEnergy() {
+            const preset = document.getElementById('cookEnergyPreset').value;
+            const input = document.getElementById('cookEnergy');
+            
+            if (preset === 'custom') {
+                input.disabled = false;
+            } else {
+                input.value = preset;
+                input.disabled = true;
+            }
+        }
+
         function calculate() {
+            // ポケモン選択
+            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemon = POKEMON_STATS[pokemonType];
+            
             // 入力値の取得
             const level = parseInt(document.getElementById('level').value);
             
@@ -778,7 +861,7 @@
 
             // 1. おてつだいスピード計算
             // レベルに応じた基本おてスピ
-            const baseSpeed = 1260 * (1 - 0.002 * (level - 1));
+            const baseSpeed = pokemon.baseSpeed * (1 - 0.002 * (level - 1));
             
             // サブスキル補正値（上限35%）
             let subSkillBonus = 0;
@@ -798,7 +881,7 @@
             const helpCount = 86400 / finalSpeed;
 
             // 2. 食材確率計算
-            let foodProb = 0.146;
+            let foodProb = pokemon.foodProb;
             if (foodM) foodProb = foodProb * 1.36;
             if (foodS) foodProb = foodProb * 1.18;
             foodProb = foodProb * foodNature;
@@ -806,7 +889,7 @@
             const berryProb = 1 - foodProb;
 
             // 3. スキル確率計算
-            let skillProb = 0.034;
+            let skillProb = pokemon.skillProb;
             if (skillM) skillProb = skillProb * 1.36;
             if (skillS) skillProb = skillProb * 1.18;
             skillProb = skillProb * skillNature;
@@ -816,8 +899,8 @@
             const skillCountPerDay = helpCount * skillProb;
 
             // 4. エナジー計算
-            // レベルに応じたきのみエナジー単価（フィラのみ）
-            const berryBaseEnergy = 29;
+            // レベルに応じたきのみエナジー単価
+            const berryBaseEnergy = pokemon.berryBaseEnergy;
             const berryEnergyPerBerry = Math.max(
                 berryBaseEnergy + (level - 1),
                 berryBaseEnergy * Math.pow(1.025, level - 1)
@@ -835,15 +918,19 @@
             }
 
             // 食材エナジー（平均）
-            let avgFoodEnergy = (140 + 280 + 560) / 3;
+            const foodBaseEnergy = pokemon.foodBaseEnergy;
+            let avgFoodEnergy = (foodBaseEnergy + foodBaseEnergy * 2 + foodBaseEnergy * 4) / 3;
+            let avgFoodCount = (1 + 2 + 4) / 3; // 平均個数/回
             if (exOther === 'food') {
-                avgFoodEnergy = (280 + 560 + 1120) / 3; // EX個数+1
+                avgFoodEnergy = (foodBaseEnergy * 2 + foodBaseEnergy * 4 + foodBaseEnergy * 8) / 3; // EX個数+1
+                avgFoodCount = (2 + 4 + 8) / 3; // EX個数+1の平均個数/回
             }
 
             // 料理エナジー（1回あたり）
             const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel];
 
             // スペック表示
+            document.getElementById('pokemonName').textContent = pokemon.name;
             document.getElementById('displayLevel').textContent = level;
             document.getElementById('berryUnitEnergy').textContent = Math.floor(berryEnergyPerBerry);
             document.getElementById('finalSpeed').textContent = finalSpeed.toFixed(2);
@@ -855,18 +942,36 @@
             // 100%運用時の基準値計算
             // 100% 毎分タップ
             const fullActiveBerryCount = helpCount * berryProb;
-            const fullActiveFoodCount = helpCount * foodProb;
-            const fullActiveBerryEnergy = fullActiveBerryCount * berryEnergyPerHelp;
-            const fullActiveFoodEnergy = fullActiveFoodCount * avgFoodEnergy;
-            const fullActiveCookEnergy = skillCountPerDay * cookEnergyPerSkill; // スキル回数 × 1回あたり
-            const fullActiveTotal = (fullActiveBerryEnergy + fullActiveFoodEnergy + fullActiveCookEnergy) * fbMultiplier;
+            const fullActiveFoodPickupCount = helpCount * foodProb; // 食材を拾う回数
+            const fullActiveFoodTotalCount = fullActiveFoodPickupCount * avgFoodCount; // 実際の食材個数
+            const fullActiveBerryEnergyBeforeFB = fullActiveBerryCount * berryEnergyPerHelp;
+            const fullActiveFoodEnergyBeforeFB = fullActiveFoodPickupCount * avgFoodEnergy;
+            const fullActiveCookEnergyBeforeFB = skillCountPerDay * cookEnergyPerSkill; // スキル回数 × 1回あたり
+            
+            // FB適用
+            const fullActiveBerryEnergy = fullActiveBerryEnergyBeforeFB * fbMultiplier;
+            const fullActiveFoodEnergy = fullActiveFoodEnergyBeforeFB * fbMultiplier;
+            const fullActiveCookEnergy = fullActiveCookEnergyBeforeFB * fbMultiplier;
+            const fullActiveTotal = fullActiveBerryEnergy + fullActiveFoodEnergy + fullActiveCookEnergy;
 
+            // きのみの個数/回を計算
+            const berryPerCount = berryS ? 3 : 2;
+            const fullActiveBerryTotalCount = fullActiveBerryCount * berryPerCount;
+            
             document.getElementById('fullActiveBerry').textContent = Math.round(fullActiveBerryEnergy).toLocaleString();
-            document.getElementById('fullActiveBerryCount').textContent = fullActiveBerryCount.toFixed(2);
+            document.getElementById('fullActiveBerryTotalCount').textContent = fullActiveBerryTotalCount.toFixed(2);
             document.getElementById('fullActiveBerryUnit').textContent = Math.floor(berryEnergyPerBerry);
+            document.getElementById('fullActiveBerryFB').textContent = fbMultiplier.toFixed(2);
+            
             document.getElementById('fullActiveFood').textContent = Math.round(fullActiveFoodEnergy).toLocaleString();
+            document.getElementById('fullActiveFoodCount').textContent = fullActiveFoodTotalCount.toFixed(2);
+            document.getElementById('fullActiveFoodBase').textContent = foodBaseEnergy.toString();
+            document.getElementById('fullActiveFoodFormula').textContent = exOther === 'food' ? '(2+4+8)/3' : '(1+2+4)/3';
+            
             document.getElementById('fullActiveCook').textContent = Math.round(fullActiveCookEnergy).toLocaleString();
             document.getElementById('fullActiveSkillExpected').textContent = skillCountPerDay.toFixed(2);
+            document.getElementById('fullActiveSkillPerActivation').textContent = Math.round(cookEnergyPerSkill).toLocaleString();
+            
             document.getElementById('fullActiveTotal').textContent = Math.round(fullActiveTotal).toLocaleString();
 
             // 100% いつの間に育成 or 入替候補
@@ -883,18 +988,27 @@
             } else {
                 // ラグラージいつ育を使う場合
                 const fullIdleBerryCount = helpCount * 1.0; // きのみ確率100%
-                const fullIdleBerryEnergy = fullIdleBerryCount * berryEnergyPerHelp;
-                fullIdleTotal = fullIdleBerryEnergy * fbMultiplier;
+                const fullIdleBerryEnergyBeforeFB = fullIdleBerryCount * berryEnergyPerHelp;
+                const fullIdleBerryEnergy = fullIdleBerryEnergyBeforeFB * fbMultiplier;
+                fullIdleTotal = fullIdleBerryEnergy;
+                
+                const fullIdleBerryTotalCount = fullIdleBerryCount * berryPerCount;
+                
                 document.getElementById('idleModeName').textContent = '100% いつの間に育成';
                 document.getElementById('fullIdleBerry').textContent = Math.round(fullIdleBerryEnergy).toLocaleString();
-                document.getElementById('fullIdleBerryCount').textContent = fullIdleBerryCount.toFixed(2);
+                document.getElementById('fullIdleBerryTotalCount').textContent = fullIdleBerryTotalCount.toFixed(2);
                 document.getElementById('fullIdleBerryUnit').textContent = Math.floor(berryEnergyPerBerry);
+                document.getElementById('fullIdleBerryFB').textContent = fbMultiplier.toFixed(2);
                 document.getElementById('fullIdleTotal').textContent = Math.round(fullIdleTotal).toLocaleString();
                 // いつ育の場合は詳細情報を表示
                 document.getElementById('fullIdleDetail').style.display = 'block';
             }
 
-            // 5. スキル0-7回それぞれの複合期待値計算
+            // 5. スキル0-N回それぞれの複合期待値計算
+            // スキルレベルに応じた発動回数の上限を計算
+            const skillEffectPercent = SKILL_EFFECTS[skillLevel] * 100; // パーセント表示（例: 0.04 → 4%）
+            const maxActivations = Math.ceil(70 / skillEffectPercent); // 70%を効果量で割って切り上げ
+            
             const resultsTable = document.getElementById('resultsTable');
             resultsTable.innerHTML = '';
             
@@ -902,7 +1016,7 @@
             let bestRow = -1;
             const results = [];
 
-            for (let n = 0; n <= 7; n++) {
+            for (let n = 0; n <= maxActivations; n++) {
                 if (n === 0) {
                     // 発動回数0：ラグラージを使わず、いつ育/入替候補のみ
                     const idleRatio = 1.0;
@@ -1028,6 +1142,7 @@
                 foodProb: foodProb,
                 berryEnergyPerHelp: berryEnergyPerHelp,
                 avgFoodEnergy: avgFoodEnergy,
+                avgFoodCount: avgFoodCount,
                 cookEnergyPerSkill: cookEnergyPerSkill,
                 skillLevel: skillLevel,
                 useReplacement: useReplacement,
@@ -1047,7 +1162,7 @@
             } else {
                 document.getElementById('comparisonModeName').textContent = 'いつ育';
                 document.getElementById('comparisonModeDesc').textContent = 
-                    `ラグラージをいつの間に育成で運用した場合の複合期待値を計算しています。${fbText}`;
+                    `${pokemon.name}をいつの間に育成で運用した場合の複合期待値を計算しています。${fbText}`;
             }
 
             // 結果表示
