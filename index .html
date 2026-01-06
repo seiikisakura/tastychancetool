@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>料理チャンス運用効率化ツール</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* パスワード保護画面 */
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .auth-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .auth-box h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .auth-box p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .auth-error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.authenticated {
+            display: block;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 5px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .radio-item input[type="radio"] {
+            margin-right: 5px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .radio-item label {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .spec-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .spec-title {
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .spec-item {
+            margin: 5px 0;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .best-row {
+            background: #fff3cd !important;
+            font-weight: bold;
+        }
+
+        .best-row td {
+            color: #856404;
+        }
+
+        .debug-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .debug-btn:hover {
+            background: #5568d3;
+        }
+
+        .debug-card {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .debug-card-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .debug-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .debug-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+
+        .debug-item-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+
+        .debug-item-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .debug-section-title {
+            font-weight: bold;
+            color: #555;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .checkbox-group,
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- パスワード認証画面 -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-box">
+            <h2>🔒 アクセス制限</h2>
+            <p>開発中につき、アクセスを制限しています</p>
+            <input 
+                type="password" 
+                class="auth-input" 
+                id="authInput" 
+                placeholder="パスワードを入力してください"
+                autocomplete="off"
+            >
+            <button class="auth-btn" onclick="verifyAccess()">アクセス</button>
+            <div class="auth-error" id="authError">パスワードが正しくありません</div>
+        </div>
+    </div>
+
+    <!-- メインコンテンツ -->
+    <div class="main-content" id="mainContent">
+    <div class="container">
+        <h1>🌊 料理チャンス運用効率化ツール</h1>
+        <p class="subtitle">料理チャンスを何回発動させたら、いつの間に育成に移行すべき？</p>
+
+        <!-- ポケモンのスペック -->
+        <div class="section">
+            <div class="section-title">ポケモンのスペック</div>
+            
+            <div class="input-group">
+                <span class="input-label">ポケモン選択</span>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="pokemon" value="swampert" id="pokemonSwampert" checked>
+                        <label for="pokemonSwampert">ラグラージ</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="pokemon" value="weavile" id="pokemonWeavile">
+                        <label for="pokemonWeavile">マニューラ</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label" for="level">レベル</label>
+                <input type="number" id="level" value="60" min="1" max="100" step="1">
+                <small style="color: #666; display: block; margin-top: 5px;">※ レベルによっておてスピときのみエナジー単価が変動します</small>
+            </div>
+            
+            <div class="input-group">
+                <span class="input-label">サブスキル</span>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="speedM">
+                        <label for="speedM">おてスピM</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="speedS">
+                        <label for="speedS">おてスピS</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skillM">
+                        <label for="skillM">スキル確率M</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skillS">
+                        <label for="skillS">スキル確率S</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="foodM">
+                        <label for="foodM">食材確率M</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="foodS">
+                        <label for="foodS">食材確率S</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="berryS">
+                        <label for="berryS">きのみの数S</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <span class="input-label">おてつだいボーナス</span>
+                <select id="otebonus">
+                    <option value="0">0枚</option>
+                    <option value="1">1枚</option>
+                    <option value="2">2枚</option>
+                    <option value="3">3枚</option>
+                    <option value="4">4枚</option>
+                    <option value="5">5枚</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <span class="input-label">性格（おてスピ補正）</span>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="speedNature" value="0.9" id="speedUp">
+                        <label for="speedUp">-10% (おてスピup)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="speedNature" value="1.0" id="speedNormal" checked>
+                        <label for="speedNormal">通常</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="speedNature" value="1.075" id="speedDown">
+                        <label for="speedDown">+7.5% (おてスピdown)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <span class="input-label">性格（食材確率補正）</span>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="foodNature" value="1.2" id="foodUp">
+                        <label for="foodUp">+20% (食材up)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="foodNature" value="1.0" id="foodNormal" checked>
+                        <label for="foodNormal">通常</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="foodNature" value="0.8" id="foodDown">
+                        <label for="foodDown">-20% (食材down)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <span class="input-label">性格（スキル確率補正）</span>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="skillNature" value="1.2" id="skillUp">
+                        <label for="skillUp">+20% (スキルup)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="skillNature" value="1.0" id="skillNormal" checked>
+                        <label for="skillNormal">通常</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="skillNature" value="0.8" id="skillDown">
+                        <label for="skillDown">-20% (スキルdown)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="campTicket">
+                        <label for="campTicket">いいキャンプチケット</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="favoriteBerry">
+                        <label for="favoriteBerry">好物きのみ</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="skillLevel">スキルレベル</label>
+                <select id="skillLevel">
+                    <option value="1">Lv.1 (4%)</option>
+                    <option value="2">Lv.2 (5%)</option>
+                    <option value="3">Lv.3 (6%)</option>
+                    <option value="4">Lv.4 (7%)</option>
+                    <option value="5">Lv.5 (8%)</option>
+                    <option value="6" selected>Lv.6 (10%)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 環境設定 -->
+        <div class="section">
+            <div class="section-title">環境設定</div>
+            
+            <div class="input-group">
+                <label class="input-label" for="fieldBonus">フィールドボーナス（FB %）</label>
+                <input type="number" id="fieldBonus" value="0" min="0" max="85" step="1">
+                <small style="color: #666; display: block; margin-top: 5px;">※ 最終的な期待値に乗算されます（例：10%なら期待値×1.1）</small>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="replacementEnergy">入替候補きのみポケモンのエナジー（0の場合は選択ポケモンいつ育）</label>
+                <input type="number" id="replacementEnergy" value="0" min="0" step="1000">
+                <small style="color: #666; display: block; margin-top: 5px;">※ 他のきのみポケモンと比較したい場合は、そのポケモンの1日エナジーを入力</small>
+                <div style="margin-top: 10px;">
+                    <input type="checkbox" id="replacementIncludesFB">
+                    <label for="replacementIncludesFB" style="cursor: pointer;">入替候補のエナジーはFB込みの数値</label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #856404;">
+                    <input type="checkbox" id="ignoreFoodEnergy">
+                    <label for="ignoreFoodEnergy" style="cursor: pointer; font-weight: 500;">
+                        食材エナジー度外視モード
+                    </label>
+                    <div style="margin-top: 8px; font-size: 13px; color: #666; line-height: 1.6;">
+                        100%毎分タップの計算で食材エナジーをゼロとします。<br>
+                        食材をエナジー化できない場合のシミュレーションに使用します。<br>
+                        <small style="color: #999;">※ きのみお手伝い回数の計算は変更されません（実際に食材を拾ってくるため）</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="cookEnergyPreset">料理エナジー</label>
+                <select id="cookEnergyPreset" onchange="updateCookEnergy()">
+                    <option value="custom">カスタム入力</option>
+                    <optgroup label="上位料理（レシピLv65）">
+                        <option value="84041">じならしワカモレチップス (84,041)</option>
+                        <option value="82839">しんりょくアボカドグラタン (82,839)</option>
+                        <option value="81342">ドキドキこわいかおパンケーキ (81,342)</option>
+                        <option value="69756">ドオーのエクレア (69,756)</option>
+                        <option value="68988">いあいぎりすき焼きカレー (68,988)</option>
+                        <option value="67528">まけんきコーヒーサラダ (67,528)</option>
+                        <option value="64439">りんごさんヨーグルトサラダ (64,439)</option>
+                        <option value="63664">めざめるパワーシチュー (63,664)</option>
+                        <option value="58430">スパークスパイスコーラ (58,430)</option>
+                    </optgroup>
+                    <optgroup label="中位料理（レシピLv65）">
+                        <option value="52174">なりきりバケッチャシチュー (52,174)</option>
+                        <option value="46206">フラワーギフトマカロン (46,206)</option>
+                        <option value="45725">れんごくコーンキーマカレー (45,725)</option>
+                        <option value="39683">はなふぶきミモザサラダ (39,683)</option>
+                        <option value="38941">ニンジャサラダ (38,941)</option>
+                        <option value="36490">おちゃかいコーンスコーン (36,490)</option>
+                        <option value="31546">ニンジャカレー (31,546)</option>
+                        <option value="26660">ワカクササラダ (26,660)</option>
+                    </optgroup>
+                </select>
+                <input type="number" id="cookEnergy" value="110000" min="0" step="1000" style="margin-top: 10px;">
+                <small style="color: #666; display: block; margin-top: 5px;">※ プリセットから選択、またはカスタム入力で任意の値を設定</small>
+            </div>
+
+            <div class="input-group">
+                <span class="input-label">EX補正（おてスピ）</span>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="exSpeed" value="1.0" id="exSpeedNone" checked>
+                        <label for="exSpeedNone">なし</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="exSpeed" value="0.9" id="exSpeedUp">
+                        <label for="exSpeedUp">10%アップ</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="exSpeed" value="1.15" id="exSpeedDown">
+                        <label for="exSpeedDown">15%ダウン</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <span class="input-label">EX補正（その他）</span>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="exOther" value="none" id="exOtherNone" checked>
+                        <label for="exOtherNone">なし</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="exOther" value="berry" id="exBerry">
+                        <label for="exBerry">好物2.4倍</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="exOther" value="food" id="exFood">
+                        <label for="exFood">食材+1個</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="exOther" value="skill" id="exSkill">
+                        <label for="exSkill">スキル1.25倍</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="eventSpeed">イベント補正（おてスピ %）</label>
+                <input type="number" id="eventSpeed" value="0" step="1">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="eventSkill">イベント補正（スキル確率 %）</label>
+                <input type="number" id="eventSkill" value="0" step="1">
+            </div>
+
+            <div class="input-group">
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="eventBerryCount">
+                        <label for="eventBerryCount">イベント補正（きのみの数+1個）</label>
+                    </div>
+                </div>
+                <small style="color: #666; display: block; margin-top: 5px;">※ 毎分タップ時のみ適用。いつの間に育成では増加しません</small>
+            </div>
+
+            <div class="input-group">
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="eventFoodCount">
+                        <label for="eventFoodCount">イベント補正（食材の数+1個）</label>
+                    </div>
+                </div>
+                <small style="color: #666; display: block; margin-top: 5px;">※ EX食材+1個と同時選択は未確認挙動です</small>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="eventSkillLevel">イベント補正（スキルレベル +）</label>
+                <select id="eventSkillLevel">
+                    <option value="0" selected>なし</option>
+                    <option value="1">+1</option>
+                    <option value="3">+3</option>
+                    <option value="5">+5</option>
+                </select>
+                <small style="color: #666; display: block; margin-top: 5px;">※ スキルレベル上限は6です</small>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="eventCookEnergy">イベント補正（料理エナジー %）</label>
+                <input type="number" id="eventCookEnergy" value="0" step="1">
+                <small style="color: #666; display: block; margin-top: 5px;">※ 料理エナジーに倍率がかかります（例：10%なら料理エナジー×1.1）</small>
+            </div>
+        </div>
+
+        <button class="calculate-btn" onclick="calculate()">計算する</button>
+
+        <!-- 結果表示 -->
+        <div class="results" id="results">
+            <!-- 警告メッセージ -->
+            <div id="warningMessage" style="display: none; background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                <div style="display: flex; align-items: start; gap: 15px;">
+                    <div style="font-size: 32px;">⚠️</div>
+                    <div>
+                        <div style="font-size: 18px; font-weight: bold; color: #856404; margin-bottom: 10px;">
+                            未確認の組み合わせが選択されています
+                        </div>
+                        <div style="font-size: 14px; color: #856404; line-height: 1.8;">
+                            <strong>EX補正（スキル1.25倍）</strong>と<strong>イベント補正（スキル確率アップ）</strong>が同時に選択されています。<br>
+                            ポケモンスリープ公式では、スキル確率のイベント補正がある時には、EX補正のスキル1.25倍は「基本的に選ばれない」と発表されています。<br>
+                            <br>
+                            <strong style="color: #d32f2f;">この組み合わせは実際のゲーム上では未確認の挙動です。</strong><br>
+                            このツールでは理論上の計算を行っていますが、実際のゲーム内での挙動と大きく乖離する可能性があります。
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title"><span id="pokemonName"></span> スペック</div>
+                <div class="spec-box">
+                    <div class="spec-item">レベル：<span id="displayLevel"></span></div>
+                    <div class="spec-item">きのみエナジー単価：<span id="berryUnitEnergy"></span>
+                        <br><small style="color: #666;">（基礎<span id="berryBaseEnergy"></span> → max（基礎+<span id="berryLinear"></span>、基礎×1.025^<span id="berryExponent"></span>））</small>
+                    </div>
+                    <div class="spec-item">おてつだいスピード：<span id="finalSpeed"></span>秒
+                        <br><small style="color: #666;"><span id="speedFormula"></span></small>
+                    </div>
+                    <div class="spec-item">お手伝い回数：<span id="helpCount"></span>回/日</div>
+                    <div class="spec-item" style="padding-left: 15px; color: #666; font-size: 13px;">
+                        ├ きのみお手伝い回数：<span id="berryHelpCount"></span>回/日
+                        <small style="color: #999;">（× きのみ確率<span id="berryProbPercent"></span>%）</small>
+                    </div>
+                    <div class="spec-item" style="padding-left: 15px; color: #666; font-size: 13px;">
+                        └ 食材お手伝い回数：<span id="foodHelpCount"></span>回/日
+                        <small style="color: #999;">（× 食材確率<span id="foodProbPercent"></span>%）</small>
+                    </div>
+                    <div class="spec-item">きのみエナジー（1回あたり）：<span id="berryEnergy"></span></div>
+                    <div class="spec-item">食材エナジー（1回あたり平均）：<span id="foodEnergy"></span></div>
+                    <div class="spec-item">スキル回数：<span id="skillCount"></span>回/日
+                        <br><small style="color: #666;"><span id="skillFormula"></span></small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">100%運用時の基準値（比較用）</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                    <div class="spec-box" style="background: #fff3cd;">
+                        <div class="spec-title" style="color: #856404;">100% 毎分タップ（積極運用）</div>
+                        <div class="spec-item">きのみエナジー：<span id="fullActiveBerry"></span>
+                            <br><small style="color: #666;">（きのみお手伝い<span id="fullActiveBerryCount"></span>回 × <span id="fullActiveBerryPerCount"></span>個/回 × 単価<span id="fullActiveBerryUnit"></span> × FB<span id="fullActiveBerryFB"></span>）</small>
+                        </div>
+                        <div class="spec-item">食材エナジー：<span id="fullActiveFood"></span><span id="fullActiveFoodIgnoreLabel" style="color: #d32f2f; font-weight: bold;"></span>
+                            <br><small style="color: #666;">（食材お手伝い<span id="fullActiveFoodPickupCount"></span>回 × 食材基礎<span id="fullActiveFoodBase"></span> × <span id="fullActiveFoodFormula"></span> × FB<span id="fullActiveFoodFB"></span>）</small>
+                        </div>
+                        <div class="spec-item">スキルエナジー：<span id="fullActiveCook"></span>
+                            <br><small style="color: #666;">（スキル発動<span id="fullActiveSkillExpected"></span>回/日 × <span id="fullActiveSkillPerActivation"></span>/回 × FB<span id="fullActiveCookFB"></span>）</small>
+                        </div>
+                        <div class="spec-item" style="margin-top: 8px; padding-top: 8px; border-top: 2px solid #856404; font-weight: bold;">合計：<span id="fullActiveTotal"></span></div>
+                    </div>
+                    <div class="spec-box" style="background: #d1ecf1;">
+                        <div class="spec-title" style="color: #0c5460;"><span id="idleModeName">100% いつの間に育成</span></div>
+                        <div class="spec-item">きのみエナジー：<span id="fullIdleBerry"></span>
+                            <br><small style="color: #666;" id="fullIdleDetail">（きのみお手伝い<span id="fullIdleBerryCount"></span>回 × <span id="fullIdleBerryPerCount"></span>個/回 × 単価<span id="fullIdleBerryUnit"></span> × FB<span id="fullIdleBerryFB"></span>）</small>
+                        </div>
+                        <div class="spec-item" style="margin-top: 8px; padding-top: 8px; border-top: 2px solid #0c5460; font-weight: bold;">合計：<span id="fullIdleTotal"></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">運用効率比較（積極運用 + <span id="comparisonModeName">いつ育</span>の複合）</div>
+                <div id="comparisonModeDesc" style="background: #e7f3ff; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 14px; color: #004085;"></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>発動回数</th>
+                            <th>ループ回数</th>
+                            <th>1日の発動数</th>
+                            <th>積極運用比率</th>
+                            <th>期待値</th>
+                            <th>詳細</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTable">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section" id="debugSection" style="display: none;">
+                <div class="section-title">計算過程の詳細</div>
+                <div id="debugInfo"></div>
+            </div>
+
+            <!-- フッター -->
+            <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px; text-align: center;">
+                <div style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                    <strong>参考サイト</strong>
+                </div>
+                <div style="font-size: 13px; color: #888; line-height: 1.8;">
+                    このツールは以下のサイトを参考に作成されました<br>
+                    <a href="https://pks.raenonx.cc/" target="_blank" style="color: #4a90e2; text-decoration: none;">pks.raenonx.cc</a> ｜ 
+                    <a href="https://pokesuri.ogagawa.com/dedenne_kourituka/" target="_blank" style="color: #4a90e2; text-decoration: none;">デデンネ効率化ツール</a> ｜ 
+                    <a href="https://wikiwiki.jp/poke_sleep/" target="_blank" style="color: #4a90e2; text-decoration: none;">ポケモンスリープ攻略Wiki</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // パスワード認証システム（ハッシュ化版）
+        // 技術的セキュリティノート: これはクライアントサイド認証のため、
+        // 時間をかければバイパス可能です。一般ユーザー向けの簡易保護です。
+        
+        const _0x4a2b = {
+            s: 'pks2025_salt_v1',  // ソルト
+            i: 10000,              // イテレーション回数
+            h: '3ef28f6b244ef9bbfd23f7379c9226668bc18ba049e03e7660676a2777169c5e'  // 正しいハッシュ値
+        };
+
+        // SHA-256ハッシュ関数
+        async function _0x7c3d(input) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(input);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // 複数回ハッシュ化（ストレッチング）
+        async function _0x9f1e(password) {
+            let hash = password + _0x4a2b.s;
+            for (let i = 0; i < _0x4a2b.i; i++) {
+                hash = await _0x7c3d(hash);
+            }
+            return hash;
+        }
+
+        // アクセス検証
+        async function verifyAccess() {
+            const input = document.getElementById('authInput').value;
+            const error = document.getElementById('authError');
+            
+            if (!input) {
+                error.style.display = 'block';
+                error.textContent = 'パスワードを入力してください';
+                return;
+            }
+
+            const hash = await _0x9f1e(input);
+            
+            if (hash === _0x4a2b.h) {
+                // 認証成功
+                sessionStorage.setItem('_auth', '1');
+                document.getElementById('authOverlay').style.display = 'none';
+                document.getElementById('mainContent').classList.add('authenticated');
+                error.style.display = 'none';
+            } else {
+                // 認証失敗
+                error.style.display = 'block';
+                error.textContent = 'パスワードが正しくありません';
+                document.getElementById('authInput').value = '';
+                document.getElementById('authInput').focus();
+            }
+        }
+
+        // Enterキーでも認証
+        document.addEventListener('DOMContentLoaded', function() {
+            const authInput = document.getElementById('authInput');
+            if (authInput) {
+                authInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        verifyAccess();
+                    }
+                });
+            }
+
+            // セッションチェック
+            if (sessionStorage.getItem('_auth') === '1') {
+                document.getElementById('authOverlay').style.display = 'none';
+                document.getElementById('mainContent').classList.add('authenticated');
+            }
+        });
+
+        // ポケモンの基礎スペック
+        const POKEMON_STATS = {
+            swampert: {
+                name: 'ラグラージ',
+                rawBaseSpeed: 2800, // Lv1の基礎おてスピ（元気補正前）
+                lv60RawSpeed: 2469, // Lv60の基礎おてスピ（元気補正前、1111÷0.45から逆算）
+                berryName: 'フィラのみ',
+                berryBaseEnergy: 29,
+                foodProb: 0.146,
+                foodName: 'コーン',
+                foodBaseEnergy: 140,
+                skillProb: 0.034
+            },
+            weavile: {
+                name: 'マニューラ',
+                rawBaseSpeed: 2700, // Lv1の基礎おてスピ（元気補正前）
+                lv60RawSpeed: 2380, // Lv60の基礎おてスピ（元気補正前、推定値）
+                berryName: 'ウイのみ',
+                berryBaseEnergy: 31,
+                foodProb: 0.251,
+                foodName: 'ミート',
+                foodBaseEnergy: 103,
+                skillProb: 0.018
+            }
+        };
+        
+        // スキルレベルごとの効果量
+        const SKILL_EFFECTS = {
+            1: 0.04,
+            2: 0.05,
+            3: 0.06,
+            4: 0.07,
+            5: 0.08,
+            6: 0.10
+        };
+
+        // 大成功確率を計算する関数
+        // 基本確率10% + (スキル効果量 × 発動回数)
+        function getSuccessRate(skillLevel, n) {
+            const baseRate = 0.10;
+            const skillEffect = SKILL_EFFECTS[skillLevel];
+            return baseRate + (skillEffect * n);
+        }
+
+        // 料理エナジーのプリセット選択時の処理
+        function updateCookEnergy() {
+            const preset = document.getElementById('cookEnergyPreset').value;
+            const input = document.getElementById('cookEnergy');
+            
+            if (preset === 'custom') {
+                input.disabled = false;
+            } else {
+                input.value = preset;
+                input.disabled = true;
+            }
+        }
+
+        function calculate() {
+            // ポケモン選択
+            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemon = POKEMON_STATS[pokemonType];
+            
+            // 入力値の取得
+            const level = parseInt(document.getElementById('level').value);
+            
+            const speedM = document.getElementById('speedM').checked;
+            const speedS = document.getElementById('speedS').checked;
+            const skillM = document.getElementById('skillM').checked;
+            const skillS = document.getElementById('skillS').checked;
+            const foodM = document.getElementById('foodM').checked;
+            const foodS = document.getElementById('foodS').checked;
+            const berryS = document.getElementById('berryS').checked;
+            const otebonus = parseInt(document.getElementById('otebonus').value);
+            
+            const speedNature = parseFloat(document.querySelector('input[name="speedNature"]:checked').value);
+            const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked').value);
+            const foodNature = parseFloat(document.querySelector('input[name="foodNature"]:checked').value);
+            
+            const campTicket = document.getElementById('campTicket').checked;
+            const favoriteBerry = document.getElementById('favoriteBerry').checked;
+            
+            const fieldBonus = parseFloat(document.getElementById('fieldBonus').value) || 0;
+            const fbMultiplier = 1 + (fieldBonus / 100);
+            
+            const cookEnergy = parseFloat(document.getElementById('cookEnergy').value);
+            const replacementEnergy = parseFloat(document.getElementById('replacementEnergy').value) || 0;
+            const replacementIncludesFB = document.getElementById('replacementIncludesFB').checked;
+            const ignoreFoodEnergy = document.getElementById('ignoreFoodEnergy').checked;
+            const baseSkillLevel = parseInt(document.getElementById('skillLevel').value);
+            
+            const exSpeed = parseFloat(document.querySelector('input[name="exSpeed"]:checked').value);
+            const exOther = document.querySelector('input[name="exOther"]:checked').value;
+            
+            const eventSpeed = parseFloat(document.getElementById('eventSpeed').value) / 100;
+            const eventSkill = parseFloat(document.getElementById('eventSkill').value) / 100;
+            const eventBerryCount = document.getElementById('eventBerryCount').checked ? 1 : 0;
+            const eventFoodCount = document.getElementById('eventFoodCount').checked ? 1 : 0;
+            const eventSkillLevel = parseInt(document.getElementById('eventSkillLevel').value) || 0;
+            const eventCookEnergy = parseFloat(document.getElementById('eventCookEnergy').value) / 100;
+            
+            // スキルレベル計算（基本値 + イベント補正、上限6）
+            const skillLevel = Math.min(baseSkillLevel + eventSkillLevel, 6);
+
+            // 運用モードの判定
+            const useReplacement = replacementEnergy > 0;
+
+            // 1. おてつだいスピード計算
+            // レベルによる基礎おてスピ計算（元気補正前）
+            // 1レベルあたり0.2%短縮
+            const levelSpeedBonus = 1 - 0.002 * (level - 1);
+            const currentRawSpeed = pokemon.rawBaseSpeed * levelSpeedBonus;
+            
+            // 元気補正を適用（元気上限時は0.45倍）
+            const energyBonus = 0.45;
+            let baseSpeed = currentRawSpeed * energyBonus;
+            
+            // サブスキル補正値（上限35%）
+            let subSkillBonus = 0;
+            if (speedM) subSkillBonus += 0.14;
+            if (speedS) subSkillBonus += 0.07;
+            subSkillBonus += 0.05 * otebonus;
+            subSkillBonus = Math.min(subSkillBonus, 0.35);
+            
+            // おてスピ計算
+            let speedFormulaParts = [`基礎${pokemon.rawBaseSpeed.toFixed(0)}`];
+            
+            // レベル補正の表示（Lv1以外の場合）
+            if (level !== 1) {
+                const levelDiff = level - 1;
+                speedFormulaParts.push(`×(1-0.002×${levelDiff})(Lv)`);
+            }
+            
+            // 元気補正の表示
+            speedFormulaParts.push(`×${energyBonus.toFixed(2)}(元気)`);
+            
+            let currentSpeed = baseSpeed * (1 - subSkillBonus);
+            if (subSkillBonus > 0) {
+                speedFormulaParts.push(`×(1-${subSkillBonus.toFixed(2)})(サブスキル)`);
+            }
+            
+            currentSpeed = currentSpeed * speedNature;
+            if (speedNature !== 1.0) {
+                speedFormulaParts.push(`×${speedNature.toFixed(2)}(性格)`);
+            }
+            
+            currentSpeed = currentSpeed / (campTicket ? 1.2 : 1.0);
+            if (campTicket) {
+                speedFormulaParts.push(`÷1.2(CT)`);
+            }
+            
+            currentSpeed = currentSpeed * exSpeed;
+            if (exSpeed !== 1.0) {
+                speedFormulaParts.push(`×${exSpeed.toFixed(2)}(EX)`);
+            }
+            
+            currentSpeed = currentSpeed * (1 - eventSpeed);
+            if (eventSpeed !== 0) {
+                speedFormulaParts.push(`×(1-${eventSpeed.toFixed(2)})(イベント)`);
+            }
+            
+            const finalSpeed = currentSpeed;
+            const speedFormulaText = speedFormulaParts.join(' ');
+            const helpCount = 86400 / finalSpeed;
+
+            // 2. 食材確率計算
+            let foodProb = pokemon.foodProb;
+            
+            // サブスキル補正（加算）
+            let subSkillFoodBonus = 0;
+            if (foodM) subSkillFoodBonus += 0.36;
+            if (foodS) subSkillFoodBonus += 0.18;
+            
+            if (subSkillFoodBonus > 0) {
+                foodProb = foodProb * (1 + subSkillFoodBonus);
+            }
+            
+            foodProb = foodProb * foodNature;
+            
+            const berryProb = 1 - foodProb;
+
+            // 3. スキル確率計算
+            let skillFormulaParts = [`お手伝い${helpCount.toFixed(2)}回`, `×基本${(pokemon.skillProb * 100).toFixed(1)}%`];
+            
+            let skillProb = pokemon.skillProb;
+            
+            // サブスキル補正（加算）
+            let subSkillSkillBonus = 0;
+            if (skillM) subSkillSkillBonus += 0.36;
+            if (skillS) subSkillSkillBonus += 0.18;
+            
+            if (subSkillSkillBonus > 0) {
+                skillProb = skillProb * (1 + subSkillSkillBonus);
+                skillFormulaParts.push(`×(1+${subSkillSkillBonus.toFixed(2)})(サブスキル)`);
+            }
+            
+            skillProb = skillProb * skillNature;
+            if (skillNature !== 1.0) {
+                skillFormulaParts.push(`×${skillNature.toFixed(2)}(性格)`);
+            }
+            
+            if (exOther === 'skill') {
+                skillProb = skillProb * 1.25;
+                skillFormulaParts.push(`×1.25(EX)`);
+            }
+            
+            skillProb = skillProb * (1 + eventSkill);
+            if (eventSkill !== 0) {
+                skillFormulaParts.push(`×(1+${eventSkill.toFixed(2)})(イベント)`);
+            }
+            
+            const skillFormulaText = skillFormulaParts.join(' ');
+            const skillCountPerDay = helpCount * skillProb;
+
+            // 4. エナジー計算
+            // レベルに応じたきのみエナジー単価
+            const berryBaseEnergy = pokemon.berryBaseEnergy;
+            const berryEnergyPerBerry = Math.max(
+                berryBaseEnergy + (level - 1),
+                berryBaseEnergy * Math.pow(1.025, level - 1)
+            );
+            
+            // きのみエナジー（1回あたり）
+            let berryPerCount = 2; // 基本2個
+            if (berryS) berryPerCount = 3; // きのみS: 3個
+            
+            let berryEnergyPerHelp = berryEnergyPerBerry * berryPerCount;
+            if (favoriteBerry) {
+                if (exOther === 'berry') {
+                    berryEnergyPerHelp = berryEnergyPerHelp * 2.4; // EX好物2.4倍
+                } else {
+                    berryEnergyPerHelp = berryEnergyPerHelp * 2; // 通常好物2倍
+                }
+            }
+
+            // 食材エナジー（平均）
+            const foodBaseEnergy = pokemon.foodBaseEnergy;
+            let avgFoodCount; // レベルに応じた平均個数（EX補正込み）
+            
+            if (exOther === 'food') {
+                // EX食材個数+1の場合
+                if (level < 30) {
+                    // Lv1-29: コーン2個のみ
+                    avgFoodCount = 2;
+                } else if (level < 60) {
+                    // Lv30-59: コーン2個、4個の2種類
+                    avgFoodCount = (2 + 4) / 2;
+                } else {
+                    // Lv60-: コーン2個、4個、8個の3種類
+                    avgFoodCount = (2 + 4 + 8) / 3;
+                }
+            } else {
+                // 通常の場合
+                if (level < 30) {
+                    // Lv1-29: コーン1個のみ
+                    avgFoodCount = 1;
+                } else if (level < 60) {
+                    // Lv30-59: コーン1個、2個の2種類
+                    avgFoodCount = (1 + 2) / 2;
+                } else {
+                    // Lv60-: コーン1個、2個、4個の3種類
+                    avgFoodCount = (1 + 2 + 4) / 3;
+                }
+            }
+            
+            // イベント補正による食材個数の増加を加算
+            const avgFoodCountWithEvent = avgFoodCount + eventFoodCount;
+
+            // 料理エナジー（1回あたり）
+            // イベント補正を適用
+            const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy);
+
+            // スペック表示
+            document.getElementById('pokemonName').textContent = pokemon.name;
+            document.getElementById('displayLevel').textContent = level;
+            
+            // きのみエナジー単価の計算式情報
+            document.getElementById('berryUnitEnergy').textContent = Math.floor(berryEnergyPerBerry);
+            document.getElementById('berryBaseEnergy').textContent = berryBaseEnergy;
+            document.getElementById('berryLinear').textContent = level - 1;
+            document.getElementById('berryExponent').textContent = level - 1;
+            
+            // おてスピの計算式
+            document.getElementById('finalSpeed').textContent = finalSpeed.toFixed(2);
+            document.getElementById('speedFormula').textContent = speedFormulaText;
+            
+            document.getElementById('helpCount').textContent = helpCount.toFixed(2);
+            document.getElementById('berryEnergy').textContent = berryEnergyPerHelp.toFixed(1);
+            
+            // きのみお手伝い回数
+            const berryHelpCount = helpCount * berryProb;
+            document.getElementById('berryHelpCount').textContent = berryHelpCount.toFixed(2);
+            document.getElementById('berryProbPercent').textContent = (berryProb * 100).toFixed(1);
+            
+            document.getElementById('foodEnergy').textContent = (foodBaseEnergy * avgFoodCount).toFixed(1);
+            
+            // 食材お手伝い回数
+            const foodHelpCount = helpCount * foodProb;
+            document.getElementById('foodHelpCount').textContent = foodHelpCount.toFixed(2);
+            document.getElementById('foodProbPercent').textContent = (foodProb * 100).toFixed(1);
+            
+            document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
+            document.getElementById('skillFormula').textContent = skillFormulaText;
+            
+            // 警告メッセージの表示制御
+            const warningMessage = document.getElementById('warningMessage');
+            const hasWarning = (exOther === 'skill' && eventSkill > 0) || (exOther === 'food' && eventFoodCount > 0);
+            
+            if (hasWarning) {
+                warningMessage.style.display = 'block';
+                
+                // 警告内容を動的に生成
+                let warningText = '';
+                if (exOther === 'skill' && eventSkill > 0) {
+                    warningText += '<strong>EX補正（スキル1.25倍）</strong>と<strong>イベント補正（スキル確率アップ）</strong>が同時に選択されています。<br>';
+                    warningText += 'ポケモンスリープ公式では、スキル確率のイベント補正がある時には、EX補正のスキル1.25倍は「基本的に選ばれない」と発表されています。<br>';
+                }
+                if (exOther === 'food' && eventFoodCount > 0) {
+                    if (warningText) warningText += '<br>';
+                    warningText += '<strong>EX補正（食材+1個）</strong>と<strong>イベント補正（食材の数+1個）</strong>が同時に選択されています。<br>';
+                }
+                if (warningText) {
+                    warningText += '<br><strong style="color: #d32f2f;">この組み合わせは実際のゲーム上では未確認の挙動です。</strong><br>';
+                    warningText += 'このツールでは理論上の計算を行っていますが、実際のゲーム内での挙動と大きく乖離する可能性があります。';
+                }
+                
+                document.querySelector('#warningMessage > div > div:nth-child(2) > div:nth-child(2)').innerHTML = warningText;
+            } else {
+                warningMessage.style.display = 'none';
+            }
+
+            // 100%運用時の基準値計算
+            // 100% 毎分タップ
+            const fullActiveBerryCount = helpCount * berryProb;
+            const fullActiveFoodPickupCount = helpCount * foodProb; // 食材を拾う回数
+            
+            // きのみエナジー（イベント補正でberryPerCountに+eventBerryCount）
+            const activeBerryPerCount = berryPerCount + eventBerryCount;
+            let fullActiveBerryEnergyBeforeFB = fullActiveBerryCount * berryEnergyPerBerry * activeBerryPerCount;
+            if (favoriteBerry) {
+                if (exOther === 'berry') {
+                    fullActiveBerryEnergyBeforeFB = fullActiveBerryEnergyBeforeFB * 2.4; // EX好物2.4倍
+                } else {
+                    fullActiveBerryEnergyBeforeFB = fullActiveBerryEnergyBeforeFB * 2; // 通常好物2倍
+                }
+            }
+            
+            // 食材エナジー（イベント補正を含む）
+            let fullActiveFoodEnergyBeforeFB = fullActiveFoodPickupCount * foodBaseEnergy * avgFoodCountWithEvent;
+            if (ignoreFoodEnergy) {
+                fullActiveFoodEnergyBeforeFB = 0; // 食材エナジー度外視モード
+            }
+            const fullActiveCookEnergyBeforeFB = skillCountPerDay * cookEnergyPerSkill; // スキル回数 × 1回あたり
+            
+            // FB適用
+            const fullActiveBerryEnergy = fullActiveBerryEnergyBeforeFB * fbMultiplier;
+            const fullActiveFoodEnergy = fullActiveFoodEnergyBeforeFB * fbMultiplier;
+            const fullActiveCookEnergy = fullActiveCookEnergyBeforeFB * fbMultiplier;
+            const fullActiveTotal = fullActiveBerryEnergy + fullActiveFoodEnergy + fullActiveCookEnergy;
+
+            // 食材抽選の表示テキスト（レベルに応じて動的に生成）
+            let foodFormulaText;
+            if (exOther === 'food') {
+                // EX食材個数+1
+                if (level < 30) {
+                    foodFormulaText = '2個のみ';
+                } else if (level < 60) {
+                    foodFormulaText = '(2+4)/2';
+                } else {
+                    foodFormulaText = '(2+4+8)/3';
+                }
+            } else {
+                // 通常
+                if (level < 30) {
+                    foodFormulaText = '1個のみ';
+                } else if (level < 60) {
+                    foodFormulaText = '(1+2)/2';
+                } else {
+                    foodFormulaText = '(1+2+4)/3';
+                }
+            }
+            
+            document.getElementById('fullActiveBerry').textContent = Math.round(fullActiveBerryEnergy).toLocaleString();
+            document.getElementById('fullActiveBerryCount').textContent = fullActiveBerryCount.toFixed(2);
+            document.getElementById('fullActiveBerryPerCount').textContent = activeBerryPerCount;
+            document.getElementById('fullActiveBerryUnit').textContent = Math.floor(berryEnergyPerBerry);
+            document.getElementById('fullActiveBerryFB').textContent = fbMultiplier.toFixed(2);
+            
+            document.getElementById('fullActiveFood').textContent = Math.round(fullActiveFoodEnergy).toLocaleString();
+            document.getElementById('fullActiveFoodPickupCount').textContent = fullActiveFoodPickupCount.toFixed(2);
+            document.getElementById('fullActiveFoodBase').textContent = foodBaseEnergy.toString();
+            document.getElementById('fullActiveFoodFormula').textContent = foodFormulaText;
+            document.getElementById('fullActiveFoodFB').textContent = fbMultiplier.toFixed(2);
+            document.getElementById('fullActiveFoodIgnoreLabel').textContent = ignoreFoodEnergy ? ' ※度外視' : '';
+            
+            document.getElementById('fullActiveCook').textContent = Math.round(fullActiveCookEnergy).toLocaleString();
+            document.getElementById('fullActiveSkillExpected').textContent = skillCountPerDay.toFixed(2);
+            document.getElementById('fullActiveSkillPerActivation').textContent = Math.round(cookEnergyPerSkill).toLocaleString();
+            document.getElementById('fullActiveCookFB').textContent = fbMultiplier.toFixed(2);
+            
+            document.getElementById('fullActiveTotal').textContent = Math.round(fullActiveTotal).toLocaleString();
+
+            // 100% いつの間に育成 or 入替候補
+            let fullIdleTotal;
+            if (useReplacement) {
+                // 入替候補を使う場合
+                const replacementEnergyWithFB = replacementIncludesFB ? replacementEnergy : replacementEnergy * fbMultiplier;
+                fullIdleTotal = replacementEnergyWithFB;
+                document.getElementById('idleModeName').textContent = '100% 入替候補ポケモン';
+                document.getElementById('fullIdleBerry').textContent = Math.round(replacementEnergyWithFB).toLocaleString();
+                document.getElementById('fullIdleTotal').textContent = Math.round(fullIdleTotal).toLocaleString();
+                // 入替候補の場合は詳細情報を非表示
+                document.getElementById('fullIdleDetail').style.display = 'none';
+            } else {
+                // ラグラージいつ育を使う場合
+                const fullIdleBerryCount = helpCount * 1.0; // きのみ確率100%
+                const fullIdleBerryEnergyBeforeFB = fullIdleBerryCount * berryEnergyPerHelp;
+                const fullIdleBerryEnergy = fullIdleBerryEnergyBeforeFB * fbMultiplier;
+                fullIdleTotal = fullIdleBerryEnergy;
+                
+                document.getElementById('idleModeName').textContent = '100% いつの間に育成';
+                document.getElementById('fullIdleBerry').textContent = Math.round(fullIdleBerryEnergy).toLocaleString();
+                document.getElementById('fullIdleBerryCount').textContent = fullIdleBerryCount.toFixed(2);
+                document.getElementById('fullIdleBerryPerCount').textContent = berryPerCount;
+                document.getElementById('fullIdleBerryUnit').textContent = Math.floor(berryEnergyPerBerry);
+                document.getElementById('fullIdleBerryFB').textContent = fbMultiplier.toFixed(2);
+                document.getElementById('fullIdleTotal').textContent = Math.round(fullIdleTotal).toLocaleString();
+                // いつ育の場合は詳細情報を表示
+                document.getElementById('fullIdleDetail').style.display = 'block';
+            }
+
+            // 5. スキル0-N回それぞれの複合期待値計算
+            // スキルレベルに応じた発動回数の上限を計算
+            const skillEffectPercent = SKILL_EFFECTS[skillLevel] * 100; // パーセント表示（例: 0.04 → 4%）
+            const maxActivations = Math.ceil(70 / skillEffectPercent); // 70%を効果量で割って切り上げ
+            
+            const resultsTable = document.getElementById('resultsTable');
+            resultsTable.innerHTML = '';
+            
+            let maxExpected = 0;
+            let bestRow = -1;
+            const results = [];
+
+            for (let n = 0; n <= maxActivations; n++) {
+                if (n === 0) {
+                    // 発動回数0：ラグラージを使わず、いつ育/入替候補のみ
+                    const idleRatio = 1.0;
+                    let totalExpected;
+                    
+                    if (useReplacement) {
+                        const replacementEnergyWithFB = replacementIncludesFB ? replacementEnergy : replacementEnergy * fbMultiplier;
+                        totalExpected = replacementEnergyWithFB;
+                    } else {
+                        const idleBerryCount = helpCount * 1.0;
+                        const idleBerryEnergy = idleBerryCount * berryEnergyPerHelp;
+                        totalExpected = idleBerryEnergy * fbMultiplier;
+                    }
+                    
+                    results.push({
+                        n: 0,
+                        loopCount: 0,
+                        skillActivationExpected: 0,
+                        activeRatio: 0,
+                        totalExpected: totalExpected
+                    });
+                    
+                    if (totalExpected > maxExpected) {
+                        maxExpected = totalExpected;
+                        bestRow = 0;
+                    }
+                    continue;
+                }
+                
+                const successRate = getSuccessRate(skillLevel, n);
+                const successExpected = successRate * 3; // 1日3回料理
+                const skillActivationExpected = successExpected * n;
+                
+                // 正しい計算：1日に何セット繰り返せるか
+                const loopCount = skillCountPerDay / skillActivationExpected;
+                const activeRatio = 1 / loopCount; // = skillActivationExpected / skillCountPerDay
+                const idleRatio = 1 - activeRatio;
+
+                // 積極運用でのエナジー
+                const activeHelpCount = helpCount * activeRatio;
+                const activeBerryCount = activeHelpCount * berryProb;
+                const activeFoodCount = activeHelpCount * foodProb;
+                
+                // きのみエナジー（イベント補正を適用）
+                let activeBerryEnergy = activeBerryCount * berryEnergyPerBerry * activeBerryPerCount;
+                if (favoriteBerry) {
+                    if (exOther === 'berry') {
+                        activeBerryEnergy = activeBerryEnergy * 2.4; // EX好物2.4倍
+                    } else {
+                        activeBerryEnergy = activeBerryEnergy * 2; // 通常好物2倍
+                    }
+                }
+                
+                // 食材エナジー（イベント補正を適用）
+                let activeFoodEnergy = activeFoodCount * foodBaseEnergy * avgFoodCountWithEvent;
+                if (ignoreFoodEnergy) {
+                    activeFoodEnergy = 0; // 食材エナジー度外視モード
+                }
+                const activeCookEnergy = cookEnergyPerSkill * n; // n回重ね
+                
+                const activeTotal = activeBerryEnergy + activeFoodEnergy + activeCookEnergy;
+
+                // いつ育稼働時間でのエナジー
+                let idleEnergy;
+                if (useReplacement) {
+                    // 入替候補を使う場合
+                    const replacementEnergyWithFB = replacementIncludesFB ? replacementEnergy : replacementEnergy * fbMultiplier;
+                    idleEnergy = replacementEnergyWithFB * idleRatio;
+                } else {
+                    // ラグラージいつ育を使う場合
+                    const idleHelpCount = helpCount * idleRatio;
+                    const idleBerryCount = idleHelpCount * 1.0; // きのみ確率100%
+                    idleEnergy = idleBerryCount * berryEnergyPerHelp;
+                }
+
+                // 複合期待値（FB適用）
+                let totalExpected;
+                if (useReplacement) {
+                    // 入替候補の場合：ラグラージ積極運用のみにFB適用
+                    totalExpected = activeTotal * fbMultiplier + idleEnergy;
+                } else {
+                    // いつ育の場合：全体にFB適用
+                    totalExpected = (activeTotal + idleEnergy) * fbMultiplier;
+                }
+
+                results.push({
+                    n: n,
+                    loopCount: loopCount,
+                    skillActivationExpected: skillActivationExpected,
+                    activeRatio: activeRatio,
+                    totalExpected: totalExpected
+                });
+
+                if (totalExpected > maxExpected) {
+                    maxExpected = totalExpected;
+                    bestRow = n;
+                }
+            }
+
+            // テーブル表示
+            results.forEach(result => {
+                const row = document.createElement('tr');
+                if (result.n === bestRow) {
+                    row.className = 'best-row';
+                }
+                
+                if (result.n === 0) {
+                    // 発動回数0の場合
+                    row.innerHTML = `
+                        <td>0</td>
+                        <td>-</td>
+                        <td>0</td>
+                        <td>0%</td>
+                        <td>${Math.round(result.totalExpected).toLocaleString()}</td>
+                        <td><button class="debug-btn" onclick="showDebug(${result.n})">詳細</button></td>
+                    `;
+                } else {
+                    row.innerHTML = `
+                        <td>${result.n}</td>
+                        <td>${result.loopCount.toFixed(2)}</td>
+                        <td>${result.skillActivationExpected.toFixed(1)}</td>
+                        <td>${(result.activeRatio * 100).toFixed(0)}%</td>
+                        <td>${Math.round(result.totalExpected).toLocaleString()}</td>
+                        <td><button class="debug-btn" onclick="showDebug(${result.n})">詳細</button></td>
+                    `;
+                }
+                
+                resultsTable.appendChild(row);
+            });
+
+            // 結果データをグローバルに保存（デバッグ用）
+            window.calculationResults = {
+                results: results,
+                helpCount: helpCount,
+                berryProb: berryProb,
+                foodProb: foodProb,
+                berryEnergyPerHelp: berryEnergyPerHelp,
+                berryEnergyPerBerry: berryEnergyPerBerry,
+                berryPerCount: berryPerCount,
+                activeBerryPerCount: activeBerryPerCount,
+                eventBerryCount: eventBerryCount,
+                favoriteBerry: favoriteBerry,
+                exOther: exOther,
+                foodBaseEnergy: foodBaseEnergy,
+                avgFoodCount: avgFoodCount,
+                avgFoodCountWithEvent: avgFoodCountWithEvent,
+                eventFoodCount: eventFoodCount,
+                cookEnergyPerSkill: cookEnergyPerSkill,
+                skillLevel: skillLevel,
+                useReplacement: useReplacement,
+                replacementEnergy: replacementEnergy,
+                replacementIncludesFB: replacementIncludesFB,
+                ignoreFoodEnergy: ignoreFoodEnergy,
+                fbMultiplier: fbMultiplier,
+                fieldBonus: fieldBonus
+            };
+
+            // 比較モード名と説明の更新
+            const fbText = fieldBonus > 0 ? ` (FB ${fieldBonus}%適用)` : '';
+            if (useReplacement) {
+                document.getElementById('comparisonModeName').textContent = '入替候補';
+                const replacementFBText = replacementIncludesFB ? 'FB込み' : 'FB抜き';
+                document.getElementById('comparisonModeDesc').textContent = 
+                    `入替候補ポケモン（1日エナジー: ${Math.round(replacementEnergy).toLocaleString()} [${replacementFBText}]）と入れ替えた場合の複合期待値を計算しています。${fbText}`;
+            } else {
+                document.getElementById('comparisonModeName').textContent = 'いつ育';
+                document.getElementById('comparisonModeDesc').textContent = 
+                    `${pokemon.name}をいつの間に育成で運用した場合の複合期待値を計算しています。${fbText}`;
+            }
+
+            // 結果表示
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showDebug(n) {
+            const data = window.calculationResults;
+            const result = data.results.find(r => r.n === n);
+            
+            if (!result) return;
+
+            // 発動回数0の場合
+            if (n === 0) {
+                const debugInfo = document.getElementById('debugInfo');
+                let idleEnergy;
+                
+                if (data.useReplacement) {
+                    const replacementEnergyWithFB = data.replacementIncludesFB ? data.replacementEnergy : data.replacementEnergy * data.fbMultiplier;
+                    idleEnergy = replacementEnergyWithFB;
+                } else {
+                    const idleBerryCount = data.helpCount * 1.0;
+                    const idleBerryEnergy = idleBerryCount * data.berryEnergyPerHelp;
+                    idleEnergy = idleBerryEnergy * data.fbMultiplier;
+                }
+                
+                debugInfo.innerHTML = `
+                    <div class="debug-card">
+                        <div class="debug-card-title">発動回数0の詳細</div>
+                        
+                        <div class="debug-section-title">運用方針</div>
+                        <div class="debug-grid">
+                            <div class="debug-item" style="grid-column: 1 / -1;">
+                                <div class="debug-item-label">ラグラージを一切使わず、${data.useReplacement ? '入替候補ポケモン' : 'いつの間に育成'}のみで運用</div>
+                            </div>
+                        </div>
+
+                        <div class="debug-section-title">総合</div>
+                        <div class="debug-grid">
+                            <div class="debug-item" style="grid-column: 1 / -1; background: #fff3cd;">
+                                <div class="debug-item-label">期待値（${data.useReplacement ? '入替候補' : 'いつ育'}のみ）</div>
+                                <div class="debug-item-value" style="color: #856404; font-size: 24px;">${Math.round(idleEnergy).toLocaleString()}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('debugSection').style.display = 'block';
+                document.getElementById('debugSection').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            const successRate = getSuccessRate(data.skillLevel, n);
+            const successExpected = successRate * 3;
+            
+            // 積極運用の計算
+            const activeHelpCount = data.helpCount * result.activeRatio;
+            const activeBerryCount = activeHelpCount * data.berryProb;
+            const activeFoodCount = activeHelpCount * data.foodProb;
+            
+            // きのみエナジー（イベント補正を適用）
+            let activeBerryEnergy = activeBerryCount * data.berryEnergyPerBerry * data.activeBerryPerCount;
+            if (data.favoriteBerry) {
+                if (data.exOther === 'berry') {
+                    activeBerryEnergy = activeBerryEnergy * 2.4; // EX好物2.4倍
+                } else {
+                    activeBerryEnergy = activeBerryEnergy * 2; // 通常好物2倍
+                }
+            }
+            
+            // 食材エナジー（イベント補正を適用）
+            let activeFoodEnergy = activeFoodCount * data.foodBaseEnergy * data.avgFoodCountWithEvent;
+            if (data.ignoreFoodEnergy) {
+                activeFoodEnergy = 0; // 食材エナジー度外視モード
+            }
+            const activeCookEnergy = data.cookEnergyPerSkill * n;
+            
+            const activeTotal = activeBerryEnergy + activeFoodEnergy + activeCookEnergy;
+
+            // いつ育稼働時間でのエナジー計算
+            const idleRatio = 1 - result.activeRatio;
+            let idleEnergy, idleContent;
+            
+            if (data.useReplacement) {
+                // 入替候補を使う場合
+                const replacementEnergyWithFB = data.replacementIncludesFB ? data.replacementEnergy : data.replacementEnergy * data.fbMultiplier;
+                idleEnergy = replacementEnergyWithFB * idleRatio;
+                idleContent = `
+                    <div class="debug-section-title">入替候補稼働時間（${(idleRatio * 100).toFixed(1)}%稼働）</div>
+                    <div class="debug-grid">
+                        <div class="debug-item">
+                            <div class="debug-item-label">入替候補1日エナジー（入力値）</div>
+                            <div class="debug-item-value">${Math.round(data.replacementEnergy).toLocaleString()}</div>
+                        </div>
+                        ${data.replacementIncludesFB ? '' : `
+                        <div class="debug-item">
+                            <div class="debug-item-label">FB適用後（×${data.fbMultiplier.toFixed(2)}）</div>
+                            <div class="debug-item-value">${Math.round(replacementEnergyWithFB).toLocaleString()}</div>
+                        </div>
+                        `}
+                        <div class="debug-item">
+                            <div class="debug-item-label">稼働時間比率</div>
+                            <div class="debug-item-value">${(idleRatio * 100).toFixed(1)}%</div>
+                        </div>
+                        <div class="debug-item" style="grid-column: 1 / -1; background: #e3f2fd;">
+                            <div class="debug-item-label">入替候補 合計</div>
+                            <div class="debug-item-value" style="color: #1976d2; font-size: 20px;">${Math.round(idleEnergy).toLocaleString()}</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // ラグラージいつ育を使う場合
+                const idleHelpCount = data.helpCount * idleRatio;
+                const idleBerryCount = idleHelpCount * 1.0;
+                const idleBerryEnergyBeforeFB = idleBerryCount * data.berryEnergyPerHelp;
+                idleEnergy = idleBerryEnergyBeforeFB;
+                idleContent = `
+                    <div class="debug-section-title">いつの間に育成（${(idleRatio * 100).toFixed(1)}%稼働）</div>
+                    <div class="debug-grid">
+                        <div class="debug-item">
+                            <div class="debug-item-label">お手伝い回数</div>
+                            <div class="debug-item-value">${idleHelpCount.toFixed(2)}回</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">きのみ回数（100%）</div>
+                            <div class="debug-item-value">${idleBerryCount.toFixed(2)}回</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">きのみエナジー（FB抜き）</div>
+                            <div class="debug-item-value">${Math.round(idleEnergy).toLocaleString()}</div>
+                        </div>
+                        <div class="debug-item" style="grid-column: 1 / -1; background: #e3f2fd;">
+                            <div class="debug-item-label">いつ育 合計（FB抜き）</div>
+                            <div class="debug-item-value" style="color: #1976d2; font-size: 20px;">${Math.round(idleEnergy).toLocaleString()}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 複合期待値の計算（FB適用）
+            let totalExpectedWithFB;
+            if (data.useReplacement) {
+                totalExpectedWithFB = activeTotal * data.fbMultiplier + idleEnergy;
+            } else {
+                totalExpectedWithFB = (activeTotal + idleEnergy) * data.fbMultiplier;
+            }
+
+            // デバッグ情報の表示
+            const debugInfo = document.getElementById('debugInfo');
+            debugInfo.innerHTML = `
+                <div class="debug-card">
+                    <div class="debug-card-title">スキル${n}回発動の詳細</div>
+                    
+                    <div class="debug-section-title">基本情報</div>
+                    <div class="debug-grid">
+                        <div class="debug-item">
+                            <div class="debug-item-label">フィールドボーナス</div>
+                            <div class="debug-item-value">${data.fieldBonus}% (×${data.fbMultiplier.toFixed(2)})</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">大成功確率</div>
+                            <div class="debug-item-value">${(successRate * 100).toFixed(0)}%</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">大成功期待値（1日）</div>
+                            <div class="debug-item-value">${successExpected.toFixed(2)}回</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">スキル発動期待値（1日）</div>
+                            <div class="debug-item-value">${result.skillActivationExpected.toFixed(2)}回</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">ループ回数</div>
+                            <div class="debug-item-value">${result.loopCount.toFixed(2)}回/日</div>
+                        </div>
+                    </div>
+
+                    <div class="debug-section-title">積極運用（${(result.activeRatio * 100).toFixed(1)}%稼働）</div>
+                    <div class="debug-grid">
+                        <div class="debug-item">
+                            <div class="debug-item-label">お手伝い回数</div>
+                            <div class="debug-item-value">${activeHelpCount.toFixed(2)}回</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">きのみ回数（${(data.berryProb * 100).toFixed(1)}%）</div>
+                            <div class="debug-item-value">${activeBerryCount.toFixed(2)}回</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">きのみエナジー（FB抜き）</div>
+                            <div class="debug-item-value">${Math.round(activeBerryEnergy).toLocaleString()}</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">食材回数（${(data.foodProb * 100).toFixed(1)}%）</div>
+                            <div class="debug-item-value">${activeFoodCount.toFixed(2)}回</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">食材エナジー（FB抜き）${data.ignoreFoodEnergy ? ' ※度外視' : ''}</div>
+                            <div class="debug-item-value">${Math.round(activeFoodEnergy).toLocaleString()}</div>
+                        </div>
+                        <div class="debug-item">
+                            <div class="debug-item-label">料理エナジー（${n}回重ね）</div>
+                            <div class="debug-item-value">${Math.round(activeCookEnergy).toLocaleString()}</div>
+                        </div>
+                        <div class="debug-item" style="grid-column: 1 / -1; background: #fff3e0;">
+                            <div class="debug-item-label">積極運用 合計（FB抜き）</div>
+                            <div class="debug-item-value" style="color: #e65100; font-size: 18px;">${Math.round(activeTotal).toLocaleString()}</div>
+                        </div>
+                        <div class="debug-item" style="grid-column: 1 / -1; background: #e3f2fd;">
+                            <div class="debug-item-label">積極運用 合計（FB適用後 ×${data.fbMultiplier.toFixed(2)}）</div>
+                            <div class="debug-item-value" style="color: #1976d2; font-size: 20px;">${Math.round(activeTotal * data.fbMultiplier).toLocaleString()}</div>
+                        </div>
+                    </div>
+
+                    ${idleContent}
+
+                    <div class="debug-section-title">総合</div>
+                    <div class="debug-grid">
+                        <div class="debug-item" style="grid-column: 1 / -1; background: #fff3cd;">
+                            <div class="debug-item-label">複合期待値（積極運用 + ${data.useReplacement ? '入替候補' : 'いつ育'}）</div>
+                            <div class="debug-item-value" style="color: #856404; font-size: 24px;">${Math.round(totalExpectedWithFB).toLocaleString()}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('debugSection').style.display = 'block';
+            document.getElementById('debugSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+    </script>
+    </div> <!-- container -->
+    </div> <!-- main-content -->
+</body>
+</html>
