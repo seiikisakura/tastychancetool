@@ -343,6 +343,42 @@
             </div>
             
             <div class="input-group">
+                <span class="input-label">食材構成</span>
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span style="font-size: 14px; color: #666;">lv30:</span>
+                        <div class="radio-group" style="margin: 0;">
+                            <div class="radio-item">
+                                <input type="radio" name="foodLv30" value="A" id="foodLv30A" checked>
+                                <label for="foodLv30A" id="foodLv30LabelA">A</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="foodLv30" value="B" id="foodLv30B">
+                                <label for="foodLv30B" id="foodLv30LabelB">B</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span style="font-size: 14px; color: #666;">lv60:</span>
+                        <div class="radio-group" style="margin: 0;">
+                            <div class="radio-item">
+                                <input type="radio" name="foodLv60" value="A" id="foodLv60A" checked>
+                                <label for="foodLv60A" id="foodLv60LabelA">A</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="foodLv60" value="B" id="foodLv60B">
+                                <label for="foodLv60B" id="foodLv60LabelB">B</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="foodLv60" value="C" id="foodLv60C">
+                                <label for="foodLv60C" id="foodLv60LabelC">C</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-group">
                 <span class="input-label">サブスキル</span>
                 <div class="checkbox-group">
                     <div class="checkbox-item">
@@ -663,9 +699,17 @@
                         <small style="color: #999;">（× 食材確率<span id="foodProbPercent"></span>%）</small>
                     </div>
                     <div class="spec-item">きのみエナジー（1回あたり）：<span id="berryEnergy"></span></div>
-                    <div class="spec-item">食材エナジー（1回あたり平均）：<span id="foodEnergy"></span></div>
+                    <div class="spec-item">食材エナジー（1回あたり平均）：<span id="foodEnergy"></span>
+                        <br><small style="color: #666;" id="foodEnergyFormula"></small>
+                    </div>
+                    <div class="spec-item">食材個数（1日の期待値）：
+                        <div id="foodCountBreakdown" style="margin-left: 15px; margin-top: 5px;"></div>
+                    </div>
                     <div class="spec-item">スキル回数：<span id="skillCount"></span>回/日
                         <br><small style="color: #666;"><span id="skillFormula"></span></small>
+                    </div>
+                    <div class="spec-item">スキル1回あたりの効果量：<span id="skillEffectAmount"></span>
+                        <br><small style="color: #666;">（料理エナジー<span id="skillEffectCookEnergy"></span> × 効果量<span id="skillEffectPercent"></span>%）</small>
                     </div>
                 </div>
             </div>
@@ -679,7 +723,7 @@
                             <br><small style="color: #666;">（きのみお手伝い<span id="fullActiveBerryCount"></span>回 × <span id="fullActiveBerryPerCount"></span>個/回 × 単価<span id="fullActiveBerryUnit"></span> × FB<span id="fullActiveBerryFB"></span>）</small>
                         </div>
                         <div class="spec-item">食材エナジー：<span id="fullActiveFood"></span><span id="fullActiveFoodIgnoreLabel" style="color: #d32f2f; font-weight: bold;"></span>
-                            <br><small style="color: #666;">（食材お手伝い<span id="fullActiveFoodPickupCount"></span>回 × 食材基礎<span id="fullActiveFoodBase"></span> × <span id="fullActiveFoodFormula"></span> × FB<span id="fullActiveFoodFB"></span>）</small>
+                            <br><small style="color: #666;">（食材お手伝い<span id="fullActiveFoodPickupCount"></span>回 × <span id="fullActiveFoodFormula"></span> × FB<span id="fullActiveFoodFB"></span>）</small>
                         </div>
                         <div class="spec-item">スキルエナジー：<span id="fullActiveCook"></span>
                             <br><small style="color: #666;">（スキル発動<span id="fullActiveSkillExpected"></span>回/日 × <span id="fullActiveSkillPerActivation"></span>/回 × FB<span id="fullActiveCookFB"></span>）</small>
@@ -753,9 +797,21 @@
                 berryName: 'フィラのみ',
                 berryBaseEnergy: 29,
                 foodProb: 0.146,
-                foodName: 'コーン',
-                foodBaseEnergy: 140,
-                skillProb: 0.034
+                skillProb: 0.034,
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'コーン', count: 1, energy: 140 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'コーン', count: 2, energy: 140 },
+                        { label: 'B', name: 'ミルク', count: 3, energy: 198 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'コーン', count: 4, energy: 140 },
+                        { label: 'B', name: 'ミルク', count: 5, energy: 198 },
+                        { label: 'C', name: 'キノコ', count: 3, energy: 167 }
+                    ]
+                }
             },
             weavile: {
                 name: 'マニューラ',
@@ -764,9 +820,21 @@
                 berryName: 'ウイのみ',
                 berryBaseEnergy: 31,
                 foodProb: 0.251,
-                foodName: 'ミート',
-                foodBaseEnergy: 103,
-                skillProb: 0.018
+                skillProb: 0.018,
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'ミート', count: 1, energy: 103 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'ミート', count: 2, energy: 103 },
+                        { label: 'B', name: 'エッグ', count: 2, energy: 115 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'ミート', count: 4, energy: 103 },
+                        { label: 'B', name: 'エッグ', count: 3, energy: 115 },
+                        { label: 'C', name: '大豆', count: 4, energy: 100 }
+                    ]
+                }
             }
         };
         
@@ -799,6 +867,25 @@
                 input.value = preset;
                 input.disabled = true;
             }
+        }
+
+        // 食材スロットラベルの更新
+        function updateFoodSlotLabels() {
+            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemon = POKEMON_STATS[pokemonType];
+            const slots = pokemon.foodSlots;
+            
+            // lv30スロットのラベル更新
+            slots.lv30.forEach(slot => {
+                const label = document.getElementById(`foodLv30Label${slot.label}`);
+                label.textContent = `${slot.name}${slot.count}`;
+            });
+            
+            // lv60スロットのラベル更新
+            slots.lv60.forEach(slot => {
+                const label = document.getElementById(`foodLv60Label${slot.label}`);
+                label.textContent = `${slot.name}${slot.count}`;
+            });
         }
 
         function calculate() {
@@ -978,38 +1065,55 @@
                 }
             }
 
-            // 食材エナジー（平均）
-            const foodBaseEnergy = pokemon.foodBaseEnergy;
-            let avgFoodCount; // レベルに応じた平均個数（EX補正込み）
-            
-            if (exOther === 'food') {
-                // EX食材個数+1の場合
-                if (level < 30) {
-                    // Lv1-29: コーン2個のみ
-                    avgFoodCount = 2;
-                } else if (level < 60) {
-                    // Lv30-59: コーン2個、4個の2種類
-                    avgFoodCount = (2 + 4) / 2;
-                } else {
-                    // Lv60-: コーン2個、4個、8個の3種類
-                    avgFoodCount = (2 + 4 + 8) / 3;
-                }
-            } else {
-                // 通常の場合
-                if (level < 30) {
-                    // Lv1-29: コーン1個のみ
-                    avgFoodCount = 1;
-                } else if (level < 60) {
-                    // Lv30-59: コーン1個、2個の2種類
-                    avgFoodCount = (1 + 2) / 2;
-                } else {
-                    // Lv60-: コーン1個、2個、4個の3種類
-                    avgFoodCount = (1 + 2 + 4) / 3;
-                }
+            // 食材計算（ABCシステム）
+            // 食材構成の取得
+            const foodLv30 = document.querySelector('input[name="foodLv30"]:checked').value;
+            const foodLv60 = document.querySelector('input[name="foodLv60"]:checked').value;
+
+            // 使用する食材スロットを決定
+            const activeFoodSlots = [];
+
+            // lv1スロットは常に有効
+            activeFoodSlots.push(...pokemon.foodSlots.lv1);
+
+            // lv30スロット: レベル30以上なら有効
+            if (level >= 30) {
+                const lv30Slot = pokemon.foodSlots.lv30.find(slot => slot.label === foodLv30);
+                if (lv30Slot) activeFoodSlots.push(lv30Slot);
             }
+
+            // lv60スロット: レベル60以上なら有効
+            if (level >= 60) {
+                const lv60Slot = pokemon.foodSlots.lv60.find(slot => slot.label === foodLv60);
+                if (lv60Slot) activeFoodSlots.push(lv60Slot);
+            }
+
+            // EX補正とイベント補正を各スロットに適用
+            const exFoodBonus = (exOther === 'food') ? 1 : 0;
+            const eventFoodBonus = eventFoodCount; // イベント補正の食材個数
+
+            // 平均個数と平均エナジーを計算
+            let totalCount = 0;
+            let totalEnergy = 0;
+            const foodDetailParts = []; // 詳細表示用
+
+            activeFoodSlots.forEach(slot => {
+                const count = slot.count + exFoodBonus + eventFoodBonus;
+                totalCount += count;
+                const slotEnergy = count * slot.energy;
+                totalEnergy += slotEnergy;
+                
+                // 詳細表示用の文字列を構築
+                foodDetailParts.push(`${slot.name}${count}個×${slot.energy}`);
+            });
+
+            const avgFoodCount = totalCount / activeFoodSlots.length;
+            const avgFoodEnergy = totalEnergy / activeFoodSlots.length;
+            const avgFoodCountWithEvent = avgFoodCount; // すでにイベント補正込み
+
+            // 詳細表示用の文字列を完成
+            const foodDetailFormula = `（${foodDetailParts.join(' + ')}）÷ ${activeFoodSlots.length}`;
             
-            // イベント補正による食材個数の増加を加算
-            const avgFoodCountWithEvent = avgFoodCount + eventFoodCount;
 
             // 料理エナジー（1回あたり）
             // イベント補正を適用
@@ -1037,15 +1141,45 @@
             document.getElementById('berryHelpCount').textContent = berryHelpCount.toFixed(2);
             document.getElementById('berryProbPercent').textContent = (berryProb * 100).toFixed(1);
             
-            document.getElementById('foodEnergy').textContent = (foodBaseEnergy * avgFoodCount).toFixed(1);
+            document.getElementById('foodEnergy').textContent = avgFoodEnergy.toFixed(1);
+            document.getElementById('foodEnergyFormula').textContent = foodDetailFormula;
             
             // 食材お手伝い回数
             const foodHelpCount = helpCount * foodProb;
             document.getElementById('foodHelpCount').textContent = foodHelpCount.toFixed(2);
             document.getElementById('foodProbPercent').textContent = (foodProb * 100).toFixed(1);
             
+            // 食材個数の期待値（1日）- 食材種類ごとに分けて計算
+            const foodCountByType = {}; // 食材名: 個数のマップ
+            const slotCount = activeFoodSlots.length;
+
+            activeFoodSlots.forEach(slot => {
+                const countPerDay = foodHelpCount * (1 / slotCount) * (slot.count + exFoodBonus + eventFoodBonus);
+                if (foodCountByType[slot.name]) {
+                    foodCountByType[slot.name] += countPerDay;
+                } else {
+                    foodCountByType[slot.name] = countPerDay;
+                }
+            });
+
+            // HTML生成
+            let foodCountHTML = '';
+            for (const [foodName, count] of Object.entries(foodCountByType)) {
+                foodCountHTML += `<div style="color: #555; font-size: 14px;">・${foodName}：${count.toFixed(2)}個/日</div>`;
+            }
+            document.getElementById('foodCountBreakdown').innerHTML = foodCountHTML;
+            
             document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
             document.getElementById('skillFormula').textContent = skillFormulaText;
+            
+            // スキル1回あたりの効果量
+            document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyPerSkill).toLocaleString();
+            document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
+            const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
+            const skillEffectWithEvent = skillEffectBase * (1 + eventCookEnergy);
+            document.getElementById('skillEffectPercent').textContent = eventCookEnergy !== 0 
+                ? `${skillEffectBase}×(1+${eventCookEnergy.toFixed(2)})=${skillEffectWithEvent.toFixed(1)}`
+                : skillEffectBase.toFixed(0);
             
             // 警告メッセージの表示制御
             const warningMessage = document.getElementById('warningMessage');
@@ -1091,7 +1225,7 @@
             }
             
             // 食材エナジー（イベント補正を含む）
-            let fullActiveFoodEnergyBeforeFB = fullActiveFoodPickupCount * foodBaseEnergy * avgFoodCountWithEvent;
+            let fullActiveFoodEnergyBeforeFB = fullActiveFoodPickupCount * avgFoodEnergy;
             if (ignoreFoodEnergy) {
                 fullActiveFoodEnergyBeforeFB = 0; // 食材エナジー度外視モード
             }
@@ -1103,27 +1237,8 @@
             const fullActiveCookEnergy = fullActiveCookEnergyBeforeFB * fbMultiplier;
             const fullActiveTotal = fullActiveBerryEnergy + fullActiveFoodEnergy + fullActiveCookEnergy;
 
-            // 食材抽選の表示テキスト（レベルに応じて動的に生成）
-            let foodFormulaText;
-            if (exOther === 'food') {
-                // EX食材個数+1
-                if (level < 30) {
-                    foodFormulaText = '2個のみ';
-                } else if (level < 60) {
-                    foodFormulaText = '(2+4)/2';
-                } else {
-                    foodFormulaText = '(2+4+8)/3';
-                }
-            } else {
-                // 通常
-                if (level < 30) {
-                    foodFormulaText = '1個のみ';
-                } else if (level < 60) {
-                    foodFormulaText = '(1+2)/2';
-                } else {
-                    foodFormulaText = '(1+2+4)/3';
-                }
-            }
+            // 食材抽選の表示テキスト（ABCシステムに基づく）
+            const foodFormulaText = foodDetailFormula;
             
             document.getElementById('fullActiveBerry').textContent = Math.round(fullActiveBerryEnergy).toLocaleString();
             document.getElementById('fullActiveBerryCount').textContent = fullActiveBerryCount.toFixed(2);
@@ -1133,7 +1248,6 @@
             
             document.getElementById('fullActiveFood').textContent = Math.round(fullActiveFoodEnergy).toLocaleString();
             document.getElementById('fullActiveFoodPickupCount').textContent = fullActiveFoodPickupCount.toFixed(2);
-            document.getElementById('fullActiveFoodBase').textContent = foodBaseEnergy.toString();
             document.getElementById('fullActiveFoodFormula').textContent = foodFormulaText;
             document.getElementById('fullActiveFoodFB').textContent = fbMultiplier.toFixed(2);
             document.getElementById('fullActiveFoodIgnoreLabel').textContent = ignoreFoodEnergy ? ' ※度外視' : '';
@@ -1241,7 +1355,7 @@
                 }
                 
                 // 食材エナジー（イベント補正を適用）
-                let activeFoodEnergy = activeFoodCount * foodBaseEnergy * avgFoodCountWithEvent;
+                let activeFoodEnergy = activeFoodCount * avgFoodEnergy;
                 if (ignoreFoodEnergy) {
                     activeFoodEnergy = 0; // 食材エナジー度外視モード
                 }
@@ -1330,10 +1444,8 @@
                 eventBerryCount: eventBerryCount,
                 favoriteBerry: favoriteBerry,
                 exOther: exOther,
-                foodBaseEnergy: foodBaseEnergy,
+                avgFoodEnergy: avgFoodEnergy,
                 avgFoodCount: avgFoodCount,
-                avgFoodCountWithEvent: avgFoodCountWithEvent,
-                eventFoodCount: eventFoodCount,
                 cookEnergyPerSkill: cookEnergyPerSkill,
                 skillLevel: skillLevel,
                 useReplacement: useReplacement,
@@ -1427,7 +1539,7 @@
             }
             
             // 食材エナジー（イベント補正を適用）
-            let activeFoodEnergy = activeFoodCount * data.foodBaseEnergy * data.avgFoodCountWithEvent;
+            let activeFoodEnergy = activeFoodCount * data.avgFoodEnergy;
             if (data.ignoreFoodEnergy) {
                 activeFoodEnergy = 0; // 食材エナジー度外視モード
             }
@@ -1584,6 +1696,16 @@
             document.getElementById('debugSection').style.display = 'block';
             document.getElementById('debugSection').scrollIntoView({ behavior: 'smooth' });
         }
+
+        // ページ読み込み時の初期化
+        window.addEventListener('DOMContentLoaded', function() {
+            updateFoodSlotLabels();
+        });
+
+        // ポケモン選択時の食材ラベル更新
+        document.querySelectorAll('input[name="pokemon"]').forEach(radio => {
+            radio.addEventListener('change', updateFoodSlotLabels);
+        });
 
     </script>
     </div> <!-- container -->
