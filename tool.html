@@ -18,8 +18,6 @@
             padding: 20px;
         }
 
-        /* パスワード保護画面 */
-
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -94,25 +92,10 @@
             user-select: none;
         }
 
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        input[type="number"]:focus,
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
         .radio-group {
             display: flex;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
             margin-top: 10px;
         }
 
@@ -133,7 +116,23 @@
             user-select: none;
         }
 
-        .calculate-btn {
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
             width: 100%;
             padding: 15px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -143,44 +142,20 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
-            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .calculate-btn:hover {
+        button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        .calculate-btn:active {
+        button:active {
             transform: translateY(0);
         }
 
         .results {
             margin-top: 30px;
-            display: none;
-        }
-
-        .results.show {
-            display: block;
-        }
-
-        .spec-box {
-            background: #e3f2fd;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .spec-title {
-            font-weight: bold;
-            color: #1976d2;
-            margin-bottom: 10px;
-        }
-
-        .spec-item {
-            margin: 5px 0;
-            color: #333;
         }
 
         table {
@@ -188,26 +163,18 @@
             border-collapse: collapse;
             margin-top: 15px;
             background: white;
-            border-radius: 8px;
-            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
         }
 
         th {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        tr:hover {
-            background: #f5f5f5;
+            font-weight: bold;
         }
 
         .best-row {
@@ -215,534 +182,854 @@
             font-weight: bold;
         }
 
-        .best-row td {
-            color: #856404;
-        }
-
-        .debug-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .debug-btn:hover {
-            background: #5568d3;
-        }
-
-        .debug-card {
-            background: #f8f9fa;
-            border: 2px solid #667eea;
-            border-radius: 10px;
+        .spec-table {
+            background: #e3f2fd;
             padding: 15px;
-            margin-bottom: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
         }
 
-        .debug-card-title {
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #90caf9;
+        }
+
+        .spec-row:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
             font-weight: bold;
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 16px;
+            color: #1976d2;
         }
 
-        .debug-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .debug-item {
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
-            border-left: 3px solid #667eea;
-        }
-
-        .debug-item-label {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 3px;
-        }
-
-        .debug-item-value {
-            font-size: 16px;
-            font-weight: bold;
+        .spec-value {
             color: #333;
         }
 
-        .debug-section-title {
-            font-weight: bold;
+        .formula-box {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
             color: #555;
-            margin-top: 15px;
-            margin-bottom: 8px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #ddd;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
+        .energy-breakdown {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
 
-            h1 {
-                font-size: 24px;
-            }
+        .energy-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
 
-            .checkbox-group,
-            .radio-group {
-                flex-direction: column;
-                gap: 10px;
-            }
+        .energy-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 18px;
+            padding-top: 15px;
+            margin-top: 10px;
+            border-top: 2px solid #667eea;
+        }
 
-            table {
-                font-size: 12px;
-            }
+        .energy-label {
+            color: #555;
+            font-weight: 500;
+        }
 
-            th, td {
-                padding: 8px 4px;
-            }
+        .energy-value {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .warning-title {
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .info-title {
+            color: #1976d2;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        /* 条件付き表示用のクラス */
+        .recipe-dependent {
+            display: none;
+        }
+
+        .recipe-dependent.active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- パスワード認証画面 -->
-    </div>
-
-    <!-- メインコンテンツ -->
-    <div class="main-content" id="mainContent">
     <div class="container">
-        <h1>🌊 料理チャンス運用効率化ツール</h1>
-        <p class="subtitle">料理チャンスを何回発動させたら、いつの間に育成に移行すべき？</p>
+        <h1>🌊 料理チャンス運用効率化ツール 🌊</h1>
+        <div class="subtitle">ラグラージの最適運用を計算します</div>
 
-        <!-- ポケモンのスペック -->
+        <!-- ポケモン選択 -->
         <div class="section">
-            <div class="section-title">ポケモンのスペック</div>
-            
-            <div class="input-group">
-                <span class="input-label">ポケモン選択</span>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" name="pokemon" value="swampert" id="pokemonSwampert" checked>
-                        <label for="pokemonSwampert">ラグラージ</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="pokemon" value="weavile" id="pokemonWeavile">
-                        <label for="pokemonWeavile">マニューラ</label>
-                    </div>
+            <div class="section-title">ポケモン選択</div>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" id="pokemon_swampert" name="pokemon" value="swampert" checked onchange="updateFoodSlotLabels()">
+                    <label for="pokemon_swampert">ラグラージ</label>
                 </div>
-            </div>
-            
-            <div class="input-group">
-                <label class="input-label" for="level">レベル</label>
-                <input type="number" id="level" value="60" min="1" max="100" step="1">
-                <small style="color: #666; display: block; margin-top: 5px;">※ レベルによっておてスピときのみエナジー単価が変動します</small>
-            </div>
-            
-            <div class="input-group">
-                <span class="input-label">食材構成</span>
-                <div style="display: flex; gap: 20px; align-items: center;">
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <span style="font-size: 14px; color: #666;">lv30:</span>
-                        <div class="radio-group" style="margin: 0;">
-                            <div class="radio-item">
-                                <input type="radio" name="foodLv30" value="A" id="foodLv30A" checked>
-                                <label for="foodLv30A" id="foodLv30LabelA">A</label>
-                            </div>
-                            <div class="radio-item">
-                                <input type="radio" name="foodLv30" value="B" id="foodLv30B">
-                                <label for="foodLv30B" id="foodLv30LabelB">B</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <span style="font-size: 14px; color: #666;">lv60:</span>
-                        <div class="radio-group" style="margin: 0;">
-                            <div class="radio-item">
-                                <input type="radio" name="foodLv60" value="A" id="foodLv60A" checked>
-                                <label for="foodLv60A" id="foodLv60LabelA">A</label>
-                            </div>
-                            <div class="radio-item">
-                                <input type="radio" name="foodLv60" value="B" id="foodLv60B">
-                                <label for="foodLv60B" id="foodLv60LabelB">B</label>
-                            </div>
-                            <div class="radio-item">
-                                <input type="radio" name="foodLv60" value="C" id="foodLv60C">
-                                <label for="foodLv60C" id="foodLv60LabelC">C</label>
-                            </div>
-                        </div>
-                    </div>
+                <div class="radio-item">
+                    <input type="radio" id="pokemon_weavile" name="pokemon" value="weavile" onchange="updateFoodSlotLabels()">
+                    <label for="pokemon_weavile">マニューラ</label>
                 </div>
-            </div>
-            
-            <div class="input-group">
-                <span class="input-label">サブスキル</span>
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="speedM">
-                        <label for="speedM">おてスピM</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="speedS">
-                        <label for="speedS">おてスピS</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="skillM">
-                        <label for="skillM">スキル確率M</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="skillS">
-                        <label for="skillS">スキル確率S</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="foodM">
-                        <label for="foodM">食材確率M</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="foodS">
-                        <label for="foodS">食材確率S</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="berryS">
-                        <label for="berryS">きのみの数S</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <span class="input-label">おてつだいボーナス</span>
-                <select id="otebonus">
-                    <option value="0">0枚</option>
-                    <option value="1">1枚</option>
-                    <option value="2">2枚</option>
-                    <option value="3">3枚</option>
-                    <option value="4">4枚</option>
-                    <option value="5">5枚</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <span class="input-label">性格（おてスピ補正）</span>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" name="speedNature" value="0.9" id="speedUp">
-                        <label for="speedUp">-10% (おてスピup)</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="speedNature" value="1.0" id="speedNormal" checked>
-                        <label for="speedNormal">通常</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="speedNature" value="1.075" id="speedDown">
-                        <label for="speedDown">+7.5% (おてスピdown)</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <span class="input-label">性格（食材確率補正）</span>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" name="foodNature" value="1.2" id="foodUp">
-                        <label for="foodUp">+20% (食材up)</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="foodNature" value="1.0" id="foodNormal" checked>
-                        <label for="foodNormal">通常</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="foodNature" value="0.8" id="foodDown">
-                        <label for="foodDown">-20% (食材down)</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <span class="input-label">性格（スキル確率補正）</span>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" name="skillNature" value="1.2" id="skillUp">
-                        <label for="skillUp">+20% (スキルup)</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="skillNature" value="1.0" id="skillNormal" checked>
-                        <label for="skillNormal">通常</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="skillNature" value="0.8" id="skillDown">
-                        <label for="skillDown">-20% (スキルdown)</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="campTicket">
-                        <label for="campTicket">いいキャンプチケット</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="favoriteBerry">
-                        <label for="favoriteBerry">好物きのみ</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label class="input-label" for="skillLevel">スキルレベル</label>
-                <select id="skillLevel">
-                    <option value="1">Lv.1 (4%)</option>
-                    <option value="2">Lv.2 (5%)</option>
-                    <option value="3">Lv.3 (6%)</option>
-                    <option value="4">Lv.4 (7%)</option>
-                    <option value="5">Lv.5 (8%)</option>
-                    <option value="6" selected>Lv.6 (10%)</option>
-                </select>
             </div>
         </div>
 
-        <!-- 環境設定 -->
+        <!-- レベル設定 -->
         <div class="section">
-            <div class="section-title">環境設定</div>
+            <div class="section-title">レベル設定</div>
+            <div class="input-group">
+                <label class="input-label" for="level">ポケモンのレベル（1-60）</label>
+                <input type="number" id="level" min="1" max="60" value="60">
+            </div>
+        </div>
+
+        <!-- サブスキル -->
+        <div class="section">
+            <div class="section-title">サブスキル</div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="speedM">
+                    <label for="speedM">おてつだいスピードM</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="speedS">
+                    <label for="speedS">おてつだいスピードS</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="skillM">
+                    <label for="skillM">スキル確率アップM</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="skillS">
+                    <label for="skillS">スキル確率アップS</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="foodM">
+                    <label for="foodM">食材確率アップM</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="foodS">
+                    <label for="foodS">食材確率アップS</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="berryS">
+                    <label for="berryS">きのみの数S</label>
+                </div>
+            </div>
+            <div class="input-group" style="margin-top: 15px;">
+                <label class="input-label" for="otebonus">おてつだいボーナス（0-5枚）</label>
+                <input type="number" id="otebonus" min="0" max="5" value="0">
+            </div>
+        </div>
+
+        <!-- 性格 -->
+        <div class="section">
+            <div class="section-title">性格補正</div>
+            <div class="input-group">
+                <label class="input-label">おてつだいスピード補正</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="speedNature" value="1.075" id="speedNature_minus">
+                        <label for="speedNature_minus">-10%</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="speedNature" value="1.0" id="speedNature_normal" checked>
+                        <label for="speedNature_normal">通常</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="speedNature" value="0.9" id="speedNature_plus">
+                        <label for="speedNature_plus">+10%</label>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label class="input-label">スキル確率補正</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="skillNature" value="0.8" id="skillNature_minus">
+                        <label for="skillNature_minus">-20%</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="skillNature" value="1.0" id="skillNature_normal" checked>
+                        <label for="skillNature_normal">通常</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="skillNature" value="1.2" id="skillNature_plus">
+                        <label for="skillNature_plus">+20%</label>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label class="input-label">食材確率補正</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="foodNature" value="0.8" id="foodNature_minus">
+                        <label for="foodNature_minus">-20%</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="foodNature" value="1.0" id="foodNature_normal" checked>
+                        <label for="foodNature_normal">通常</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="foodNature" value="1.2" id="foodNature_plus">
+                        <label for="foodNature_plus">+20%</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- その他設定 -->
+        <div class="section">
+            <div class="section-title">その他設定</div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="campTicket">
+                    <label for="campTicket">いいキャンプチケット</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="favoriteBerry">
+                    <label for="favoriteBerry">好物きのみ</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 食材スロット選択 -->
+        <div class="section">
+            <div class="section-title">食材スロット選択</div>
+            <div class="input-group">
+                <label class="input-label">Lv30で解放される食材スロット</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="foodLv30" value="A" id="foodLv30_A" checked>
+                        <label for="foodLv30_A" id="foodLv30LabelA">食材A</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="foodLv30" value="B" id="foodLv30_B">
+                        <label for="foodLv30_B" id="foodLv30LabelB">食材B</label>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label class="input-label">Lv60で解放される食材スロット</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="foodLv60" value="A" id="foodLv60_A" checked>
+                        <label for="foodLv60_A" id="foodLv60LabelA">食材A</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="foodLv60" value="B" id="foodLv60_B">
+                        <label for="foodLv60_B" id="foodLv60LabelB">食材B</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="foodLv60" value="C" id="foodLv60_C">
+                        <label for="foodLv60_C" id="foodLv60LabelC">食材C</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- フィールドボーナス -->
+        <div class="section">
+            <div class="section-title">フィールドボーナス</div>
+            <div class="input-group">
+                <label class="input-label" for="fieldBonus">FB（%）</label>
+                <input type="number" id="fieldBonus" min="0" max="100" step="1" value="50">
+            </div>
+        </div>
+
+        <!-- 料理・レシピ設定 -->
+        <div class="section">
+            <div class="section-title">料理・レシピ設定</div>
             
+            <!-- レシピ選択 -->
             <div class="input-group">
-                <label class="input-label" for="fieldBonus">フィールドボーナス（FB %）</label>
-                <input type="number" id="fieldBonus" value="0" min="0" max="85" step="1">
-                <small style="color: #666; display: block; margin-top: 5px;">※ 最終的な期待値に乗算されます（例：10%なら期待値×1.1）</small>
-            </div>
-
-            <div class="input-group">
-                <label class="input-label" for="replacementEnergy">入替候補きのみポケモンのエナジー（0の場合は選択ポケモンいつ育）</label>
-                <input type="number" id="replacementEnergy" value="0" min="0" step="1000">
-                <small style="color: #666; display: block; margin-top: 5px;">※ 他のきのみポケモンと比較したい場合は、そのポケモンの1日エナジーを入力</small>
-                <div style="margin-top: 10px;">
-                    <input type="checkbox" id="replacementIncludesFB">
-                    <label for="replacementIncludesFB" style="cursor: pointer;">入替候補のエナジーはFB込みの数値</label>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #856404;">
-                    <input type="checkbox" id="ignoreFoodEnergy">
-                    <label for="ignoreFoodEnergy" style="cursor: pointer; font-weight: 500;">
-                        食材エナジー度外視モード
-                    </label>
-                    <div style="margin-top: 8px; font-size: 13px; color: #666; line-height: 1.6;">
-                        100%毎分タップの計算で食材エナジーをゼロとします。<br>
-                        食材をエナジー化できない場合のシミュレーションに使用します。<br>
-                        <small style="color: #999;">※ きのみお手伝い回数の計算は変更されません（実際に食材を拾ってくるため）</small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label class="input-label" for="cookEnergyPreset">料理エナジー</label>
-                <select id="cookEnergyPreset" onchange="updateCookEnergy()">
-                    <option value="custom">カスタム入力</option>
-                    <optgroup label="上位料理（レシピLv65）">
-                        <option value="84041">じならしワカモレチップス (84,041)</option>
-                        <option value="82839">しんりょくアボカドグラタン (82,839)</option>
-                        <option value="81342">ドキドキこわいかおパンケーキ (81,342)</option>
-                        <option value="69756">ドオーのエクレア (69,756)</option>
-                        <option value="68988">いあいぎりすき焼きカレー (68,988)</option>
-                        <option value="67528">まけんきコーヒーサラダ (67,528)</option>
-                        <option value="64439">りんごさんヨーグルトサラダ (64,439)</option>
-                        <option value="63664">めざめるパワーシチュー (63,664)</option>
-                        <option value="58430">スパークスパイスコーラ (58,430)</option>
+                <label class="input-label" for="recipeSelect">レシピ選択</label>
+                <select id="recipeSelect" onchange="toggleCustomRecipe()">
+                    <option value="">-- レシピを選択しない --</option>
+                    <optgroup label="レシピボーナス +78%">
+                        <option value="wakamolechips">じならしワカモレチップス</option>
+                        <option value="avocadogratin">しんりょくアボカドグラタン</option>
+                        <option value="scarypancake">ドキドキこわいかおパンケーキ</option>
+                        <option value="eclair">ドオーのエクレア</option>
                     </optgroup>
-                    <optgroup label="中位料理（レシピLv65）">
-                        <option value="52174">なりきりバケッチャシチュー (52,174)</option>
-                        <option value="46206">フラワーギフトマカロン (46,206)</option>
-                        <option value="45725">れんごくコーンキーマカレー (45,725)</option>
-                        <option value="39683">はなふぶきミモザサラダ (39,683)</option>
-                        <option value="38941">ニンジャサラダ (38,941)</option>
-                        <option value="36490">おちゃかいコーンスコーン (36,490)</option>
-                        <option value="31546">ニンジャカレー (31,546)</option>
-                        <option value="26660">ワカクササラダ (26,660)</option>
+                    <optgroup label="レシピボーナス +61%">
+                        <option value="sukiyakicurry">いあいぎりすき焼きカレー</option>
+                        <option value="coffeesalad">まけんきコーヒーサラダ</option>
+                        <option value="yogurtsalad">りんごさんヨーグルトサラダ</option>
+                        <option value="powerstew">めざめるパワーシチュー</option>
+                        <option value="sparkspice">スパークスパイスコーラ</option>
                     </optgroup>
+                    <optgroup label="レシピボーナス +48%">
+                        <option value="pumpkinstew">なりきりバケッチャシチュー</option>
+                        <option value="macaron">フラワーギフトマカロン</option>
+                        <option value="keemacurry">れんごくコーンキーマカレー</option>
+                        <option value="mimosasalad">はなふぶきミモザサラダ</option>
+                        <option value="ninjasalad">ニンジャサラダ</option>
+                        <option value="wakakusasalad">ワカクササラダ</option>
+                        <option value="scone">おちゃかいコーンスコーン</option>
+                        <option value="ninjacurry">ニンジャカレー</option>
+                    </optgroup>
+                    <option value="custom">カスタムレシピ</option>
                 </select>
-                <input type="number" id="cookEnergy" value="110000" min="0" step="1000" style="margin-top: 10px;">
-                <small style="color: #666; display: block; margin-top: 5px;">※ プリセットから選択、またはカスタム入力で任意の値を設定</small>
             </div>
-
+            
+            <!-- カスタムレシピ設定 -->
+            <div id="customRecipeSettings" style="display: none; margin-top: 15px; padding: 15px; background: #fff3e0; border-radius: 8px;">
+                <div class="input-group">
+                    <label class="input-label" for="customRecipeName">カスタムレシピ名（任意）</label>
+                    <input type="text" id="customRecipeName" placeholder="例: オリジナルカレー">
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="customRecipeBonus">レシピ基礎ボーナス（%）</label>
+                    <input type="number" id="customRecipeBonus" min="0" max="200" value="78" placeholder="例: 78 → 1.78倍">
+                </div>
+                
+                <!-- 食材1 -->
+                <div class="input-group" style="margin-top: 15px;">
+                    <label class="input-label">食材1</label>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                        <select id="customRecipeFoodType1">
+                            <option value="">-- 食材を選択 --</option>
+                            <optgroup label="ラグラージの食材">
+                                <option value="コーン">コーン</option>
+                                <option value="ミルク">ミルク</option>
+                                <option value="キノコ">キノコ</option>
+                            </optgroup>
+                            <optgroup label="マニューラの食材">
+                                <option value="ミート">ミート</option>
+                                <option value="エッグ">エッグ</option>
+                                <option value="大豆">大豆</option>
+                            </optgroup>
+                            <optgroup label="その他の食材">
+                                <option value="ネギ">ネギ</option>
+                                <option value="ポテト">ポテト</option>
+                                <option value="リンゴ">リンゴ</option>
+                                <option value="ハーブ">ハーブ</option>
+                                <option value="ミツ">ミツ</option>
+                                <option value="オイル">オイル</option>
+                                <option value="ジンジャー">ジンジャー</option>
+                                <option value="トマト">トマト</option>
+                                <option value="カカオ">カカオ</option>
+                                <option value="シッポ">シッポ</option>
+                                <option value="コーヒー">コーヒー</option>
+                                <option value="カボチャ">カボチャ</option>
+                                <option value="アボカド">アボカド</option>
+                            </optgroup>
+                        </select>
+                        <input type="number" id="customRecipeFoodCount1" min="0" max="200" value="25" placeholder="個数">
+                    </div>
+                </div>
+                
+                <!-- 食材2 -->
+                <div class="input-group">
+                    <label class="input-label">食材2</label>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                        <select id="customRecipeFoodType2">
+                            <option value="">-- 食材を選択 --</option>
+                            <optgroup label="ラグラージの食材">
+                                <option value="コーン">コーン</option>
+                                <option value="ミルク">ミルク</option>
+                                <option value="キノコ">キノコ</option>
+                            </optgroup>
+                            <optgroup label="マニューラの食材">
+                                <option value="ミート">ミート</option>
+                                <option value="エッグ">エッグ</option>
+                                <option value="大豆">大豆</option>
+                            </optgroup>
+                            <optgroup label="その他の食材">
+                                <option value="ネギ">ネギ</option>
+                                <option value="ポテト">ポテト</option>
+                                <option value="リンゴ">リンゴ</option>
+                                <option value="ハーブ">ハーブ</option>
+                                <option value="ミツ">ミツ</option>
+                                <option value="オイル">オイル</option>
+                                <option value="ジンジャー">ジンジャー</option>
+                                <option value="トマト">トマト</option>
+                                <option value="カカオ">カカオ</option>
+                                <option value="シッポ">シッポ</option>
+                                <option value="コーヒー">コーヒー</option>
+                                <option value="カボチャ">カボチャ</option>
+                                <option value="アボカド">アボカド</option>
+                            </optgroup>
+                        </select>
+                        <input type="number" id="customRecipeFoodCount2" min="0" max="200" value="0" placeholder="個数">
+                    </div>
+                </div>
+                
+                <!-- 食材3 -->
+                <div class="input-group">
+                    <label class="input-label">食材3</label>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                        <select id="customRecipeFoodType3">
+                            <option value="">-- 食材を選択 --</option>
+                            <optgroup label="ラグラージの食材">
+                                <option value="コーン">コーン</option>
+                                <option value="ミルク">ミルク</option>
+                                <option value="キノコ">キノコ</option>
+                            </optgroup>
+                            <optgroup label="マニューラの食材">
+                                <option value="ミート">ミート</option>
+                                <option value="エッグ">エッグ</option>
+                                <option value="大豆">大豆</option>
+                            </optgroup>
+                            <optgroup label="その他の食材">
+                                <option value="ネギ">ネギ</option>
+                                <option value="ポテト">ポテト</option>
+                                <option value="リンゴ">リンゴ</option>
+                                <option value="ハーブ">ハーブ</option>
+                                <option value="ミツ">ミツ</option>
+                                <option value="オイル">オイル</option>
+                                <option value="ジンジャー">ジンジャー</option>
+                                <option value="トマト">トマト</option>
+                                <option value="カカオ">カカオ</option>
+                                <option value="シッポ">シッポ</option>
+                                <option value="コーヒー">コーヒー</option>
+                                <option value="カボチャ">カボチャ</option>
+                                <option value="アボカド">アボカド</option>
+                            </optgroup>
+                        </select>
+                        <input type="number" id="customRecipeFoodCount3" min="0" max="200" value="0" placeholder="個数">
+                    </div>
+                </div>
+                
+                <!-- 食材4 -->
+                <div class="input-group">
+                    <label class="input-label">食材4</label>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                        <select id="customRecipeFoodType4">
+                            <option value="">-- 食材を選択 --</option>
+                            <optgroup label="ラグラージの食材">
+                                <option value="コーン">コーン</option>
+                                <option value="ミルク">ミルク</option>
+                                <option value="キノコ">キノコ</option>
+                            </optgroup>
+                            <optgroup label="マニューラの食材">
+                                <option value="ミート">ミート</option>
+                                <option value="エッグ">エッグ</option>
+                                <option value="大豆">大豆</option>
+                            </optgroup>
+                            <optgroup label="その他の食材">
+                                <option value="ネギ">ネギ</option>
+                                <option value="ポテト">ポテト</option>
+                                <option value="リンゴ">リンゴ</option>
+                                <option value="ハーブ">ハーブ</option>
+                                <option value="ミツ">ミツ</option>
+                                <option value="オイル">オイル</option>
+                                <option value="ジンジャー">ジンジャー</option>
+                                <option value="トマト">トマト</option>
+                                <option value="カカオ">カカオ</option>
+                                <option value="シッポ">シッポ</option>
+                                <option value="コーヒー">コーヒー</option>
+                                <option value="カボチャ">カボチャ</option>
+                                <option value="アボカド">アボカド</option>
+                            </optgroup>
+                        </select>
+                        <input type="number" id="customRecipeFoodCount4" min="0" max="200" value="0" placeholder="個数">
+                    </div>
+                </div>
+                
+                <div class="input-group" style="margin-top: 15px;">
+                    <label class="input-label" for="customRecipeTotalIngredients">レシピ合計食材数（1食分）</label>
+                    <input type="number" id="customRecipeTotalIngredients" min="1" max="500" value="103" placeholder="例: 103個">
+                    <div style="font-size: 12px; color: #666; margin-top: 5px;">※鍋容量との比較に使用</div>
+                </div>
+            </div>
+            
+            <!-- レシピレベルと料理イベントボーナス -->
+            <div class="input-group" style="margin-top: 15px;">
+                <label class="input-label" for="recipeLevel">レシピレベル（1-65）</label>
+                <input type="number" id="recipeLevel" min="1" max="65" value="1">
+            </div>
             <div class="input-group">
-                <span class="input-label">EX補正（おてスピ）</span>
+                <label class="input-label" for="recipeCookEventBonus">料理イベントボーナス（%）</label>
+                <input type="number" id="recipeCookEventBonus" value="0" step="1">
+            </div>
+            
+            <!-- 料理エナジー（自動計算結果） -->
+            <div class="input-group" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #ddd;">
+                <label class="input-label" for="cookEnergy">料理エナジー</label>
+                <input type="number" id="cookEnergy" value="110000">
+                <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                    ※レシピを選択すると自動計算されます。手動入力も可能です。
+                </div>
+                <!-- 計算式表示 -->
+                <div id="cookEnergyFormula" class="formula-box" style="display: none; margin-top: 10px;"></div>
+            </div>
+        </div>
+
+        <!-- スキルレベル -->
+        <div class="section">
+            <div class="section-title">スキルレベル</div>
+            <div class="input-group">
+                <label class="input-label" for="skillLevel">基本スキルレベル（1-6）</label>
+                <input type="number" id="skillLevel" min="1" max="6" value="6">
+            </div>
+        </div>
+
+        <!-- EX補正 -->
+        <div class="section">
+            <div class="section-title">EX補正</div>
+            <div class="input-group">
+                <label class="input-label">おてつだいスピード</label>
                 <div class="radio-group">
                     <div class="radio-item">
-                        <input type="radio" name="exSpeed" value="1.0" id="exSpeedNone" checked>
-                        <label for="exSpeedNone">なし</label>
+                        <input type="radio" name="exSpeed" value="1.0" id="exSpeed_none" checked>
+                        <label for="exSpeed_none">なし</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="exSpeed" value="0.9" id="exSpeedUp">
-                        <label for="exSpeedUp">10%アップ</label>
+                        <input type="radio" name="exSpeed" value="0.9" id="exSpeed_up">
+                        <label for="exSpeed_up">10%アップ</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="exSpeed" value="1.15" id="exSpeedDown">
-                        <label for="exSpeedDown">15%ダウン</label>
+                        <input type="radio" name="exSpeed" value="1.15" id="exSpeed_down">
+                        <label for="exSpeed_down">15%ダウン</label>
                     </div>
                 </div>
             </div>
-
             <div class="input-group">
-                <span class="input-label">EX補正（その他）</span>
+                <label class="input-label">その他補正</label>
                 <div class="radio-group">
                     <div class="radio-item">
-                        <input type="radio" name="exOther" value="none" id="exOtherNone" checked>
-                        <label for="exOtherNone">なし</label>
+                        <input type="radio" name="exOther" value="none" id="exOther_none" checked>
+                        <label for="exOther_none">なし</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="exOther" value="berry" id="exBerry">
-                        <label for="exBerry">好物2.4倍</label>
+                        <input type="radio" name="exOther" value="berry" id="exOther_berry">
+                        <label for="exOther_berry">好物2.4倍</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="exOther" value="food" id="exFood">
-                        <label for="exFood">食材+1個</label>
+                        <input type="radio" name="exOther" value="food" id="exOther_food">
+                        <label for="exOther_food">食材+1個</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="exOther" value="skill" id="exSkill">
-                        <label for="exSkill">スキル1.25倍</label>
+                        <input type="radio" name="exOther" value="skill" id="exOther_skill">
+                        <label for="exOther_skill">スキル1.25倍</label>
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- イベント補正 -->
+        <div class="section">
+            <div class="section-title">イベント補正</div>
             <div class="input-group">
-                <label class="input-label" for="eventSpeed">イベント補正（おてスピ %）</label>
+                <label class="input-label" for="eventSpeed">おてつだいスピード補正（%）</label>
                 <input type="number" id="eventSpeed" value="0" step="1">
             </div>
-
             <div class="input-group">
-                <label class="input-label" for="eventSkill">イベント補正（スキル確率 %）</label>
+                <label class="input-label" for="eventSkill">スキル確率補正（%）</label>
                 <input type="number" id="eventSkill" value="0" step="1">
             </div>
-
-            <div class="input-group">
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="eventBerryCount">
-                        <label for="eventBerryCount">イベント補正（きのみの数+1個）</label>
-                    </div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="eventBerryCount">
+                    <label for="eventBerryCount">きのみの数+1個</label>
                 </div>
-                <small style="color: #666; display: block; margin-top: 5px;">※ 毎分タップ時のみ適用。いつの間に育成では増加しません</small>
-            </div>
-
-            <div class="input-group">
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="eventFoodCount">
-                        <label for="eventFoodCount">イベント補正（食材の数+1個）</label>
-                    </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="eventFoodCount">
+                    <label for="eventFoodCount">食材の数+1個</label>
                 </div>
-                <small style="color: #666; display: block; margin-top: 5px;">※ EX食材+1個と同時選択は未確認挙動です</small>
             </div>
-
             <div class="input-group">
-                <label class="input-label" for="eventSkillLevel">イベント補正（スキルレベル +）</label>
-                <select id="eventSkillLevel">
-                    <option value="0" selected>なし</option>
-                    <option value="1">+1</option>
-                    <option value="3">+3</option>
-                    <option value="5">+5</option>
-                </select>
-                <small style="color: #666; display: block; margin-top: 5px;">※ スキルレベル上限は6です</small>
+                <label class="input-label" for="eventSkillLevel">スキルレベル補正（上限6）</label>
+                <input type="number" id="eventSkillLevel" min="0" max="6" value="0">
             </div>
-
             <div class="input-group">
-                <label class="input-label" for="eventCookEnergy">イベント補正（料理エナジー %）</label>
+                <label class="input-label" for="eventCookEnergy">料理エナジー補正（%）</label>
                 <input type="number" id="eventCookEnergy" value="0" step="1">
-                <small style="color: #666; display: block; margin-top: 5px;">※ 料理エナジーに倍率がかかります（例：10%なら料理エナジー×1.1）</small>
             </div>
         </div>
 
-        <button class="calculate-btn" onclick="calculate()">計算する</button>
+        <!-- 食材エナジー計算モード -->
+        <div class="section">
+            <div class="section-title">食材エナジー計算モード</div>
+            <div class="radio-group">
+                <div class="radio-item">
+                    <input type="radio" name="foodEnergyMode" value="ignore" id="mode_ignore">
+                    <label for="mode_ignore">食材度外視モード</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="foodEnergyMode" value="unlimited" id="mode_unlimited" checked>
+                    <label for="mode_unlimited">食材無限ごちゃまぜモード</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="foodEnergyMode" value="surplus" id="mode_surplus">
+                    <label for="mode_surplus">食材余剰モード</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="foodEnergyMode" value="recipe" id="mode_recipe">
+                    <label for="mode_recipe">食材レシピ補正モード</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" name="foodEnergyMode" value="hybrid" id="mode_hybrid">
+                    <label for="mode_hybrid">食材ハイブリッドモード</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 鍋容量設定（条件付き表示） -->
+        <div class="section recipe-dependent" id="potCapacitySettings">
+            <div class="section-title">鍋容量設定</div>
+            <div class="input-group">
+                <label class="input-label" for="potBaseCapacity">基礎容量（15-81）</label>
+                <input type="number" id="potBaseCapacity" min="15" max="81" value="78">
+            </div>
+            <div class="input-group">
+                <label class="input-label">スキルによる拡張</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+                    <div>
+                        <label style="font-size: 13px; color: #666;">料理パワーアップS Lv7の発動回数</label>
+                        <input type="number" id="potSkillActivations" min="0" value="0" onchange="updatePotSkillExpansion()" oninput="updatePotSkillExpansion()">
+                        <div style="font-size: 11px; color: #888; margin-top: 3px;">1回 = +31個、7回以上 = +200（上限）</div>
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; color: #666;">または直接入力</label>
+                        <input type="number" id="potSkillExpansion" min="0" max="200" value="0" onchange="updatePotSkillActivations()" oninput="updatePotSkillActivations()">
+                        <div style="font-size: 11px; color: #888; margin-top: 3px;">任意の拡張値（上限200）</div>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label class="input-label" for="potEventBonus">鍋イベントボーナス（倍率）</label>
+                <input type="number" id="potEventBonus" min="1" max="2" step="0.1" value="1.0">
+            </div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="potWeekendBonus">
+                    <label for="potWeekendBonus">ウィークエンドボーナス（日曜日×2）</label>
+                </div>
+            </div>
+            <div class="info-box">
+                <div class="info-title">鍋容量計算結果</div>
+                <div id="potCapacityResult">→ 最終鍋容量：<span id="finalPotCapacity">--</span>個</div>
+                <div id="potCapacityFormula" class="formula-box" style="display: none; margin-top: 10px;"></div>
+            </div>
+            <div style="font-size: 12px; color: #666; margin-top: 10px;">
+                ※いいキャンプチケットは「その他設定」の選択が反映されます
+            </div>
+        </div>
+
+        <!-- 入替候補設定 -->
+        <div class="section">
+            <div class="section-title">入替候補ポケモン設定</div>
+            <div class="input-group">
+                <label class="input-label" for="replacementEnergy">入替候補の1日エナジー（0=使用しない）</label>
+                <input type="number" id="replacementEnergy" min="0" value="0">
+            </div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="replacementIncludesFB">
+                    <label for="replacementIncludesFB">入力値にFBを含む</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 計算ボタン -->
+        <button onclick="calculate()">計算する</button>
+
+        <!-- 警告メッセージ -->
+        <div id="warningMessage" class="warning-box" style="display: none;">
+            <div class="warning-title">⚠️ 警告</div>
+            <div>
+                <div></div>
+            </div>
+        </div>
 
         <!-- 結果表示 -->
-        <div class="results" id="results">
-            <!-- 警告メッセージ -->
-            <div id="warningMessage" style="display: none; background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-                <div style="display: flex; align-items: start; gap: 15px;">
-                    <div style="font-size: 32px;">⚠️</div>
-                    <div>
-                        <div style="font-size: 18px; font-weight: bold; color: #856404; margin-bottom: 10px;">
-                            未確認の組み合わせが選択されています
-                        </div>
-                        <div style="font-size: 14px; color: #856404; line-height: 1.8;">
-                            <strong>EX補正（スキル1.25倍）</strong>と<strong>イベント補正（スキル確率アップ）</strong>が同時に選択されています。<br>
-                            ポケモンスリープ公式では、スキル確率のイベント補正がある時には、EX補正のスキル1.25倍は「基本的に選ばれない」と発表されています。<br>
-                            <br>
-                            <strong style="color: #d32f2f;">この組み合わせは実際のゲーム上では未確認の挙動です。</strong><br>
-                            このツールでは理論上の計算を行っていますが、実際のゲーム内での挙動と大きく乖離する可能性があります。
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
+        <div class="results" id="resultsSection" style="display: none;">
             <div class="section">
-                <div class="section-title"><span id="pokemonName"></span> スペック</div>
-                <div class="spec-box">
-                    <div class="spec-item">レベル：<span id="displayLevel"></span></div>
-                    <div class="spec-item">きのみエナジー単価：<span id="berryUnitEnergy"></span>
-                        <br><small style="color: #666;">（基礎<span id="berryBaseEnergy"></span> → max（基礎+<span id="berryLinear"></span>、基礎×1.025^<span id="berryExponent"></span>））</small>
+                <div class="section-title">計算結果</div>
+                
+                <!-- ポケモンスペック -->
+                <div class="spec-table">
+                    <div class="spec-row">
+                        <span class="spec-label">ポケモン</span>
+                        <span class="spec-value"><span id="pokemonName">--</span> Lv<span id="displayLevel">--</span></span>
                     </div>
-                    <div class="spec-item">おてつだいスピード：<span id="finalSpeed"></span>秒
-                        <br><small style="color: #666;"><span id="speedFormula"></span></small>
+                    <div class="spec-row">
+                        <span class="spec-label">きのみエナジー単価</span>
+                        <span class="spec-value">
+                            <span id="berryUnitEnergy">--</span>
+                            <span style="font-size: 11px; color: #666;">
+                                (max(<span id="berryBaseEnergy">--</span>+<span id="berryLinear">--</span>, <span id="berryBaseEnergy2">--</span>×1.025^<span id="berryExponent">--</span>))
+                            </span>
+                        </span>
                     </div>
-                    <div class="spec-item">お手伝い回数：<span id="helpCount"></span>回/日</div>
-                    <div class="spec-item" style="padding-left: 15px; color: #666; font-size: 13px;">
-                        ├ きのみお手伝い回数：<span id="berryHelpCount"></span>回/日
-                        <small style="color: #999;">（× きのみ確率<span id="berryProbPercent"></span>%）</small>
+                    <div class="spec-row">
+                        <span class="spec-label">おてつだいスピード</span>
+                        <span class="spec-value">
+                            <span id="finalSpeed">--</span>秒
+                            <div class="formula-box" id="speedFormula">--</div>
+                        </span>
                     </div>
-                    <div class="spec-item" style="padding-left: 15px; color: #666; font-size: 13px;">
-                        └ 食材お手伝い回数：<span id="foodHelpCount"></span>回/日
-                        <small style="color: #999;">（× 食材確率<span id="foodProbPercent"></span>%）</small>
+                    <div class="spec-row">
+                        <span class="spec-label">1日のお手伝い回数</span>
+                        <span class="spec-value"><span id="helpCount">--</span>回</span>
                     </div>
-                    <div class="spec-item">きのみエナジー（1回あたり）：<span id="berryEnergy"></span></div>
-                    <div class="spec-item">食材エナジー（1回あたり平均）：<span id="foodEnergy"></span>
-                        <br><small style="color: #666;" id="foodEnergyFormula"></small>
+                    <div class="spec-row">
+                        <span class="spec-label">きのみエナジー（1回あたり）</span>
+                        <span class="spec-value"><span id="berryEnergy">--</span></span>
                     </div>
-                    <div class="spec-item">食材個数（1日の期待値）：
-                        <div id="foodCountBreakdown" style="margin-left: 15px; margin-top: 5px;"></div>
+                    <div class="spec-row">
+                        <span class="spec-label">きのみお手伝い回数</span>
+                        <span class="spec-value">
+                            <span id="berryHelpCount">--</span>回
+                            <span style="font-size: 11px; color: #666;">
+                                (きのみ確率<span id="berryProbPercent">--</span>%)
+                            </span>
+                        </span>
                     </div>
-                    <div class="spec-item">スキル回数：<span id="skillCount"></span>回/日
-                        <br><small style="color: #666;"><span id="skillFormula"></span></small>
+                    <div class="spec-row">
+                        <span class="spec-label">食材エナジー平均</span>
+                        <span class="spec-value">
+                            <span id="foodEnergy">--</span>
+                            <div class="formula-box" id="foodEnergyFormula">--</div>
+                        </span>
                     </div>
-                    <div class="spec-item">スキル1回あたりの効果量：<span id="skillEffectAmount"></span>
-                        <br><small style="color: #666;">（料理エナジー<span id="skillEffectCookEnergy"></span> × 効果量<span id="skillEffectPercent"></span>%）</small>
+                    <div class="spec-row">
+                        <span class="spec-label">食材お手伝い回数</span>
+                        <span class="spec-value">
+                            <span id="foodHelpCount">--</span>回
+                            <span style="font-size: 11px; color: #666;">
+                                (食材確率<span id="foodProbPercent">--</span>%)
+                            </span>
+                            <div id="foodCountBreakdown" style="margin-top: 5px;"></div>
+                        </span>
+                    </div>
+                    <div class="spec-row" id="potCapacityDisplay" style="display: none;">
+                        <span class="spec-label">鍋容量</span>
+                        <span class="spec-value"><span id="potCapacityValue">--</span>個</span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">スキル回数（1日）</span>
+                        <span class="spec-value">
+                            <span id="skillCount">--</span>回
+                            <div class="formula-box" id="skillFormula">--</div>
+                        </span>
+                    </div>
+                    <div class="spec-row">
+                        <span class="spec-label">スキル1回あたりの効果量</span>
+                        <span class="spec-value">
+                            <span id="skillEffectAmount">--</span>
+                            <span style="font-size: 11px; color: #666;">
+                                (<span id="skillEffectCookEnergy">--</span>×<span id="skillEffectPercent">--</span>%)
+                            </span>
+                        </span>
                     </div>
                 </div>
-            </div>
 
-            <div class="section">
-                <div class="section-title">100%運用時の基準値（比較用）</div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
-                    <div class="spec-box" style="background: #fff3cd;">
-                        <div class="spec-title" style="color: #856404;">100% 毎分タップ（積極運用）</div>
-                        <div class="spec-item">きのみエナジー：<span id="fullActiveBerry"></span>
-                            <br><small style="color: #666;">（きのみお手伝い<span id="fullActiveBerryCount"></span>回 × <span id="fullActiveBerryPerCount"></span>個/回 × 単価<span id="fullActiveBerryUnit"></span> × FB<span id="fullActiveBerryFB"></span>）</small>
-                        </div>
-                        <div class="spec-item">食材エナジー：<span id="fullActiveFood"></span><span id="fullActiveFoodIgnoreLabel" style="color: #d32f2f; font-weight: bold;"></span>
-                            <br><small style="color: #666;">（食材お手伝い<span id="fullActiveFoodPickupCount"></span>回 × <span id="fullActiveFoodFormula"></span> × FB<span id="fullActiveFoodFB"></span>）</small>
-                        </div>
-                        <div class="spec-item">スキルエナジー：<span id="fullActiveCook"></span>
-                            <br><small style="color: #666;">（スキル発動<span id="fullActiveSkillExpected"></span>回/日 × <span id="fullActiveSkillPerActivation"></span>/回 × FB<span id="fullActiveCookFB"></span>）</small>
-                        </div>
-                        <div class="spec-item" style="margin-top: 8px; padding-top: 8px; border-top: 2px solid #856404; font-weight: bold;">合計：<span id="fullActiveTotal"></span></div>
+                <!-- 100%運用時の基準値 -->
+                <div class="energy-breakdown">
+                    <h3 style="margin-bottom: 15px; color: #333;">100% 毎分タップ（積極運用）</h3>
+                    <div class="energy-row">
+                        <span class="energy-label">
+                            きのみエナジー
+                            <span style="font-size: 11px; color: #888;">
+                                (<span id="fullActiveBerryCount">--</span>回 × <span id="fullActiveBerryPerCount">--</span>個 × <span id="fullActiveBerryUnit">--</span> × <span id="fullActiveBerryFB">--</span>)
+                            </span>
+                        </span>
+                        <span class="energy-value" id="fullActiveBerry">--</span>
                     </div>
-                    <div class="spec-box" style="background: #d1ecf1;">
-                        <div class="spec-title" style="color: #0c5460;"><span id="idleModeName">100% いつの間に育成</span></div>
-                        <div class="spec-item">きのみエナジー：<span id="fullIdleBerry"></span>
-                            <br><small style="color: #666;" id="fullIdleDetail">（きのみお手伝い<span id="fullIdleBerryCount"></span>回 × <span id="fullIdleBerryPerCount"></span>個/回 × 単価<span id="fullIdleBerryUnit"></span> × FB<span id="fullIdleBerryFB"></span>）</small>
-                        </div>
-                        <div class="spec-item" style="margin-top: 8px; padding-top: 8px; border-top: 2px solid #0c5460; font-weight: bold;">合計：<span id="fullIdleTotal"></span></div>
+                    <div class="energy-row">
+                        <span class="energy-label">
+                            食材エナジー<span id="fullActiveFoodIgnoreLabel"></span>
+                            <span style="font-size: 11px; color: #888;">
+                                (<span id="fullActiveFoodPickupCount">--</span>回 × <span id="fullActiveFoodFormula">--</span> × <span id="fullActiveFoodFB">--</span>)
+                            </span>
+                        </span>
+                        <span class="energy-value" id="fullActiveFood">--</span>
+                    </div>
+                    <!-- 食材の内訳表示 -->
+                    <div id="fullActiveFoodBreakdown" style="display: none; padding: 8px 0; font-size: 12px; color: #666; margin-left: 20px;"></div>
+                    
+                    <div class="energy-row">
+                        <span class="energy-label">
+                            料理エナジー
+                            <span style="font-size: 11px; color: #888;">
+                                (<span id="fullActiveSkillExpected">--</span>回 × <span id="fullActiveSkillPerActivation">--</span> × <span id="fullActiveCookFB">--</span>)
+                            </span>
+                        </span>
+                        <span class="energy-value" id="fullActiveCook">--</span>
+                    </div>
+                    <div class="energy-row">
+                        <span class="energy-label">合計エナジー</span>
+                        <span class="energy-value" id="fullActiveTotal">--</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="section">
-                <div class="section-title">運用効率比較（積極運用 + <span id="comparisonModeName">いつ育</span>の複合）</div>
-                <div id="comparisonModeDesc" style="background: #e7f3ff; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 14px; color: #004085;"></div>
+                <!-- 100%いつ育/入替候補 -->
+                <div class="energy-breakdown">
+                    <h3 style="margin-bottom: 15px; color: #333;" id="idleModeName">100% いつの間に育成</h3>
+                    <div class="energy-row">
+                        <span class="energy-label">
+                            きのみエナジー
+                            <span id="fullIdleDetail" style="font-size: 11px; color: #888;">
+                                (<span id="fullIdleBerryCount">--</span>回 × <span id="fullIdleBerryPerCount">--</span>個 × <span id="fullIdleBerryUnit">--</span> × <span id="fullIdleBerryFB">--</span>)
+                            </span>
+                        </span>
+                        <span class="energy-value" id="fullIdleBerry">--</span>
+                    </div>
+                    <div class="energy-row">
+                        <span class="energy-label">合計エナジー</span>
+                        <span class="energy-value" id="fullIdleTotal">--</span>
+                    </div>
+                </div>
+
+                <!-- 確率表示（レシピ補正/ハイブリッドモード時） -->
+                <div id="recipeProbabilityDisplay" class="info-box" style="display: none;">
+                    <div class="info-title">📊 参考情報</div>
+                    <div id="recipeProbabilityText">--</div>
+                </div>
+
+                <!-- 複合期待値テーブル -->
+                <h3 style="margin-top: 30px; margin-bottom: 15px;">複合期待値（積極運用 + いつ育/入替候補）</h3>
                 <table>
                     <thead>
                         <tr>
@@ -751,51 +1038,23 @@
                             <th>1日の発動数</th>
                             <th>積極運用比率</th>
                             <th>期待値</th>
-                            <th>詳細</th>
                         </tr>
                     </thead>
-                    <tbody id="resultsTable">
-                    </tbody>
+                    <tbody id="resultsTable"></tbody>
                 </table>
-            </div>
-
-            <div class="section" id="debugSection" style="display: none;">
-                <div class="section-title">計算過程の詳細</div>
-                <div id="debugInfo"></div>
-            </div>
-
-            <!-- フッター -->
-            <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 10px; text-align: center;">
-                <div style="font-size: 14px; color: #666; margin-bottom: 10px;">
-                    <strong>参考サイト</strong>
-                </div>
-                <div style="font-size: 13px; color: #888; line-height: 1.8;">
-                    このツールは以下のサイトを参考に作成されました<br>
-                    <a href="https://pks.raenonx.cc/" target="_blank" style="color: #4a90e2; text-decoration: none;">pks.raenonx.cc</a> ｜ 
-                    <a href="https://pokesuri.ogagawa.com/dedenne_kourituka/" target="_blank" style="color: #4a90e2; text-decoration: none;">デデンネ効率化ツール</a> ｜ 
-                    <a href="https://wikiwiki.jp/poke_sleep/" target="_blank" style="color: #4a90e2; text-decoration: none;">ポケモンスリープ攻略Wiki</a>
-                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 認証チェック - 未認証の場合はログイン画面へリダイレクト
-        (function() {
-            if (sessionStorage.getItem('_auth') !== '1') {
-                window.location.href = 'index.html';
-            }
-        })();
-
-
-        // ポケモンの基礎スペック
+        // ポケモンデータ
         const POKEMON_STATS = {
             swampert: {
                 name: 'ラグラージ',
-                rawBaseSpeed: 2800, // Lv1の基礎おてスピ（元気補正前）
-                lv60RawSpeed: 2469, // Lv60の基礎おてスピ（元気補正前、1111÷0.45から逆算）
+                rawBaseSpeed: 2800,  // 基礎おてスピ
+                lv60RawSpeed: 1111,  // Lv60、元気上限での結果
                 berryName: 'フィラのみ',
-                berryBaseEnergy: 29,
+                berryBaseEnergy: 29,  // 基礎エナジー
                 foodProb: 0.146,
                 skillProb: 0.034,
                 foodSlots: {
@@ -804,21 +1063,21 @@
                     ],
                     lv30: [
                         { label: 'A', name: 'コーン', count: 2, energy: 140 },
-                        { label: 'B', name: 'ミルク', count: 3, energy: 198 }
+                        { label: 'B', name: 'ミルク', count: 3, energy: 98 }
                     ],
                     lv60: [
                         { label: 'A', name: 'コーン', count: 4, energy: 140 },
-                        { label: 'B', name: 'ミルク', count: 5, energy: 198 },
+                        { label: 'B', name: 'ミルク', count: 5, energy: 98 },
                         { label: 'C', name: 'キノコ', count: 3, energy: 167 }
                     ]
                 }
             },
             weavile: {
                 name: 'マニューラ',
-                rawBaseSpeed: 2700, // Lv1の基礎おてスピ（元気補正前）
-                lv60RawSpeed: 2380, // Lv60の基礎おてスピ（元気補正前、推定値）
+                rawBaseSpeed: 2700,  // 基礎おてスピ
+                lv60RawSpeed: 2380,  // Lv60、元気上限での結果
                 berryName: 'ウイのみ',
-                berryBaseEnergy: 31,
+                berryBaseEnergy: 31,  // 基礎エナジー
                 foodProb: 0.251,
                 skillProb: 0.018,
                 foodSlots: {
@@ -838,6 +1097,12 @@
             }
         };
         
+        // きのみエナジーを計算（レベル依存）
+        function calculateBerryEnergy(baseEnergy, level) {
+            const additive = baseEnergy + (level - 1);
+            const multiplicative = baseEnergy * Math.pow(1.025, level - 1);
+            return Math.floor(Math.max(additive, multiplicative));
+        }
         // スキルレベルごとの効果量
         const SKILL_EFFECTS = {
             1: 0.04,
@@ -848,25 +1113,333 @@
             6: 0.10
         };
 
+        // カスタムレシピデータを取得
+        function getCustomRecipeData() {
+            const customName = document.getElementById('customRecipeName').value || 'カスタムレシピ';
+            const customBonus = parseFloat(document.getElementById('customRecipeBonus').value) || 0;
+            const customTotalIngredients = parseInt(document.getElementById('customRecipeTotalIngredients').value) || 100;
+            
+            const bonusMultiplier = 1 + (customBonus / 100);
+            
+            const ingredients = {};
+            
+            // 食材1-4を取得
+            for (let i = 1; i <= 4; i++) {
+                const foodType = document.getElementById(`customRecipeFoodType${i}`).value;
+                const foodCount = parseInt(document.getElementById(`customRecipeFoodCount${i}`).value) || 0;
+                
+                if (foodType && foodCount > 0) {
+                    ingredients[foodType] = foodCount;
+                }
+            }
+            
+            return {
+                name: customName,
+                bonus: bonusMultiplier,
+                ingredients: ingredients,
+                totalIngredients: customTotalIngredients
+            };
+        }
+
+        // レシピデータ（全食材の個数を含む）
+        const RECIPES = {
+            wakamolechips: {
+                name: 'じならしワカモレチップス',
+                bonus: 1.78,
+                ingredients: {
+                    'アボカド': 28,
+                    'コーン': 25,
+                    'ハーブ': 30,
+                    '大豆': 22
+                }
+            },
+            avocadogratin: {
+                name: 'しんりょくアボカドグラタン',
+                bonus: 1.78,
+                ingredients: {
+                    'アボカド': 22,
+                    'ポテト': 20,
+                    'ミルク': 41,
+                    'オイル': 32
+                }
+            },
+            scarypancake: {
+                name: 'ドキドキこわいかおパンケーキ',
+                bonus: 1.78,
+                ingredients: {
+                    'カボチャ': 18,
+                    'エッグ': 24,
+                    'ミツ': 32,
+                    'トマト': 29
+                }
+            },
+            eclair: {
+                name: 'ドオーのエクレア',
+                bonus: 1.78,
+                ingredients: {
+                    'カカオ': 30,
+                    'ミルク': 26,
+                    'コーヒー': 24,
+                    'ミツ': 22
+                }
+            },
+            sukiyakicurry: {
+                name: 'いあいぎりすき焼きカレー',
+                bonus: 1.61,
+                ingredients: {
+                    'ネギ': 27,
+                    'ミート': 26,
+                    'ミツ': 26,
+                    'エッグ': 22
+                }
+            },
+            coffeesalad: {
+                name: 'まけんきコーヒーサラダ',
+                bonus: 1.61,
+                ingredients: {
+                    'コーヒー': 28,
+                    'ミート': 28,
+                    'オイル': 22,
+                    'ポテト': 22
+                }
+            },
+            yogurtsalad: {
+                name: 'りんごさんヨーグルトサラダ',
+                bonus: 1.61,
+                ingredients: {
+                    'エッグ': 35,
+                    'リンゴ': 28,
+                    'トマト': 23,
+                    'ミルク': 18
+                }
+            },
+            powerstew: {
+                name: 'めざめるパワーシチュー',
+                bonus: 1.61,
+                ingredients: {
+                    '大豆': 28,
+                    'トマト': 25,
+                    'キノコ': 23,
+                    'コーヒー': 16
+                }
+            },
+            sparkspice: {
+                name: 'スパークスパイスコーラ',
+                bonus: 1.61,
+                ingredients: {
+                    'リンゴ': 35,
+                    'ジンジャー': 20,
+                    'ネギ': 20,
+                    'コーヒー': 12
+                }
+            },
+            pumpkinstew: {
+                name: 'なりきりバケッチャシチュー',
+                bonus: 1.48,
+                ingredients: {
+                    'カボチャ': 10,
+                    'ミート': 16,
+                    'ポテト': 18,
+                    'キノコ': 25
+                }
+            },
+            macaron: {
+                name: 'フラワーギフトマカロン',
+                bonus: 1.48,
+                ingredients: {
+                    'カカオ': 25,
+                    'エッグ': 25,
+                    'ミツ': 17,
+                    'ミルク': 10
+                }
+            },
+            keemacurry: {
+                name: 'れんごくコーンキーマカレー',
+                bonus: 1.48,
+                ingredients: {
+                    'ハーブ': 27,
+                    'ミート': 24,
+                    'コーン': 14,
+                    'ジンジャー': 12
+                }
+            },
+            mimosasalad: {
+                name: 'はなふぶきミモザサラダ',
+                bonus: 1.48,
+                ingredients: {
+                    'エッグ': 25,
+                    'オイル': 17,
+                    'ポテト': 15,
+                    'ミート': 12
+                }
+            },
+            ninjasalad: {
+                name: 'ニンジャサラダ',
+                bonus: 1.48,
+                ingredients: {
+                    'ネギ': 15,
+                    '大豆': 19,
+                    'キノコ': 12,
+                    'ジンジャー': 11
+                }
+            },
+            wakakusasalad: {
+                name: 'ワカクササラダ',
+                bonus: 1.48,
+                ingredients: {
+                    'オイル': 22,
+                    'コーン': 17,
+                    'トマト': 14,
+                    'ポテト': 9
+                }
+            },
+            scone: {
+                name: 'おちゃかいコーンスコーン',
+                bonus: 1.48,
+                ingredients: {
+                    'リンゴ': 20,
+                    'ジンジャー': 20,
+                    'コーン': 18,
+                    'ミルク': 9
+                }
+            },
+            ninjacurry: {
+                name: 'ニンジャカレー',
+                bonus: 1.48,
+                ingredients: {
+                    '大豆': 24,
+                    'ミート': 9,
+                    'ネギ': 12,
+                    'キノコ': 5
+                }
+            }
+        };
+
+        // レシピレベルボーナステーブル
+        const RECIPE_LEVEL_BONUS = [
+            1.00, 1.02, 1.04, 1.06, 1.08, 1.09, 1.11, 1.13, 1.16, 1.18, // Lv1-10
+            1.19, 1.21, 1.23, 1.24, 1.26, 1.28, 1.30, 1.31, 1.33, 1.35, // Lv11-20
+            1.37, 1.40, 1.42, 1.45, 1.47, 1.50, 1.52, 1.55, 1.58, 1.61, // Lv21-30
+            1.64, 1.67, 1.70, 1.74, 1.77, 1.81, 1.84, 1.88, 1.92, 1.96, // Lv31-40
+            2.00, 2.04, 2.08, 2.13, 2.17, 2.22, 2.27, 2.32, 2.37, 2.42, // Lv41-50
+            2.48, 2.53, 2.59, 2.65, 2.71, 2.77, 2.83, 2.90, 2.97, 3.03, // Lv51-60
+            3.09, 3.15, 3.21, 3.27, 3.34  // Lv61-65
+        ];
+
+        // 食材基礎エナジー
+        const FOOD_BASE_ENERGY = {
+            'ネギ': 185, 'キノコ': 167, 'エッグ': 115, 'ポテト': 124,
+            'リンゴ': 90, 'ハーブ': 130, 'ミート': 103, 'ミルク': 98,
+            'ミツ': 101, 'オイル': 121, 'ジンジャー': 109, 'トマト': 110,
+            'カカオ': 151, 'シッポ': 342, '大豆': 100, 'コーン': 140,
+            'コーヒー': 153, 'カボチャ': 250, 'アボカド': 162
+        };
+
         // 大成功確率を計算する関数
-        // 基本確率10% + (スキル効果量 × 発動回数)
         function getSuccessRate(skillLevel, n) {
             const baseRate = 0.10;
             const skillEffect = SKILL_EFFECTS[skillLevel];
             return baseRate + (skillEffect * n);
         }
 
-        // 料理エナジーのプリセット選択時の処理
-        function updateCookEnergy() {
-            const preset = document.getElementById('cookEnergyPreset').value;
-            const input = document.getElementById('cookEnergy');
+        // カスタムレシピの表示制御
+        function toggleCustomRecipe() {
+            const recipeSelect = document.getElementById('recipeSelect').value;
+            const customRecipeSettings = document.getElementById('customRecipeSettings');
             
-            if (preset === 'custom') {
-                input.disabled = false;
+            if (recipeSelect === 'custom') {
+                customRecipeSettings.style.display = 'block';
+                // カスタムレシピの場合も自動計算を試みる
+                updateCookEnergyFromRecipe();
             } else {
-                input.value = preset;
-                input.disabled = true;
+                customRecipeSettings.style.display = 'none';
+                // レシピが選択されている場合は自動計算
+                updateCookEnergyFromRecipe();
             }
+        }
+
+        // レシピから料理エナジーを計算（詳細な計算式を返す）
+        function calculateRecipeEnergy() {
+            const recipeSelect = document.getElementById('recipeSelect').value;
+            
+            // レシピが選択されていない場合は計算しない
+            if (!recipeSelect) {
+                return null;
+            }
+            
+            let recipe;
+            if (recipeSelect === 'custom') {
+                recipe = getCustomRecipeData();
+                // カスタムレシピで食材が1つも設定されていない場合は計算しない
+                if (Object.keys(recipe.ingredients).length === 0) {
+                    return null;
+                }
+            } else {
+                recipe = RECIPES[recipeSelect];
+            }
+            
+            const recipeLevel = parseInt(document.getElementById('recipeLevel').value) || 1;
+            const recipeCookEventBonus = parseFloat(document.getElementById('recipeCookEventBonus').value) || 0;
+            
+            // 基本エナジー：各食材の個数 × エナジー単価の合計
+            let baseEnergy = 0;
+            const ingredientDetails = [];
+            
+            for (const [foodName, count] of Object.entries(recipe.ingredients)) {
+                const foodEnergy = FOOD_BASE_ENERGY[foodName] || 0;
+                const subtotal = count * foodEnergy;
+                baseEnergy += subtotal;
+                ingredientDetails.push(`${foodName}${count}×${foodEnergy}`);
+            }
+            
+            // レシピボーナスを適用
+            const recipeLevelBonus = RECIPE_LEVEL_BONUS[recipeLevel - 1] || 1.0;
+            const cookEventMultiplier = 1 + (recipeCookEventBonus / 100);
+            
+            const totalEnergy = baseEnergy * recipe.bonus * recipeLevelBonus * cookEventMultiplier;
+            
+            // 計算式を生成
+            const formulaParts = [];
+            formulaParts.push(`基本エナジー: (${ingredientDetails.join(' + ')}) = ${baseEnergy.toLocaleString()}`);
+            formulaParts.push(`レシピボーナス: ${baseEnergy.toLocaleString()} × ${recipe.bonus.toFixed(2)} = ${Math.round(baseEnergy * recipe.bonus).toLocaleString()}`);
+            formulaParts.push(`レシピレベルボーナス(Lv${recipeLevel}): ${Math.round(baseEnergy * recipe.bonus).toLocaleString()} × ${recipeLevelBonus.toFixed(2)} = ${Math.round(baseEnergy * recipe.bonus * recipeLevelBonus).toLocaleString()}`);
+            
+            if (recipeCookEventBonus !== 0) {
+                formulaParts.push(`料理イベントボーナス: ${Math.round(baseEnergy * recipe.bonus * recipeLevelBonus).toLocaleString()} × ${cookEventMultiplier.toFixed(2)} = ${Math.round(totalEnergy).toLocaleString()}`);
+            }
+            
+            formulaParts.push(`\n最終料理エナジー: ${Math.round(totalEnergy).toLocaleString()}`);
+            
+            const formula = formulaParts.join('\n');
+            
+            return {
+                energy: Math.round(totalEnergy),
+                formula: formula
+            };
+        }
+
+        // 料理エナジーをレシピから更新
+        function updateCookEnergyFromRecipe() {
+            const result = calculateRecipeEnergy();
+            
+            if (result !== null) {
+                // 料理エナジーを自動計算値に設定
+                document.getElementById('cookEnergy').value = result.energy;
+                
+                // 計算式を表示
+                const formulaBox = document.getElementById('cookEnergyFormula');
+                formulaBox.textContent = result.formula;
+                formulaBox.style.display = 'block';
+            } else {
+                // レシピが選択されていない場合は計算式を非表示
+                document.getElementById('cookEnergyFormula').style.display = 'none';
+            }
+        }
+
+        // 料理エナジーのプリセット選択時の処理（削除）
+        // この関数は不要になったが、互換性のため空関数として残す
+        function updateCookEnergy() {
+            // 何もしない
         }
 
         // 食材スロットラベルの更新
@@ -886,6 +1459,398 @@
                 const label = document.getElementById(`foodLv60Label${slot.label}`);
                 label.textContent = `${slot.name}${slot.count}`;
             });
+        }
+
+        // モード選択時の条件付き表示制御
+        document.querySelectorAll('input[name="foodEnergyMode"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const mode = this.value;
+                const potCapacitySettings = document.getElementById('potCapacitySettings');
+                
+                if (mode === 'surplus' || mode === 'recipe' || mode === 'hybrid') {
+                    potCapacitySettings.classList.add('active');
+                } else {
+                    potCapacitySettings.classList.remove('active');
+                }
+            });
+        });
+
+        // スキル発動回数と拡張値の相互変換
+        function updatePotSkillExpansion() {
+            let activations = parseInt(document.getElementById('potSkillActivations').value) || 0;
+            
+            // 7回以上の場合は拡張値を200に固定
+            let expansion;
+            if (activations >= 7) {
+                expansion = 200;
+            } else {
+                expansion = activations * 31;
+            }
+            
+            document.getElementById('potSkillExpansion').value = expansion;
+            updatePotCapacityDisplay();
+        }
+
+        function updatePotSkillActivations() {
+            let expansion = parseInt(document.getElementById('potSkillExpansion').value) || 0;
+            
+            // 上限チェック：200まで
+            if (expansion > 200) {
+                expansion = 200;
+                document.getElementById('potSkillExpansion').value = 200;
+            }
+            
+            // 200の場合は7回として表示
+            if (expansion === 200) {
+                document.getElementById('potSkillActivations').value = 7;
+            } else if (expansion % 31 === 0) {
+                // 31で割り切れる場合のみ回数を更新
+                const activations = expansion / 31;
+                document.getElementById('potSkillActivations').value = activations;
+            }
+            updatePotCapacityDisplay();
+        }
+
+        // 鍋容量計算関数
+        function calculatePotCapacity() {
+            const baseCapacity = parseInt(document.getElementById('potBaseCapacity').value);
+            const skillExpansion = parseInt(document.getElementById('potSkillExpansion').value);
+            const campTicket = document.getElementById('campTicket').checked;  // 上の「その他設定」から取得
+            const eventBonus = parseFloat(document.getElementById('potEventBonus').value);
+            const weekendBonus = document.getElementById('potWeekendBonus').checked;
+
+            const formulaParts = [];
+            
+            // ステップ1: イベント補正
+            let capacity = Math.round(baseCapacity * eventBonus);
+            if (eventBonus !== 1.0) {
+                formulaParts.push(`Step 1 (イベント補正): ${baseCapacity} × ${eventBonus.toFixed(1)} = ${capacity}`);
+            } else {
+                formulaParts.push(`Step 1 (イベント補正): ${baseCapacity} × ${eventBonus.toFixed(1)} = ${capacity}`);
+            }
+
+            // ステップ2: 日曜補正
+            if (weekendBonus) {
+                const beforeWeekend = capacity;
+                capacity = Math.round(capacity * 2);
+                formulaParts.push(`Step 2 (ウィークエンド): ${beforeWeekend} × 2 = ${capacity}`);
+            } else {
+                formulaParts.push(`Step 2 (ウィークエンド): 補正なし`);
+            }
+
+            // ステップ3: スキル加算
+            if (skillExpansion > 0) {
+                const beforeSkill = capacity;
+                capacity += skillExpansion;
+                formulaParts.push(`Step 3 (スキル拡張): ${beforeSkill} + ${skillExpansion} = ${capacity}`);
+            } else {
+                formulaParts.push(`Step 3 (スキル拡張): +0`);
+            }
+
+            // ステップ4: CT補正
+            if (campTicket) {
+                const beforeCT = capacity;
+                capacity = Math.round(capacity * 1.5);
+                formulaParts.push(`Step 4 (いいキャンプチケット): ${beforeCT} × 1.5 = ${capacity}`);
+            } else {
+                formulaParts.push(`Step 4 (いいキャンプチケット): 補正なし`);
+            }
+
+            formulaParts.push(`\n最終鍋容量: ${capacity}個`);
+
+            // 計算式を表示
+            const formulaBox = document.getElementById('potCapacityFormula');
+            formulaBox.textContent = formulaParts.join('\n');
+            formulaBox.style.display = 'block';
+
+            return capacity;
+        }
+
+        // 鍋容量表示を更新
+        function updatePotCapacityDisplay() {
+            const capacity = calculatePotCapacity();
+            document.getElementById('finalPotCapacity').textContent = capacity;
+        }
+
+        // 鍋容量をリアルタイム更新
+        ['potBaseCapacity', 'potSkillExpansion', 'potEventBonus', 'potWeekendBonus', 'campTicket'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('change', updatePotCapacityDisplay);
+                element.addEventListener('input', updatePotCapacityDisplay);
+            }
+        });
+
+        // レシピレベルと料理イベントボーナスの変更時に料理エナジーを再計算
+        ['recipeLevel', 'recipeCookEventBonus'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('change', updateCookEnergyFromRecipe);
+                element.addEventListener('input', updateCookEnergyFromRecipe);
+            }
+        });
+
+        // カスタムレシピの入力欄にもイベントリスナーを追加
+        ['customRecipeBonus', 'customRecipeFoodType1', 'customRecipeFoodCount1', 
+         'customRecipeFoodType2', 'customRecipeFoodCount2',
+         'customRecipeFoodType3', 'customRecipeFoodCount3',
+         'customRecipeFoodType4', 'customRecipeFoodCount4'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('change', updateCookEnergyFromRecipe);
+                element.addEventListener('input', updateCookEnergyFromRecipe);
+            }
+        });
+
+        // 確率計算関数（正規分布近似）
+        function calculateRecipeProbability(foodCountPerDay, requiredCount) {
+            // 1回あたりの期待値と分散（1個/2個/4個が各1/3の確率）
+            const values = [1, 2, 4];
+            const prob = 1/3;
+            const expectedValue = (1 + 2 + 4) / 3; // 7/3 ≈ 2.33
+            
+            // 分散計算
+            const variance = values.reduce((sum, v) => {
+                return sum + prob * Math.pow(v - expectedValue, 2);
+            }, 0);
+            
+            // N回試行での期待値と標準偏差
+            const mu = foodCountPerDay * expectedValue;
+            const sigma = Math.sqrt(foodCountPerDay * variance);
+            
+            // 標準正規分布の累積分布関数（近似）
+            function normalCDF(x) {
+                const t = 1 / (1 + 0.2316419 * Math.abs(x));
+                const d = 0.3989423 * Math.exp(-x * x / 2);
+                const prob = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+                return x > 0 ? 1 - prob : prob;
+            }
+            
+            // M個以上集められる確率
+            const z = (requiredCount - mu) / sigma;
+            const probability = 1 - normalCDF(z);
+            
+            return probability * 100; // パーセント表示
+        }
+
+        // 食材エナジー計算（モード別）
+        // foodCountByTypeは食材名: 個数（期待値）のマップ
+        // activeRatioは積極運用比率（0-1）、1の場合は100%積極運用
+        function calculateFoodEnergy(mode, foodCountByType, avgFoodEnergy, fbMultiplier, recipeCookEventBonus, activeRatio = 1.0) {
+            const recipeSelect = document.getElementById('recipeSelect').value;
+            const recipeLevel = parseInt(document.getElementById('recipeLevel').value);
+            const potCapacity = calculatePotCapacity();
+            
+            let foodEnergyBeforeFB = 0;
+            let probabilityText = '';
+            let breakdown = '';  // 食材の内訳
+            
+            // 合計食材数を計算
+            let totalFoodCount = 0;
+            let foodName = '';
+            for (const [name, count] of Object.entries(foodCountByType)) {
+                totalFoodCount += count;
+                if (count > 0) foodName = name;  // 代表的な食材名
+            }
+            
+            switch(mode) {
+                case 'ignore':
+                    // 食材度外視モード
+                    foodEnergyBeforeFB = 0;
+                    breakdown = `${totalFoodCount.toFixed(2)}個の${foodName}は全て度外視`;
+                    break;
+                    
+                case 'unlimited':
+                    // 食材無限ごちゃまぜモード
+                    foodEnergyBeforeFB = totalFoodCount * avgFoodEnergy;
+                    breakdown = `${totalFoodCount.toFixed(2)}個の${foodName}は全て無限ごちゃまぜとして評価`;
+                    break;
+                    
+                case 'surplus':
+                    // 食材余剰モード
+                    if (!recipeSelect) {
+                        alert('レシピを選択してください');
+                        return { energyBeforeFB: 0, probability: '', breakdown: '' };
+                    }
+                    
+                    let recipe = recipeSelect === 'custom' ? getCustomRecipeData() : RECIPES[recipeSelect];
+                    let recipeTotalIngredients;
+                    
+                    if (recipeSelect === 'custom') {
+                        recipeTotalIngredients = recipe.totalIngredients;
+                    } else {
+                        recipeTotalIngredients = Object.values(recipe.ingredients).reduce((sum, val) => sum + val, 0);
+                    }
+                    
+                    // 鍋容量チェック
+                    if (potCapacity < recipeTotalIngredients) {
+                        // レシピを作れないので、ごちゃまぜモードと同じ処理
+                        foodEnergyBeforeFB = totalFoodCount * avgFoodEnergy;
+                        breakdown = `${totalFoodCount.toFixed(2)}個の${foodName}は全て無限ごちゃまぜとして評価（鍋容量不足）`;
+                    } else {
+                        // 余剰計算
+                        const surplusPerMeal = potCapacity - recipeTotalIngredients;
+                        const surplusFor3Meals = surplusPerMeal * 3;
+                        
+                        if (totalFoodCount <= surplusFor3Meals) {
+                            // 全て余剰として評価
+                            foodEnergyBeforeFB = totalFoodCount * avgFoodEnergy;
+                            breakdown = `${totalFoodCount.toFixed(2)}個の${foodName}のうち、${totalFoodCount.toFixed(2)}個が余剰食材として評価（余剰枠${surplusFor3Meals.toFixed(0)}個以内）`;
+                        } else {
+                            // 余剰分のみ評価
+                            foodEnergyBeforeFB = surplusFor3Meals * avgFoodEnergy;
+                            const ignored = totalFoodCount - surplusFor3Meals;
+                            breakdown = `${totalFoodCount.toFixed(2)}個の${foodName}のうち、${surplusFor3Meals.toFixed(0)}個が余剰食材として評価、${ignored.toFixed(2)}個が度外視`;
+                        }
+                    }
+                    break;
+                    
+                case 'recipe':
+                    // 食材レシピ補正モード
+                    if (!recipeSelect) {
+                        alert('レシピを選択してください');
+                        return { energyBeforeFB: 0, probability: '', breakdown: '' };
+                    }
+                    
+                    const recipeData = recipeSelect === 'custom' ? getCustomRecipeData() : RECIPES[recipeSelect];
+                    const recipeLevelBonus = RECIPE_LEVEL_BONUS[recipeLevel - 1];
+                    const cookEventMultiplier = 1 + (recipeCookEventBonus / 100);
+                    
+                    // レシピに必要な食材が含まれているかチェック
+                    let relevantFoodCount = 0;
+                    let relevantFoodName = '';
+                    for (const [name, count] of Object.entries(foodCountByType)) {
+                        if (recipeData.ingredients[name]) {
+                            relevantFoodCount += count;
+                            relevantFoodName = name;
+                        }
+                    }
+                    
+                    if (relevantFoodCount === 0) {
+                        // レシピに必要な食材を持っていない = 度外視
+                        foodEnergyBeforeFB = 0;
+                        breakdown = `${totalFoodCount.toFixed(2)}個の食材は全て度外視（レシピに不要な食材）`;
+                    } else {
+                        // レシピ3食分の必要量
+                        const recipe3MealsRequired = recipeData.ingredients[relevantFoodName] * 3;
+                        
+                        if (relevantFoodCount <= recipe3MealsRequired) {
+                            // 全てレシピ分として評価
+                            foodEnergyBeforeFB = relevantFoodCount * avgFoodEnergy * recipeData.bonus * recipeLevelBonus * cookEventMultiplier;
+                            breakdown = `${relevantFoodCount.toFixed(2)}個の${relevantFoodName}のうち、${relevantFoodCount.toFixed(2)}個がレシピ補正を受けて評価（必要${recipe3MealsRequired.toFixed(0)}個以内）`;
+                        } else {
+                            // 3食分のみ評価
+                            foodEnergyBeforeFB = recipe3MealsRequired * avgFoodEnergy * recipeData.bonus * recipeLevelBonus * cookEventMultiplier;
+                            const ignored = relevantFoodCount - recipe3MealsRequired;
+                            breakdown = `${relevantFoodCount.toFixed(2)}個の${relevantFoodName}のうち、${recipe3MealsRequired.toFixed(0)}個がレシピ補正を受けて評価、${ignored.toFixed(2)}個が度外視`;
+                        }
+                        
+                        // 確率計算（100%運用時のみ）
+                        if (activeRatio === 1.0 && recipe3MealsRequired > 0) {
+                            const probability = calculateRecipeProbability(relevantFoodCount, recipe3MealsRequired);
+                            probabilityText = `参考：単体で3食分の食材（${relevantFoodName}）を集められる確率：${probability.toFixed(1)}%`;
+                        }
+                    }
+                    break;
+                    
+                case 'hybrid':
+                    // 食材ハイブリッドモード
+                    if (!recipeSelect) {
+                        alert('レシピを選択してください');
+                        return { energyBeforeFB: 0, probability: '' };
+                    }
+                    
+                    const recipeInfo = recipeSelect === 'custom' ? getCustomRecipeData() : RECIPES[recipeSelect];
+                    let recipeTotalIngredientsHybrid;
+                    
+                    if (recipeSelect === 'custom') {
+                        recipeTotalIngredientsHybrid = recipeInfo.totalIngredients;
+                    } else {
+                        recipeTotalIngredientsHybrid = Object.values(recipeInfo.ingredients).reduce((sum, val) => sum + val, 0);
+                    }
+                    
+                    const recipeLevelBonusHybrid = RECIPE_LEVEL_BONUS[recipeLevel - 1];
+                    const cookEventMultiplierHybrid = 1 + (recipeCookEventBonus / 100);
+                    
+                    // 鍋容量チェック
+                    if (potCapacity < recipeTotalIngredientsHybrid) {
+                        // レシピを作れないので、ごちゃまぜモードと同じ処理
+                        let totalCount = 0;
+                        for (const [foodName, count] of Object.entries(foodCountByType)) {
+                            totalCount += count;
+                        }
+                        foodEnergyBeforeFB = totalCount * avgFoodEnergy;
+                    } else {
+                        // レシピに必要な食材数
+                        let relevantFoodCountHybrid = 0;
+                        let relevantFoodNameHybrid = '';
+                        let recipe3MealsTotalHybrid = 0;
+                        
+                        for (const [foodName, count] of Object.entries(foodCountByType)) {
+                            if (recipeInfo.ingredients[foodName]) {
+                                relevantFoodCountHybrid += count;
+                                relevantFoodNameHybrid = foodName;
+                                recipe3MealsTotalHybrid = recipeInfo.ingredients[foodName] * 3;
+                            }
+                        }
+                        
+                        // 余剰計算
+                        const surplusPerMealHybrid = potCapacity - recipeTotalIngredientsHybrid;
+                        const surplusFor3MealsHybrid = surplusPerMealHybrid * 3;
+                        
+                        let recipeEnergyBeforeFB = 0;
+                        let surplusEnergyBeforeFB = 0;
+                        let recipeCount = 0;
+                        let surplusCount = 0;
+                        let ignoredCount = 0;
+                        
+                        if (relevantFoodCountHybrid === 0) {
+                            // レシピに必要な食材を持っていない = 全て余剰
+                            const actualSurplus = Math.min(totalFoodCount, surplusFor3MealsHybrid);
+                            surplusEnergyBeforeFB = actualSurplus * avgFoodEnergy;
+                            surplusCount = actualSurplus;
+                            ignoredCount = totalFoodCount - actualSurplus;
+                        } else if (relevantFoodCountHybrid <= recipe3MealsTotalHybrid) {
+                            // 全てレシピ分として評価
+                            recipeEnergyBeforeFB = relevantFoodCountHybrid * avgFoodEnergy * recipeInfo.bonus * recipeLevelBonusHybrid * cookEventMultiplierHybrid;
+                            recipeCount = relevantFoodCountHybrid;
+                        } else {
+                            // レシピ3食分
+                            recipeEnergyBeforeFB = recipe3MealsTotalHybrid * avgFoodEnergy * recipeInfo.bonus * recipeLevelBonusHybrid * cookEventMultiplierHybrid;
+                            recipeCount = recipe3MealsTotalHybrid;
+                            
+                            // 余剰分
+                            const excessFood = relevantFoodCountHybrid - recipe3MealsTotalHybrid;
+                            const actualSurplus = Math.min(excessFood, surplusFor3MealsHybrid);
+                            surplusEnergyBeforeFB = actualSurplus * avgFoodEnergy;
+                            surplusCount = actualSurplus;
+                            ignoredCount = excessFood - actualSurplus;
+                        }
+                        
+                        foodEnergyBeforeFB = recipeEnergyBeforeFB + surplusEnergyBeforeFB;
+                        
+                        // breakdown作成
+                        const breakdownParts = [];
+                        if (recipeCount > 0) breakdownParts.push(`${recipeCount.toFixed(2)}個がレシピ補正`);
+                        if (surplusCount > 0) breakdownParts.push(`${surplusCount.toFixed(2)}個が余剰評価`);
+                        if (ignoredCount > 0) breakdownParts.push(`${ignoredCount.toFixed(2)}個が度外視`);
+                        
+                        if (relevantFoodCountHybrid > 0) {
+                            breakdown = `${relevantFoodCountHybrid.toFixed(2)}個の${relevantFoodNameHybrid}のうち、${breakdownParts.join('、')}`;
+                        } else {
+                            breakdown = `${totalFoodCount.toFixed(2)}個の食材のうち、${breakdownParts.join('、')}`;
+                        }
+                        
+                        // 確率計算（100%運用時のみ）
+                        if (activeRatio === 1.0 && recipe3MealsTotalHybrid > 0) {
+                            const probability = calculateRecipeProbability(relevantFoodCountHybrid, recipe3MealsTotalHybrid);
+                            probabilityText = `参考：3食分（${relevantFoodNameHybrid}）を集められる確率：${probability.toFixed(1)}%`;
+                        }
+                    }
+                    break;
+            }
+            
+            return { energyBeforeFB: foodEnergyBeforeFB, probability: probabilityText, breakdown: breakdown };
         }
 
         function calculate() {
@@ -918,7 +1883,6 @@
             const cookEnergy = parseFloat(document.getElementById('cookEnergy').value);
             const replacementEnergy = parseFloat(document.getElementById('replacementEnergy').value) || 0;
             const replacementIncludesFB = document.getElementById('replacementIncludesFB').checked;
-            const ignoreFoodEnergy = document.getElementById('ignoreFoodEnergy').checked;
             const baseSkillLevel = parseInt(document.getElementById('skillLevel').value);
             
             const exSpeed = parseFloat(document.querySelector('input[name="exSpeed"]:checked').value);
@@ -931,6 +1895,10 @@
             const eventSkillLevel = parseInt(document.getElementById('eventSkillLevel').value) || 0;
             const eventCookEnergy = parseFloat(document.getElementById('eventCookEnergy').value) / 100;
             
+            // 食材エナジーモード
+            const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
+            const recipeCookEventBonus = parseFloat(document.getElementById('recipeCookEventBonus').value) || 0;
+
             // スキルレベル計算（基本値 + イベント補正、上限6）
             const skillLevel = Math.min(baseSkillLevel + eventSkillLevel, 6);
 
@@ -938,32 +1906,25 @@
             const useReplacement = replacementEnergy > 0;
 
             // 1. おてつだいスピード計算
-            // レベルによる基礎おてスピ計算（元気補正前）
-            // 1レベルあたり0.2%短縮
             const levelSpeedBonus = 1 - 0.002 * (level - 1);
             const currentRawSpeed = pokemon.rawBaseSpeed * levelSpeedBonus;
             
-            // 元気補正を適用（元気上限時は0.45倍）
             const energyBonus = 0.45;
             let baseSpeed = currentRawSpeed * energyBonus;
             
-            // サブスキル補正値（上限35%）
             let subSkillBonus = 0;
             if (speedM) subSkillBonus += 0.14;
             if (speedS) subSkillBonus += 0.07;
             subSkillBonus += 0.05 * otebonus;
             subSkillBonus = Math.min(subSkillBonus, 0.35);
             
-            // おてスピ計算
             let speedFormulaParts = [`基礎${pokemon.rawBaseSpeed.toFixed(0)}`];
             
-            // レベル補正の表示（Lv1以外の場合）
             if (level !== 1) {
                 const levelDiff = level - 1;
                 speedFormulaParts.push(`×(1-0.002×${levelDiff})(Lv)`);
             }
             
-            // 元気補正の表示
             speedFormulaParts.push(`×${energyBonus.toFixed(2)}(元気)`);
             
             let currentSpeed = baseSpeed * (1 - subSkillBonus);
@@ -998,7 +1959,6 @@
             // 2. 食材確率計算
             let foodProb = pokemon.foodProb;
             
-            // サブスキル補正（加算）
             let subSkillFoodBonus = 0;
             if (foodM) subSkillFoodBonus += 0.36;
             if (foodS) subSkillFoodBonus += 0.18;
@@ -1016,7 +1976,6 @@
             
             let skillProb = pokemon.skillProb;
             
-            // サブスキル補正（加算）
             let subSkillSkillBonus = 0;
             if (skillM) subSkillSkillBonus += 0.36;
             if (skillS) subSkillSkillBonus += 0.18;
@@ -1045,57 +2004,44 @@
             const skillCountPerDay = helpCount * skillProb;
 
             // 4. エナジー計算
-            // レベルに応じたきのみエナジー単価
             const berryBaseEnergy = pokemon.berryBaseEnergy;
-            const berryEnergyPerBerry = Math.max(
-                berryBaseEnergy + (level - 1),
-                berryBaseEnergy * Math.pow(1.025, level - 1)
-            );
+            const berryEnergyPerBerry = calculateBerryEnergy(berryBaseEnergy, level);
             
-            // きのみエナジー（1回あたり）
-            let berryPerCount = 2; // 基本2個
-            if (berryS) berryPerCount = 3; // きのみS: 3個
+            let berryPerCount = 2;
+            if (berryS) berryPerCount = 3;
             
             let berryEnergyPerHelp = berryEnergyPerBerry * berryPerCount;
             if (favoriteBerry) {
                 if (exOther === 'berry') {
-                    berryEnergyPerHelp = berryEnergyPerHelp * 2.4; // EX好物2.4倍
+                    berryEnergyPerHelp = berryEnergyPerHelp * 2.4;
                 } else {
-                    berryEnergyPerHelp = berryEnergyPerHelp * 2; // 通常好物2倍
+                    berryEnergyPerHelp = berryEnergyPerHelp * 2;
                 }
             }
 
             // 食材計算（ABCシステム）
-            // 食材構成の取得
             const foodLv30 = document.querySelector('input[name="foodLv30"]:checked').value;
             const foodLv60 = document.querySelector('input[name="foodLv60"]:checked').value;
 
-            // 使用する食材スロットを決定
             const activeFoodSlots = [];
-
-            // lv1スロットは常に有効
             activeFoodSlots.push(...pokemon.foodSlots.lv1);
 
-            // lv30スロット: レベル30以上なら有効
             if (level >= 30) {
                 const lv30Slot = pokemon.foodSlots.lv30.find(slot => slot.label === foodLv30);
                 if (lv30Slot) activeFoodSlots.push(lv30Slot);
             }
 
-            // lv60スロット: レベル60以上なら有効
             if (level >= 60) {
                 const lv60Slot = pokemon.foodSlots.lv60.find(slot => slot.label === foodLv60);
                 if (lv60Slot) activeFoodSlots.push(lv60Slot);
             }
 
-            // EX補正とイベント補正を各スロットに適用
             const exFoodBonus = (exOther === 'food') ? 1 : 0;
-            const eventFoodBonus = eventFoodCount; // イベント補正の食材個数
+            const eventFoodBonus = eventFoodCount;
 
-            // 平均個数と平均エナジーを計算
             let totalCount = 0;
             let totalEnergy = 0;
-            const foodDetailParts = []; // 詳細表示用
+            const foodDetailParts = [];
 
             activeFoodSlots.forEach(slot => {
                 const count = slot.count + exFoodBonus + eventFoodBonus;
@@ -1103,40 +2049,33 @@
                 const slotEnergy = count * slot.energy;
                 totalEnergy += slotEnergy;
                 
-                // 詳細表示用の文字列を構築
                 foodDetailParts.push(`${slot.name}${count}個×${slot.energy}`);
             });
 
             const avgFoodCount = totalCount / activeFoodSlots.length;
             const avgFoodEnergy = totalEnergy / activeFoodSlots.length;
-            const avgFoodCountWithEvent = avgFoodCount; // すでにイベント補正込み
 
-            // 詳細表示用の文字列を完成
             const foodDetailFormula = `（${foodDetailParts.join(' + ')}）÷ ${activeFoodSlots.length}`;
             
-
             // 料理エナジー（1回あたり）
-            // イベント補正を適用
             const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy);
 
             // スペック表示
             document.getElementById('pokemonName').textContent = pokemon.name;
             document.getElementById('displayLevel').textContent = level;
             
-            // きのみエナジー単価の計算式情報
             document.getElementById('berryUnitEnergy').textContent = Math.floor(berryEnergyPerBerry);
             document.getElementById('berryBaseEnergy').textContent = berryBaseEnergy;
+            document.getElementById('berryBaseEnergy2').textContent = berryBaseEnergy;
             document.getElementById('berryLinear').textContent = level - 1;
             document.getElementById('berryExponent').textContent = level - 1;
             
-            // おてスピの計算式
             document.getElementById('finalSpeed').textContent = finalSpeed.toFixed(2);
             document.getElementById('speedFormula').textContent = speedFormulaText;
             
             document.getElementById('helpCount').textContent = helpCount.toFixed(2);
             document.getElementById('berryEnergy').textContent = berryEnergyPerHelp.toFixed(1);
             
-            // きのみお手伝い回数
             const berryHelpCount = helpCount * berryProb;
             document.getElementById('berryHelpCount').textContent = berryHelpCount.toFixed(2);
             document.getElementById('berryProbPercent').textContent = (berryProb * 100).toFixed(1);
@@ -1144,13 +2083,12 @@
             document.getElementById('foodEnergy').textContent = avgFoodEnergy.toFixed(1);
             document.getElementById('foodEnergyFormula').textContent = foodDetailFormula;
             
-            // 食材お手伝い回数
             const foodHelpCount = helpCount * foodProb;
             document.getElementById('foodHelpCount').textContent = foodHelpCount.toFixed(2);
             document.getElementById('foodProbPercent').textContent = (foodProb * 100).toFixed(1);
             
-            // 食材個数の期待値（1日）- 食材種類ごとに分けて計算
-            const foodCountByType = {}; // 食材名: 個数のマップ
+            // 食材個数の期待値（1日）
+            const foodCountByType = {};
             const slotCount = activeFoodSlots.length;
 
             activeFoodSlots.forEach(slot => {
@@ -1162,17 +2100,24 @@
                 }
             });
 
-            // HTML生成
             let foodCountHTML = '';
             for (const [foodName, count] of Object.entries(foodCountByType)) {
                 foodCountHTML += `<div style="color: #555; font-size: 14px;">・${foodName}：${count.toFixed(2)}個/日</div>`;
             }
             document.getElementById('foodCountBreakdown').innerHTML = foodCountHTML;
             
+            // 鍋容量表示（レシピモードの場合のみ）
+            if (foodEnergyMode === 'surplus' || foodEnergyMode === 'recipe' || foodEnergyMode === 'hybrid') {
+                const potCapacity = calculatePotCapacity();
+                document.getElementById('potCapacityDisplay').style.display = 'flex';
+                document.getElementById('potCapacityValue').textContent = potCapacity;
+            } else {
+                document.getElementById('potCapacityDisplay').style.display = 'none';
+            }
+            
             document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
             document.getElementById('skillFormula').textContent = skillFormulaText;
             
-            // スキル1回あたりの効果量
             document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyPerSkill).toLocaleString();
             document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
             const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
@@ -1188,7 +2133,6 @@
             if (hasWarning) {
                 warningMessage.style.display = 'block';
                 
-                // 警告内容を動的に生成
                 let warningText = '';
                 if (exOther === 'skill' && eventSkill > 0) {
                     warningText += '<strong>EX補正（スキル1.25倍）</strong>と<strong>イベント補正（スキル確率アップ）</strong>が同時に選択されています。<br>';
@@ -1203,41 +2147,53 @@
                     warningText += 'このツールでは理論上の計算を行っていますが、実際のゲーム内での挙動と大きく乖離する可能性があります。';
                 }
                 
-                document.querySelector('#warningMessage > div > div:nth-child(2) > div:nth-child(2)').innerHTML = warningText;
+                document.querySelector('#warningMessage > div > div:nth-child(2)').innerHTML = warningText;
             } else {
                 warningMessage.style.display = 'none';
             }
 
             // 100%運用時の基準値計算
-            // 100% 毎分タップ
             const fullActiveBerryCount = helpCount * berryProb;
-            const fullActiveFoodPickupCount = helpCount * foodProb; // 食材を拾う回数
+            const fullActiveFoodPickupCount = helpCount * foodProb;
             
-            // きのみエナジー（イベント補正でberryPerCountに+eventBerryCount）
             const activeBerryPerCount = berryPerCount + eventBerryCount;
             let fullActiveBerryEnergyBeforeFB = fullActiveBerryCount * berryEnergyPerBerry * activeBerryPerCount;
             if (favoriteBerry) {
                 if (exOther === 'berry') {
-                    fullActiveBerryEnergyBeforeFB = fullActiveBerryEnergyBeforeFB * 2.4; // EX好物2.4倍
+                    fullActiveBerryEnergyBeforeFB = fullActiveBerryEnergyBeforeFB * 2.4;
                 } else {
-                    fullActiveBerryEnergyBeforeFB = fullActiveBerryEnergyBeforeFB * 2; // 通常好物2倍
+                    fullActiveBerryEnergyBeforeFB = fullActiveBerryEnergyBeforeFB * 2;
                 }
             }
             
-            // 食材エナジー（イベント補正を含む）
-            let fullActiveFoodEnergyBeforeFB = fullActiveFoodPickupCount * avgFoodEnergy;
-            if (ignoreFoodEnergy) {
-                fullActiveFoodEnergyBeforeFB = 0; // 食材エナジー度外視モード
-            }
-            const fullActiveCookEnergyBeforeFB = skillCountPerDay * cookEnergyPerSkill; // スキル回数 × 1回あたり
+            // 食材エナジー計算（新しいモード対応）
+            const foodEnergyResult = calculateFoodEnergy(
+                foodEnergyMode,
+                foodCountByType,
+                avgFoodEnergy,
+                fbMultiplier,
+                recipeCookEventBonus,
+                1.0  // 100%積極運用
+            );
             
-            // FB適用
+            let fullActiveFoodEnergyBeforeFB = foodEnergyResult.energyBeforeFB;
+            const probabilityText = foodEnergyResult.probability;
+            
+            // 確率表示
+            if (probabilityText && (foodEnergyMode === 'recipe' || foodEnergyMode === 'hybrid')) {
+                document.getElementById('recipeProbabilityDisplay').style.display = 'block';
+                document.getElementById('recipeProbabilityText').textContent = probabilityText;
+            } else {
+                document.getElementById('recipeProbabilityDisplay').style.display = 'none';
+            }
+            
+            const fullActiveCookEnergyBeforeFB = skillCountPerDay * cookEnergyPerSkill;
+            
             const fullActiveBerryEnergy = fullActiveBerryEnergyBeforeFB * fbMultiplier;
             const fullActiveFoodEnergy = fullActiveFoodEnergyBeforeFB * fbMultiplier;
             const fullActiveCookEnergy = fullActiveCookEnergyBeforeFB * fbMultiplier;
             const fullActiveTotal = fullActiveBerryEnergy + fullActiveFoodEnergy + fullActiveCookEnergy;
 
-            // 食材抽選の表示テキスト（ABCシステムに基づく）
             const foodFormulaText = foodDetailFormula;
             
             document.getElementById('fullActiveBerry').textContent = Math.round(fullActiveBerryEnergy).toLocaleString();
@@ -1250,7 +2206,16 @@
             document.getElementById('fullActiveFoodPickupCount').textContent = fullActiveFoodPickupCount.toFixed(2);
             document.getElementById('fullActiveFoodFormula').textContent = foodFormulaText;
             document.getElementById('fullActiveFoodFB').textContent = fbMultiplier.toFixed(2);
-            document.getElementById('fullActiveFoodIgnoreLabel').textContent = ignoreFoodEnergy ? ' ※度外視' : '';
+            document.getElementById('fullActiveFoodIgnoreLabel').textContent = foodEnergyMode === 'ignore' ? ' ※度外視' : '';
+            
+            // 食材breakdownの表示
+            const breakdownElement = document.getElementById('fullActiveFoodBreakdown');
+            if (foodEnergyResult.breakdown && (foodEnergyMode === 'surplus' || foodEnergyMode === 'recipe' || foodEnergyMode === 'hybrid')) {
+                breakdownElement.textContent = '└ ' + foodEnergyResult.breakdown;
+                breakdownElement.style.display = 'block';
+            } else {
+                breakdownElement.style.display = 'none';
+            }
             
             document.getElementById('fullActiveCook').textContent = Math.round(fullActiveCookEnergy).toLocaleString();
             document.getElementById('fullActiveSkillExpected').textContent = skillCountPerDay.toFixed(2);
@@ -1262,17 +2227,14 @@
             // 100% いつの間に育成 or 入替候補
             let fullIdleTotal;
             if (useReplacement) {
-                // 入替候補を使う場合
                 const replacementEnergyWithFB = replacementIncludesFB ? replacementEnergy : replacementEnergy * fbMultiplier;
                 fullIdleTotal = replacementEnergyWithFB;
                 document.getElementById('idleModeName').textContent = '100% 入替候補ポケモン';
                 document.getElementById('fullIdleBerry').textContent = Math.round(replacementEnergyWithFB).toLocaleString();
                 document.getElementById('fullIdleTotal').textContent = Math.round(fullIdleTotal).toLocaleString();
-                // 入替候補の場合は詳細情報を非表示
                 document.getElementById('fullIdleDetail').style.display = 'none';
             } else {
-                // ラグラージいつ育を使う場合
-                const fullIdleBerryCount = helpCount * 1.0; // きのみ確率100%
+                const fullIdleBerryCount = helpCount * 1.0;
                 const fullIdleBerryEnergyBeforeFB = fullIdleBerryCount * berryEnergyPerHelp;
                 const fullIdleBerryEnergy = fullIdleBerryEnergyBeforeFB * fbMultiplier;
                 fullIdleTotal = fullIdleBerryEnergy;
@@ -1284,14 +2246,12 @@
                 document.getElementById('fullIdleBerryUnit').textContent = Math.floor(berryEnergyPerBerry);
                 document.getElementById('fullIdleBerryFB').textContent = fbMultiplier.toFixed(2);
                 document.getElementById('fullIdleTotal').textContent = Math.round(fullIdleTotal).toLocaleString();
-                // いつ育の場合は詳細情報を表示
                 document.getElementById('fullIdleDetail').style.display = 'block';
             }
 
             // 5. スキル0-N回それぞれの複合期待値計算
-            // スキルレベルに応じた発動回数の上限を計算
-            const skillEffectPercent = SKILL_EFFECTS[skillLevel] * 100; // パーセント表示（例: 0.04 → 4%）
-            const maxActivations = Math.ceil(70 / skillEffectPercent); // 70%を効果量で割って切り上げ
+            const skillEffectPercent = SKILL_EFFECTS[skillLevel] * 100;
+            const maxActivations = Math.ceil(70 / skillEffectPercent);
             
             const resultsTable = document.getElementById('resultsTable');
             resultsTable.innerHTML = '';
@@ -1302,7 +2262,6 @@
 
             for (let n = 0; n <= maxActivations; n++) {
                 if (n === 0) {
-                    // 発動回数0：ラグラージを使わず、いつ育/入替候補のみ
                     const idleRatio = 1.0;
                     let totalExpected;
                     
@@ -1331,12 +2290,11 @@
                 }
                 
                 const successRate = getSuccessRate(skillLevel, n);
-                const successExpected = successRate * 3; // 1日3回料理
+                const successExpected = successRate * 3;
                 const skillActivationExpected = successExpected * n;
                 
-                // 正しい計算：1日に何セット繰り返せるか
                 const loopCount = skillCountPerDay / skillActivationExpected;
-                const activeRatio = 1 / loopCount; // = skillActivationExpected / skillCountPerDay
+                const activeRatio = 1 / loopCount;
                 const idleRatio = 1 - activeRatio;
 
                 // 積極運用でのエナジー
@@ -1344,45 +2302,50 @@
                 const activeBerryCount = activeHelpCount * berryProb;
                 const activeFoodCount = activeHelpCount * foodProb;
                 
-                // きのみエナジー（イベント補正を適用）
                 let activeBerryEnergy = activeBerryCount * berryEnergyPerBerry * activeBerryPerCount;
                 if (favoriteBerry) {
                     if (exOther === 'berry') {
-                        activeBerryEnergy = activeBerryEnergy * 2.4; // EX好物2.4倍
+                        activeBerryEnergy = activeBerryEnergy * 2.4;
                     } else {
-                        activeBerryEnergy = activeBerryEnergy * 2; // 通常好物2倍
+                        activeBerryEnergy = activeBerryEnergy * 2;
                     }
                 }
                 
-                // 食材エナジー（イベント補正を適用）
-                let activeFoodEnergy = activeFoodCount * avgFoodEnergy;
-                if (ignoreFoodEnergy) {
-                    activeFoodEnergy = 0; // 食材エナジー度外視モード
+                // 食材エナジー（積極運用分）
+                const activeFoodCountByType = {};
+                for (const [foodName, count] of Object.entries(foodCountByType)) {
+                    activeFoodCountByType[foodName] = count * activeRatio;
                 }
-                const activeCookEnergy = cookEnergyPerSkill * n; // n回重ね
+                const activeFoodEnergyResult = calculateFoodEnergy(
+                    foodEnergyMode,
+                    activeFoodCountByType,
+                    avgFoodEnergy,
+                    fbMultiplier,
+                    recipeCookEventBonus,
+                    activeRatio  // 積極運用比率を渡す
+                );
+                let activeFoodEnergyBeforeFB = activeFoodEnergyResult.energyBeforeFB;
                 
-                const activeTotal = activeBerryEnergy + activeFoodEnergy + activeCookEnergy;
+                const activeCookEnergy = cookEnergyPerSkill * n;
+                
+                const activeTotal = activeBerryEnergy + activeFoodEnergyBeforeFB + activeCookEnergy;
 
                 // いつ育稼働時間でのエナジー
                 let idleEnergy;
                 if (useReplacement) {
-                    // 入替候補を使う場合
                     const replacementEnergyWithFB = replacementIncludesFB ? replacementEnergy : replacementEnergy * fbMultiplier;
                     idleEnergy = replacementEnergyWithFB * idleRatio;
                 } else {
-                    // ラグラージいつ育を使う場合
                     const idleHelpCount = helpCount * idleRatio;
-                    const idleBerryCount = idleHelpCount * 1.0; // きのみ確率100%
+                    const idleBerryCount = idleHelpCount * 1.0;
                     idleEnergy = idleBerryCount * berryEnergyPerHelp;
                 }
 
                 // 複合期待値（FB適用）
                 let totalExpected;
                 if (useReplacement) {
-                    // 入替候補の場合：ラグラージ積極運用のみにFB適用
                     totalExpected = activeTotal * fbMultiplier + idleEnergy;
                 } else {
-                    // いつ育の場合：全体にFB適用
                     totalExpected = (activeTotal + idleEnergy) * fbMultiplier;
                 }
 
@@ -1400,315 +2363,26 @@
                 }
             }
 
-            // テーブル表示
-            results.forEach(result => {
-                const row = document.createElement('tr');
-                if (result.n === bestRow) {
+            // テーブル生成
+            results.forEach((result, index) => {
+                const row = resultsTable.insertRow();
+                if (index === bestRow) {
                     row.className = 'best-row';
                 }
                 
-                if (result.n === 0) {
-                    // 発動回数0の場合
-                    row.innerHTML = `
-                        <td>0</td>
-                        <td>-</td>
-                        <td>0</td>
-                        <td>0%</td>
-                        <td>${Math.round(result.totalExpected).toLocaleString()}</td>
-                        <td><button class="debug-btn" onclick="showDebug(${result.n})">詳細</button></td>
-                    `;
-                } else {
-                    row.innerHTML = `
-                        <td>${result.n}</td>
-                        <td>${result.loopCount.toFixed(2)}</td>
-                        <td>${result.skillActivationExpected.toFixed(1)}</td>
-                        <td>${(result.activeRatio * 100).toFixed(0)}%</td>
-                        <td>${Math.round(result.totalExpected).toLocaleString()}</td>
-                        <td><button class="debug-btn" onclick="showDebug(${result.n})">詳細</button></td>
-                    `;
-                }
-                
-                resultsTable.appendChild(row);
+                row.insertCell(0).textContent = result.n;
+                row.insertCell(1).textContent = result.n === 0 ? '-' : result.loopCount.toFixed(2);
+                row.insertCell(2).textContent = result.n === 0 ? '-' : result.skillActivationExpected.toFixed(1);
+                row.insertCell(3).textContent = (result.activeRatio * 100).toFixed(0) + '%';
+                row.insertCell(4).textContent = Math.round(result.totalExpected).toLocaleString();
             });
 
-            // 結果データをグローバルに保存（デバッグ用）
-            window.calculationResults = {
-                results: results,
-                helpCount: helpCount,
-                berryProb: berryProb,
-                foodProb: foodProb,
-                berryEnergyPerHelp: berryEnergyPerHelp,
-                berryEnergyPerBerry: berryEnergyPerBerry,
-                berryPerCount: berryPerCount,
-                activeBerryPerCount: activeBerryPerCount,
-                eventBerryCount: eventBerryCount,
-                favoriteBerry: favoriteBerry,
-                exOther: exOther,
-                avgFoodEnergy: avgFoodEnergy,
-                avgFoodCount: avgFoodCount,
-                cookEnergyPerSkill: cookEnergyPerSkill,
-                skillLevel: skillLevel,
-                useReplacement: useReplacement,
-                replacementEnergy: replacementEnergy,
-                replacementIncludesFB: replacementIncludesFB,
-                ignoreFoodEnergy: ignoreFoodEnergy,
-                fbMultiplier: fbMultiplier,
-                fieldBonus: fieldBonus
-            };
-
-            // 比較モード名と説明の更新
-            const fbText = fieldBonus > 0 ? ` (FB ${fieldBonus}%適用)` : '';
-            if (useReplacement) {
-                document.getElementById('comparisonModeName').textContent = '入替候補';
-                const replacementFBText = replacementIncludesFB ? 'FB込み' : 'FB抜き';
-                document.getElementById('comparisonModeDesc').textContent = 
-                    `入替候補ポケモン（1日エナジー: ${Math.round(replacementEnergy).toLocaleString()} [${replacementFBText}]）と入れ替えた場合の複合期待値を計算しています。${fbText}`;
-            } else {
-                document.getElementById('comparisonModeName').textContent = 'いつ育';
-                document.getElementById('comparisonModeDesc').textContent = 
-                    `${pokemon.name}をいつの間に育成で運用した場合の複合期待値を計算しています。${fbText}`;
-            }
-
-            // 結果表示
-            document.getElementById('results').classList.add('show');
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            // 結果セクションを表示
+            document.getElementById('resultsSection').style.display = 'block';
         }
 
-        function showDebug(n) {
-            const data = window.calculationResults;
-            const result = data.results.find(r => r.n === n);
-            
-            if (!result) return;
-
-            // 発動回数0の場合
-            if (n === 0) {
-                const debugInfo = document.getElementById('debugInfo');
-                let idleEnergy;
-                
-                if (data.useReplacement) {
-                    const replacementEnergyWithFB = data.replacementIncludesFB ? data.replacementEnergy : data.replacementEnergy * data.fbMultiplier;
-                    idleEnergy = replacementEnergyWithFB;
-                } else {
-                    const idleBerryCount = data.helpCount * 1.0;
-                    const idleBerryEnergy = idleBerryCount * data.berryEnergyPerHelp;
-                    idleEnergy = idleBerryEnergy * data.fbMultiplier;
-                }
-                
-                debugInfo.innerHTML = `
-                    <div class="debug-card">
-                        <div class="debug-card-title">発動回数0の詳細</div>
-                        
-                        <div class="debug-section-title">運用方針</div>
-                        <div class="debug-grid">
-                            <div class="debug-item" style="grid-column: 1 / -1;">
-                                <div class="debug-item-label">ラグラージを一切使わず、${data.useReplacement ? '入替候補ポケモン' : 'いつの間に育成'}のみで運用</div>
-                            </div>
-                        </div>
-
-                        <div class="debug-section-title">総合</div>
-                        <div class="debug-grid">
-                            <div class="debug-item" style="grid-column: 1 / -1; background: #fff3cd;">
-                                <div class="debug-item-label">期待値（${data.useReplacement ? '入替候補' : 'いつ育'}のみ）</div>
-                                <div class="debug-item-value" style="color: #856404; font-size: 24px;">${Math.round(idleEnergy).toLocaleString()}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                document.getElementById('debugSection').style.display = 'block';
-                document.getElementById('debugSection').scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-
-            const successRate = getSuccessRate(data.skillLevel, n);
-            const successExpected = successRate * 3;
-            
-            // 積極運用の計算
-            const activeHelpCount = data.helpCount * result.activeRatio;
-            const activeBerryCount = activeHelpCount * data.berryProb;
-            const activeFoodCount = activeHelpCount * data.foodProb;
-            
-            // きのみエナジー（イベント補正を適用）
-            let activeBerryEnergy = activeBerryCount * data.berryEnergyPerBerry * data.activeBerryPerCount;
-            if (data.favoriteBerry) {
-                if (data.exOther === 'berry') {
-                    activeBerryEnergy = activeBerryEnergy * 2.4; // EX好物2.4倍
-                } else {
-                    activeBerryEnergy = activeBerryEnergy * 2; // 通常好物2倍
-                }
-            }
-            
-            // 食材エナジー（イベント補正を適用）
-            let activeFoodEnergy = activeFoodCount * data.avgFoodEnergy;
-            if (data.ignoreFoodEnergy) {
-                activeFoodEnergy = 0; // 食材エナジー度外視モード
-            }
-            const activeCookEnergy = data.cookEnergyPerSkill * n;
-            
-            const activeTotal = activeBerryEnergy + activeFoodEnergy + activeCookEnergy;
-
-            // いつ育稼働時間でのエナジー計算
-            const idleRatio = 1 - result.activeRatio;
-            let idleEnergy, idleContent;
-            
-            if (data.useReplacement) {
-                // 入替候補を使う場合
-                const replacementEnergyWithFB = data.replacementIncludesFB ? data.replacementEnergy : data.replacementEnergy * data.fbMultiplier;
-                idleEnergy = replacementEnergyWithFB * idleRatio;
-                idleContent = `
-                    <div class="debug-section-title">入替候補稼働時間（${(idleRatio * 100).toFixed(1)}%稼働）</div>
-                    <div class="debug-grid">
-                        <div class="debug-item">
-                            <div class="debug-item-label">入替候補1日エナジー（入力値）</div>
-                            <div class="debug-item-value">${Math.round(data.replacementEnergy).toLocaleString()}</div>
-                        </div>
-                        ${data.replacementIncludesFB ? '' : `
-                        <div class="debug-item">
-                            <div class="debug-item-label">FB適用後（×${data.fbMultiplier.toFixed(2)}）</div>
-                            <div class="debug-item-value">${Math.round(replacementEnergyWithFB).toLocaleString()}</div>
-                        </div>
-                        `}
-                        <div class="debug-item">
-                            <div class="debug-item-label">稼働時間比率</div>
-                            <div class="debug-item-value">${(idleRatio * 100).toFixed(1)}%</div>
-                        </div>
-                        <div class="debug-item" style="grid-column: 1 / -1; background: #e3f2fd;">
-                            <div class="debug-item-label">入替候補 合計</div>
-                            <div class="debug-item-value" style="color: #1976d2; font-size: 20px;">${Math.round(idleEnergy).toLocaleString()}</div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                // ラグラージいつ育を使う場合
-                const idleHelpCount = data.helpCount * idleRatio;
-                const idleBerryCount = idleHelpCount * 1.0;
-                const idleBerryEnergyBeforeFB = idleBerryCount * data.berryEnergyPerHelp;
-                idleEnergy = idleBerryEnergyBeforeFB;
-                idleContent = `
-                    <div class="debug-section-title">いつの間に育成（${(idleRatio * 100).toFixed(1)}%稼働）</div>
-                    <div class="debug-grid">
-                        <div class="debug-item">
-                            <div class="debug-item-label">お手伝い回数</div>
-                            <div class="debug-item-value">${idleHelpCount.toFixed(2)}回</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">きのみ回数（100%）</div>
-                            <div class="debug-item-value">${idleBerryCount.toFixed(2)}回</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">きのみエナジー（FB抜き）</div>
-                            <div class="debug-item-value">${Math.round(idleEnergy).toLocaleString()}</div>
-                        </div>
-                        <div class="debug-item" style="grid-column: 1 / -1; background: #e3f2fd;">
-                            <div class="debug-item-label">いつ育 合計（FB抜き）</div>
-                            <div class="debug-item-value" style="color: #1976d2; font-size: 20px;">${Math.round(idleEnergy).toLocaleString()}</div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // 複合期待値の計算（FB適用）
-            let totalExpectedWithFB;
-            if (data.useReplacement) {
-                totalExpectedWithFB = activeTotal * data.fbMultiplier + idleEnergy;
-            } else {
-                totalExpectedWithFB = (activeTotal + idleEnergy) * data.fbMultiplier;
-            }
-
-            // デバッグ情報の表示
-            const debugInfo = document.getElementById('debugInfo');
-            debugInfo.innerHTML = `
-                <div class="debug-card">
-                    <div class="debug-card-title">スキル${n}回発動の詳細</div>
-                    
-                    <div class="debug-section-title">基本情報</div>
-                    <div class="debug-grid">
-                        <div class="debug-item">
-                            <div class="debug-item-label">フィールドボーナス</div>
-                            <div class="debug-item-value">${data.fieldBonus}% (×${data.fbMultiplier.toFixed(2)})</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">大成功確率</div>
-                            <div class="debug-item-value">${(successRate * 100).toFixed(0)}%</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">大成功期待値（1日）</div>
-                            <div class="debug-item-value">${successExpected.toFixed(2)}回</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">スキル発動期待値（1日）</div>
-                            <div class="debug-item-value">${result.skillActivationExpected.toFixed(2)}回</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">ループ回数</div>
-                            <div class="debug-item-value">${result.loopCount.toFixed(2)}回/日</div>
-                        </div>
-                    </div>
-
-                    <div class="debug-section-title">積極運用（${(result.activeRatio * 100).toFixed(1)}%稼働）</div>
-                    <div class="debug-grid">
-                        <div class="debug-item">
-                            <div class="debug-item-label">お手伝い回数</div>
-                            <div class="debug-item-value">${activeHelpCount.toFixed(2)}回</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">きのみ回数（${(data.berryProb * 100).toFixed(1)}%）</div>
-                            <div class="debug-item-value">${activeBerryCount.toFixed(2)}回</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">きのみエナジー（FB抜き）</div>
-                            <div class="debug-item-value">${Math.round(activeBerryEnergy).toLocaleString()}</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">食材回数（${(data.foodProb * 100).toFixed(1)}%）</div>
-                            <div class="debug-item-value">${activeFoodCount.toFixed(2)}回</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">食材エナジー（FB抜き）${data.ignoreFoodEnergy ? ' ※度外視' : ''}</div>
-                            <div class="debug-item-value">${Math.round(activeFoodEnergy).toLocaleString()}</div>
-                        </div>
-                        <div class="debug-item">
-                            <div class="debug-item-label">料理エナジー（${n}回重ね）</div>
-                            <div class="debug-item-value">${Math.round(activeCookEnergy).toLocaleString()}</div>
-                        </div>
-                        <div class="debug-item" style="grid-column: 1 / -1; background: #fff3e0;">
-                            <div class="debug-item-label">積極運用 合計（FB抜き）</div>
-                            <div class="debug-item-value" style="color: #e65100; font-size: 18px;">${Math.round(activeTotal).toLocaleString()}</div>
-                        </div>
-                        <div class="debug-item" style="grid-column: 1 / -1; background: #e3f2fd;">
-                            <div class="debug-item-label">積極運用 合計（FB適用後 ×${data.fbMultiplier.toFixed(2)}）</div>
-                            <div class="debug-item-value" style="color: #1976d2; font-size: 20px;">${Math.round(activeTotal * data.fbMultiplier).toLocaleString()}</div>
-                        </div>
-                    </div>
-
-                    ${idleContent}
-
-                    <div class="debug-section-title">総合</div>
-                    <div class="debug-grid">
-                        <div class="debug-item" style="grid-column: 1 / -1; background: #fff3cd;">
-                            <div class="debug-item-label">複合期待値（積極運用 + ${data.useReplacement ? '入替候補' : 'いつ育'}）</div>
-                            <div class="debug-item-value" style="color: #856404; font-size: 24px;">${Math.round(totalExpectedWithFB).toLocaleString()}</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('debugSection').style.display = 'block';
-            document.getElementById('debugSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // ページ読み込み時の初期化
-        window.addEventListener('DOMContentLoaded', function() {
-            updateFoodSlotLabels();
-        });
-
-        // ポケモン選択時の食材ラベル更新
-        document.querySelectorAll('input[name="pokemon"]').forEach(radio => {
-            radio.addEventListener('change', updateFoodSlotLabels);
-        });
-
+        // 初期化
+        updateFoodSlotLabels();
     </script>
-    </div> <!-- container -->
-    </div> <!-- main-content -->
 </body>
 </html>
