@@ -272,6 +272,26 @@
             margin-bottom: 10px;
         }
 
+        .error-box {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .error-title {
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .error-content {
+            color: #333;
+            line-height: 1.6;
+        }
+
         .hidden {
             display: none;
         }
@@ -364,8 +384,15 @@
                 </div>
             </div>
             <div class="input-group" style="margin-top: 15px;">
-                <label class="input-label" for="otebonus">おてつだいボーナス（0-5枚）</label>
-                <input type="number" id="otebonus" min="0" max="5" value="0">
+                <label class="input-label" for="otebonus">おてつだいボーナス</label>
+                <select id="otebonus">
+                    <option value="0">0枚</option>
+                    <option value="1">1枚</option>
+                    <option value="2">2枚</option>
+                    <option value="3">3枚</option>
+                    <option value="4">4枚</option>
+                    <option value="5">5枚</option>
+                </select>
             </div>
         </div>
 
@@ -376,16 +403,16 @@
                 <label class="input-label">おてつだいスピード補正</label>
                 <div class="radio-group">
                     <div class="radio-item">
-                        <input type="radio" name="speedNature" value="1.075" id="speedNature_minus">
-                        <label for="speedNature_minus">-10%</label>
+                        <input type="radio" name="speedNature" value="0.9" id="speedNature_plus">
+                        <label for="speedNature_plus">おてスピup(-10%)</label>
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="speedNature" value="1.0" id="speedNature_normal" checked>
                         <label for="speedNature_normal">通常</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="speedNature" value="0.9" id="speedNature_plus">
-                        <label for="speedNature_plus">+10%</label>
+                        <input type="radio" name="speedNature" value="1.075" id="speedNature_minus">
+                        <label for="speedNature_minus">おてスピdown(+7.5%)</label>
                     </div>
                 </div>
             </div>
@@ -393,16 +420,16 @@
                 <label class="input-label">スキル確率補正</label>
                 <div class="radio-group">
                     <div class="radio-item">
-                        <input type="radio" name="skillNature" value="0.8" id="skillNature_minus">
-                        <label for="skillNature_minus">-20%</label>
+                        <input type="radio" name="skillNature" value="1.2" id="skillNature_plus">
+                        <label for="skillNature_plus">スキル確率up(+20%)</label>
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="skillNature" value="1.0" id="skillNature_normal" checked>
                         <label for="skillNature_normal">通常</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="skillNature" value="1.2" id="skillNature_plus">
-                        <label for="skillNature_plus">+20%</label>
+                        <input type="radio" name="skillNature" value="0.8" id="skillNature_minus">
+                        <label for="skillNature_minus">スキル確率down(-20%)</label>
                     </div>
                 </div>
             </div>
@@ -410,16 +437,16 @@
                 <label class="input-label">食材確率補正</label>
                 <div class="radio-group">
                     <div class="radio-item">
-                        <input type="radio" name="foodNature" value="0.8" id="foodNature_minus">
-                        <label for="foodNature_minus">-20%</label>
+                        <input type="radio" name="foodNature" value="1.2" id="foodNature_plus">
+                        <label for="foodNature_plus">食材確率up(+20%)</label>
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="foodNature" value="1.0" id="foodNature_normal" checked>
                         <label for="foodNature_normal">通常</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" name="foodNature" value="1.2" id="foodNature_plus">
-                        <label for="foodNature_plus">+20%</label>
+                        <input type="radio" name="foodNature" value="0.8" id="foodNature_minus">
+                        <label for="foodNature_minus">食材確率down(-20%)</label>
                     </div>
                 </div>
             </div>
@@ -708,8 +735,15 @@
         <div class="section">
             <div class="section-title">スキルレベル</div>
             <div class="input-group">
-                <label class="input-label" for="skillLevel">基本スキルレベル（1-6）</label>
-                <input type="number" id="skillLevel" min="1" max="6" value="6">
+                <label class="input-label" for="skillLevel">基本スキルレベル</label>
+                <select id="skillLevel">
+                    <option value="1">Lv1</option>
+                    <option value="2">Lv2</option>
+                    <option value="3">Lv3</option>
+                    <option value="4">Lv4</option>
+                    <option value="5">Lv5</option>
+                    <option value="6" selected>Lv6</option>
+                </select>
             </div>
         </div>
 
@@ -874,6 +908,12 @@
         <!-- 計算ボタン -->
         <button onclick="calculate()">計算する</button>
 
+        <!-- エラーメッセージ -->
+        <div id="errorMessage" class="error-box" style="display: none;">
+            <div class="error-title">❌ エラー</div>
+            <div class="error-content" id="errorContent"></div>
+        </div>
+
         <!-- 警告メッセージ -->
         <div id="warningMessage" class="warning-box" style="display: none;">
             <div class="warning-title">⚠️ 警告</div>
@@ -940,6 +980,7 @@
                             <span style="font-size: 11px; color: #666;">
                                 (食材確率<span id="foodProbPercent">--</span>%)
                             </span>
+                            <div id="foodProbFormula" style="font-size: 10px; color: #888; margin-top: 3px;"></div>
                             <div id="foodCountBreakdown" style="margin-top: 5px;"></div>
                         </span>
                     </div>
@@ -972,7 +1013,7 @@
                         <span class="energy-label">
                             きのみエナジー
                             <span style="font-size: 11px; color: #888;">
-                                (<span id="fullActiveBerryCount">--</span>回 × <span id="fullActiveBerryPerCount">--</span>個 × <span id="fullActiveBerryUnit">--</span> × <span id="fullActiveBerryFB">--</span>)
+                                (<span id="fullActiveBerryCount">--</span>回 × <span id="fullActiveBerryPerCount">--</span>個 × <span id="fullActiveBerryUnit">--</span><span id="fullActiveBerryFavorite"></span> × <span id="fullActiveBerryFB">--</span>)
                             </span>
                         </span>
                         <span class="energy-value" id="fullActiveBerry">--</span>
@@ -1011,7 +1052,7 @@
                         <span class="energy-label">
                             きのみエナジー
                             <span id="fullIdleDetail" style="font-size: 11px; color: #888;">
-                                (<span id="fullIdleBerryCount">--</span>回 × <span id="fullIdleBerryPerCount">--</span>個 × <span id="fullIdleBerryUnit">--</span> × <span id="fullIdleBerryFB">--</span>)
+                                (<span id="fullIdleBerryCount">--</span>回 × <span id="fullIdleBerryPerCount">--</span>個 × <span id="fullIdleBerryUnit">--</span><span id="fullIdleBerryFavorite"></span> × <span id="fullIdleBerryFB">--</span>)
                             </span>
                         </span>
                         <span class="energy-value" id="fullIdleBerry">--</span>
@@ -1853,7 +1894,121 @@
             return { energyBeforeFB: foodEnergyBeforeFB, probability: probabilityText, breakdown: breakdown };
         }
 
+        // 入力値のバリデーション関数
+        function validateInputs(level, speedNature, skillNature, foodNature, 
+                                 speedM, speedS, skillM, skillS, foodM, foodS, berryS, otebonus) {
+            const errors = [];
+            
+            // 性格補正のチェック
+            let upCount = 0;
+            let downCount = 0;
+            
+            if (speedNature === 0.9) upCount++; // おてスピup
+            if (speedNature === 1.075) downCount++; // おてスピdown
+            if (skillNature === 1.2) upCount++; // スキル確率up
+            if (skillNature === 0.8) downCount++; // スキル確率down
+            if (foodNature === 1.2) upCount++; // 食材確率up
+            if (foodNature === 0.8) downCount++; // 食材確率down
+            
+            if (upCount >= 2) {
+                const upItems = [];
+                if (speedNature === 0.9) upItems.push('おてスピup');
+                if (skillNature === 1.2) upItems.push('スキル確率up');
+                if (foodNature === 1.2) upItems.push('食材確率up');
+                errors.push(`<strong>性格補正エラー：</strong>"up"の項目が2種類以上選択されています（${upItems.join('、')}）`);
+            }
+            
+            if (downCount >= 2) {
+                const downItems = [];
+                if (speedNature === 1.075) downItems.push('おてスピdown');
+                if (skillNature === 0.8) downItems.push('スキル確率down');
+                if (foodNature === 0.8) downItems.push('食材確率down');
+                errors.push(`<strong>性格補正エラー：</strong>"down"の項目が2種類以上選択されています（${downItems.join('、')}）`);
+            }
+            
+            // サブスキルのチェック
+            const subSkillCount = [speedM, speedS, skillM, skillS, foodM, foodS, berryS].filter(x => x).length;
+            
+            // レベル別のサブスキル数上限
+            let maxSubSkills = 0;
+            if (level >= 10) maxSubSkills = 1;
+            if (level >= 25) maxSubSkills = 2;
+            if (level >= 50) maxSubSkills = 3;
+            if (level >= 75) maxSubSkills = 4;
+            if (level >= 100) maxSubSkills = 5;
+            
+            // おてぼ5の場合、サブスキル数を1つ減らす
+            let maxSubSkillsWithOtebonus = maxSubSkills;
+            if (otebonus === 5 && maxSubSkills > 0) {
+                maxSubSkillsWithOtebonus = maxSubSkills - 1;
+            }
+            
+            // Lv < 10 の場合
+            if (level < 10) {
+                if (otebonus === 5) {
+                    errors.push(`<strong>サブスキルエラー：</strong>Lv${level}では、おてつだいボーナス5枚は選択できません（Lv10以上で1枚目解放）`);
+                }
+                if (subSkillCount >= 1) {
+                    errors.push(`<strong>サブスキルエラー：</strong>Lv${level}では、サブスキルは選択できません（Lv10以上で1個目解放）`);
+                }
+            }
+            // Lv 10-24
+            else if (level < 25) {
+                if (otebonus === 5 && subSkillCount >= 1) {
+                    errors.push(`<strong>サブスキルエラー：</strong>Lv${level}では、おてつだいボーナス5枚とサブスキル1個以上の組み合わせは選択できません`);
+                }
+                if (subSkillCount >= 2) {
+                    errors.push(`<strong>サブスキルエラー：</strong>Lv${level}では、サブスキルは最大1個です（2個目はLv25以上で解放）`);
+                }
+            }
+            // Lv 25-49
+            else if (level < 50) {
+                if (otebonus === 5 && subSkillCount >= 2) {
+                    errors.push(`<strong>サブスキルエラー：</strong>Lv${level}では、おてつだいボーナス5枚とサブスキル2個以上の組み合わせは選択できません`);
+                }
+                if (subSkillCount >= 3) {
+                    errors.push(`<strong>サブスキルエラー：</strong>Lv${level}では、サブスキルは最大2個です（3個目はLv50以上で解放）`);
+                }
+            }
+            // Lv 50-74
+            else if (level < 75) {
+                if (otebonus === 5 && subSkillCount >= 3) {
+                    errors.push(`<strong>サブスキルエラー：</strong>Lv${level}では、おてつだいボーナス5枚とサブスキル3個以上の組み合わせは選択できません`);
+                }
+                if (subSkillCount >= 4) {
+                    errors.push(`<strong>サブスキルエラー：</strong>Lv${level}では、サブスキルは最大3個です（4個目はLv75以上で解放）`);
+                }
+            }
+            // Lv 75-99
+            else if (level < 100) {
+                if (otebonus === 5 && subSkillCount >= 4) {
+                    errors.push(`<strong>サブスキルエラー：</strong>Lv${level}では、おてつだいボーナス5枚とサブスキル4個以上の組み合わせは選択できません`);
+                }
+                if (subSkillCount >= 5) {
+                    errors.push(`<strong>サブスキルエラー：</strong>Lv${level}では、サブスキルは最大4個です（5個目はLv100で解放）`);
+                }
+            }
+            // Lv 100以上
+            else {
+                if (otebonus === 5 && subSkillCount >= 5) {
+                    errors.push(`<strong>サブスキルエラー：</strong>おてつだいボーナス5枚とサブスキル5個以上の組み合わせは選択できません`);
+                }
+                if (subSkillCount >= 6) {
+                    errors.push(`<strong>サブスキルエラー：</strong>サブスキルは最大5個です`);
+                }
+            }
+            
+            if (errors.length > 0) {
+                return errors.join('<br><br>');
+            }
+            
+            return null;
+        }
+
         function calculate() {
+            // エラーメッセージをクリア
+            document.getElementById('errorMessage').style.display = 'none';
+            
             // ポケモン選択
             const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
             const pokemon = POKEMON_STATS[pokemonType];
@@ -1873,6 +2028,16 @@
             const speedNature = parseFloat(document.querySelector('input[name="speedNature"]:checked').value);
             const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked').value);
             const foodNature = parseFloat(document.querySelector('input[name="foodNature"]:checked').value);
+            
+            // バリデーション
+            const validationError = validateInputs(level, speedNature, skillNature, foodNature, 
+                                                     speedM, speedS, skillM, skillS, foodM, foodS, berryS, otebonus);
+            if (validationError) {
+                document.getElementById('errorContent').innerHTML = validationError;
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('resultsSection').style.display = 'none';
+                return; // 計算を中断
+            }
             
             const campTicket = document.getElementById('campTicket').checked;
             const favoriteBerry = document.getElementById('favoriteBerry').checked;
@@ -1963,11 +2128,19 @@
             if (foodM) subSkillFoodBonus += 0.36;
             if (foodS) subSkillFoodBonus += 0.18;
             
+            const foodFormulaParts = [`基本${(pokemon.foodProb * 100).toFixed(1)}%`];
+            
             if (subSkillFoodBonus > 0) {
                 foodProb = foodProb * (1 + subSkillFoodBonus);
+                foodFormulaParts.push(`×(1 + ${(subSkillFoodBonus * 100).toFixed(0)}%)`);
             }
             
             foodProb = foodProb * foodNature;
+            if (foodNature !== 1.0) {
+                foodFormulaParts.push(`×${foodNature.toFixed(1)}`);
+            }
+            
+            const foodProbFormulaText = foodFormulaParts.join(' ');
             
             const berryProb = 1 - foodProb;
 
@@ -2086,6 +2259,7 @@
             const foodHelpCount = helpCount * foodProb;
             document.getElementById('foodHelpCount').textContent = foodHelpCount.toFixed(2);
             document.getElementById('foodProbPercent').textContent = (foodProb * 100).toFixed(1);
+            document.getElementById('foodProbFormula').textContent = `└ ${foodProbFormulaText}`;
             
             // 食材個数の期待値（1日）
             const foodCountByType = {};
@@ -2136,18 +2310,17 @@
                 let warningText = '';
                 if (exOther === 'skill' && eventSkill > 0) {
                     warningText += '<strong>EX補正（スキル1.25倍）</strong>と<strong>イベント補正（スキル確率アップ）</strong>が同時に選択されています。<br>';
-                    warningText += 'ポケモンスリープ公式では、スキル確率のイベント補正がある時には、EX補正のスキル1.25倍は「基本的に選ばれない」と発表されています。<br>';
                 }
                 if (exOther === 'food' && eventFoodCount > 0) {
                     if (warningText) warningText += '<br>';
                     warningText += '<strong>EX補正（食材+1個）</strong>と<strong>イベント補正（食材の数+1個）</strong>が同時に選択されています。<br>';
                 }
                 if (warningText) {
-                    warningText += '<br><strong style="color: #d32f2f;">この組み合わせは実際のゲーム上では未確認の挙動です。</strong><br>';
-                    warningText += 'このツールでは理論上の計算を行っていますが、実際のゲーム内での挙動と大きく乖離する可能性があります。';
+                    warningText += '<br>ポケモンスリープ公式では、「EXモードにて毎週ランダムで選ばれるカビゴン育成に関するボーナスは、開催中のイベントのボーナスと同じ種類のものは基本的に選ばれません。」と発表されています。<br>';
+                    warningText += '<strong style="color: #d32f2f;">現在の計算結果は、実際のゲーム上では確認できない挙動の、理論上の計算結果です。</strong>';
                 }
                 
-                document.querySelector('#warningMessage > div > div:nth-child(2)').innerHTML = warningText;
+                document.querySelector('#warningMessage > div:nth-child(2) > div').innerHTML = warningText;
             } else {
                 warningMessage.style.display = 'none';
             }
@@ -2158,11 +2331,14 @@
             
             const activeBerryPerCount = berryPerCount + eventBerryCount;
             let fullActiveBerryEnergyBeforeFB = fullActiveBerryCount * berryEnergyPerBerry * activeBerryPerCount;
+            let berryFavoriteMultiplier = 1;
             if (favoriteBerry) {
                 if (exOther === 'berry') {
                     fullActiveBerryEnergyBeforeFB = fullActiveBerryEnergyBeforeFB * 2.4;
+                    berryFavoriteMultiplier = 2.4;
                 } else {
                     fullActiveBerryEnergyBeforeFB = fullActiveBerryEnergyBeforeFB * 2;
+                    berryFavoriteMultiplier = 2;
                 }
             }
             
@@ -2200,6 +2376,7 @@
             document.getElementById('fullActiveBerryCount').textContent = fullActiveBerryCount.toFixed(2);
             document.getElementById('fullActiveBerryPerCount').textContent = activeBerryPerCount;
             document.getElementById('fullActiveBerryUnit').textContent = Math.floor(berryEnergyPerBerry);
+            document.getElementById('fullActiveBerryFavorite').textContent = berryFavoriteMultiplier !== 1 ? ` × ${berryFavoriteMultiplier}` : '';
             document.getElementById('fullActiveBerryFB').textContent = fbMultiplier.toFixed(2);
             
             document.getElementById('fullActiveFood').textContent = Math.round(fullActiveFoodEnergy).toLocaleString();
@@ -2233,6 +2410,7 @@
                 document.getElementById('fullIdleBerry').textContent = Math.round(replacementEnergyWithFB).toLocaleString();
                 document.getElementById('fullIdleTotal').textContent = Math.round(fullIdleTotal).toLocaleString();
                 document.getElementById('fullIdleDetail').style.display = 'none';
+                document.getElementById('fullIdleBerryFavorite').textContent = '';
             } else {
                 const fullIdleBerryCount = helpCount * 1.0;
                 const fullIdleBerryEnergyBeforeFB = fullIdleBerryCount * berryEnergyPerHelp;
@@ -2244,6 +2422,7 @@
                 document.getElementById('fullIdleBerryCount').textContent = fullIdleBerryCount.toFixed(2);
                 document.getElementById('fullIdleBerryPerCount').textContent = berryPerCount;
                 document.getElementById('fullIdleBerryUnit').textContent = Math.floor(berryEnergyPerBerry);
+                document.getElementById('fullIdleBerryFavorite').textContent = berryFavoriteMultiplier !== 1 ? ` × ${berryFavoriteMultiplier}` : '';
                 document.getElementById('fullIdleBerryFB').textContent = fbMultiplier.toFixed(2);
                 document.getElementById('fullIdleTotal').textContent = Math.round(fullIdleTotal).toLocaleString();
                 document.getElementById('fullIdleDetail').style.display = 'block';
