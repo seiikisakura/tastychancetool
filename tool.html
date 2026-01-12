@@ -182,6 +182,42 @@
             font-weight: bold;
         }
 
+        .detail-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .detail-btn:hover {
+            background: #0056b3;
+        }
+
+        .detail-btn:active {
+            background: #004085;
+        }
+
+        .detail-row {
+            background: #f8f9fa;
+        }
+
+        .detail-cell {
+            padding: 15px 20px;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #333;
+            border-top: 2px solid #dee2e6;
+        }
+
+        .detail-cell strong {
+            color: #0066cc;
+            font-weight: 600;
+        }
+
         .spec-table {
             background: #e3f2fd;
             padding: 15px;
@@ -407,6 +443,18 @@
                     <input type="checkbox" id="berryS">
                     <label for="berryS">きのみの数S</label>
                 </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="capacityS">
+                    <label for="capacityS">所持数アップS</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="capacityM">
+                    <label for="capacityM">所持数アップM</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="capacityL">
+                    <label for="capacityL">所持数アップL</label>
+                </div>
             </div>
             <div class="input-group" style="margin-top: 15px;">
                 <label class="input-label" for="otebonus">おてつだいボーナス</label>
@@ -490,31 +538,7 @@
                     <label for="favoriteBerry">好物きのみ</label>
                 </div>
             </div>
-        </div>
-
-        <!-- 最大所持数設定（新規追加） -->
-        <div class="section">
-            <div class="section-title">最大所持数設定</div>
-            
-            <div class="input-group">
-                <label class="input-label">サブスキル：所持数アップ</label>
-                <div class="checkbox-group">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="capacityS">
-                        <label for="capacityS">所持数アップS（+6）</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="capacityM">
-                        <label for="capacityM">所持数アップM（+12）</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="capacityL">
-                        <label for="capacityL">所持数アップL（+18）</label>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="input-group">
+            <div class="input-group" style="margin-top: 15px;">
                 <label class="input-label" for="sleepRibbon">おやすみリボン</label>
                 <select id="sleepRibbon">
                     <option value="0">なし</option>
@@ -940,6 +964,12 @@
                 <label class="input-label" for="eventCookEnergy">料理エナジー補正（%）</label>
                 <input type="number" id="eventCookEnergy" value="0" step="1">
             </div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="weekendBonus">
+                    <label for="weekendBonus">ウィークエンドボーナス（料理大成功確率30%、エナジー3倍、鍋容量2倍）</label>
+                </div>
+            </div>
         </div>
 
         <!-- 食材エナジー計算モード -->
@@ -1031,8 +1061,11 @@
             <div class="checkbox-group">
                 <div class="checkbox-item">
                     <input type="checkbox" id="showDebugInfo">
-                    <label for="showDebugInfo">詳細な計算過程を表示</label>
+                    <label for="showDebugInfo">詳細な計算過程を表示（所持数計算用）</label>
                 </div>
+            </div>
+            <div class="note" style="margin-top: 5px; margin-left: 20px; color: #888; font-size: 13px;">
+                ※所持数・スケジュール計算モードでのみ有効です
             </div>
         </div>
 
@@ -1163,7 +1196,7 @@
                     
                     <div class="energy-row">
                         <span class="energy-label">
-                            料理エナジー
+                            スキルエナジー
                             <span style="font-size: 11px; color: #888;">
                                 (<span id="fullActiveSkillExpected">--</span>回 × <span id="fullActiveSkillPerActivation">--</span> × <span id="fullActiveCookFB">--</span>)
                             </span>
@@ -1173,6 +1206,45 @@
                     <div class="energy-row">
                         <span class="energy-label">合計エナジー</span>
                         <span class="energy-value" id="fullActiveTotal">--</span>
+                    </div>
+                    <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-left: 3px solid #6c757d; font-size: 12px; color: #666;">
+                        ※表示上の四捨五入処理により、計算過程での式の結果と実際の値が若干異なる場合があります
+                    </div>
+                </div>
+
+                <!-- 100%スケジュール運用（所持数考慮） -->
+                <div class="energy-breakdown" id="scheduleEnergyBreakdown" style="display: none;">
+                    <h3 style="margin-bottom: 15px; color: #333;">100% スケジュール運用（所持数考慮）</h3>
+                    <div class="energy-row">
+                        <span class="energy-label">
+                            きのみエナジー
+                            <span style="font-size: 11px; color: #888;">
+                                (睡眠+集中作業+リラックス)
+                            </span>
+                        </span>
+                        <span class="energy-value" id="scheduleActiveBerry">--</span>
+                    </div>
+                    <div class="energy-row">
+                        <span class="energy-label">
+                            食材エナジー
+                            <span style="font-size: 11px; color: #888;">
+                                (集中作業+リラックス)
+                            </span>
+                        </span>
+                        <span class="energy-value" id="scheduleActiveFood">--</span>
+                    </div>
+                    <div class="energy-row">
+                        <span class="energy-label">
+                            料理エナジー
+                            <span style="font-size: 11px; color: #888;">
+                                (集中作業+リラックス)
+                            </span>
+                        </span>
+                        <span class="energy-value" id="scheduleActiveCook">--</span>
+                    </div>
+                    <div class="energy-row">
+                        <span class="energy-label">合計エナジー</span>
+                        <span class="energy-value" id="scheduleActiveTotal">--</span>
                     </div>
                 </div>
 
@@ -1202,7 +1274,7 @@
 
                 <!-- デバッグ表示エリア（新規追加） -->
                 <div id="debugDisplay" class="section hidden">
-                    <div class="section-title">計算過程の詳細</div>
+                    <div class="section-title">所持数・スケジュール計算の詳細</div>
                     <div id="debugContent" class="formula-box"></div>
                 </div>
 
@@ -1216,6 +1288,7 @@
                             <th>1日の発動数</th>
                             <th>積極運用比率</th>
                             <th>期待値</th>
+                            <th style="width: 80px;">詳細</th>
                         </tr>
                     </thead>
                     <tbody id="resultsTable"></tbody>
@@ -1834,8 +1907,8 @@
         };
 
         // 大成功確率を計算する関数
-        function getSuccessRate(skillLevel, n) {
-            const baseRate = 0.10;
+        function getSuccessRate(skillLevel, n, isWeekend = false) {
+            const baseRate = isWeekend ? 0.30 : 0.10;
             const skillEffect = SKILL_EFFECTS[skillLevel];
             return baseRate + (skillEffect * n);
         }
@@ -2097,6 +2170,16 @@
             if (element) {
                 element.addEventListener('change', updateCookEnergyFromRecipe);
                 element.addEventListener('input', updateCookEnergyFromRecipe);
+            }
+        });
+
+        // ウィークエンドボーナスのチェックで鍋イベントボーナスを連動
+        document.getElementById('weekendBonus').addEventListener('change', function() {
+            const potEventBonus = document.getElementById('potEventBonus');
+            if (this.checked) {
+                potEventBonus.value = '2.0';
+            } else {
+                potEventBonus.value = '1.0';
             }
         });
 
@@ -2526,6 +2609,7 @@
             const eventFoodCount = document.getElementById('eventFoodCount').checked ? 1 : 0;
             const eventSkillLevel = parseInt(document.getElementById('eventSkillLevel').value) || 0;
             const eventCookEnergy = parseFloat(document.getElementById('eventCookEnergy').value) / 100;
+            const weekendBonus = document.getElementById('weekendBonus').checked;
             
             // 食材エナジーモード
             const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
@@ -2698,7 +2782,8 @@
             const foodDetailFormula = `（${foodDetailParts.join(' + ')}）÷ ${activeFoodSlots.length}`;
             
             // 料理エナジー（1回あたり）
-            const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy);
+            const cookSuccessMultiplier = weekendBonus ? 3 : 2;
+            const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy) * cookSuccessMultiplier;
 
             // スペック表示
             document.getElementById('pokemonName').textContent = pokemon.name;
@@ -2925,7 +3010,15 @@
                         loopCount: 0,
                         skillActivationExpected: 0,
                         activeRatio: 0,
-                        totalExpected: totalExpected
+                        totalExpected: totalExpected,
+                        // デバッグ用の詳細情報
+                        successRate: 0,
+                        successExpected: 0,
+                        activeEnergy: 0,
+                        idleEnergy: totalExpected,
+                        idleRatio: 1,
+                        skillCountPerDay: skillCountPerDay,
+                        fullActiveTotal: fullActiveTotal  // 24時間分の100%毎分タップ
                     });
                     
                     if (totalExpected > maxExpected) {
@@ -2935,7 +3028,7 @@
                     continue;
                 }
                 
-                const successRate = getSuccessRate(skillLevel, n);
+                const successRate = getSuccessRate(skillLevel, n, weekendBonus);
                 const successExpected = successRate * 3;
                 const skillActivationExpected = successExpected * n;
                 
@@ -2994,13 +3087,32 @@
                 } else {
                     totalExpected = (activeTotal + idleEnergy) * fbMultiplier;
                 }
+                
+                // FB適用後の100%値を計算（詳細表示用）
+                const fullActiveEnergyWithFB = activeTotal * fbMultiplier / activeRatio;
+                let fullIdleEnergyWithFB;
+                if (useReplacement) {
+                    fullIdleEnergyWithFB = replacementIncludesFB ? replacementEnergy : replacementEnergy * fbMultiplier;
+                } else {
+                    const fullIdleHelpCount = helpCount;
+                    const fullIdleBerryCount = fullIdleHelpCount * 1.0;
+                    fullIdleEnergyWithFB = fullIdleBerryCount * berryEnergyPerHelp * fbMultiplier;
+                }
 
                 results.push({
                     n: n,
                     loopCount: loopCount,
                     skillActivationExpected: skillActivationExpected,
                     activeRatio: activeRatio,
-                    totalExpected: totalExpected
+                    totalExpected: totalExpected,
+                    // デバッグ用の詳細情報（FB適用後）
+                    successRate: successRate,
+                    successExpected: successExpected,
+                    activeEnergy: activeTotal * fbMultiplier,  // FB適用後の積極運用エナジー
+                    idleEnergy: fullIdleEnergyWithFB,  // FB適用後の100%いつ育
+                    idleRatio: idleRatio,
+                    skillCountPerDay: skillCountPerDay,
+                    fullActiveTotal: fullActiveTotal  // 24時間分の100%毎分タップ
                 });
 
                 if (totalExpected > maxExpected) {
@@ -3021,13 +3133,151 @@
                 row.insertCell(2).textContent = result.n === 0 ? '-' : result.skillActivationExpected.toFixed(1);
                 row.insertCell(3).textContent = (result.activeRatio * 100).toFixed(0) + '%';
                 row.insertCell(4).textContent = Math.round(result.totalExpected).toLocaleString();
+                
+                // 詳細ボタン
+                const detailCell = row.insertCell(5);
+                const detailBtn = document.createElement('button');
+                detailBtn.className = 'detail-btn';
+                detailBtn.textContent = '詳細';
+                detailBtn.onclick = function() {
+                    toggleDetailTraditional(index, result);
+                };
+                detailCell.appendChild(detailBtn);
             });
+
+            // 所持数計算モード専用の表示を非表示
+            document.getElementById('scheduleEnergyBreakdown').style.display = 'none';
 
             // 結果セクションを表示
             document.getElementById('resultsSection').style.display = 'block';
         }
 
         // 所持数計算モード
+        // 複合期待値の詳細表示切り替え（所持数計算モード）
+        function toggleDetail(rowIndex, result, skillCountPerDay, scheduleTotal, fullIdleTotal) {
+            const resultsTable = document.getElementById('resultsTable');
+            const detailRowId = `detail-row-${rowIndex}`;
+            const existingDetailRow = document.getElementById(detailRowId);
+            
+            // 既存の詳細行があれば削除（トグル）
+            if (existingDetailRow) {
+                existingDetailRow.remove();
+                return;
+            }
+            
+            // 詳細行を作成
+            const detailRow = resultsTable.insertRow(rowIndex + 1);
+            detailRow.id = detailRowId;
+            detailRow.className = 'detail-row';
+            
+            const detailCell = detailRow.insertCell(0);
+            detailCell.colSpan = 6;
+            detailCell.className = 'detail-cell';
+            
+            // 詳細内容を生成
+            let detailHTML = '';
+            
+            if (result.n === 0) {
+                detailHTML = `
+                    <strong>【スキル${result.n}回の計算過程】</strong><br>
+                    └ 100%いつ育 = ${Math.round(result.totalExpected).toLocaleString()}
+                `;
+            } else {
+                detailHTML = `
+                    <strong>【スキル${result.n}回の計算過程】</strong><br>
+                    <br>
+                    <strong>基本情報：</strong><br>
+                    ・スキル回数/日：${skillCountPerDay.toFixed(2)}回<br>
+                    ・100%スケジュール運用：${Math.round(scheduleTotal).toLocaleString()}<br>
+                    ・100%いつ育：${Math.round(fullIdleTotal).toLocaleString()}<br>
+                    <br>
+                    <strong>ステップ1：大成功の期待値</strong><br>
+                    ・大成功確率：${(result.successRate * 100).toFixed(0)}%<br>
+                    ・大成功期待値 = ${(result.successRate * 100).toFixed(0)}% × 3回（1日の料理回数） = ${result.successExpected.toFixed(2)}回<br>
+                    <br>
+                    <strong>ステップ2：1日の発動数（1サイクルの重み）</strong><br>
+                    ・1日の発動数 = ${result.successExpected.toFixed(2)}回 × ${result.n}回（目標） = ${result.skillActivationExpected.toFixed(2)}<br>
+                    <br>
+                    <strong>ステップ3：ループ回数</strong><br>
+                    ・ループ回数 = ${skillCountPerDay.toFixed(2)}回 ÷ ${result.skillActivationExpected.toFixed(2)} = ${result.loopCount.toFixed(2)}回<br>
+                    <br>
+                    <strong>ステップ4：時間比率</strong><br>
+                    ・積極運用比率 = 1 ÷ ${result.loopCount.toFixed(2)} = ${(result.activeRatio * 100).toFixed(1)}%<br>
+                    ・いつ育比率 = ${(result.idleRatio * 100).toFixed(1)}%<br>
+                    <br>
+                    <strong>ステップ5：複合期待値</strong><br>
+                    ・${Math.round(result.scheduleEnergy).toLocaleString()} × ${(result.activeRatio * 100).toFixed(1)}% + ${Math.round(result.idleEnergy).toLocaleString()} × ${(result.idleRatio * 100).toFixed(1)}%<br>
+                    = ${Math.round(result.scheduleEnergy * result.activeRatio).toLocaleString()} + ${Math.round(result.idleEnergy * result.idleRatio).toLocaleString()}<br>
+                    = <strong>${Math.round(result.totalExpected).toLocaleString()}</strong>
+                `;
+            }
+            
+            detailCell.innerHTML = detailHTML;
+        }
+
+        // 複合期待値の詳細表示切り替え（従来モード）
+        function toggleDetailTraditional(rowIndex, result) {
+            const resultsTable = document.getElementById('resultsTable');
+            const detailRowId = `detail-row-${rowIndex}`;
+            const existingDetailRow = document.getElementById(detailRowId);
+            
+            // 既存の詳細行があれば削除（トグル）
+            if (existingDetailRow) {
+                existingDetailRow.remove();
+                return;
+            }
+            
+            // 詳細行を作成
+            const detailRow = resultsTable.insertRow(rowIndex + 1);
+            detailRow.id = detailRowId;
+            detailRow.className = 'detail-row';
+            
+            const detailCell = detailRow.insertCell(0);
+            detailCell.colSpan = 6;
+            detailCell.className = 'detail-cell';
+            
+            // 詳細内容を生成
+            let detailHTML = '';
+            
+            if (result.n === 0) {
+                detailHTML = `
+                    <strong>【スキル${result.n}回の計算過程】</strong><br>
+                    └ 100%いつ育 = ${Math.round(result.totalExpected).toLocaleString()}
+                `;
+            } else {
+                const fullActiveEnergy = result.fullActiveTotal;
+                detailHTML = `
+                    <strong>【スキル${result.n}回の計算過程】</strong><br>
+                    <br>
+                    <strong>基本情報：</strong><br>
+                    ・スキル回数/日：${result.skillCountPerDay.toFixed(2)}回<br>
+                    ・100%毎分タップ：${Math.round(fullActiveEnergy).toLocaleString()}<br>
+                    ・100%いつ育：${Math.round(result.idleEnergy).toLocaleString()}<br>
+                    <br>
+                    <strong>ステップ1：大成功の期待値</strong><br>
+                    ・大成功確率：${(result.successRate * 100).toFixed(0)}%<br>
+                    ・大成功期待値 = ${(result.successRate * 100).toFixed(0)}% × 3回（1日の料理回数） = ${result.successExpected.toFixed(2)}回<br>
+                    <br>
+                    <strong>ステップ2：1日の発動数（1サイクルの重み）</strong><br>
+                    ・1日の発動数 = ${result.successExpected.toFixed(2)}回 × ${result.n}回（目標） = ${result.skillActivationExpected.toFixed(2)}<br>
+                    <br>
+                    <strong>ステップ3：ループ回数</strong><br>
+                    ・ループ回数 = ${result.skillCountPerDay.toFixed(2)}回 ÷ ${result.skillActivationExpected.toFixed(2)} = ${result.loopCount.toFixed(2)}回<br>
+                    <br>
+                    <strong>ステップ4：時間比率</strong><br>
+                    ・積極運用比率 = 1 ÷ ${result.loopCount.toFixed(2)} = ${(result.activeRatio * 100).toFixed(1)}%<br>
+                    ・いつ育比率 = ${(result.idleRatio * 100).toFixed(1)}%<br>
+                    <br>
+                    <strong>ステップ5：複合期待値</strong><br>
+                    ・${Math.round(fullActiveEnergy).toLocaleString()} × ${(result.activeRatio * 100).toFixed(1)}% + ${Math.round(result.idleEnergy).toLocaleString()} × ${(result.idleRatio * 100).toFixed(1)}%<br>
+                    = ${Math.round(fullActiveEnergy * result.activeRatio).toLocaleString()} + ${Math.round(result.idleEnergy * result.idleRatio).toLocaleString()}<br>
+                    = <strong>${Math.round(result.totalExpected).toLocaleString()}</strong>
+                `;
+            }
+            
+            detailCell.innerHTML = detailHTML;
+        }
+
         function calculateWithCapacity() {
             try {
                 // スケジュールのバリデーション
@@ -3091,6 +3341,7 @@
                 const eventFoodCount = document.getElementById('eventFoodCount').checked ? 1 : 0;
                 const eventSkillLevel = parseInt(document.getElementById('eventSkillLevel').value) || 0;
                 const eventCookEnergy = parseFloat(document.getElementById('eventCookEnergy').value) / 100;
+                const weekendBonus = document.getElementById('weekendBonus').checked;
                 
                 const skillLevel = Math.min(baseSkillLevel + eventSkillLevel, 6);
                 
@@ -3115,6 +3366,38 @@
                 const finalSpeed = currentSpeed;
                 const helpCount = 86400 / finalSpeed;
                 
+                // おてスピの途中式作成
+                let speedFormulaParts = [`基礎${pokemon.rawBaseSpeed.toFixed(0)}`];
+                
+                if (level !== 1) {
+                    const levelDiff = level - 1;
+                    speedFormulaParts.push(`×(1-0.002×${levelDiff})(Lv)`);
+                }
+                
+                speedFormulaParts.push(`×${energyBonus.toFixed(2)}(元気)`);
+                
+                if (subSkillBonus > 0) {
+                    speedFormulaParts.push(`×(1-${subSkillBonus.toFixed(2)})(サブスキル)`);
+                }
+                
+                if (speedNature !== 1.0) {
+                    speedFormulaParts.push(`×${speedNature.toFixed(2)}(性格)`);
+                }
+                
+                if (campTicket) {
+                    speedFormulaParts.push(`÷1.2(CT)`);
+                }
+                
+                if (exSpeed !== 1.0) {
+                    speedFormulaParts.push(`×${exSpeed.toFixed(2)}(EX)`);
+                }
+                
+                if (eventSpeed !== 0) {
+                    speedFormulaParts.push(`×(1-${eventSpeed.toFixed(2)})(イベント)`);
+                }
+                
+                const speedFormulaText = speedFormulaParts.join(' ');
+                
                 // 確率計算
                 let foodProb = pokemon.foodProb;
                 let subSkillFoodBonus = 0;
@@ -3125,6 +3408,19 @@
                 }
                 foodProb = foodProb * foodNature;
                 const berryProb = 1 - foodProb;
+                
+                // 食材確率の途中式作成
+                const foodFormulaParts = [`基本${(pokemon.foodProb * 100).toFixed(1)}%`];
+                
+                if (subSkillFoodBonus > 0) {
+                    foodFormulaParts.push(`×(1 + ${(subSkillFoodBonus * 100).toFixed(0)}%)`);
+                }
+                
+                if (foodNature !== 1.0) {
+                    foodFormulaParts.push(`×${foodNature.toFixed(1)}`);
+                }
+                
+                const foodProbFormulaText = foodFormulaParts.join(' ');
                 
                 let skillProb = pokemon.skillProb;
                 let subSkillSkillBonus = 0;
@@ -3139,6 +3435,27 @@
                 }
                 skillProb = skillProb * (1 + eventSkill);
                 const skillCountPerDay = helpCount * skillProb;
+                
+                // スキル確率の途中式作成
+                let skillFormulaParts = [`お手伝い${helpCount.toFixed(2)}回`, `×基本${(pokemon.skillProb * 100).toFixed(1)}%`];
+                
+                if (subSkillSkillBonus > 0) {
+                    skillFormulaParts.push(`×(1+${subSkillSkillBonus.toFixed(2)})(サブスキル)`);
+                }
+                
+                if (skillNature !== 1.0) {
+                    skillFormulaParts.push(`×${skillNature.toFixed(2)}(性格)`);
+                }
+                
+                if (exOther === 'skill') {
+                    skillFormulaParts.push(`×1.25(EX)`);
+                }
+                
+                if (eventSkill !== 0) {
+                    skillFormulaParts.push(`×(1+${eventSkill.toFixed(2)})(イベント)`);
+                }
+                
+                const skillFormulaText = skillFormulaParts.join(' ');
                 
                 // エナジー計算
                 const berryBaseEnergy = pokemon.berryBaseEnergy;
@@ -3181,8 +3498,18 @@
                 const avgFoodCount = totalCount / activeFoodSlots.length;
                 const avgFoodEnergy = totalEnergy / activeFoodSlots.length;
                 
+                // 食材エナジーの途中式作成
+                let foodDetailParts = [];
+                activeFoodSlots.forEach(slot => {
+                    const count = slot.count + exFoodBonus + eventFoodBonus;
+                    const slotEnergy = count * slot.energy;
+                    foodDetailParts.push(`${slot.name}${count}×${slot.energy}=${slotEnergy}`);
+                });
+                const foodDetailFormula = `(${foodDetailParts.join(' + ')}) ÷ ${activeFoodSlots.length}スロット = ${avgFoodEnergy.toFixed(1)}`;
+                
                 // 料理エナジー
-                const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy);
+                const cookSuccessMultiplier = weekendBonus ? 3 : 2;
+                const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy) * cookSuccessMultiplier;
                 
                 // 最大所持数計算
                 const maxCapacity = calculateMaxCapacity(pokemonType, campTicket);
@@ -3232,16 +3559,98 @@
                 document.getElementById('berryExponent').textContent = level - 1;
                 
                 document.getElementById('finalSpeed').textContent = finalSpeed.toFixed(2);
+                document.getElementById('speedFormula').textContent = speedFormulaText;
+                
                 document.getElementById('helpCount').textContent = helpCount.toFixed(2);
                 document.getElementById('berryEnergy').textContent = displayBerryEnergy.toFixed(1);
+                
+                // きのみお手伝い回数と確率
+                const berryHelpCount = helpCount * berryProb;
+                document.getElementById('berryHelpCount').textContent = berryHelpCount.toFixed(2);
+                document.getElementById('berryProbPercent').textContent = (berryProb * 100).toFixed(1);
+                
+                // 食材エナジーと確率
                 document.getElementById('foodEnergy').textContent = avgFoodEnergy.toFixed(1);
+                document.getElementById('foodEnergyFormula').textContent = foodDetailFormula;
+                
+                const foodHelpCount = helpCount * foodProb;
+                document.getElementById('foodHelpCount').textContent = foodHelpCount.toFixed(2);
+                document.getElementById('foodProbPercent').textContent = (foodProb * 100).toFixed(1);
+                document.getElementById('foodProbFormula').textContent = `└ ${foodProbFormulaText}`;
+                
+                // 食材個数の期待値（1日）
+                const foodCountByType = {};
+                const slotCount = activeFoodSlots.length;
+                
+                activeFoodSlots.forEach(slot => {
+                    const countPerDay = foodHelpCount * (1 / slotCount) * (slot.count + exFoodBonus + eventFoodBonus);
+                    if (foodCountByType[slot.name]) {
+                        foodCountByType[slot.name] += countPerDay;
+                    } else {
+                        foodCountByType[slot.name] = countPerDay;
+                    }
+                });
+                
+                let foodCountHTML = '';
+                for (const [foodName, count] of Object.entries(foodCountByType)) {
+                    foodCountHTML += `<div style="color: #555; font-size: 14px;">・${foodName}：${count.toFixed(2)}個/日</div>`;
+                }
+                document.getElementById('foodCountBreakdown').innerHTML = foodCountHTML;
+                
+                // スキル回数と効果
                 document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
+                document.getElementById('skillFormula').textContent = skillFormulaText;
+                
+                document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyPerSkill).toLocaleString();
+                document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
+                const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
+                const skillEffectWithEvent = skillEffectBase * (1 + eventCookEnergy);
+                document.getElementById('skillEffectPercent').textContent = eventCookEnergy !== 0 
+                    ? `${skillEffectBase}×(1+${eventCookEnergy.toFixed(2)})=${skillEffectWithEvent.toFixed(1)}`
+                    : skillEffectBase.toFixed(0);
                 
                 // デバッグ表示
                 if (document.getElementById('showDebugInfo').checked) {
+                    // 最大所持数の詳細計算
+                    const baseCapacity = pokemonType === 'swampert' ? 30 : 26;
+                    let subskillBonus = 0;
+                    const subskillParts = [];
+                    if (document.getElementById('capacityS').checked) {
+                        subskillBonus += 6;
+                        subskillParts.push('S(+6)');
+                    }
+                    if (document.getElementById('capacityM').checked) {
+                        subskillBonus += 12;
+                        subskillParts.push('M(+12)');
+                    }
+                    if (document.getElementById('capacityL').checked) {
+                        subskillBonus += 18;
+                        subskillParts.push('L(+18)');
+                    }
+                    const ribbonBonus = parseInt(document.getElementById('sleepRibbon').value) || 0;
+                    const ribbonText = ribbonBonus > 0 ? `リボン(+${ribbonBonus})` : '';
+                    const preCtCapacity = baseCapacity + subskillBonus + ribbonBonus;
+                    const ctMultiplier = campTicket ? 1.2 : 1.0;
+                    
+                    let capacityCalcText = `基礎${baseCapacity}`;
+                    if (subskillParts.length > 0) {
+                        capacityCalcText += ` + ${subskillParts.join('+')} = ${baseCapacity + subskillBonus}`;
+                    }
+                    if (ribbonBonus > 0) {
+                        capacityCalcText += ` + ${ribbonText} = ${preCtCapacity}`;
+                    }
+                    if (campTicket) {
+                        capacityCalcText += ` × 1.2(CT) = ${preCtCapacity * 1.2} → 切り上げ = ${simulation.maxCapacity}`;
+                    } else if (subskillParts.length === 0 && ribbonBonus === 0) {
+                        capacityCalcText += ` = ${simulation.maxCapacity}`;
+                    } else {
+                        capacityCalcText += ` = ${simulation.maxCapacity}`;
+                    }
+                    
                     const debugContent = `
 <strong>所持数計算の詳細：</strong>
 最大所持数：${simulation.maxCapacity}個
+└ ${capacityCalcText}
 平均増加量：${simulation.averageIncrease.toFixed(2)}個/回
 T_fill：${simulation.tFill.hours.toFixed(2)}時間
 
@@ -3274,17 +3683,77 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     document.getElementById('debugDisplay').classList.add('hidden');
                 }
                 
-                // エナジー内訳の表示（100%積極運用 = スケジュール全体）
-                const fullActiveBerryTotal = simulation.sleep.totalEnergy + simulation.work.berryEnergy + simulation.relax.berryEnergy;
-                const fullActiveFoodTotal = simulation.work.foodEnergy + simulation.relax.foodEnergy;
-                const fullActiveCookTotal = simulation.work.cookEnergy + simulation.relax.cookEnergy;
+                // 1. 100%毎分タップ（積極運用）= 従来の24時間計算（所持数なし）
+                const fullActiveBerryHelps = helpCount * berryProb;
+                const fullActiveFoodHelps = helpCount * foodProb;
+                const fullActiveSkillCount = helpCount * skillProb;
                 
-                document.getElementById('fullActiveBerry').textContent = Math.round(fullActiveBerryTotal).toLocaleString();
-                document.getElementById('fullActiveFood').textContent = Math.round(fullActiveFoodTotal).toLocaleString();
-                document.getElementById('fullActiveCook').textContent = Math.round(fullActiveCookTotal).toLocaleString();
-                document.getElementById('fullActiveTotal').textContent = Math.round(simulation.totalEnergy).toLocaleString();
+                let fullActiveBerryEnergy = fullActiveBerryHelps * berryEnergyPerBerry * berryPerCount;
+                if (favoriteBerry) {
+                    fullActiveBerryEnergy *= (exOther === 'berry' ? 2.4 : 2);
+                }
+                fullActiveBerryEnergy *= fbMultiplier;
                 
-                // 100%いつ育の基準値を計算（入替候補 or 24時間きのみのみ）
+                // 食材個数の計算（従来モードと同じ方法）
+                const fullActiveFoodCountByType = {};
+                const fullActiveSlotCount = activeFoodSlots.length;
+                
+                activeFoodSlots.forEach(slot => {
+                    const countPerDay = fullActiveFoodHelps * (1 / fullActiveSlotCount) * (slot.count + exFoodBonus + eventFoodBonus);
+                    if (fullActiveFoodCountByType[slot.name]) {
+                        fullActiveFoodCountByType[slot.name] += countPerDay;
+                    } else {
+                        fullActiveFoodCountByType[slot.name] = countPerDay;
+                    }
+                });
+                
+                // 食材エナジー計算（calculateFoodEnergy関数を使用）
+                const foodEnergyResult = calculateFoodEnergy(
+                    foodEnergyMode,
+                    fullActiveFoodCountByType,
+                    avgFoodEnergy,
+                    fbMultiplier,
+                    recipeCookEventBonus,
+                    1.0  // 100%積極運用
+                );
+                
+                const fullActiveFoodEnergy = foodEnergyResult.energyBeforeFB * fbMultiplier;
+                const fullActiveCookEnergy = fullActiveSkillCount * cookEnergyPerSkill * fbMultiplier;
+                const fullActiveTotal = fullActiveBerryEnergy + fullActiveFoodEnergy + fullActiveCookEnergy;
+                
+                document.getElementById('fullActiveBerryCount').textContent = fullActiveBerryHelps.toFixed(2);
+                document.getElementById('fullActiveBerryPerCount').textContent = berryPerCount;
+                document.getElementById('fullActiveBerryUnit').textContent = Math.floor(berryEnergyPerBerry);
+                document.getElementById('fullActiveBerryFavorite').textContent = (favoriteBerry ? (exOther === 'berry' ? ' × 2.4' : ' × 2') : '');
+                document.getElementById('fullActiveBerryFB').textContent = fbMultiplier.toFixed(2);
+                document.getElementById('fullActiveBerry').textContent = Math.round(fullActiveBerryEnergy).toLocaleString();
+                
+                document.getElementById('fullActiveFoodPickupCount').textContent = fullActiveFoodHelps.toFixed(2);
+                document.getElementById('fullActiveFoodFormula').textContent = foodDetailFormula;
+                document.getElementById('fullActiveFoodFB').textContent = fbMultiplier.toFixed(2);
+                document.getElementById('fullActiveFood').textContent = Math.round(fullActiveFoodEnergy).toLocaleString();
+                
+                document.getElementById('fullActiveSkillExpected').textContent = fullActiveSkillCount.toFixed(2);
+                document.getElementById('fullActiveSkillPerActivation').textContent = Math.round(cookEnergyPerSkill).toLocaleString();
+                document.getElementById('fullActiveCookFB').textContent = fbMultiplier.toFixed(2);
+                document.getElementById('fullActiveCook').textContent = Math.round(fullActiveCookEnergy).toLocaleString();
+                
+                document.getElementById('fullActiveTotal').textContent = Math.round(fullActiveTotal).toLocaleString();
+                
+                // 2. 100%スケジュール運用（所持数考慮）の表示
+                document.getElementById('scheduleEnergyBreakdown').style.display = 'block';
+                
+                const scheduleBerryTotal = simulation.sleep.totalEnergy + simulation.work.berryEnergy + simulation.relax.berryEnergy;
+                const scheduleFoodTotal = simulation.work.foodEnergy + simulation.relax.foodEnergy;
+                const scheduleCookTotal = simulation.work.cookEnergy + simulation.relax.cookEnergy;
+                const scheduleTotal = simulation.totalEnergy;
+                
+                document.getElementById('scheduleActiveBerry').textContent = Math.round(scheduleBerryTotal).toLocaleString();
+                document.getElementById('scheduleActiveFood').textContent = Math.round(scheduleFoodTotal).toLocaleString();
+                document.getElementById('scheduleActiveCook').textContent = Math.round(scheduleCookTotal).toLocaleString();
+                document.getElementById('scheduleActiveTotal').textContent = Math.round(scheduleTotal).toLocaleString();
+                
+                // 3. 100%いつ育の基準値を計算（入替候補 or 24時間きのみのみ）
                 const replacementEnergy = parseFloat(document.getElementById('replacementEnergy').value) || 0;
                 const replacementIncludesFB = document.getElementById('replacementIncludesFB').checked;
                 const useReplacement = replacementEnergy > 0;
@@ -3318,10 +3787,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 document.getElementById('fullIdleBerry').textContent = Math.round(fullIdleTotal).toLocaleString();
                 document.getElementById('fullIdleTotal').textContent = Math.round(fullIdleTotal).toLocaleString();
                 
-                // 100%積極運用の基準値（既に計算済み）
-                const fullActiveTotal = simulation.totalEnergy;
-                
-                // 複合期待値テーブルの計算
+                // 複合期待値テーブルの計算（スケジュール運用を使用）
                 const skillEffectPercent = SKILL_EFFECTS[skillLevel] * 100;
                 const maxActivations = Math.ceil(70 / skillEffectPercent);
                 
@@ -3340,7 +3806,13 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                             loopCount: 0,
                             skillActivationExpected: 0,
                             activeRatio: 0,
-                            totalExpected: fullIdleTotal
+                            totalExpected: fullIdleTotal,
+                            // デバッグ用の詳細情報
+                            successRate: 0,
+                            successExpected: 0,
+                            scheduleEnergy: scheduleTotal,
+                            idleEnergy: fullIdleTotal,
+                            idleRatio: 1
                         });
                         
                         if (fullIdleTotal > maxExpected) {
@@ -3350,7 +3822,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                         continue;
                     }
                     
-                    const successRate = getSuccessRate(skillLevel, n);
+                    const successRate = getSuccessRate(skillLevel, n, weekendBonus);
                     const successExpected = successRate * 3;
                     const skillActivationExpected = successExpected * n;
                     
@@ -3358,15 +3830,21 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     const activeRatio = 1 / loopCount;
                     const idleRatio = 1 - activeRatio;
                     
-                    // 複合期待値 = 100%積極運用 × 積極運用比率 + 100%いつ育 × いつ育比率
-                    const totalExpected = fullActiveTotal * activeRatio + fullIdleTotal * idleRatio;
+                    // 複合期待値 = 100%スケジュール運用 × 積極運用比率 + 100%いつ育 × いつ育比率
+                    const totalExpected = scheduleTotal * activeRatio + fullIdleTotal * idleRatio;
                     
                     results.push({
                         n: n,
                         loopCount: loopCount,
                         skillActivationExpected: skillActivationExpected,
                         activeRatio: activeRatio,
-                        totalExpected: totalExpected
+                        totalExpected: totalExpected,
+                        // デバッグ用の詳細情報
+                        successRate: successRate,
+                        successExpected: successExpected,
+                        scheduleEnergy: scheduleTotal,
+                        idleEnergy: fullIdleTotal,
+                        idleRatio: idleRatio
                     });
                     
                     if (totalExpected > maxExpected) {
@@ -3375,7 +3853,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     }
                 }
                 
-                // テーブル生成
+                // テーブル生成（詳細ボタン付き）
                 results.forEach((result, index) => {
                     const row = resultsTable.insertRow();
                     if (index === bestRow) {
@@ -3387,6 +3865,16 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     row.insertCell(2).textContent = result.n === 0 ? '-' : result.skillActivationExpected.toFixed(1);
                     row.insertCell(3).textContent = (result.activeRatio * 100).toFixed(0) + '%';
                     row.insertCell(4).textContent = Math.round(result.totalExpected).toLocaleString();
+                    
+                    // 詳細ボタン
+                    const detailCell = row.insertCell(5);
+                    const detailBtn = document.createElement('button');
+                    detailBtn.className = 'detail-btn';
+                    detailBtn.textContent = '詳細';
+                    detailBtn.onclick = function() {
+                        toggleDetail(index, result, skillCountPerDay, scheduleTotal, fullIdleTotal);
+                    };
+                    detailCell.appendChild(detailBtn);
                 });
                 
                 // 結果セクションを表示
