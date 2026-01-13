@@ -537,6 +537,10 @@
                     <input type="checkbox" id="favoriteBerry">
                     <label for="favoriteBerry">好物きのみ</label>
                 </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="weekendBonus">
+                    <label for="weekendBonus">ウィークエンドボーナス（料理大成功確率30%、エナジー3倍、鍋容量2倍）</label>
+                </div>
             </div>
             <div class="input-group" style="margin-top: 15px;">
                 <label class="input-label" for="sleepRibbon">おやすみリボン</label>
@@ -652,7 +656,7 @@
             <div class="section-title">フィールドボーナス</div>
             <div class="input-group">
                 <label class="input-label" for="fieldBonus">FB（%）</label>
-                <input type="number" id="fieldBonus" min="0" max="100" step="1" value="50">
+                <input type="number" id="fieldBonus" min="0" max="100" step="1" value="0">
             </div>
         </div>
 
@@ -964,12 +968,6 @@
                 <label class="input-label" for="eventCookEnergy">料理エナジー補正（%）</label>
                 <input type="number" id="eventCookEnergy" value="0" step="1">
             </div>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="weekendBonus">
-                    <label for="weekendBonus">ウィークエンドボーナス（料理大成功確率30%、エナジー3倍、鍋容量2倍）</label>
-                </div>
-            </div>
         </div>
 
         <!-- 食材エナジー計算モード -->
@@ -1019,16 +1017,6 @@
                         <input type="number" id="potSkillExpansion" min="0" max="200" value="0" onchange="updatePotSkillActivations()" oninput="updatePotSkillActivations()">
                         <div style="font-size: 11px; color: #888; margin-top: 3px;">任意の拡張値（上限200）</div>
                     </div>
-                </div>
-            </div>
-            <div class="input-group">
-                <label class="input-label" for="potEventBonus">鍋イベントボーナス（倍率）</label>
-                <input type="number" id="potEventBonus" min="1" max="2" step="0.1" value="1.0">
-            </div>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="potWeekendBonus">
-                    <label for="potWeekendBonus">ウィークエンドボーナス（日曜日×2）</label>
                 </div>
             </div>
             <div class="info-box">
@@ -1164,7 +1152,7 @@
                         <span class="spec-value">
                             <span id="skillEffectAmount">--</span>
                             <span style="font-size: 11px; color: #666;">
-                                (<span id="skillEffectCookEnergy">--</span>×<span id="skillEffectPercent">--</span>%)
+                                (<span id="skillEffectCookEnergy">--</span><span id="skillEffectWeekendMultiplier"></span>×<span id="skillEffectPercent">--</span>%)
                             </span>
                         </span>
                     </div>
@@ -2087,44 +2075,35 @@
             const baseCapacity = parseInt(document.getElementById('potBaseCapacity').value);
             const skillExpansion = parseInt(document.getElementById('potSkillExpansion').value);
             const campTicket = document.getElementById('campTicket').checked;  // 上の「その他設定」から取得
-            const eventBonus = parseFloat(document.getElementById('potEventBonus').value);
-            const weekendBonus = document.getElementById('potWeekendBonus').checked;
+            const weekendBonus = document.getElementById('weekendBonus').checked;  // イベント補正のウィークエンドボーナスを取得
 
             const formulaParts = [];
             
-            // ステップ1: イベント補正
-            let capacity = Math.round(baseCapacity * eventBonus);
-            if (eventBonus !== 1.0) {
-                formulaParts.push(`Step 1 (イベント補正): ${baseCapacity} × ${eventBonus.toFixed(1)} = ${capacity}`);
-            } else {
-                formulaParts.push(`Step 1 (イベント補正): ${baseCapacity} × ${eventBonus.toFixed(1)} = ${capacity}`);
-            }
-
-            // ステップ2: 日曜補正
+            // ステップ1: ウィークエンド補正
+            let capacity = baseCapacity;
             if (weekendBonus) {
-                const beforeWeekend = capacity;
                 capacity = Math.round(capacity * 2);
-                formulaParts.push(`Step 2 (ウィークエンド): ${beforeWeekend} × 2 = ${capacity}`);
+                formulaParts.push(`Step 1 (ウィークエンド): ${baseCapacity} × 2 = ${capacity}`);
             } else {
-                formulaParts.push(`Step 2 (ウィークエンド): 補正なし`);
+                formulaParts.push(`Step 1 (ウィークエンド): 補正なし`);
             }
 
-            // ステップ3: スキル加算
+            // ステップ2: スキル加算
             if (skillExpansion > 0) {
                 const beforeSkill = capacity;
                 capacity += skillExpansion;
-                formulaParts.push(`Step 3 (スキル拡張): ${beforeSkill} + ${skillExpansion} = ${capacity}`);
+                formulaParts.push(`Step 2 (スキル拡張): ${beforeSkill} + ${skillExpansion} = ${capacity}`);
             } else {
-                formulaParts.push(`Step 3 (スキル拡張): +0`);
+                formulaParts.push(`Step 2 (スキル拡張): +0`);
             }
 
-            // ステップ4: CT補正
+            // ステップ3: CT補正
             if (campTicket) {
                 const beforeCT = capacity;
                 capacity = Math.round(capacity * 1.5);
-                formulaParts.push(`Step 4 (いいキャンプチケット): ${beforeCT} × 1.5 = ${capacity}`);
+                formulaParts.push(`Step 3 (いいキャンプチケット): ${beforeCT} × 1.5 = ${capacity}`);
             } else {
-                formulaParts.push(`Step 4 (いいキャンプチケット): 補正なし`);
+                formulaParts.push(`Step 3 (いいキャンプチケット): 補正なし`);
             }
 
             formulaParts.push(`\n最終鍋容量: ${capacity}個`);
@@ -2144,7 +2123,7 @@
         }
 
         // 鍋容量をリアルタイム更新
-        ['potBaseCapacity', 'potSkillExpansion', 'potEventBonus', 'potWeekendBonus', 'campTicket'].forEach(id => {
+        ['potBaseCapacity', 'potSkillExpansion', 'campTicket'].forEach(id => {
             const element = document.getElementById(id);
             if (element) {
                 element.addEventListener('change', updatePotCapacityDisplay);
@@ -2175,12 +2154,7 @@
 
         // ウィークエンドボーナスのチェックで鍋イベントボーナスを連動
         document.getElementById('weekendBonus').addEventListener('change', function() {
-            const potEventBonus = document.getElementById('potEventBonus');
-            if (this.checked) {
-                potEventBonus.value = '2.0';
-            } else {
-                potEventBonus.value = '1.0';
-            }
+            updatePotCapacityDisplay();
         });
 
         // 確率計算関数（正規分布近似）
@@ -2777,11 +2751,18 @@
             });
 
             const avgFoodCount = totalCount / activeFoodSlots.length;
-            const avgFoodEnergy = totalEnergy / activeFoodSlots.length;
+            const avgFoodEnergy = totalEnergy / totalCount;  // 1個あたりの平均エネルギー
 
-            const foodDetailFormula = `（${foodDetailParts.join(' + ')}）÷ ${activeFoodSlots.length}`;
+            const foodDetailFormula = `（${foodDetailParts.join(' + ')}）÷ ${totalCount}個`;
             
             // 料理エナジー（1回あたり）
+            // 大成功の増加倍率（平日：1倍増、日曜：2倍増）
+            const cookSuccessIncreaseMultiplier = weekendBonus ? 2 : 1;
+            
+            // スキル1回あたりの効果量（表示用）= 大成功で増えるエナジー × スキル効果量
+            const cookEnergyBase = cookEnergy * cookSuccessIncreaseMultiplier * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy);
+            
+            // 大成功を考慮した料理エナジー（計算用）
             const cookSuccessMultiplier = weekendBonus ? 3 : 2;
             const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy) * cookSuccessMultiplier;
 
@@ -2844,8 +2825,9 @@
             document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
             document.getElementById('skillFormula').textContent = skillFormulaText;
             
-            document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyPerSkill).toLocaleString();
+            document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyBase).toLocaleString();
             document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
+            document.getElementById('skillEffectWeekendMultiplier').textContent = weekendBonus ? '×2' : '';
             const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
             const skillEffectWithEvent = skillEffectBase * (1 + eventCookEnergy);
             document.getElementById('skillEffectPercent').textContent = eventCookEnergy !== 0 
@@ -3343,6 +3325,10 @@
                 const eventCookEnergy = parseFloat(document.getElementById('eventCookEnergy').value) / 100;
                 const weekendBonus = document.getElementById('weekendBonus').checked;
                 
+                // 食材エナジーモード
+                const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
+                const recipeCookEventBonus = parseFloat(document.getElementById('recipeCookEventBonus').value) || 0;
+                
                 const skillLevel = Math.min(baseSkillLevel + eventSkillLevel, 6);
                 
                 // おてスピ計算（既存と同じロジック）
@@ -3496,7 +3482,7 @@
                 });
                 
                 const avgFoodCount = totalCount / activeFoodSlots.length;
-                const avgFoodEnergy = totalEnergy / activeFoodSlots.length;
+                const avgFoodEnergy = totalEnergy / totalCount;  // 1個あたりの平均エネルギー
                 
                 // 食材エナジーの途中式作成
                 let foodDetailParts = [];
@@ -3505,9 +3491,16 @@
                     const slotEnergy = count * slot.energy;
                     foodDetailParts.push(`${slot.name}${count}×${slot.energy}=${slotEnergy}`);
                 });
-                const foodDetailFormula = `(${foodDetailParts.join(' + ')}) ÷ ${activeFoodSlots.length}スロット = ${avgFoodEnergy.toFixed(1)}`;
+                const foodDetailFormula = `(${foodDetailParts.join(' + ')}) ÷ ${totalCount}個 = ${avgFoodEnergy.toFixed(1)}`;
                 
                 // 料理エナジー
+                // 大成功の増加倍率（平日：1倍増、日曜：2倍増）
+                const cookSuccessIncreaseMultiplier = weekendBonus ? 2 : 1;
+                
+                // スキル1回あたりの効果量（表示用）= 大成功で増えるエナジー × スキル効果量
+                const cookEnergyBase = cookEnergy * cookSuccessIncreaseMultiplier * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy);
+                
+                // 大成功を考慮した料理エナジー（計算用）
                 const cookSuccessMultiplier = weekendBonus ? 3 : 2;
                 const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy) * cookSuccessMultiplier;
                 
@@ -3601,8 +3594,9 @@
                 document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
                 document.getElementById('skillFormula').textContent = skillFormulaText;
                 
-                document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyPerSkill).toLocaleString();
+                document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyBase).toLocaleString();
                 document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
+                document.getElementById('skillEffectWeekendMultiplier').textContent = weekendBonus ? '×2' : '';
                 const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
                 const skillEffectWithEvent = skillEffectBase * (1 + eventCookEnergy);
                 document.getElementById('skillEffectPercent').textContent = eventCookEnergy !== 0 
@@ -3890,5 +3884,38 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         updateFoodSlotLabels();
         updateScheduleDisplay();
     </script>
+
+    <!-- クレジット -->
+    <div style="max-width: 900px; margin: 40px auto 20px; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e0e0e0;">
+        <div style="font-size: 14px; color: #666; text-align: center; margin-bottom: 15px; font-weight: bold;">
+            参考サイト・ツール
+        </div>
+        <div style="display: grid; gap: 10px; font-size: 13px; color: #555;">
+            <div style="padding: 8px; background: white; border-radius: 4px;">
+                <a href="https://pks.raenonx.cc/" target="_blank" rel="noopener noreferrer" style="color: #2196F3; text-decoration: none;">
+                    🔗 pks.raenonx.cc
+                </a>
+                <span style="color: #888; margin-left: 8px;">- ポケモンスリープ総合ツール</span>
+            </div>
+            <div style="padding: 8px; background: white; border-radius: 4px;">
+                <a href="https://pokesuri.ogagawa.com/dedenne_kourituka/" target="_blank" rel="noopener noreferrer" style="color: #2196F3; text-decoration: none;">
+                    🔗 デデンネ効率化ツール
+                </a>
+                <span style="color: #888; margin-left: 8px;">- 複合期待値計算の参考元</span>
+            </div>
+            <div style="padding: 8px; background: white; border-radius: 4px;">
+                <a href="https://wikiwiki.jp/poke_sleep/" target="_blank" rel="noopener noreferrer" style="color: #2196F3; text-decoration: none;">
+                    🔗 ポケモンスリープ攻略Wiki
+                </a>
+                <span style="color: #888; margin-left: 8px;">- ゲームデータ参照</span>
+            </div>
+            <div style="padding: 8px; background: white; border-radius: 4px;">
+                <a href="https://nitoyon.github.io/pokesleep-tool/iv/index.ja.html" target="_blank" rel="noopener noreferrer" style="color: #2196F3; text-decoration: none;">
+                    🔗 nitoyon ポケモンスリープツール
+                </a>
+                <span style="color: #888; margin-left: 8px;">- 計算式検証の参考</span>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
