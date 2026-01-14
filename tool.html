@@ -1009,8 +1009,16 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
                     <div>
                         <label style="font-size: 13px; color: #666;">料理パワーアップS Lv7の発動回数</label>
-                        <input type="number" id="potSkillActivations" min="0" value="0" onchange="updatePotSkillExpansion()" oninput="updatePotSkillExpansion()">
-                        <div style="font-size: 11px; color: #888; margin-top: 3px;">1回 = +31個、7回以上 = +200（上限）</div>
+                        <select id="potSkillActivations" onchange="updatePotSkillExpansion()">
+                            <option value="0">0回（+0個）</option>
+                            <option value="1">1回（+31個）</option>
+                            <option value="2">2回（+62個）</option>
+                            <option value="3">3回（+93個）</option>
+                            <option value="4">4回（+124個）</option>
+                            <option value="5">5回（+155個）</option>
+                            <option value="6">6回（+186個）</option>
+                            <option value="7">7回以上（+200個・上限）</option>
+                        </select>
                     </div>
                     <div>
                         <label style="font-size: 13px; color: #666;">または直接入力</label>
@@ -1485,6 +1493,7 @@
             let totalCookEnergy = 0;
             let totalSkillTheory = 0;
             let totalSkillEffective = 0;
+            let totalFoodCount = 0;  // 食材個数の集計（Phase 1用）
             
             // スキル1回分の発動時間
             const skillsPerHour = helpsPerHour * skillProb;
@@ -1523,7 +1532,7 @@
                 const remainingCapacity = maxCapacity - (activeHelps * averageIncrease);
                 let activeFoodEnergy = activeFoodCount * avgFoodEnergy;
                 if (remainingCapacity < avgFoodCount && activeTime > 0) {
-                    const wasteRatio = Math.max(0, (avgFoodCount - remainingCapacity) / avgFoodCount);
+                    const wasteRatio = Math.max(0, Math.min(1, (avgFoodCount - remainingCapacity) / avgFoodCount));
                     activeFoodEnergy *= (1 - wasteRatio);
                 }
                 
@@ -1551,6 +1560,7 @@
                 totalCookEnergy += activeCookEnergy;
                 totalSkillTheory += skillTheory;
                 totalSkillEffective += skillEffective;
+                totalFoodCount += activeFoodCount;  // 食材個数を集計（Phase 1用）
             }
             
             // FB適用
@@ -1571,7 +1581,8 @@
                 totalEnergy: totalEnergy,
                 skillTheory: totalSkillTheory,
                 skillEffective: totalSkillEffective,
-                skillLoss: skillLoss
+                skillLoss: skillLoss,
+                foodCount: totalFoodCount  // 食材個数を返す（Phase 1用）
             };
         }
 
@@ -1592,7 +1603,11 @@
                 fbMultiplier,
                 favoriteBerry,
                 exOther,
-                scheduleData
+                scheduleData,
+                // Phase 1用の追加パラメータ
+                foodEnergyMode,
+                activeFoodSlots,
+                recipeCookEventBonus
             } = params;
             
             // T_fill計算
@@ -1668,6 +1683,77 @@
             
             // 合計エナジー
             simulation.totalEnergy = simulation.sleep.totalEnergy + simulation.work.totalEnergy + simulation.relax.totalEnergy;
+            
+            // ========== Phase 1：食材エナジー評価モードの適用（按分方式） ==========
+            if (foodEnergyMode === 'ignore') {
+                // 食材度外視モード：食材エナジーを0にする
+                simulation.work.foodEnergy = 0;
+                simulation.relax.foodEnergy = 0;
+                
+                // 合計エナジーを再計算
+                simulation.work.totalEnergy = simulation.work.berryEnergy + 
+                                              simulation.work.foodEnergy + 
+                                              simulation.work.cookEnergy;
+                simulation.relax.totalEnergy = simulation.relax.berryEnergy + 
+                                               simulation.relax.foodEnergy + 
+                                               simulation.relax.cookEnergy;
+                simulation.totalEnergy = simulation.sleep.totalEnergy + 
+                                         simulation.work.totalEnergy + 
+                                         simulation.relax.totalEnergy;
+            } else if (foodEnergyMode && foodEnergyMode !== 'unlimited') {
+                // レシピ・余剰・ハイブリッドモード：レシピボーナス等を適用
+                // 1日の合計食材個数を計算
+                const totalWorkFoodCount = simulation.work.foodCount || 0;
+                const totalRelaxFoodCount = simulation.relax.foodCount || 0;
+                const totalDailyFoodCount = totalWorkFoodCount + totalRelaxFoodCount;
+                
+                // ゼロ除算対策
+                if (totalDailyFoodCount > 0) {
+                    // 食材をfoodCountByType形式に変換
+                    const dailyFoodCountByType = {};
+                    activeFoodSlots.forEach(slot => {
+                        const slotRatio = 1 / activeFoodSlots.length;
+                        const count = totalDailyFoodCount * slotRatio;
+                        if (dailyFoodCountByType[slot.name]) {
+                            dailyFoodCountByType[slot.name] += count;
+                        } else {
+                            dailyFoodCountByType[slot.name] = count;
+                        }
+                    });
+                    
+                    // calculateFoodEnergyを呼び出し（FB適用前）
+                    const foodEnergyResult = calculateFoodEnergy(
+                        foodEnergyMode,
+                        dailyFoodCountByType,
+                        avgFoodEnergy,
+                        1.0,  // FB適用は後で行うので1.0
+                        recipeCookEventBonus,
+                        1.0   // activeRatio = 1.0（100%運用）
+                    );
+                    const totalFoodEnergyBeforeFB = foodEnergyResult.energyBeforeFB;
+                    
+                    // 各時間帯に按分（食材破棄は無視）
+                    const workFoodRatio = totalWorkFoodCount / totalDailyFoodCount;
+                    const relaxFoodRatio = totalRelaxFoodCount / totalDailyFoodCount;
+                    
+                    // 按分してFB適用
+                    simulation.work.foodEnergy = totalFoodEnergyBeforeFB * workFoodRatio * fbMultiplier;
+                    simulation.relax.foodEnergy = totalFoodEnergyBeforeFB * relaxFoodRatio * fbMultiplier;
+                    
+                    // 合計エナジーを再計算
+                    simulation.work.totalEnergy = simulation.work.berryEnergy + 
+                                                  simulation.work.foodEnergy + 
+                                                  simulation.work.cookEnergy;
+                    simulation.relax.totalEnergy = simulation.relax.berryEnergy + 
+                                                   simulation.relax.foodEnergy + 
+                                                   simulation.relax.cookEnergy;
+                    simulation.totalEnergy = simulation.sleep.totalEnergy + 
+                                             simulation.work.totalEnergy + 
+                                             simulation.relax.totalEnergy;
+                }
+            }
+            // 無限ごちゃまぜモードの場合は既存の計算をそのまま使う
+            // ========== Phase 1終了 ==========
             
             return simulation;
         }
@@ -2739,7 +2825,7 @@
 
             let totalCount = 0;
             let totalEnergy = 0;
-            const foodDetailParts = [];
+            const countParts = [];
 
             activeFoodSlots.forEach(slot => {
                 const count = slot.count + exFoodBonus + eventFoodBonus;
@@ -2747,24 +2833,21 @@
                 const slotEnergy = count * slot.energy;
                 totalEnergy += slotEnergy;
                 
-                foodDetailParts.push(`${slot.name}${count}個×${slot.energy}`);
+                countParts.push(count);
             });
 
             const avgFoodCount = totalCount / activeFoodSlots.length;
             const avgFoodEnergy = totalEnergy / totalCount;  // 1個あたりの平均エネルギー
 
-            const foodDetailFormula = `（${foodDetailParts.join(' + ')}）÷ ${totalCount}個`;
+            const foodDetailFormula = `（${countParts.join('+')}）÷${activeFoodSlots.length}個 × ${Math.floor(avgFoodEnergy)}`;
             
             // 料理エナジー（1回あたり）
             // 大成功の増加倍率（平日：1倍増、日曜：2倍増）
             const cookSuccessIncreaseMultiplier = weekendBonus ? 2 : 1;
             
-            // スキル1回あたりの効果量（表示用）= 大成功で増えるエナジー × スキル効果量
+            // スキル1回あたりの効果量（表示用・計算用共通）= 大成功で増えるエナジー × スキル効果量
             const cookEnergyBase = cookEnergy * cookSuccessIncreaseMultiplier * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy);
-            
-            // 大成功を考慮した料理エナジー（計算用）
-            const cookSuccessMultiplier = weekendBonus ? 3 : 2;
-            const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy) * cookSuccessMultiplier;
+            const cookEnergyPerSkill = cookEnergyBase;
 
             // スペック表示
             document.getElementById('pokemonName').textContent = pokemon.name;
@@ -3473,36 +3556,29 @@
                 
                 let totalCount = 0;
                 let totalEnergy = 0;
+                const countParts = [];
                 
                 activeFoodSlots.forEach(slot => {
                     const count = slot.count + exFoodBonus + eventFoodBonus;
                     totalCount += count;
                     const slotEnergy = count * slot.energy;
                     totalEnergy += slotEnergy;
+                    countParts.push(count);
                 });
                 
                 const avgFoodCount = totalCount / activeFoodSlots.length;
                 const avgFoodEnergy = totalEnergy / totalCount;  // 1個あたりの平均エネルギー
                 
                 // 食材エナジーの途中式作成
-                let foodDetailParts = [];
-                activeFoodSlots.forEach(slot => {
-                    const count = slot.count + exFoodBonus + eventFoodBonus;
-                    const slotEnergy = count * slot.energy;
-                    foodDetailParts.push(`${slot.name}${count}×${slot.energy}=${slotEnergy}`);
-                });
-                const foodDetailFormula = `(${foodDetailParts.join(' + ')}) ÷ ${totalCount}個 = ${avgFoodEnergy.toFixed(1)}`;
+                const foodDetailFormula = `(${countParts.join('+')}) ÷ ${activeFoodSlots.length}個 = ${avgFoodCount.toFixed(1)} × ${Math.floor(avgFoodEnergy)} = ${(avgFoodCount * avgFoodEnergy).toFixed(1)}`;
                 
                 // 料理エナジー
                 // 大成功の増加倍率（平日：1倍増、日曜：2倍増）
                 const cookSuccessIncreaseMultiplier = weekendBonus ? 2 : 1;
                 
-                // スキル1回あたりの効果量（表示用）= 大成功で増えるエナジー × スキル効果量
+                // スキル1回あたりの効果量（表示用・計算用共通）= 大成功で増えるエナジー × スキル効果量
                 const cookEnergyBase = cookEnergy * cookSuccessIncreaseMultiplier * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy);
-                
-                // 大成功を考慮した料理エナジー（計算用）
-                const cookSuccessMultiplier = weekendBonus ? 3 : 2;
-                const cookEnergyPerSkill = cookEnergy * SKILL_EFFECTS[skillLevel] * (1 + eventCookEnergy) * cookSuccessMultiplier;
+                const cookEnergyPerSkill = cookEnergyBase;
                 
                 // 最大所持数計算
                 const maxCapacity = calculateMaxCapacity(pokemonType, campTicket);
@@ -3535,7 +3611,11 @@
                     fbMultiplier: fbMultiplier,
                     favoriteBerry: favoriteBerry,
                     exOther: exOther,
-                    scheduleData: scheduleData
+                    scheduleData: scheduleData,
+                    // Phase 1用の追加パラメータ
+                    foodEnergyMode: foodEnergyMode,
+                    activeFoodSlots: activeFoodSlots,
+                    recipeCookEventBonus: recipeCookEventBonus
                 });
                 
                 // 結果表示
