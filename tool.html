@@ -970,6 +970,30 @@
             </div>
         </div>
 
+        <!-- スキル天井考慮 -->
+        <div class="section">
+            <div class="section-title">スキル天井考慮</div>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="considerSkillCeiling">
+                    <label for="considerSkillCeiling">スキル連続不発天井を考慮する（78回）</label>
+                </div>
+            </div>
+            <div class="note" style="margin-top: 10px; color: #666; font-size: 13px; margin-left: 25px;">
+                <strong>【天井の仕様】</strong><br>
+                きのみ得意ポケモン（ラグラージ・マニューラ）は、積極運用中のお手伝いで77回連続してスキルが不発だった場合、78回目のお手伝いで強制的にスキルが発動します。<br>
+                <br>
+                <strong>【計算方法】</strong><br>
+                この機能を有効にすると、モンテカルロシミュレーション（100,000回試行）により天井到達時の強制発動を考慮した実効スキル発動回数を計算します。<br>
+                確率シミュレーションのため、計算するたびに若干のブレが発生します。<br>
+                ・通常のスキル確率：±0.01回程度<br>
+                ・極端に高い/低いスキル確率：±0.03回程度まで拡大する場合があります<br>
+                <br>
+                <strong>【注意事項】</strong><br>
+                ・積極運用中のお手伝いのみカウントされます（いつの間に育成は対象外）
+            </div>
+        </div>
+
         <!-- 食材エナジー計算モード -->
         <div class="section">
             <div class="section-title">食材エナジー計算モード</div>
@@ -1350,6 +1374,69 @@
             const multiplicative = baseEnergy * Math.pow(1.025, level - 1);
             return Math.floor(Math.max(additive, multiplicative));
         }
+
+        /**
+         * スキル天井を考慮した実効スキル発動回数を計算（シミュレーション方式）
+         * @param {number} helpCount - お手伝い回数
+         * @param {number} skillProb - スキル確率（0-1）
+         * @param {boolean} considerCeiling - 天井を考慮するか
+         * @param {number} ceiling - 天井回数（デフォルト：78）
+         * @returns {number} - 実効スキル発動回数
+         */
+        function calculateEffectiveSkillCount(helpCount, skillProb, considerCeiling, ceiling = 78) {
+            // 天井考慮なしの場合は単純計算
+            if (!considerCeiling) {
+                return helpCount * skillProb;
+            }
+            
+            // 天井考慮ありの場合：モンテカルロシミュレーション
+            const simulations = 100000; // シミュレーション回数（精度向上のため増加）
+            let totalSkillActivations = 0;
+            
+            // お手伝い回数の整数部分と端数部分
+            const fullHelps = Math.floor(helpCount);
+            const fractionalHelp = helpCount - fullHelps;
+            
+            for (let sim = 0; sim < simulations; sim++) {
+                let failCounter = 0; // 連続不発カウンター
+                let skillCount = 0; // このシミュレーションでのスキル発動回数
+                
+                // 整数部分のお手伝いをシミュレート
+                for (let help = 0; help < fullHelps; help++) {
+                    if (failCounter >= ceiling - 1) {
+                        // 天井到達：強制発動
+                        skillCount++;
+                        failCounter = 0;
+                    } else if (Math.random() < skillProb) {
+                        // 通常発動
+                        skillCount++;
+                        failCounter = 0;
+                    } else {
+                        // 不発
+                        failCounter++;
+                    }
+                }
+                
+                // 端数部分のお手伝いを確率的に処理
+                if (Math.random() < fractionalHelp) {
+                    if (failCounter >= ceiling - 1) {
+                        skillCount++;
+                        failCounter = 0;
+                    } else if (Math.random() < skillProb) {
+                        skillCount++;
+                        failCounter = 0;
+                    } else {
+                        failCounter++;
+                    }
+                }
+                
+                totalSkillActivations += skillCount;
+            }
+            
+            // 平均スキル発動回数を返す
+            return totalSkillActivations / simulations;
+        }
+
         // スキルレベルごとの効果量
         const SKILL_EFFECTS = {
             1: 0.04,
@@ -2671,6 +2758,9 @@
             const eventCookEnergy = parseFloat(document.getElementById('eventCookEnergy').value) / 100;
             const weekendBonus = document.getElementById('weekendBonus').checked;
             
+            // スキル天井考慮フラグ
+            const considerSkillCeiling = document.getElementById('considerSkillCeiling').checked;
+            
             // 食材エナジーモード
             const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
             const recipeCookEventBonus = parseFloat(document.getElementById('recipeCookEventBonus').value) || 0;
@@ -2785,7 +2875,9 @@
             }
             
             const skillFormulaText = skillFormulaParts.join(' ');
-            const skillCountPerDay = helpCount * skillProb;
+            
+            // スキル発動回数（天井考慮あり/なし）
+            const skillCountPerDay = calculateEffectiveSkillCount(helpCount, skillProb, considerSkillCeiling, 78);
 
             // 4. エナジー計算
             const berryBaseEnergy = pokemon.berryBaseEnergy;
@@ -3408,6 +3500,9 @@
                 const eventCookEnergy = parseFloat(document.getElementById('eventCookEnergy').value) / 100;
                 const weekendBonus = document.getElementById('weekendBonus').checked;
                 
+                // スキル天井考慮フラグ
+                const considerSkillCeiling = document.getElementById('considerSkillCeiling').checked;
+                
                 // 食材エナジーモード
                 const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
                 const recipeCookEventBonus = parseFloat(document.getElementById('recipeCookEventBonus').value) || 0;
@@ -3503,7 +3598,9 @@
                     skillProb = skillProb * 1.25;
                 }
                 skillProb = skillProb * (1 + eventSkill);
-                const skillCountPerDay = helpCount * skillProb;
+                
+                // スキル発動回数（天井考慮あり/なし）
+                const skillCountPerDay = calculateEffectiveSkillCount(helpCount, skillProb, considerSkillCeiling, 78);
                 
                 // スキル確率の途中式作成
                 let skillFormulaParts = [`お手伝い${helpCount.toFixed(2)}回`, `×基本${(pokemon.skillProb * 100).toFixed(1)}%`];
