@@ -896,6 +896,137 @@
             </div>
         </div>
 
+        <!-- 料理チャンスS 詳細計算 -->
+        <div class="section">
+            <div class="section-title">料理チャンスS 詳細計算（オプション）</div>
+            
+            <div class="info-box" style="margin-bottom: 15px;">
+                <div class="info-content">
+                    <strong>💡 この機能について：</strong><br>
+                    現在時刻から向こう24時間の食事スケジュールを基準に、料理チャンスSによる正確なスキルエナジーを計算できます。<br>
+                    計算結果は「計算開始」ボタンで複合期待値の計算に自動的に使用されます。<br>
+                    <br>
+                    <strong>使い方：</strong><br>
+                    1. 現在時刻（曜日・時刻）を設定<br>
+                    2. 料理タイミング（朝・昼・夕の時刻）を設定<br>
+                    3. デフォルトで向こう24時間の食事が自動計算されます<br>
+                    4. 手動で食事数を指定することも可能です<br>
+                    <br>
+                    <strong>📅 所持数考慮モードとの連携：</strong><br>
+                    所持数考慮モードが有効な場合、スケジュール設定（睡眠・集中作業・リラックス）を考慮してスキル発動回数を計算します。<br>
+                    • 睡眠中：スキル発動なし<br>
+                    • 集中作業中：通常のスキル発動<br>
+                    • リラックス中：通常のスキル発動<br>
+                    ※タップ間隔による補正は適用されません（満タン時間が不明なため）
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="useDetailedSkillCalc" onchange="toggleDetailedSkillCalc()">
+                    <label for="useDetailedSkillCalc">詳細計算を使用する</label>
+                </div>
+            </div>
+
+            <div id="detailedSkillCalcSection" class="hidden" style="margin-top: 20px;">
+                <!-- 現在時刻設定 -->
+                <div class="input-group">
+                    <label class="input-label">現在時刻設定</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                        <div>
+                            <label style="font-size: 13px; color: #666;">曜日</label>
+                            <select id="currentDay" style="margin-top: 5px;">
+                                <option value="月">月曜日</option>
+                                <option value="火">火曜日</option>
+                                <option value="水">水曜日</option>
+                                <option value="木">木曜日</option>
+                                <option value="金">金曜日</option>
+                                <option value="土">土曜日</option>
+                                <option value="日">日曜日</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 13px; color: #666;">時刻</label>
+                            <input type="time" id="currentTime" value="06:00" style="margin-top: 5px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 料理タイミング設定 -->
+                <div class="input-group" style="margin-top: 20px;">
+                    <label class="input-label">料理タイミング設定</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
+                        <div>
+                            <label style="font-size: 13px; color: #666;">朝食</label>
+                            <input type="time" id="morningTime" value="06:00" style="margin-top: 5px;">
+                        </div>
+                        <div>
+                            <label style="font-size: 13px; color: #666;">昼食</label>
+                            <input type="time" id="noonTime" value="12:00" style="margin-top: 5px;">
+                        </div>
+                        <div>
+                            <label style="font-size: 13px; color: #666;">夕食</label>
+                            <input type="time" id="eveningTime" value="18:00" style="margin-top: 5px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 計算対象選択 -->
+                <div class="input-group" style="margin-top: 20px;">
+                    <label class="input-label">計算対象</label>
+                    <div style="margin-top: 10px;">
+                        <div style="margin-bottom: 10px;">
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="radio" name="mealCalcMode" value="auto" id="mealCalcAuto" checked 
+                                       onchange="updateMealCalcMode()" style="margin-right: 8px;">
+                                <span>向こう24時間の食事を自動計算</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="radio" name="mealCalcMode" value="manual" id="mealCalcManual" 
+                                       onchange="updateMealCalcMode()" style="margin-right: 8px;">
+                                <span>手動で食事数を指定：</span>
+                                <input type="number" id="manualMealCount" min="1" max="21" value="1" 
+                                       style="width: 80px; margin-left: 10px;" disabled>
+                                <span style="margin-left: 5px;">食</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- 自動計算時のプレビュー -->
+                    <div id="autoMealPreview" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 13px;">
+                        <!-- 動的生成 -->
+                    </div>
+                </div>
+
+                <!-- スキルエナジー計算ボタン -->
+                <button type="button" onclick="calculateDetailedSkillEnergy()" 
+                        style="margin-top: 20px; background: #4caf50;">
+                    スキルエナジーを計算
+                </button>
+
+                <!-- 計算結果表示 -->
+                <div id="detailedSkillCalcResult" class="hidden" style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px; border: 2px solid #4caf50;">
+                    <div style="font-weight: bold; color: #2e7d32; margin-bottom: 10px;">
+                        ✅ 計算完了
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div style="text-align: center; padding: 10px; background: white; border-radius: 5px;">
+                            <div style="font-size: 12px; color: #666;">1回あたり</div>
+                            <div style="font-size: 18px; font-weight: bold; color: #1976d2;" id="skillEnergyPerSkill">--</div>
+                        </div>
+                        <div style="text-align: center; padding: 10px; background: white; border-radius: 5px;">
+                            <div style="font-size: 12px; color: #666;">1日あたり</div>
+                            <div style="font-size: 18px; font-weight: bold; color: #1976d2;" id="skillEnergyPerDay">--</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 13px; color: #555;">
+                        この値は「計算開始」ボタンで複合期待値の計算に自動的に使用されます
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- EX補正 -->
         <div class="section">
             <div class="section-title">EX補正</div>
@@ -1255,7 +1386,7 @@
                     </div>
                     <div class="energy-row">
                         <span class="energy-label">
-                            料理エナジー
+                            スキルエナジー
                             <span style="font-size: 11px; color: #888;">
                                 (集中作業+リラックス)
                             </span>
@@ -1577,7 +1708,7 @@
             
             let totalBerryEnergy = 0;
             let totalFoodEnergy = 0;
-            let totalCookEnergy = 0;
+            let totalSkillEnergy = 0;
             let totalSkillTheory = 0;
             let totalSkillEffective = 0;
             let totalFoodCount = 0;  // 食材個数の集計（Phase 1用）
@@ -1623,7 +1754,12 @@
                     activeFoodEnergy *= (1 - wasteRatio);
                 }
                 
-                const activeCookEnergy = activeSkillCount * cookEnergyPerSkill;
+                // 詳細計算が有効な場合、1回あたりのスキルエナジーを使用
+                const skillEnergyPerActivation = (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerActivation)
+                    ? window.detailedSkillEnergyPerActivation
+                    : cookEnergyPerSkill;
+                
+                const activeSkillEnergy = activeSkillCount * skillEnergyPerActivation;
                 
                 // いつ育フェーズ（きのみのみ）
                 const idleBerryCount = idleHelps * 1.0;
@@ -1644,7 +1780,7 @@
                 
                 totalBerryEnergy += activeBerryEnergy + idleBerryEnergy;
                 totalFoodEnergy += activeFoodEnergy;
-                totalCookEnergy += activeCookEnergy;
+                totalSkillEnergy += activeSkillEnergy;
                 totalSkillTheory += skillTheory;
                 totalSkillEffective += skillEffective;
                 totalFoodCount += activeFoodCount;  // 食材個数を集計（Phase 1用）
@@ -1653,9 +1789,9 @@
             // FB適用
             totalBerryEnergy *= fbMultiplier;
             totalFoodEnergy *= fbMultiplier;
-            totalCookEnergy *= fbMultiplier;
+            totalSkillEnergy *= fbMultiplier;
             
-            const totalEnergy = totalBerryEnergy + totalFoodEnergy + totalCookEnergy;
+            const totalEnergy = totalBerryEnergy + totalFoodEnergy + totalSkillEnergy;
             const skillLoss = totalSkillTheory > 0 ? (totalSkillTheory - totalSkillEffective) / totalSkillTheory : 0;
             
             return {
@@ -1664,7 +1800,7 @@
                 tapCount: tapCount,
                 berryEnergy: totalBerryEnergy,
                 foodEnergy: totalFoodEnergy,
-                cookEnergy: totalCookEnergy,
+                skillEnergy: totalSkillEnergy,
                 totalEnergy: totalEnergy,
                 skillTheory: totalSkillTheory,
                 skillEffective: totalSkillEffective,
@@ -1780,10 +1916,10 @@
                 // 合計エナジーを再計算
                 simulation.work.totalEnergy = simulation.work.berryEnergy + 
                                               simulation.work.foodEnergy + 
-                                              simulation.work.cookEnergy;
+                                              simulation.work.skillEnergy;
                 simulation.relax.totalEnergy = simulation.relax.berryEnergy + 
                                                simulation.relax.foodEnergy + 
-                                               simulation.relax.cookEnergy;
+                                               simulation.relax.skillEnergy;
                 simulation.totalEnergy = simulation.sleep.totalEnergy + 
                                          simulation.work.totalEnergy + 
                                          simulation.relax.totalEnergy;
@@ -1830,10 +1966,10 @@
                     // 合計エナジーを再計算
                     simulation.work.totalEnergy = simulation.work.berryEnergy + 
                                                   simulation.work.foodEnergy + 
-                                                  simulation.work.cookEnergy;
+                                                  simulation.work.skillEnergy;
                     simulation.relax.totalEnergy = simulation.relax.berryEnergy + 
                                                    simulation.relax.foodEnergy + 
-                                                   simulation.relax.cookEnergy;
+                                                   simulation.relax.skillEnergy;
                     simulation.totalEnergy = simulation.sleep.totalEnergy + 
                                              simulation.work.totalEnergy + 
                                              simulation.relax.totalEnergy;
@@ -2586,6 +2722,13 @@
                                  speedM, speedS, skillM, skillS, foodM, foodS, berryS, otebonus) {
             const errors = [];
             
+            // 詳細計算が有効だが実行されていない場合の警告
+            if (document.getElementById('useDetailedSkillCalc') && document.getElementById('useDetailedSkillCalc').checked) {
+                if (!window.detailedSkillEnergyPerDay || !window.detailedSkillEnergyPerActivation) {
+                    errors.push(`<strong>詳細計算エラー：</strong>「詳細計算を使用する」が有効ですが、スキルエナジーが計算されていません。先に「スキルエナジーを計算」ボタンをクリックしてください。`);
+                }
+            }
+            
             // 性格補正のチェック
             let upCount = 0;
             let downCount = 0;
@@ -3000,14 +3143,22 @@
             document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
             document.getElementById('skillFormula').textContent = skillFormulaText;
             
-            document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyBase).toLocaleString();
-            document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
-            document.getElementById('skillEffectWeekendMultiplier').textContent = weekendBonus ? '×2' : '';
-            const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
-            const skillEffectWithEvent = skillEffectBase * (1 + eventCookEnergy);
-            document.getElementById('skillEffectPercent').textContent = eventCookEnergy !== 0 
-                ? `${skillEffectBase}×(1+${eventCookEnergy.toFixed(2)})=${skillEffectWithEvent.toFixed(1)}`
-                : skillEffectBase.toFixed(0);
+            // 詳細計算が有効な場合、スキル効果量を詳細計算結果から取得
+            if (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerActivation) {
+                document.getElementById('skillEffectAmount').textContent = Math.round(window.detailedSkillEnergyPerActivation).toLocaleString();
+                document.getElementById('skillEffectCookEnergy').textContent = '詳細計算';
+                document.getElementById('skillEffectWeekendMultiplier').textContent = '';
+                document.getElementById('skillEffectPercent').textContent = '';
+            } else {
+                document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyBase).toLocaleString();
+                document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
+                document.getElementById('skillEffectWeekendMultiplier').textContent = weekendBonus ? '×2' : '';
+                const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
+                const skillEffectWithEvent = skillEffectBase * (1 + eventCookEnergy);
+                document.getElementById('skillEffectPercent').textContent = eventCookEnergy !== 0 
+                    ? `${skillEffectBase}×(1+${eventCookEnergy.toFixed(2)})=${skillEffectWithEvent.toFixed(1)}`
+                    : skillEffectBase.toFixed(0);
+            }
             
             // 警告メッセージの表示制御
             const warningMessage = document.getElementById('warningMessage');
@@ -3076,7 +3227,21 @@
             
             const fullActiveBerryEnergy = fullActiveBerryEnergyBeforeFB * fbMultiplier;
             const fullActiveFoodEnergy = fullActiveFoodEnergyBeforeFB * fbMultiplier;
-            const fullActiveCookEnergy = fullActiveCookEnergyBeforeFB * fbMultiplier;
+            
+            // 詳細計算が有効な場合、スキルエナジーを置き換える
+            let fullActiveCookEnergy;
+            let displaySkillPerActivation;
+            
+            if (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerDay) {
+                // 詳細計算結果を直接使用（これはスキルエナジー）
+                fullActiveCookEnergy = window.detailedSkillEnergyPerDay * fbMultiplier;
+                displaySkillPerActivation = window.detailedSkillEnergyPerActivation;
+            } else {
+                // 通常計算
+                fullActiveCookEnergy = fullActiveCookEnergyBeforeFB * fbMultiplier;
+                displaySkillPerActivation = cookEnergyPerSkill;
+            }
+            
             const fullActiveTotal = fullActiveBerryEnergy + fullActiveFoodEnergy + fullActiveCookEnergy;
 
             const foodFormulaText = foodDetailFormula;
@@ -3105,7 +3270,7 @@
             
             document.getElementById('fullActiveCook').textContent = Math.round(fullActiveCookEnergy).toLocaleString();
             document.getElementById('fullActiveSkillExpected').textContent = skillCountPerDay.toFixed(2);
-            document.getElementById('fullActiveSkillPerActivation').textContent = Math.round(cookEnergyPerSkill).toLocaleString();
+            document.getElementById('fullActiveSkillPerActivation').textContent = Math.round(displaySkillPerActivation).toLocaleString();
             document.getElementById('fullActiveCookFB').textContent = fbMultiplier.toFixed(2);
             
             document.getElementById('fullActiveTotal').textContent = Math.round(fullActiveTotal).toLocaleString();
@@ -3222,9 +3387,14 @@
                 );
                 let activeFoodEnergyBeforeFB = activeFoodEnergyResult.energyBeforeFB;
                 
-                const activeCookEnergy = cookEnergyPerSkill * n;
+                // 詳細計算が有効な場合、1回あたりのスキルエナジーを使用
+                const skillEnergyPerActivation = (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerActivation)
+                    ? window.detailedSkillEnergyPerActivation
+                    : cookEnergyPerSkill;
                 
-                const activeTotal = activeBerryEnergy + activeFoodEnergyBeforeFB + activeCookEnergy;
+                const activeSkillEnergy = skillEnergyPerActivation * n;
+                
+                const activeTotal = activeBerryEnergy + activeFoodEnergyBeforeFB + activeSkillEnergy;
 
                 // いつ育稼働時間でのエナジー
                 let idleEnergy;
@@ -3771,14 +3941,22 @@
                 document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
                 document.getElementById('skillFormula').textContent = skillFormulaText;
                 
-                document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyBase).toLocaleString();
-                document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
-                document.getElementById('skillEffectWeekendMultiplier').textContent = weekendBonus ? '×2' : '';
-                const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
-                const skillEffectWithEvent = skillEffectBase * (1 + eventCookEnergy);
-                document.getElementById('skillEffectPercent').textContent = eventCookEnergy !== 0 
-                    ? `${skillEffectBase}×(1+${eventCookEnergy.toFixed(2)})=${skillEffectWithEvent.toFixed(1)}`
-                    : skillEffectBase.toFixed(0);
+                // 詳細計算が有効な場合、スキル効果量を詳細計算結果から取得
+                if (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerActivation) {
+                    document.getElementById('skillEffectAmount').textContent = Math.round(window.detailedSkillEnergyPerActivation).toLocaleString();
+                    document.getElementById('skillEffectCookEnergy').textContent = '詳細計算';
+                    document.getElementById('skillEffectWeekendMultiplier').textContent = '';
+                    document.getElementById('skillEffectPercent').textContent = '';
+                } else {
+                    document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyBase).toLocaleString();
+                    document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
+                    document.getElementById('skillEffectWeekendMultiplier').textContent = weekendBonus ? '×2' : '';
+                    const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
+                    const skillEffectWithEvent = skillEffectBase * (1 + eventCookEnergy);
+                    document.getElementById('skillEffectPercent').textContent = eventCookEnergy !== 0 
+                        ? `${skillEffectBase}×(1+${eventCookEnergy.toFixed(2)})=${skillEffectWithEvent.toFixed(1)}`
+                        : skillEffectBase.toFixed(0);
+                }
                 
                 // デバッグ表示
                 if (document.getElementById('showDebugInfo').checked) {
@@ -3830,11 +4008,11 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 集中作業（${simulation.work.duration.toFixed(1)}h、${simulation.work.tapInterval}h間隔）：${Math.round(simulation.work.totalEnergy).toLocaleString()}
 ├ きのみ：${Math.round(simulation.work.berryEnergy).toLocaleString()}
 ├ 食材：${Math.round(simulation.work.foodEnergy).toLocaleString()}
-└ 料理：${Math.round(simulation.work.cookEnergy).toLocaleString()}
+└ スキル：${Math.round(simulation.work.skillEnergy).toLocaleString()}
 リラックス（${simulation.relax.duration.toFixed(1)}h、${simulation.relax.tapInterval}h間隔）：${Math.round(simulation.relax.totalEnergy).toLocaleString()}
 ├ きのみ：${Math.round(simulation.relax.berryEnergy).toLocaleString()}
 ├ 食材：${Math.round(simulation.relax.foodEnergy).toLocaleString()}
-└ 料理：${Math.round(simulation.relax.cookEnergy).toLocaleString()}
+└ スキル：${Math.round(simulation.relax.skillEnergy).toLocaleString()}
 
 <strong>1日の合計エナジー：</strong>${Math.round(simulation.totalEnergy).toLocaleString()}
 
@@ -3889,7 +4067,21 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 );
                 
                 const fullActiveFoodEnergy = foodEnergyResult.energyBeforeFB * fbMultiplier;
-                const fullActiveCookEnergy = fullActiveSkillCount * cookEnergyPerSkill * fbMultiplier;
+                
+                // 詳細計算が有効な場合、スキルエナジーを置き換える
+                let fullActiveCookEnergy;
+                let displaySkillPerActivation;
+                
+                if (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerDay) {
+                    // 詳細計算結果を直接使用（これはスキルエナジー）
+                    fullActiveCookEnergy = window.detailedSkillEnergyPerDay * fbMultiplier;
+                    displaySkillPerActivation = window.detailedSkillEnergyPerActivation;
+                } else {
+                    // 通常計算
+                    fullActiveCookEnergy = fullActiveSkillCount * cookEnergyPerSkill * fbMultiplier;
+                    displaySkillPerActivation = cookEnergyPerSkill;
+                }
+                
                 const fullActiveTotal = fullActiveBerryEnergy + fullActiveFoodEnergy + fullActiveCookEnergy;
                 
                 document.getElementById('fullActiveBerryCount').textContent = fullActiveBerryHelps.toFixed(2);
@@ -3905,7 +4097,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 document.getElementById('fullActiveFood').textContent = Math.round(fullActiveFoodEnergy).toLocaleString();
                 
                 document.getElementById('fullActiveSkillExpected').textContent = fullActiveSkillCount.toFixed(2);
-                document.getElementById('fullActiveSkillPerActivation').textContent = Math.round(cookEnergyPerSkill).toLocaleString();
+                document.getElementById('fullActiveSkillPerActivation').textContent = Math.round(displaySkillPerActivation).toLocaleString();
                 document.getElementById('fullActiveCookFB').textContent = fbMultiplier.toFixed(2);
                 document.getElementById('fullActiveCook').textContent = Math.round(fullActiveCookEnergy).toLocaleString();
                 
@@ -3916,12 +4108,12 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 
                 const scheduleBerryTotal = simulation.sleep.totalEnergy + simulation.work.berryEnergy + simulation.relax.berryEnergy;
                 const scheduleFoodTotal = simulation.work.foodEnergy + simulation.relax.foodEnergy;
-                const scheduleCookTotal = simulation.work.cookEnergy + simulation.relax.cookEnergy;
+                const scheduleSkillTotal = simulation.work.skillEnergy + simulation.relax.skillEnergy;
                 const scheduleTotal = simulation.totalEnergy;
                 
                 document.getElementById('scheduleActiveBerry').textContent = Math.round(scheduleBerryTotal).toLocaleString();
                 document.getElementById('scheduleActiveFood').textContent = Math.round(scheduleFoodTotal).toLocaleString();
-                document.getElementById('scheduleActiveCook').textContent = Math.round(scheduleCookTotal).toLocaleString();
+                document.getElementById('scheduleActiveCook').textContent = Math.round(scheduleSkillTotal).toLocaleString();
                 document.getElementById('scheduleActiveTotal').textContent = Math.round(scheduleTotal).toLocaleString();
                 
                 // 3. 100%いつ育の基準値を計算（入替候補 or 24時間きのみのみ）
@@ -4057,9 +4249,644 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             }
         }
 
+        // ===== 料理チャンスS 詳細計算機能 =====
+        
+        // 詳細計算セクションの表示/非表示切り替え
+        function toggleDetailedSkillCalc() {
+            const checkbox = document.getElementById('useDetailedSkillCalc');
+            const section = document.getElementById('detailedSkillCalcSection');
+            
+            if (checkbox.checked) {
+                section.classList.remove('hidden');
+                updateAutoMealPreview(); // プレビューを初期表示
+                updateManualMealCount(); // 手動食事数を初期化
+            } else {
+                section.classList.add('hidden');
+                // グローバル変数をクリア
+                window.detailedSkillEnergyPerDay = null;
+                window.detailedSkillEnergyPerActivation = null;
+                // 結果表示を非表示
+                document.getElementById('detailedSkillCalcResult').classList.add('hidden');
+            }
+        }
+
+        // 計算モード切り替え
+        function updateMealCalcMode() {
+            const isAuto = document.getElementById('mealCalcAuto').checked;
+            document.getElementById('manualMealCount').disabled = isAuto;
+            
+            if (isAuto) {
+                updateAutoMealPreview();
+            }
+        }
+
+        // 日曜夜までの食事数を計算
+        function calculateMealsUntilSundayNight() {
+            const DAYS = ['月', '火', '水', '木', '金', '土', '日'];
+            const TIMES = ['朝', '昼', '夜'];
+            
+            const currentDay = document.getElementById('currentDay').value;
+            const currentTime = document.getElementById('currentTime').value;
+            const morningTime = document.getElementById('morningTime').value;
+            const noonTime = document.getElementById('noonTime').value;
+            const eveningTime = document.getElementById('eveningTime').value;
+            
+            function timeToMinutes(timeStr) {
+                const [hours, minutes] = timeStr.split(':').map(Number);
+                return hours * 60 + minutes;
+            }
+            
+            const currentMinutes = timeToMinutes(currentTime);
+            const currentDayIndex = DAYS.indexOf(currentDay);
+            
+            const mealTimes = {
+                '朝': timeToMinutes(morningTime),
+                '昼': timeToMinutes(noonTime),
+                '夜': timeToMinutes(eveningTime)
+            };
+            
+            // 日曜夜の絶対時刻を計算
+            const daysUntilSunday = (7 - currentDayIndex) % 7; // 0なら今日が日曜
+            const sundayNightMinutes = daysUntilSunday * 24 * 60 + mealTimes['夜'];
+            
+            // 現在時刻から日曜夜までの食事をカウント
+            let count = 0;
+            
+            for (let dayOffset = 0; dayOffset <= 7; dayOffset++) {
+                const dayIndex = (currentDayIndex + dayOffset) % 7;
+                const day = DAYS[dayIndex];
+                
+                for (const time of TIMES) {
+                    const mealMinutes = mealTimes[time] + dayOffset * 24 * 60;
+                    
+                    // 現在時刻より後、かつ日曜夜以下
+                    if (mealMinutes > currentMinutes && mealMinutes <= sundayNightMinutes) {
+                        count++;
+                    }
+                }
+            }
+            
+            return Math.max(1, count); // 最低1食
+        }
+
+        // 手動食事数のデフォルト値を更新
+        function updateManualMealCount() {
+            const count = calculateMealsUntilSundayNight();
+            document.getElementById('manualMealCount').value = count;
+        }
+
+        // 自動計算時のプレビュー更新
+        function updateAutoMealPreview() {
+            const preview = document.getElementById('autoMealPreview');
+            if (!preview) return; // 要素がない場合はスキップ
+            
+            const meals = getMealsForNext24Hours();
+            
+            if (meals.length === 0) {
+                preview.innerHTML = '<span style="color: #d32f2f;">エラー：食事が見つかりません</span>';
+                return;
+            }
+            
+            const mealList = meals.map(m => `${m.day}${m.time}`).join('、');
+            preview.innerHTML = `
+                <strong>計算対象：</strong>${meals.length}食<br>
+                <span style="color: #666;">${mealList}</span>
+            `;
+        }
+
+        // プレビュー更新のイベントリスナーを設定
+        function setupMealPreviewListeners() {
+            const elements = ['currentDay', 'currentTime', 'morningTime', 'noonTime', 'eveningTime'];
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('change', () => {
+                        if (document.getElementById('mealCalcAuto').checked) {
+                            updateAutoMealPreview();
+                        }
+                        updateManualMealCount(); // 手動食事数も更新
+                    });
+                }
+            });
+        }
+
+        // 向こう24時間の食事を取得
+        function getMealsForNext24Hours() {
+            const DAYS = ['月', '火', '水', '木', '金', '土', '日'];
+            const TIMES = ['朝', '昼', '夜'];
+            
+            const currentDay = document.getElementById('currentDay').value;
+            const currentTime = document.getElementById('currentTime').value;
+            const morningTime = document.getElementById('morningTime').value;
+            const noonTime = document.getElementById('noonTime').value;
+            const eveningTime = document.getElementById('eveningTime').value;
+            
+            function timeToMinutes(timeStr) {
+                const [hours, minutes] = timeStr.split(':').map(Number);
+                return hours * 60 + minutes;
+            }
+            
+            const currentMinutes = timeToMinutes(currentTime);
+            const currentDayIndex = DAYS.indexOf(currentDay);
+            
+            const mealTimes = {
+                '朝': timeToMinutes(morningTime),
+                '昼': timeToMinutes(noonTime),
+                '夜': timeToMinutes(eveningTime)
+            };
+            
+            const meals = [];
+            const endMinutes = currentMinutes + 24 * 60; // 24時間後
+            
+            // 最大8日分をチェック（24時間 + バッファ）
+            for (let dayOffset = 0; dayOffset < 8; dayOffset++) {
+                const dayIndex = (currentDayIndex + dayOffset) % 7;
+                const day = DAYS[dayIndex];
+                
+                for (const time of TIMES) {
+                    const mealMinutes = mealTimes[time] + dayOffset * 24 * 60;
+                    
+                    // 現在時刻より後、かつ24時間以内
+                    if (mealMinutes > currentMinutes && mealMinutes <= endMinutes) {
+                        meals.push({
+                            day: day,
+                            time: time,
+                            isWeekend: day === '日',
+                            isMondayMorning: day === '月' && time === '朝',
+                            absoluteMinutes: mealMinutes - currentMinutes  // 現在時刻からの経過分数
+                        });
+                    }
+                }
+            }
+            
+            return meals;
+        }
+
+        // 計算対象の食事を取得（自動 or 手動）
+        function getMealsForCalculation() {
+            const isAuto = document.getElementById('mealCalcAuto').checked;
+            
+            if (isAuto) {
+                return getMealsForNext24Hours();
+            } else {
+                // 手動モード：指定された食事数分を取得
+                const count = parseInt(document.getElementById('manualMealCount').value);
+                const allMeals = getMealsForNext24Hours();
+                
+                // 24時間を超えても指定数まで取得
+                const DAYS = ['月', '火', '水', '木', '金', '土', '日'];
+                const TIMES = ['朝', '昼', '夜'];
+                const currentDay = document.getElementById('currentDay').value;
+                const currentTime = document.getElementById('currentTime').value;
+                const currentDayIndex = DAYS.indexOf(currentDay);
+                
+                function timeToMinutes(timeStr) {
+                    const [hours, minutes] = timeStr.split(':').map(Number);
+                    return hours * 60 + minutes;
+                }
+                
+                const currentMinutes = timeToMinutes(currentTime);
+                const mealTimes = {
+                    '朝': timeToMinutes(document.getElementById('morningTime').value),
+                    '昼': timeToMinutes(document.getElementById('noonTime').value),
+                    '夜': timeToMinutes(document.getElementById('eveningTime').value)
+                };
+                
+                const meals = [];
+                
+                // 最大22日分をチェック（21食 × 3 = 7日 × 3 + α）
+                for (let dayOffset = 0; dayOffset < 22; dayOffset++) {
+                    if (meals.length >= count) break;
+                    
+                    const dayIndex = (currentDayIndex + dayOffset) % 7;
+                    const day = DAYS[dayIndex];
+                    
+                    for (const time of TIMES) {
+                        if (meals.length >= count) break;
+                        
+                        const mealMinutes = mealTimes[time] + dayOffset * 24 * 60;
+                        
+                        // 現在時刻より後
+                        if (mealMinutes > currentMinutes) {
+                            meals.push({
+                                day: day,
+                                time: time,
+                                isWeekend: day === '日',
+                                isMondayMorning: day === '月' && time === '朝',
+                                absoluteMinutes: mealMinutes - currentMinutes  // 現在時刻からの経過分数
+                            });
+                        }
+                    }
+                }
+                
+                return meals.slice(0, count);
+            }
+        }
+
+        // 料理選択UIを生成（削除 - 不要になった）
+        function generateMealSelectionUI() {
+            // 削除済み - 新しいUIでは不要
+        }
+
+        // スキル発動回数ごとのループでも詳細計算を反映
+        function selectMealCountQuick(count) {
+            // 削除済み - 新しいUIでは不要
+        }
+
+        // スケジュール情報を取得（所持数考慮モード用）
+        function getScheduleData() {
+            const sleepStart = parseTime(document.getElementById('sleepStart').value);
+            const sleepEnd = parseTime(document.getElementById('sleepEnd').value);
+            const workDuration = parseFloat(document.getElementById('workDuration').value);
+            const workTapInterval = parseFloat(document.getElementById('workTapInterval').value);
+            const relaxTapInterval = parseFloat(document.getElementById('relaxTapInterval').value);
+            
+            let sleepDuration = sleepEnd >= sleepStart 
+                ? sleepEnd - sleepStart 
+                : (24 - sleepStart) + sleepEnd;
+            
+            const relaxDuration = 24 - sleepDuration - workDuration;
+            
+            return {
+                sleepStart: sleepStart,
+                sleepEnd: sleepEnd,
+                sleepDuration: sleepDuration,
+                workDuration: workDuration,
+                workStart: sleepEnd,
+                workEnd: sleepEnd + workDuration,
+                workTapInterval: workTapInterval,
+                relaxDuration: relaxDuration,
+                relaxStart: sleepEnd + workDuration,
+                relaxEnd: sleepEnd + workDuration + relaxDuration,
+                relaxTapInterval: relaxTapInterval
+            };
+        }
+
+        // 24時間タイムラインを構築（所持数考慮モード用）
+        function buildTimeline(scheduleData) {
+            const timeline = [];
+            
+            // 現在時刻（料理チャンスS計算の起点）
+            const currentTime = document.getElementById('currentTime').value;
+            
+            function timeToMinutes(timeStr) {
+                const [hours, minutes] = timeStr.split(':').map(Number);
+                return hours * 60 + minutes;
+            }
+            
+            const currentMinutes = timeToMinutes(currentTime);
+            
+            // スケジュールの開始時刻（時間単位を分単位に変換）
+            const sleepStartMinutes = scheduleData.sleepStart * 60;
+            const sleepDurationMinutes = scheduleData.sleepDuration * 60;
+            const workDurationMinutes = scheduleData.workDuration * 60;
+            const relaxDurationMinutes = scheduleData.relaxDuration * 60;
+            
+            // 現在時刻が24時間スケジュールの中でどの位置にあるかを計算
+            // スケジュールは sleepStart から始まる
+            let offsetFromSleepStart = currentMinutes - sleepStartMinutes;
+            if (offsetFromSleepStart < 0) {
+                offsetFromSleepStart += 24 * 60;
+            }
+            
+            // 現在時刻を0分として、そこからのタイムラインを構築
+            // 最大10日分（21食 = 7日間に余裕を持たせる）
+            for (let cycleOffset = -1; cycleOffset <= 9; cycleOffset++) {
+                const cycleBaseMinutes = cycleOffset * 24 * 60 - offsetFromSleepStart;
+                
+                // 睡眠
+                const sleepStart = cycleBaseMinutes;
+                const sleepEnd = sleepStart + sleepDurationMinutes;
+                timeline.push({
+                    type: 'sleep',
+                    start: sleepStart,
+                    end: sleepEnd,
+                    efficiency: 0
+                });
+                
+                // 集中作業
+                const workStart = sleepEnd;
+                const workEnd = workStart + workDurationMinutes;
+                timeline.push({
+                    type: 'work',
+                    start: workStart,
+                    end: workEnd,
+                    efficiency: 1.0  // 毎分タップ想定
+                });
+                
+                // リラックス
+                const relaxStart = workEnd;
+                const relaxEnd = relaxStart + relaxDurationMinutes;
+                timeline.push({
+                    type: 'relax',
+                    start: relaxStart,
+                    end: relaxEnd,
+                    efficiency: 1.0  // タップ間隔は無視（満タン時間が不明なため）
+                });
+            }
+            
+            return timeline;
+        }
+
+        // スキルエナジーの詳細計算
+        async function calculateDetailedSkillEnergy() {
+            try {
+                // ===== ステップ1: 既存のポケモンスペックを取得 =====
+                const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+                const pokemon = POKEMON_STATS[pokemonType];
+                const level = parseInt(document.getElementById('level').value);
+                
+                const speedM = document.getElementById('speedM').checked;
+                const speedS = document.getElementById('speedS').checked;
+                const skillM = document.getElementById('skillM').checked;
+                const skillS = document.getElementById('skillS').checked;
+                const otebonus = parseInt(document.getElementById('otebonus').value);
+                
+                const speedNature = parseFloat(document.querySelector('input[name="speedNature"]:checked').value);
+                const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked').value);
+                const campTicket = document.getElementById('campTicket').checked;
+                
+                const exSpeed = parseFloat(document.querySelector('input[name="exSpeed"]:checked').value);
+                const exOther = document.querySelector('input[name="exOther"]:checked').value;
+                const eventSpeed = parseFloat(document.getElementById('eventSpeed').value) / 100;
+                const eventSkill = parseFloat(document.getElementById('eventSkill').value) / 100;
+                
+                // おてつだいスピード計算（既存ロジック）
+                const levelSpeedBonus = 1 - 0.002 * (level - 1);
+                const currentRawSpeed = pokemon.rawBaseSpeed * levelSpeedBonus;
+                const energyBonus = 0.45;
+                let baseSpeed = currentRawSpeed * energyBonus;
+                
+                let subSkillBonus = 0;
+                if (speedM) subSkillBonus += 0.14;
+                if (speedS) subSkillBonus += 0.07;
+                subSkillBonus += 0.05 * otebonus;
+                subSkillBonus = Math.min(subSkillBonus, 0.35);
+                
+                let currentSpeed = baseSpeed * (1 - subSkillBonus);
+                currentSpeed = currentSpeed * speedNature;
+                currentSpeed = currentSpeed / (campTicket ? 1.2 : 1.0);
+                currentSpeed = currentSpeed * exSpeed;
+                currentSpeed = currentSpeed * (1 - eventSpeed);
+                
+                const finalSpeed = currentSpeed;
+                const helpCount = 86400 / finalSpeed;
+                
+                // スキル確率計算（既存ロジック）
+                let skillProb = pokemon.skillProb;
+                
+                let subSkillSkillBonus = 0;
+                if (skillM) subSkillSkillBonus += 0.36;
+                if (skillS) subSkillSkillBonus += 0.18;
+                
+                if (subSkillSkillBonus > 0) {
+                    skillProb = skillProb * (1 + subSkillSkillBonus);
+                }
+                
+                skillProb = skillProb * skillNature;
+                
+                if (exOther === 'skill') {
+                    skillProb = skillProb * 1.25;
+                }
+                
+                skillProb = skillProb * (1 + eventSkill);
+                
+                // 所持数考慮モードかチェック（スキル発動回数の計算に影響）
+                const useCapacityMode = document.getElementById('useCapacityCalculation') && 
+                                       document.getElementById('useCapacityCalculation').checked;
+                
+                let skillCountPerDay;
+                if (useCapacityMode) {
+                    // 所持数考慮モード：睡眠時間を除外
+                    const scheduleData = getScheduleData();
+                    const activeDuration = scheduleData.workDuration + scheduleData.relaxDuration; // 睡眠を除く
+                    const activeHelpCount = (activeDuration * 3600) / finalSpeed;
+                    skillCountPerDay = activeHelpCount * skillProb;
+                    console.log(`スキル発動回数（所持考慮）: 活動時間${activeDuration}h → ${skillCountPerDay.toFixed(2)}回/日`);
+                } else {
+                    // 通常モード：24時間フル稼働
+                    skillCountPerDay = helpCount * skillProb;
+                    console.log(`スキル発動回数（通常）: 24時間 → ${skillCountPerDay.toFixed(2)}回/日`);
+                }
+                
+                // ===== ステップ2: 料理スケジュールを取得 =====
+                const selectedMeals = getMealsForCalculation();
+                
+                if (selectedMeals.length === 0) {
+                    alert('食事が見つかりません。現在時刻と料理タイミングを確認してください。');
+                    return;
+                }
+                
+                // ===== ステップ3: 料理区間のスキル期待値を計算 =====
+                const skillPlacements = [];
+                
+                // 所持数考慮モードかチェック
+                const useCapacityMode = document.getElementById('useCapacityCalculation') && 
+                                       document.getElementById('useCapacityCalculation').checked;
+                
+                if (useCapacityMode) {
+                    // 所持数考慮モード：スケジュールを考慮した計算
+                    const scheduleData = getScheduleData();
+                    
+                    // 24時間のタイムライン（分単位）を構築
+                    const timeline = buildTimeline(scheduleData);
+                    
+                    console.log('=== 所持数考慮モード：スケジュール ===');
+                    console.log('睡眠:', scheduleData.sleepStart, '-', scheduleData.sleepEnd, '(', scheduleData.sleepDuration, 'h)');
+                    console.log('集中作業:', scheduleData.workDuration, 'h');
+                    console.log('リラックス:', scheduleData.relaxDuration, 'h');
+                    console.log('タイムライン（最初の3サイクル）:');
+                    timeline.slice(0, 9).forEach((p, idx) => {
+                        console.log(`  [${idx}] ${p.type}: ${p.start}-${p.end}分 (効率${p.efficiency})`);
+                    });
+                    
+                    for (let i = 0; i < selectedMeals.length - 1; i++) {
+                        const meal = selectedMeals[i];
+                        const nextMeal = selectedMeals[i + 1];
+                        
+                        // 料理区間の開始・終了時刻（分単位）
+                        const intervalStart = meal.absoluteMinutes;
+                        const intervalEnd = nextMeal.absoluteMinutes;
+                        
+                        console.log(`\n料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time} (${intervalStart}-${intervalEnd}分)`);
+                        
+                        // この区間内の各時間帯でのスキル発動期待値を計算
+                        let intervalSkillExpected = 0;
+                        
+                        for (const period of timeline) {
+                            // 区間と時間帯の重なりを計算
+                            const overlapStart = Math.max(intervalStart, period.start);
+                            const overlapEnd = Math.min(intervalEnd, period.end);
+                            
+                            if (overlapStart < overlapEnd) {
+                                const overlapMinutes = overlapEnd - overlapStart;
+                                const overlapSeconds = overlapMinutes * 60;
+                                
+                                if (period.type === 'sleep') {
+                                    // 睡眠中はスキル発動なし
+                                    console.log(`  ${period.type}(${period.start}-${period.end}): 重なり${overlapMinutes}分 → スキル0`);
+                                    intervalSkillExpected += 0;
+                                } else {
+                                    // 集中作業 or リラックス
+                                    const helpsInOverlap = overlapSeconds / finalSpeed;
+                                    const skillsInOverlap = helpsInOverlap * skillProb;
+                                    console.log(`  ${period.type}(${period.start}-${period.end}): 重なり${overlapMinutes}分 → スキル${skillsInOverlap.toFixed(2)}`);
+                                    intervalSkillExpected += skillsInOverlap;
+                                }
+                            }
+                        }
+                        
+                        console.log(`  → 区間合計スキル発動: ${intervalSkillExpected.toFixed(2)}`);
+                        skillPlacements.push(intervalSkillExpected);
+                    }
+                } else {
+                    // 通常モード：24時間フル稼働
+                    console.log('=== 通常モード：24時間フル稼働 ===');
+                    for (let i = 0; i < selectedMeals.length - 1; i++) {
+                        const meal = selectedMeals[i];
+                        const nextMeal = selectedMeals[i + 1];
+                        
+                        // absoluteMinutesを使って時間差を計算
+                        const durationMinutes = nextMeal.absoluteMinutes - meal.absoluteMinutes;
+                        const durationSeconds = durationMinutes * 60;
+                        
+                        const helpsInInterval = durationSeconds / finalSpeed;
+                        const skillsInInterval = helpsInInterval * skillProb;
+                        
+                        console.log(`料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time}`);
+                        console.log(`  時間: ${durationMinutes}分`);
+                        console.log(`  スキル発動: ${skillsInInterval.toFixed(2)}`);
+                        
+                        skillPlacements.push(skillsInInterval);
+                    }
+                }
+                
+                const totalSkillExpected = skillPlacements.reduce((sum, s) => sum + s, 0);
+                console.log(`\n総スキル発動期待値: ${totalSkillExpected.toFixed(2)}`);
+                
+                // ===== ステップ4: エナジー計算 =====
+                const skillLevel = parseInt(document.getElementById('skillLevel').value);
+                const baseCookEnergy = parseFloat(document.getElementById('cookEnergy').value);
+                
+                const result = calculateSkillEnergyExpectedValue(
+                    selectedMeals,
+                    skillPlacements,
+                    skillLevel,
+                    baseCookEnergy
+                );
+                
+                const skillEnergyTotal = result.withSkill - result.baseline;
+                const skillEnergyPerActivation = totalSkillExpected > 0 ? skillEnergyTotal / totalSkillExpected : 0;
+                const skillEnergyPerDay = skillEnergyPerActivation * skillCountPerDay;
+                
+                // ===== ステップ5: 結果を表示 =====
+                document.getElementById('skillEnergyPerSkill').textContent = Math.round(skillEnergyPerActivation).toLocaleString();
+                document.getElementById('skillEnergyPerDay').textContent = Math.round(skillEnergyPerDay).toLocaleString();
+                document.getElementById('detailedSkillCalcResult').classList.remove('hidden');
+                
+                // グローバル変数に保存（計算時に使用）
+                window.detailedSkillEnergyPerDay = skillEnergyPerDay;
+                window.detailedSkillEnergyPerActivation = skillEnergyPerActivation;
+                
+                alert('スキルエナジーを計算しました！\n1日スキルエナジー: ' + Math.round(skillEnergyPerDay).toLocaleString() + '\n\n「計算開始」ボタンで複合期待値を計算してください。');
+                
+            } catch (error) {
+                console.error('詳細計算エラー:', error);
+                console.error('スタックトレース:', error.stack);
+                alert('エラーが発生しました: ' + error.message + '\n\n詳細はコンソールを確認してください。');
+            }
+        }
+
+        // スキルエナジー期待値計算（コア関数）
+        function calculateSkillEnergyExpectedValue(meals, skillPlacements, skillLevel, baseCookEnergy) {
+            const SKILL_EFFECTS = {
+                1: 0.04, 2: 0.05, 3: 0.06,
+                4: 0.07, 5: 0.08, 6: 0.10
+            };
+            const skillEffect = SKILL_EFFECTS[skillLevel];
+            const MAX_BONUS = 0.70;
+            
+            // 全パターン生成
+            const patternCount = Math.pow(2, meals.length);
+            
+            let baselineEnergy = 0;
+            let withSkillEnergy = 0;
+            
+            // 各パターンを計算
+            for (let p = 0; p < patternCount; p++) {
+                const pattern = [];
+                for (let j = 0; j < meals.length; j++) {
+                    pattern.push((p >> j) & 1);
+                }
+                
+                // このパターンのエナジー（ベースライン）
+                let baselinePatternEnergy = 0;
+                let baselineProb = 1.0;
+                
+                for (let i = 0; i < meals.length; i++) {
+                    const meal = meals[i];
+                    const baseRate = meal.isWeekend ? 0.30 : 0.10;
+                    const multiplier = meal.isWeekend ? 3 : 2;
+                    
+                    if (pattern[i] === 1) {
+                        baselinePatternEnergy += baseCookEnergy * multiplier;
+                        baselineProb *= baseRate;
+                    } else {
+                        baselinePatternEnergy += baseCookEnergy;
+                        baselineProb *= (1 - baseRate);
+                    }
+                }
+                
+                baselineEnergy += baselinePatternEnergy * baselineProb;
+                
+                // このパターンのエナジー（スキルあり）
+                let skillPatternEnergy = 0;
+                let skillProb = 1.0;
+                let accumulatedBonus = 0;
+                
+                for (let i = 0; i < meals.length; i++) {
+                    const meal = meals[i];
+                    
+                    // 月曜朝リセット
+                    if (meal.isMondayMorning && i > 0) {
+                        accumulatedBonus = 0;
+                    }
+                    
+                    // スキル発動
+                    if (i > 0) {
+                        accumulatedBonus = Math.min(
+                            accumulatedBonus + skillPlacements[i - 1] * skillEffect,
+                            MAX_BONUS
+                        );
+                    }
+                    
+                    const baseRate = meal.isWeekend ? 0.30 : 0.10;
+                    const currentSuccessRate = Math.min(baseRate + accumulatedBonus, 1.0);
+                    const multiplier = meal.isWeekend ? 3 : 2;
+                    
+                    if (pattern[i] === 1) {
+                        skillPatternEnergy += baseCookEnergy * multiplier;
+                        skillProb *= currentSuccessRate;
+                        accumulatedBonus = 0;
+                    } else {
+                        skillPatternEnergy += baseCookEnergy;
+                        skillProb *= (1 - currentSuccessRate);
+                    }
+                }
+                
+                withSkillEnergy += skillPatternEnergy * skillProb;
+            }
+            
+            return {
+                baseline: baselineEnergy,
+                withSkill: withSkillEnergy
+            };
+        }
+
         // 初期化
         updateFoodSlotLabels();
         updateScheduleDisplay();
+        setupMealPreviewListeners();
     </script>
 
     <!-- クレジット -->
