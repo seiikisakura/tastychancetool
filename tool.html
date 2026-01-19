@@ -896,133 +896,85 @@
             </div>
         </div>
 
-        <!-- 料理チャンスS 詳細計算 -->
+        <!-- 料理スケジュール設定 -->
         <div class="section">
-            <div class="section-title">料理チャンスS 詳細計算（オプション）</div>
+            <div class="section-title">料理スケジュール設定</div>
             
             <div class="info-box" style="margin-bottom: 15px;">
                 <div class="info-content">
-                    <strong>💡 この機能について：</strong><br>
-                    現在時刻から向こう24時間の食事スケジュールを基準に、料理チャンスSによる正確なスキルエナジーを計算できます。<br>
-                    計算結果は「計算開始」ボタンで複合期待値の計算に自動的に使用されます。<br>
-                    <br>
-                    <strong>使い方：</strong><br>
-                    1. 現在時刻（曜日・時刻）を設定<br>
-                    2. 料理タイミング（朝・昼・夕の時刻）を設定<br>
-                    3. デフォルトで向こう24時間の食事が自動計算されます<br>
-                    4. 手動で食事数を指定することも可能です<br>
-                    <br>
-                    <strong>📅 所持数考慮モードとの連携：</strong><br>
-                    所持数考慮モードが有効な場合、スケジュール設定（睡眠・集中作業・リラックス）を考慮してスキル発動回数を計算します。<br>
-                    • 睡眠中：スキル発動なし<br>
-                    • 集中作業中：通常のスキル発動<br>
-                    • リラックス中：通常のスキル発動<br>
-                    ※タップ間隔による補正は適用されません（満タン時間が不明なため）
+                    <strong>💡 この設定について：</strong><br>
+                    現在時刻から向こう24時間の食事スケジュールを基準に、料理チャンスSによる正確なスキルエナジーを計算します。<br>
+                    計算結果は「計算開始」ボタンで複合期待値の計算に自動的に使用されます。
                 </div>
             </div>
 
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="useDetailedSkillCalc" onchange="toggleDetailedSkillCalc()">
-                    <label for="useDetailedSkillCalc">詳細計算を使用する</label>
+            <!-- 現在時刻設定 -->
+            <div class="input-group">
+                <label class="input-label">現在時刻設定</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                    <div>
+                        <label style="font-size: 13px; color: #666;">曜日</label>
+                        <select id="currentDay" style="margin-top: 5px;">
+                            <option value="月">月曜日</option>
+                            <option value="火">火曜日</option>
+                            <option value="水">水曜日</option>
+                            <option value="木">木曜日</option>
+                            <option value="金">金曜日</option>
+                            <option value="土">土曜日</option>
+                            <option value="日">日曜日</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; color: #666;">時刻</label>
+                        <input type="time" id="currentTime" value="06:00" style="margin-top: 5px;">
+                    </div>
                 </div>
             </div>
 
-            <div id="detailedSkillCalcSection" class="hidden" style="margin-top: 20px;">
-                <!-- 現在時刻設定 -->
-                <div class="input-group">
-                    <label class="input-label">現在時刻設定</label>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
-                        <div>
-                            <label style="font-size: 13px; color: #666;">曜日</label>
-                            <select id="currentDay" style="margin-top: 5px;">
-                                <option value="月">月曜日</option>
-                                <option value="火">火曜日</option>
-                                <option value="水">水曜日</option>
-                                <option value="木">木曜日</option>
-                                <option value="金">金曜日</option>
-                                <option value="土">土曜日</option>
-                                <option value="日">日曜日</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size: 13px; color: #666;">時刻</label>
-                            <input type="time" id="currentTime" value="06:00" style="margin-top: 5px;">
-                        </div>
+            <!-- 料理タイミング設定 -->
+            <div class="input-group" style="margin-top: 20px;">
+                <label class="input-label">料理タイミング設定</label>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
+                    <div>
+                        <label style="font-size: 13px; color: #666;">朝食</label>
+                        <input type="time" id="morningTime" value="06:00" style="margin-top: 5px;">
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; color: #666;">昼食</label>
+                        <input type="time" id="noonTime" value="12:00" style="margin-top: 5px;">
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; color: #666;">夕食</label>
+                        <input type="time" id="eveningTime" value="18:00" style="margin-top: 5px;">
                     </div>
                 </div>
+            </div>
 
-                <!-- 料理タイミング設定 -->
-                <div class="input-group" style="margin-top: 20px;">
-                    <label class="input-label">料理タイミング設定</label>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
-                        <div>
-                            <label style="font-size: 13px; color: #666;">朝食</label>
-                            <input type="time" id="morningTime" value="06:00" style="margin-top: 5px;">
-                        </div>
-                        <div>
-                            <label style="font-size: 13px; color: #666;">昼食</label>
-                            <input type="time" id="noonTime" value="12:00" style="margin-top: 5px;">
-                        </div>
-                        <div>
-                            <label style="font-size: 13px; color: #666;">夕食</label>
-                            <input type="time" id="eveningTime" value="18:00" style="margin-top: 5px;">
-                        </div>
+            <!-- 計算対象選択 -->
+            <div class="input-group" style="margin-top: 20px;">
+                <label class="input-label">計算対象</label>
+                <div style="margin-top: 10px;">
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="radio" name="mealCalcMode" value="auto" id="mealCalcAuto" checked 
+                                   onchange="updateMealCalcMode()" style="margin-right: 8px;">
+                            <span>向こう24時間の食事を自動計算</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="radio" name="mealCalcMode" value="manual" id="mealCalcManual" 
+                                   onchange="updateMealCalcMode()" style="margin-right: 8px;">
+                            <span>手動で食事数を指定：</span>
+                            <input type="number" id="manualMealCount" min="1" max="21" value="1" 
+                                   style="width: 80px; margin-left: 10px;" disabled>
+                            <span style="margin-left: 5px;">食</span>
+                        </label>
                     </div>
                 </div>
-
-                <!-- 計算対象選択 -->
-                <div class="input-group" style="margin-top: 20px;">
-                    <label class="input-label">計算対象</label>
-                    <div style="margin-top: 10px;">
-                        <div style="margin-bottom: 10px;">
-                            <label style="display: flex; align-items: center; cursor: pointer;">
-                                <input type="radio" name="mealCalcMode" value="auto" id="mealCalcAuto" checked 
-                                       onchange="updateMealCalcMode()" style="margin-right: 8px;">
-                                <span>向こう24時間の食事を自動計算</span>
-                            </label>
-                        </div>
-                        <div>
-                            <label style="display: flex; align-items: center; cursor: pointer;">
-                                <input type="radio" name="mealCalcMode" value="manual" id="mealCalcManual" 
-                                       onchange="updateMealCalcMode()" style="margin-right: 8px;">
-                                <span>手動で食事数を指定：</span>
-                                <input type="number" id="manualMealCount" min="1" max="21" value="1" 
-                                       style="width: 80px; margin-left: 10px;" disabled>
-                                <span style="margin-left: 5px;">食</span>
-                            </label>
-                        </div>
-                    </div>
-                    <!-- 自動計算時のプレビュー -->
-                    <div id="autoMealPreview" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 13px;">
-                        <!-- 動的生成 -->
-                    </div>
-                </div>
-
-                <!-- スキルエナジー計算ボタン -->
-                <button type="button" onclick="calculateDetailedSkillEnergy()" 
-                        style="margin-top: 20px; background: #4caf50;">
-                    スキルエナジーを計算
-                </button>
-
-                <!-- 計算結果表示 -->
-                <div id="detailedSkillCalcResult" class="hidden" style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px; border: 2px solid #4caf50;">
-                    <div style="font-weight: bold; color: #2e7d32; margin-bottom: 10px;">
-                        ✅ 計算完了
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <div style="text-align: center; padding: 10px; background: white; border-radius: 5px;">
-                            <div style="font-size: 12px; color: #666;">1回あたり</div>
-                            <div style="font-size: 18px; font-weight: bold; color: #1976d2;" id="skillEnergyPerSkill">--</div>
-                        </div>
-                        <div style="text-align: center; padding: 10px; background: white; border-radius: 5px;">
-                            <div style="font-size: 12px; color: #666;">1日あたり</div>
-                            <div style="font-size: 18px; font-weight: bold; color: #1976d2;" id="skillEnergyPerDay">--</div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 10px; font-size: 13px; color: #555;">
-                        この値は「計算開始」ボタンで複合期待値の計算に自動的に使用されます
-                    </div>
+                <!-- 自動計算時のプレビュー -->
+                <div id="autoMealPreview" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 13px;">
+                    <!-- 動的生成 -->
                 </div>
             </div>
         </div>
@@ -1317,6 +1269,25 @@
                             <span style="font-size: 11px; color: #666;">
                                 (<span id="skillEffectCookEnergy">--</span><span id="skillEffectWeekendMultiplier"></span>×<span id="skillEffectPercent">--</span>%)
                             </span>
+                        </span>
+                    </div>
+                    <div class="spec-row" style="background: #e8f5e9;">
+                        <span class="spec-label">📊 料理チャンスS詳細計算</span>
+                        <span class="spec-value">
+                            <div style="font-size: 12px; color: #2e7d32; margin-bottom: 5px;">
+                                スキルエナジー（1回あたり）: <strong><span id="detailedSkillEnergyPerSkill">--</span></strong>
+                            </div>
+                            <div style="font-size: 12px; color: #2e7d32;">
+                                スキルエナジー（1日あたり）: <strong><span id="detailedSkillEnergyPerDay">--</span></strong>
+                            </div>
+                            <details style="margin-top: 10px;">
+                                <summary style="cursor: pointer; font-size: 11px; color: #1976d2; user-select: none;">
+                                    📊 計算過程の詳細を表示
+                                </summary>
+                                <div id="detailedSkillCalcProcess" style="margin-top: 10px; font-size: 11px; line-height: 1.6; max-height: 400px; overflow-y: auto;">
+                                    <!-- 動的生成 -->
+                                </div>
+                            </details>
                         </span>
                     </div>
                 </div>
@@ -1755,7 +1726,7 @@
                 }
                 
                 // 詳細計算が有効な場合、1回あたりのスキルエナジーを使用
-                const skillEnergyPerActivation = (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerActivation)
+                const skillEnergyPerActivation = (window.detailedSkillEnergyPerActivation)
                     ? window.detailedSkillEnergyPerActivation
                     : cookEnergyPerSkill;
                 
@@ -2381,10 +2352,21 @@
 
         // 鍋容量計算関数
         function calculatePotCapacity() {
-            const baseCapacity = parseInt(document.getElementById('potBaseCapacity').value);
-            const skillExpansion = parseInt(document.getElementById('potSkillExpansion').value);
-            const campTicket = document.getElementById('campTicket').checked;  // 上の「その他設定」から取得
-            const weekendBonus = document.getElementById('weekendBonus').checked;  // イベント補正のウィークエンドボーナスを取得
+            const baseCapacityElement = document.getElementById('potBaseCapacity');
+            const skillExpansionElement = document.getElementById('potSkillExpansion');
+            const campTicketElement = document.getElementById('campTicket');
+            const weekendBonusElement = document.getElementById('weekendBonus');
+            
+            // 要素が存在しない場合はデフォルト値を返す
+            if (!baseCapacityElement || !skillExpansionElement) {
+                console.warn('鍋容量設定の要素が見つかりません。デフォルト値78を使用します。');
+                return 78;
+            }
+            
+            const baseCapacity = parseInt(baseCapacityElement.value) || 78;
+            const skillExpansion = parseInt(skillExpansionElement.value) || 0;
+            const campTicket = campTicketElement ? campTicketElement.checked : false;
+            const weekendBonus = weekendBonusElement ? weekendBonusElement.checked : false;
 
             const formulaParts = [];
             
@@ -2417,10 +2399,12 @@
 
             formulaParts.push(`\n最終鍋容量: ${capacity}個`);
 
-            // 計算式を表示
+            // 計算式を表示（要素が存在する場合のみ）
             const formulaBox = document.getElementById('potCapacityFormula');
-            formulaBox.textContent = formulaParts.join('\n');
-            formulaBox.style.display = 'block';
+            if (formulaBox) {
+                formulaBox.textContent = formulaParts.join('\n');
+                formulaBox.style.display = 'block';
+            }
 
             return capacity;
         }
@@ -2722,12 +2706,7 @@
                                  speedM, speedS, skillM, skillS, foodM, foodS, berryS, otebonus) {
             const errors = [];
             
-            // 詳細計算が有効だが実行されていない場合の警告
-            if (document.getElementById('useDetailedSkillCalc') && document.getElementById('useDetailedSkillCalc').checked) {
-                if (!window.detailedSkillEnergyPerDay || !window.detailedSkillEnergyPerActivation) {
-                    errors.push(`<strong>詳細計算エラー：</strong>「詳細計算を使用する」が有効ですが、スキルエナジーが計算されていません。先に「スキルエナジーを計算」ボタンをクリックしてください。`);
-                }
-            }
+            // 詳細計算は常に自動実行されるため、バリデーション不要
             
             // 性格補正のチェック
             let upCount = 0;
@@ -2835,25 +2814,44 @@
             return null;
         }
 
-        function calculate() {
+        async function calculate() {
+            console.log('=== calculate関数開始 ===');
+            
+            // 料理チャンスS詳細計算を自動実行
+            try {
+                console.log('料理チャンスS詳細計算を開始...');
+                await calculateDetailedSkillEnergy();
+                console.log('料理チャンスS詳細計算が完了しました');
+            } catch (error) {
+                console.error('料理チャンスS詳細計算エラー:', error);
+                console.error('スタックトレース:', error.stack);
+                // エラーでも計算を継続
+            }
+            
             // エラーメッセージをクリア
             document.getElementById('errorMessage').style.display = 'none';
             
             // 所持数計算モードの判定
             const useCapacityCalc = document.getElementById('useCapacityCalculation').checked;
+            console.log('所持数考慮モード:', useCapacityCalc);
             
             if (useCapacityCalc) {
                 // 所持数計算モード
+                console.log('calculateWithCapacityを呼び出します');
                 calculateWithCapacity();
                 return;
             }
             
-            // 従来の計算モード（以下は既存のコードをそのまま継続）
-            // ポケモン選択
-            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
-            const pokemon = POKEMON_STATS[pokemonType];
+            console.log('通常の計算モードを開始します');
+            
+            try {
+                // 従来の計算モード（以下は既存のコードをそのまま継続）
+                // ポケモン選択
+                const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+                const pokemon = POKEMON_STATS[pokemonType];
             
             // 入力値の取得
+            console.log('入力値を取得中...');
             const level = parseInt(document.getElementById('level').value);
             
             const speedM = document.getElementById('speedM').checked;
@@ -2869,15 +2867,18 @@
             const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked').value);
             const foodNature = parseFloat(document.querySelector('input[name="foodNature"]:checked').value);
             
+            console.log('入力値取得完了、バリデーション開始...');
             // バリデーション
             const validationError = validateInputs(level, speedNature, skillNature, foodNature, 
                                                      speedM, speedS, skillM, skillS, foodM, foodS, berryS, otebonus);
             if (validationError) {
+                console.error('バリデーションエラー:', validationError);
                 document.getElementById('errorContent').innerHTML = validationError;
                 document.getElementById('errorMessage').style.display = 'block';
                 document.getElementById('resultsSection').style.display = 'none';
                 return; // 計算を中断
             }
+            console.log('バリデーション成功');
             
             const campTicket = document.getElementById('campTicket').checked;
             const favoriteBerry = document.getElementById('favoriteBerry').checked;
@@ -2914,6 +2915,7 @@
             // 運用モードの判定
             const useReplacement = replacementEnergy > 0;
 
+            console.log('おてつだいスピード計算を開始...');
             // 1. おてつだいスピード計算
             const levelSpeedBonus = 1 - 0.002 * (level - 1);
             const currentRawSpeed = pokemon.rawBaseSpeed * levelSpeedBonus;
@@ -2964,8 +2966,10 @@
             const finalSpeed = currentSpeed;
             const speedFormulaText = speedFormulaParts.join(' ');
             const helpCount = 86400 / finalSpeed;
+            console.log('おてスピ計算完了:', finalSpeed.toFixed(1), '秒, お手伝い回数:', helpCount.toFixed(2), '回/日');
 
             // 2. 食材確率計算
+            console.log('食材確率計算を開始...');
             let foodProb = pokemon.foodProb;
             
             let subSkillFoodBonus = 0;
@@ -3039,8 +3043,13 @@
             }
 
             // 食材計算（ABCシステム）
-            const foodLv30 = document.querySelector('input[name="foodLv30"]:checked').value;
-            const foodLv60 = document.querySelector('input[name="foodLv60"]:checked').value;
+            const foodLv30Element = document.querySelector('input[name="foodLv30"]:checked');
+            const foodLv60Element = document.querySelector('input[name="foodLv60"]:checked');
+            
+            const foodLv30 = foodLv30Element ? foodLv30Element.value : 'A';  // デフォルトA
+            const foodLv60 = foodLv60Element ? foodLv60Element.value : 'A';  // デフォルトA
+            
+            console.log('食材スロット:', {foodLv30, foodLv60});
 
             const activeFoodSlots = [];
             activeFoodSlots.push(...pokemon.foodSlots.lv1);
@@ -3143,13 +3152,23 @@
             document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
             document.getElementById('skillFormula').textContent = skillFormulaText;
             
-            // 詳細計算が有効な場合、スキル効果量を詳細計算結果から取得
-            if (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerActivation) {
+            // 料理チャンスS詳細計算の結果を表示（常に適用）
+            if (window.detailedSkillEnergyPerActivation && window.detailedSkillEnergyPerDay) {
                 document.getElementById('skillEffectAmount').textContent = Math.round(window.detailedSkillEnergyPerActivation).toLocaleString();
                 document.getElementById('skillEffectCookEnergy').textContent = '詳細計算';
                 document.getElementById('skillEffectWeekendMultiplier').textContent = '';
                 document.getElementById('skillEffectPercent').textContent = '';
+                
+                // 詳細計算結果を専用エリアに表示
+                document.getElementById('detailedSkillEnergyPerSkill').textContent = Math.round(window.detailedSkillEnergyPerActivation).toLocaleString();
+                document.getElementById('detailedSkillEnergyPerDay').textContent = Math.round(window.detailedSkillEnergyPerDay).toLocaleString();
+                
+                // 計算過程の詳細を表示
+                if (window.detailedSkillCalcProcessHTML) {
+                    document.getElementById('detailedSkillCalcProcess').innerHTML = window.detailedSkillCalcProcessHTML;
+                }
             } else {
+                // 詳細計算が完了していない場合（エラー時など）は従来の計算を使用
                 document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyBase).toLocaleString();
                 document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
                 document.getElementById('skillEffectWeekendMultiplier').textContent = weekendBonus ? '×2' : '';
@@ -3232,12 +3251,13 @@
             let fullActiveCookEnergy;
             let displaySkillPerActivation;
             
-            if (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerDay) {
+            // 常に詳細計算を使用（useDetailedSkillCalcチェックボックスは削除済み）
+            if (window.detailedSkillEnergyPerDay) {
                 // 詳細計算結果を直接使用（これはスキルエナジー）
                 fullActiveCookEnergy = window.detailedSkillEnergyPerDay * fbMultiplier;
                 displaySkillPerActivation = window.detailedSkillEnergyPerActivation;
             } else {
-                // 通常計算
+                // 詳細計算が完了していない場合は通常計算
                 fullActiveCookEnergy = fullActiveCookEnergyBeforeFB * fbMultiplier;
                 displaySkillPerActivation = cookEnergyPerSkill;
             }
@@ -3388,7 +3408,7 @@
                 let activeFoodEnergyBeforeFB = activeFoodEnergyResult.energyBeforeFB;
                 
                 // 詳細計算が有効な場合、1回あたりのスキルエナジーを使用
-                const skillEnergyPerActivation = (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerActivation)
+                const skillEnergyPerActivation = (window.detailedSkillEnergyPerActivation)
                     ? window.detailedSkillEnergyPerActivation
                     : cookEnergyPerSkill;
                 
@@ -3475,8 +3495,17 @@
             // 所持数計算モード専用の表示を非表示
             document.getElementById('scheduleEnergyBreakdown').style.display = 'none';
 
+            console.log('=== 計算完了、結果表示を開始 ===');
             // 結果セクションを表示
             document.getElementById('resultsSection').style.display = 'block';
+            console.log('結果セクションを表示しました');
+            
+            } catch (error) {
+                console.error('=== 通常計算モードでエラー発生 ===');
+                console.error('エラー:', error);
+                console.error('スタックトレース:', error.stack);
+                alert('計算中にエラーが発生しました: ' + error.message);
+            }
         }
 
         // 所持数計算モード
@@ -3802,8 +3831,11 @@
                 if (eventBerryCount) berryPerCount += 1;
                 
                 // 食材計算
-                const foodLv30 = level >= 30 ? document.querySelector('input[name="foodLv30"]:checked').value : 'A';
-                const foodLv60 = level >= 60 ? document.querySelector('input[name="foodLv60"]:checked').value : 'A';
+                const foodLv30Element = level >= 30 ? document.querySelector('input[name="foodLv30"]:checked') : null;
+                const foodLv60Element = level >= 60 ? document.querySelector('input[name="foodLv60"]:checked') : null;
+                
+                const foodLv30 = foodLv30Element ? foodLv30Element.value : 'A';
+                const foodLv60 = foodLv60Element ? foodLv60Element.value : 'A';
                 
                 const activeFoodSlots = [];
                 activeFoodSlots.push(...pokemon.foodSlots.lv1);
@@ -3941,13 +3973,23 @@
                 document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
                 document.getElementById('skillFormula').textContent = skillFormulaText;
                 
-                // 詳細計算が有効な場合、スキル効果量を詳細計算結果から取得
-                if (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerActivation) {
+                // 料理チャンスS詳細計算の結果を表示（常に適用）
+                if (window.detailedSkillEnergyPerActivation && window.detailedSkillEnergyPerDay) {
                     document.getElementById('skillEffectAmount').textContent = Math.round(window.detailedSkillEnergyPerActivation).toLocaleString();
                     document.getElementById('skillEffectCookEnergy').textContent = '詳細計算';
                     document.getElementById('skillEffectWeekendMultiplier').textContent = '';
                     document.getElementById('skillEffectPercent').textContent = '';
+                    
+                    // 詳細計算結果を専用エリアに表示
+                    document.getElementById('detailedSkillEnergyPerSkill').textContent = Math.round(window.detailedSkillEnergyPerActivation).toLocaleString();
+                    document.getElementById('detailedSkillEnergyPerDay').textContent = Math.round(window.detailedSkillEnergyPerDay).toLocaleString();
+                    
+                    // 計算過程の詳細を表示
+                    if (window.detailedSkillCalcProcessHTML) {
+                        document.getElementById('detailedSkillCalcProcess').innerHTML = window.detailedSkillCalcProcessHTML;
+                    }
                 } else {
+                    // 詳細計算が完了していない場合（エラー時など）は従来の計算を使用
                     document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyBase).toLocaleString();
                     document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
                     document.getElementById('skillEffectWeekendMultiplier').textContent = weekendBonus ? '×2' : '';
@@ -4072,7 +4114,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 let fullActiveCookEnergy;
                 let displaySkillPerActivation;
                 
-                if (document.getElementById('useDetailedSkillCalc').checked && window.detailedSkillEnergyPerDay) {
+                if (window.detailedSkillEnergyPerDay) {
                     // 詳細計算結果を直接使用（これはスキルエナジー）
                     fullActiveCookEnergy = window.detailedSkillEnergyPerDay * fbMultiplier;
                     displaySkillPerActivation = window.detailedSkillEnergyPerActivation;
@@ -4253,21 +4295,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         
         // 詳細計算セクションの表示/非表示切り替え
         function toggleDetailedSkillCalc() {
-            const checkbox = document.getElementById('useDetailedSkillCalc');
-            const section = document.getElementById('detailedSkillCalcSection');
-            
-            if (checkbox.checked) {
-                section.classList.remove('hidden');
-                updateAutoMealPreview(); // プレビューを初期表示
-                updateManualMealCount(); // 手動食事数を初期化
-            } else {
-                section.classList.add('hidden');
-                // グローバル変数をクリア
-                window.detailedSkillEnergyPerDay = null;
-                window.detailedSkillEnergyPerActivation = null;
-                // 結果表示を非表示
-                document.getElementById('detailedSkillCalcResult').classList.add('hidden');
-            }
+            // この関数は不要になりました（詳細計算は常に自動実行）
+            // 後方互換性のために関数は残しています
         }
 
         // 計算モード切り替え
@@ -4319,8 +4348,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 for (const time of TIMES) {
                     const mealMinutes = mealTimes[time] + dayOffset * 24 * 60;
                     
-                    // 現在時刻より後、かつ日曜夜以下
-                    if (mealMinutes > currentMinutes && mealMinutes <= sundayNightMinutes) {
+                    // 現在時刻以降、かつ日曜夜以下
+                    if (mealMinutes >= currentMinutes && mealMinutes <= sundayNightMinutes) {
                         count++;
                     }
                 }
@@ -4406,8 +4435,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 for (const time of TIMES) {
                     const mealMinutes = mealTimes[time] + dayOffset * 24 * 60;
                     
-                    // 現在時刻より後、かつ24時間以内
-                    if (mealMinutes > currentMinutes && mealMinutes <= endMinutes) {
+                    // 現在時刻以降、かつ24時間以内
+                    if (mealMinutes >= currentMinutes && mealMinutes <= endMinutes) {
                         meals.push({
                             day: day,
                             time: time,
@@ -4466,8 +4495,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                         
                         const mealMinutes = mealTimes[time] + dayOffset * 24 * 60;
                         
-                        // 現在時刻より後
-                        if (mealMinutes > currentMinutes) {
+                        // 現在時刻以降
+                        if (mealMinutes >= currentMinutes) {
                             meals.push({
                                 day: day,
                                 time: time,
@@ -4491,6 +4520,393 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         // スキル発動回数ごとのループでも詳細計算を反映
         function selectMealCountQuick(count) {
             // 削除済み - 新しいUIでは不要
+        }
+
+        // 計算過程の詳細HTML生成
+        function generateDetailedProcessHTML(params) {
+            const {
+                useCapacityMode,
+                considerSkillCeiling,
+                scheduleData,
+                selectedMeals,
+                skillPlacements,
+                finalSpeed,
+                skillProb,
+                skillCountPerDay,
+                totalSkillExpectedFinal,
+                totalSkillExpected,
+                skillEnergyPerActivation,
+                skillEnergyPerDay,
+                skillLevel,
+                baseCookEnergy,
+                speedCalcSteps,
+                skillProbCalcSteps,
+                ceilingCalcDetails,
+                skillEnergyTotal,
+                result,
+                energyCalcDetails
+            } = params;
+            
+            let html = '';
+            
+            // 1. 設定情報
+            html += '<div style="margin-bottom: 15px; padding: 10px; background: #f5f5f5; border-radius: 5px;">';
+            html += '<strong style="color: #1976d2; font-size: 14px;">【設定情報】</strong><br>';
+            html += `• 所持数考慮: ${useCapacityMode ? '<strong style="color: #4caf50;">ON</strong>' : 'OFF'}<br>`;
+            html += `• スキル天井考慮: ${considerSkillCeiling ? '<strong style="color: #4caf50;">ON</strong>' : 'OFF'}<br>`;
+            
+            if (useCapacityMode && scheduleData) {
+                html += `• 睡眠時間: ${scheduleData.sleepDuration.toFixed(1)}h (${scheduleData.sleepStart}:00-${scheduleData.sleepEnd}:00)<br>`;
+                html += `• 集中作業: ${scheduleData.workDuration.toFixed(1)}h<br>`;
+                html += `• リラックス: ${scheduleData.relaxDuration.toFixed(1)}h<br>`;
+                html += `• 活動時間合計: ${(scheduleData.workDuration + scheduleData.relaxDuration).toFixed(1)}h<br>`;
+            } else {
+                html += `• 運用時間: 24時間フル稼働<br>`;
+            }
+            html += '</div>';
+            
+            // 2. おてスピ計算の詳細
+            html += '<div style="margin-bottom: 15px; padding: 10px; background: #f5f5f5; border-radius: 5px;">';
+            html += '<strong style="color: #1976d2; font-size: 14px;">【おてつだいスピード計算】</strong><br>';
+            html += `<div style="margin-left: 10px; font-size: 12px;">`;
+            html += `① 基本値: ${speedCalcSteps.base.toFixed(1)}秒<br>`;
+            
+            if (speedCalcSteps.subSkillBonus > 0) {
+                html += `② サブスキル補正後: ${speedCalcSteps.afterSubskill.toFixed(1)}秒<br>`;
+                html += `　　= ${speedCalcSteps.base.toFixed(1)} × (1 - ${(speedCalcSteps.subSkillBonus * 100).toFixed(0)}%)<br>`;
+            }
+            
+            if (speedCalcSteps.speedNature !== 1.0) {
+                html += `③ 性格補正後: ${speedCalcSteps.afterNature.toFixed(1)}秒<br>`;
+                html += `　　= ${speedCalcSteps.afterSubskill.toFixed(1)} × ${speedCalcSteps.speedNature.toFixed(2)}<br>`;
+            }
+            
+            if (speedCalcSteps.campTicket) {
+                html += `④ CT補正後: ${speedCalcSteps.afterCT.toFixed(1)}秒<br>`;
+                html += `　　= ${speedCalcSteps.afterNature.toFixed(1)} ÷ 1.2<br>`;
+            }
+            
+            if (speedCalcSteps.exSpeed !== 1.0) {
+                html += `⑤ EX補正後: ${speedCalcSteps.afterEX.toFixed(1)}秒<br>`;
+                html += `　　= ${speedCalcSteps.afterCT.toFixed(1)} × ${speedCalcSteps.exSpeed.toFixed(2)}<br>`;
+            }
+            
+            if (speedCalcSteps.eventSpeed !== 0) {
+                html += `⑥ イベント補正後: ${speedCalcSteps.final.toFixed(1)}秒<br>`;
+                html += `　　= ${speedCalcSteps.afterEX.toFixed(1)} × (1 - ${(speedCalcSteps.eventSpeed * 100).toFixed(0)}%)<br>`;
+            }
+            
+            html += `<strong>最終おてスピ: ${finalSpeed.toFixed(1)}秒</strong><br>`;
+            html += `</div></div>`;
+            
+            // 3. スキル確率計算の詳細
+            html += '<div style="margin-bottom: 15px; padding: 10px; background: #f5f5f5; border-radius: 5px;">';
+            html += '<strong style="color: #1976d2; font-size: 14px;">【スキル確率計算】</strong><br>';
+            html += `<div style="margin-left: 10px; font-size: 12px;">`;
+            html += `① 基本値: ${(skillProbCalcSteps.base * 100).toFixed(2)}%<br>`;
+            
+            if (skillProbCalcSteps.subSkillBonus > 0) {
+                html += `② サブスキル補正後: ${(skillProbCalcSteps.afterSubskill * 100).toFixed(2)}%<br>`;
+                html += `　　= ${(skillProbCalcSteps.base * 100).toFixed(2)}% × (1 + ${(skillProbCalcSteps.subSkillBonus * 100).toFixed(0)}%)<br>`;
+            }
+            
+            if (skillProbCalcSteps.skillNature !== 1.0) {
+                html += `③ 性格補正後: ${(skillProbCalcSteps.afterNature * 100).toFixed(2)}%<br>`;
+                html += `　　= ${(skillProbCalcSteps.afterSubskill * 100).toFixed(2)}% × ${skillProbCalcSteps.skillNature.toFixed(2)}<br>`;
+            }
+            
+            if (skillProbCalcSteps.exOther === 'skill') {
+                html += `④ EX補正後: ${(skillProbCalcSteps.afterEX * 100).toFixed(2)}%<br>`;
+                html += `　　= ${(skillProbCalcSteps.afterNature * 100).toFixed(2)}% × 1.25<br>`;
+            }
+            
+            if (skillProbCalcSteps.eventSkill !== 0) {
+                html += `⑤ イベント補正後: ${(skillProbCalcSteps.final * 100).toFixed(2)}%<br>`;
+                html += `　　= ${(skillProbCalcSteps.afterEX * 100).toFixed(2)}% × (1 + ${(skillProbCalcSteps.eventSkill * 100).toFixed(0)}%)<br>`;
+            }
+            
+            html += `<strong>最終スキル確率: ${(skillProb * 100).toFixed(2)}%</strong><br>`;
+            html += `</div></div>`;
+            
+            // 4. 料理スケジュール
+            html += '<div style="margin-bottom: 15px; padding: 10px; background: #f5f5f5; border-radius: 5px;">';
+            html += '<strong style="color: #1976d2; font-size: 14px;">【料理スケジュール】</strong><br>';
+            html += `• 対象食事数: ${selectedMeals.length}食<br>`;
+            html += `• 料理区間: ${selectedMeals.length - 1}区間<br>`;
+            html += '<div style="margin-left: 10px; margin-top: 5px; font-size: 12px;">';
+            for (let i = 0; i < selectedMeals.length - 1; i++) {
+                const meal = selectedMeals[i];
+                const nextMeal = selectedMeals[i + 1];
+                const duration = nextMeal.absoluteMinutes - meal.absoluteMinutes;
+                html += `区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time} (${duration}分 = ${(duration/60).toFixed(1)}h)<br>`;
+                html += `　　→ スキル発動: <strong>${skillPlacements[i].toFixed(3)}回</strong><br>`;
+            }
+            html += '</div>';
+            html += '</div>';
+            
+            // 5. スキル発動回数の詳細
+            html += '<div style="margin-bottom: 15px; padding: 10px; background: #f5f5f5; border-radius: 5px;">';
+            html += '<strong style="color: #1976d2; font-size: 14px;">【スキル発動回数】</strong><br>';
+            html += `<div style="margin-left: 10px; font-size: 12px;">`;
+            
+            const activeDuration = useCapacityMode ? (scheduleData.workDuration + scheduleData.relaxDuration) : 24;
+            const activeHelpCount = (activeDuration * 3600) / finalSpeed;
+            
+            html += `• おてスピ: ${finalSpeed.toFixed(1)}秒<br>`;
+            html += `• スキル確率: ${(skillProb * 100).toFixed(2)}%<br>`;
+            html += `• 活動時間: ${activeDuration.toFixed(1)}h${useCapacityMode ? '（睡眠除く）' : ''}<br>`;
+            html += `• お手伝い回数: ${activeHelpCount.toFixed(2)}回<br>`;
+            html += `　　= ${activeDuration.toFixed(1)}h × 3600秒 ÷ ${finalSpeed.toFixed(1)}秒<br>`;
+            
+            if (considerSkillCeiling && ceilingCalcDetails) {
+                html += `• 理論スキル発動: ${ceilingCalcDetails.theoreticalSkillCount.toFixed(2)}回（天井なし）<br>`;
+                html += `　　= ${activeHelpCount.toFixed(2)}回 × ${(skillProb * 100).toFixed(2)}%<br>`;
+                html += `• <strong>実効スキル発動: ${ceilingCalcDetails.effectiveSkillCount.toFixed(2)}回（天井あり）</strong><br>`;
+                html += `　　= モンテカルロシミュレーション（10万回試行）<br>`;
+                html += `• 天井補正倍率: ${ceilingCalcDetails.ceilingMultiplier.toFixed(4)}<br>`;
+                html += `　　= ${ceilingCalcDetails.effectiveSkillCount.toFixed(2)} ÷ ${ceilingCalcDetails.theoreticalSkillCount.toFixed(2)}<br>`;
+            } else {
+                html += `• <strong>1日のスキル発動: ${skillCountPerDay.toFixed(2)}回</strong><br>`;
+                html += `　　= ${activeHelpCount.toFixed(2)}回 × ${(skillProb * 100).toFixed(2)}%<br>`;
+            }
+            
+            html += `<br>`;
+            html += `• 料理スケジュール内の合計（天井考慮前）: ${totalSkillExpected.toFixed(2)}回<br>`;
+            if (considerSkillCeiling && ceilingCalcDetails) {
+                html += `• <strong>料理スケジュール内の合計（天井補正後）: ${totalSkillExpectedFinal.toFixed(2)}回</strong><br>`;
+                html += `　　= ${totalSkillExpected.toFixed(2)} × ${ceilingCalcDetails.ceilingMultiplier.toFixed(4)}<br>`;
+            }
+            html += `</div></div>`;
+            
+            // 6. エナジー計算
+            html += '<div style="margin-bottom: 15px; padding: 10px; background: #f5f5f5; border-radius: 5px;">';
+            html += '<strong style="color: #1976d2; font-size: 14px;">【エナジー計算】</strong><br>';
+            html += `<div style="margin-left: 10px; font-size: 12px;">`;
+            html += `• 料理エナジー（基礎）: ${Math.round(baseCookEnergy).toLocaleString()}<br>`;
+            html += `• スキルレベル: Lv.${skillLevel}<br>`;
+            html += `<br>`;
+            html += `• 料理スケジュール全体のスキル効果: ${Math.round(skillEnergyTotal).toLocaleString()}<br>`;
+            
+            // 向こう24時間（自動計算）の場合：詳細を表示
+            const isAutoMode = document.getElementById('mealCalcAuto').checked;
+            
+            if (isAutoMode && selectedMeals.length <= 10) {
+                // 全パターンの詳細計算を表示
+                html += generateEnergyCalcDetailsHTML(selectedMeals, skillPlacements, skillLevel, baseCookEnergy, energyCalcDetails);
+            } else {
+                // 手動指定の場合：概要のみ
+                html += `<div style="margin-left: 10px; margin-top: 5px; color: #666; font-size: 12px;">`;
+                html += `【計算方法の概要】<br>`;
+                html += `• 全パターン数: ${energyCalcDetails.patternCount.toLocaleString()}通り（2^${selectedMeals.length}）<br>`;
+                html += `• 各パターンで大成功/失敗の組み合わせを評価<br>`;
+                html += `• スキル効果: 区間ごとにボーナス蓄積（${(energyCalcDetails.skillEffect * 100).toFixed(0)}%/回、上限70%）<br>`;
+                html += `• ベースライン期待値: ${Math.round(energyCalcDetails.baseline).toLocaleString()}<br>`;
+                html += `• スキルあり期待値: ${Math.round(energyCalcDetails.withSkill).toLocaleString()}<br>`;
+                html += `• スキル効果: ${Math.round(skillEnergyTotal).toLocaleString()}<br>`;
+                html += `　　= ${Math.round(energyCalcDetails.withSkill).toLocaleString()} - ${Math.round(energyCalcDetails.baseline).toLocaleString()}<br>`;
+                html += `</div>`;
+            }
+            
+            html += `<br>`;
+            html += `• <strong>1回あたりのスキルエナジー: ${Math.round(skillEnergyPerActivation).toLocaleString()}</strong><br>`;
+            html += `　　= ${Math.round(skillEnergyTotal).toLocaleString()} ÷ ${totalSkillExpectedFinal.toFixed(2)}回<br>`;
+            html += `<br>`;
+            html += `• <strong style="color: #d32f2f; font-size: 15px;">1日のスキルエナジー: ${Math.round(skillEnergyPerDay).toLocaleString()}</strong><br>`;
+            html += `　　= ${Math.round(skillEnergyPerActivation).toLocaleString()} × ${skillCountPerDay.toFixed(2)}回<br>`;
+            html += `</div></div>`;
+            
+            return html;
+        }
+
+        // エナジー計算の詳細HTML生成（向こう24時間用）
+        function generateEnergyCalcDetailsHTML(meals, skillPlacements, skillLevel, baseCookEnergy, energyCalcDetails) {
+            let html = '';
+            
+            html += `<div style="margin-left: 10px; margin-top: 5px; color: #666; font-size: 12px;">`;
+            html += `【料理チャンスS効果の詳細計算】<br>`;
+            html += `• 全パターン数: ${energyCalcDetails.patternCount}通り（2^${meals.length}）<br>`;
+            html += `• スキル効果量: ${(energyCalcDetails.skillEffect * 100).toFixed(0)}%/回（Lv.${skillLevel}）<br>`;
+            html += `<br>`;
+            
+            const SKILL_EFFECTS = {
+                1: 0.04, 2: 0.05, 3: 0.06,
+                4: 0.07, 5: 0.08, 6: 0.10
+            };
+            const skillEffect = SKILL_EFFECTS[skillLevel];
+            const MAX_BONUS = 0.70;
+            
+            const patternCount = Math.pow(2, meals.length);
+            
+            // ========== ベースライン（スキルなし）の全パターン表示 ==========
+            html += `<details style="margin-top: 10px; background: white; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">`;
+            html += `<summary style="cursor: pointer; font-weight: bold; color: #f57c00; user-select: none;">`;
+            html += `📋 ベースライン（スキルなし）全${patternCount}パターンの詳細を表示`;
+            html += `</summary>`;
+            html += `<div style="margin-top: 10px; overflow-x: auto;">`;
+            
+            html += `<table style="width: 100%; border-collapse: collapse; font-size: 11px;">`;
+            html += `<thead style="background: #fff3e0;">`;
+            html += `<tr>`;
+            html += `<th style="border: 1px solid #ccc; padding: 4px;">パターン</th>`;
+            for (let i = 0; i < meals.length; i++) {
+                html += `<th style="border: 1px solid #ccc; padding: 4px;">${meals[i].day}${meals[i].time}</th>`;
+            }
+            html += `<th style="border: 1px solid #ccc; padding: 4px;">確率</th>`;
+            html += `<th style="border: 1px solid #ccc; padding: 4px;">エナジー</th>`;
+            html += `<th style="border: 1px solid #ccc; padding: 4px;">寄与度</th>`;
+            html += `</tr>`;
+            html += `</thead>`;
+            html += `<tbody>`;
+            
+            // ベースラインの全パターンを表示
+            for (let p = 0; p < patternCount; p++) {
+                const pattern = [];
+                for (let j = 0; j < meals.length; j++) {
+                    pattern.push((p >> j) & 1);
+                }
+                
+                // ベースラインのエナジー計算（ボーナスなし）
+                let baselinePatternEnergy = 0;
+                let baselineProb = 1.0;
+                
+                for (let i = 0; i < meals.length; i++) {
+                    const meal = meals[i];
+                    const baseRate = meal.isWeekend ? 0.30 : 0.10;
+                    const multiplier = meal.isWeekend ? 3 : 2;
+                    
+                    if (pattern[i] === 1) {
+                        baselinePatternEnergy += baseCookEnergy * multiplier;
+                        baselineProb *= baseRate;
+                    } else {
+                        baselinePatternEnergy += baseCookEnergy;
+                        baselineProb *= (1 - baseRate);
+                    }
+                }
+                
+                const contribution = baselinePatternEnergy * baselineProb;
+                
+                html += `<tr>`;
+                html += `<td style="border: 1px solid #ccc; padding: 4px; text-align: center;">#${p}</td>`;
+                for (let i = 0; i < meals.length; i++) {
+                    const baseRate = meals[i].isWeekend ? 0.30 : 0.10;
+                    const isSuccess = pattern[i] === 1;
+                    html += `<td style="border: 1px solid #ccc; padding: 4px; text-align: center; background: ${isSuccess ? '#c8e6c9' : '#ffcdd2'};">`;
+                    html += `${isSuccess ? '成功' : '失敗'}<br>`;
+                    html += `<span style="font-size: 10px;">(${(baseRate * 100).toFixed(0)}%)</span>`;
+                    html += `</td>`;
+                }
+                html += `<td style="border: 1px solid #ccc; padding: 4px; text-align: right;">${(baselineProb * 100).toFixed(2)}%</td>`;
+                html += `<td style="border: 1px solid #ccc; padding: 4px; text-align: right;">${Math.round(baselinePatternEnergy).toLocaleString()}</td>`;
+                html += `<td style="border: 1px solid #ccc; padding: 4px; text-align: right;">${Math.round(contribution).toLocaleString()}</td>`;
+                html += `</tr>`;
+            }
+            
+            html += `</tbody>`;
+            html += `</table>`;
+            html += `</div>`;
+            html += `</details>`;
+            
+            // ========== スキルありの全パターン表示 ==========
+            html += `<details style="margin-top: 10px; background: white; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">`;
+            html += `<summary style="cursor: pointer; font-weight: bold; color: #1976d2; user-select: none;">`;
+            html += `📋 スキルあり全${patternCount}パターンの詳細を表示`;
+            html += `</summary>`;
+            html += `<div style="margin-top: 10px; overflow-x: auto;">`;
+            
+            html += `<table style="width: 100%; border-collapse: collapse; font-size: 11px;">`;
+            html += `<thead style="background: #e3f2fd;">`;
+            html += `<tr>`;
+            html += `<th style="border: 1px solid #ccc; padding: 4px;">パターン</th>`;
+            for (let i = 0; i < meals.length; i++) {
+                html += `<th style="border: 1px solid #ccc; padding: 4px;">${meals[i].day}${meals[i].time}</th>`;
+            }
+            html += `<th style="border: 1px solid #ccc; padding: 4px;">確率</th>`;
+            html += `<th style="border: 1px solid #ccc; padding: 4px;">エナジー</th>`;
+            html += `<th style="border: 1px solid #ccc; padding: 4px;">寄与度</th>`;
+            html += `</tr>`;
+            html += `</thead>`;
+            html += `<tbody>`;
+            
+            // スキルありの全パターンを表示
+            for (let p = 0; p < patternCount; p++) {
+                const pattern = [];
+                for (let j = 0; j < meals.length; j++) {
+                    pattern.push((p >> j) & 1);
+                }
+                
+                // スキルありのエナジー計算
+                let skillPatternEnergy = 0;
+                let skillProb = 1.0;
+                let accumulatedBonus = 0;
+                
+                const bonusSteps = [];
+                
+                for (let i = 0; i < meals.length; i++) {
+                    const meal = meals[i];
+                    
+                    // 月曜朝リセット
+                    if (meal.isMondayMorning && i > 0) {
+                        accumulatedBonus = 0;
+                    }
+                    
+                    // スキル発動
+                    if (i > 0) {
+                        accumulatedBonus = Math.min(
+                            accumulatedBonus + skillPlacements[i - 1] * skillEffect,
+                            MAX_BONUS
+                        );
+                    }
+                    
+                    bonusSteps.push(accumulatedBonus);
+                    
+                    const baseRate = meal.isWeekend ? 0.30 : 0.10;
+                    const currentSuccessRate = Math.min(baseRate + accumulatedBonus, 1.0);
+                    const multiplier = meal.isWeekend ? 3 : 2;
+                    
+                    if (pattern[i] === 1) {
+                        skillPatternEnergy += baseCookEnergy * multiplier;
+                        skillProb *= currentSuccessRate;
+                        accumulatedBonus = 0;
+                    } else {
+                        skillPatternEnergy += baseCookEnergy;
+                        skillProb *= (1 - currentSuccessRate);
+                    }
+                }
+                
+                const contribution = skillPatternEnergy * skillProb;
+                
+                html += `<tr>`;
+                html += `<td style="border: 1px solid #ccc; padding: 4px; text-align: center;">#${p}</td>`;
+                for (let i = 0; i < meals.length; i++) {
+                    const baseRate = meals[i].isWeekend ? 0.30 : 0.10;
+                    const successRate = Math.min(baseRate + bonusSteps[i], 1.0);
+                    const isSuccess = pattern[i] === 1;
+                    html += `<td style="border: 1px solid #ccc; padding: 4px; text-align: center; background: ${isSuccess ? '#c8e6c9' : '#ffcdd2'};">`;
+                    html += `${isSuccess ? '成功' : '失敗'}<br>`;
+                    html += `<span style="font-size: 10px;">(${(successRate * 100).toFixed(0)}%)</span>`;
+                    html += `</td>`;
+                }
+                html += `<td style="border: 1px solid #ccc; padding: 4px; text-align: right;">${(skillProb * 100).toFixed(2)}%</td>`;
+                html += `<td style="border: 1px solid #ccc; padding: 4px; text-align: right;">${Math.round(skillPatternEnergy).toLocaleString()}</td>`;
+                html += `<td style="border: 1px solid #ccc; padding: 4px; text-align: right;">${Math.round(contribution).toLocaleString()}</td>`;
+                html += `</tr>`;
+            }
+            
+            html += `</tbody>`;
+            html += `</table>`;
+            html += `</div>`;
+            html += `</details>`;
+            
+            html += `<br>`;
+            html += `• <strong>ベースライン期待値（スキルなし）: ${Math.round(energyCalcDetails.baseline).toLocaleString()}</strong><br>`;
+            html += `　　= 全パターンの寄与度の合計<br>`;
+            html += `• <strong>スキルあり期待値: ${Math.round(energyCalcDetails.withSkill).toLocaleString()}</strong><br>`;
+            html += `　　= 全パターンの寄与度の合計<br>`;
+            html += `• <strong style="color: #d32f2f;">スキル効果: ${Math.round(energyCalcDetails.withSkill - energyCalcDetails.baseline).toLocaleString()}</strong><br>`;
+            html += `　　= ${Math.round(energyCalcDetails.withSkill).toLocaleString()} - ${Math.round(energyCalcDetails.baseline).toLocaleString()}<br>`;
+            html += `</div>`;
+            
+            return html;
         }
 
         // スケジュール情報を取得（所持数考慮モード用）
@@ -4590,11 +5006,14 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 
         // スキルエナジーの詳細計算
         async function calculateDetailedSkillEnergy() {
+            console.log('=== calculateDetailedSkillEnergy関数開始 ===');
             try {
                 // ===== ステップ1: 既存のポケモンスペックを取得 =====
+                console.log('ステップ1: ポケモンスペック取得');
                 const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
                 const pokemon = POKEMON_STATS[pokemonType];
                 const level = parseInt(document.getElementById('level').value);
+                console.log('ポケモン:', pokemonType, 'レベル:', level);
                 
                 const speedM = document.getElementById('speedM').checked;
                 const speedS = document.getElementById('speedS').checked;
@@ -4617,6 +5036,11 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 const energyBonus = 0.45;
                 let baseSpeed = currentRawSpeed * energyBonus;
                 
+                // 計算段階を保存（詳細表示用）
+                const speedCalcSteps = {
+                    base: baseSpeed
+                };
+                
                 let subSkillBonus = 0;
                 if (speedM) subSkillBonus += 0.14;
                 if (speedS) subSkillBonus += 0.07;
@@ -4624,16 +5048,35 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 subSkillBonus = Math.min(subSkillBonus, 0.35);
                 
                 let currentSpeed = baseSpeed * (1 - subSkillBonus);
+                speedCalcSteps.afterSubskill = currentSpeed;
+                speedCalcSteps.subSkillBonus = subSkillBonus;
+                
                 currentSpeed = currentSpeed * speedNature;
+                speedCalcSteps.afterNature = currentSpeed;
+                speedCalcSteps.speedNature = speedNature;
+                
                 currentSpeed = currentSpeed / (campTicket ? 1.2 : 1.0);
+                speedCalcSteps.afterCT = currentSpeed;
+                speedCalcSteps.campTicket = campTicket;
+                
                 currentSpeed = currentSpeed * exSpeed;
+                speedCalcSteps.afterEX = currentSpeed;
+                speedCalcSteps.exSpeed = exSpeed;
+                
                 currentSpeed = currentSpeed * (1 - eventSpeed);
+                speedCalcSteps.final = currentSpeed;
+                speedCalcSteps.eventSpeed = eventSpeed;
                 
                 const finalSpeed = currentSpeed;
                 const helpCount = 86400 / finalSpeed;
                 
                 // スキル確率計算（既存ロジック）
                 let skillProb = pokemon.skillProb;
+                
+                // 計算段階を保存（詳細表示用）
+                const skillProbCalcSteps = {
+                    base: pokemon.skillProb
+                };
                 
                 let subSkillSkillBonus = 0;
                 if (skillM) subSkillSkillBonus += 0.36;
@@ -4642,51 +5085,71 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 if (subSkillSkillBonus > 0) {
                     skillProb = skillProb * (1 + subSkillSkillBonus);
                 }
+                skillProbCalcSteps.afterSubskill = skillProb;
+                skillProbCalcSteps.subSkillBonus = subSkillSkillBonus;
                 
                 skillProb = skillProb * skillNature;
+                skillProbCalcSteps.afterNature = skillProb;
+                skillProbCalcSteps.skillNature = skillNature;
                 
                 if (exOther === 'skill') {
                     skillProb = skillProb * 1.25;
                 }
+                skillProbCalcSteps.afterEX = skillProb;
+                skillProbCalcSteps.exOther = exOther;
                 
                 skillProb = skillProb * (1 + eventSkill);
+                skillProbCalcSteps.final = skillProb;
+                skillProbCalcSteps.eventSkill = eventSkill;
+                
+                // スキル天井考慮フラグ
+                const considerSkillCeiling = document.getElementById('considerSkillCeiling').checked;
                 
                 // 所持数考慮モードかチェック（スキル発動回数の計算に影響）
-                const useCapacityMode = document.getElementById('useCapacityCalculation') && 
+                let useCapacityMode = document.getElementById('useCapacityCalculation') && 
                                        document.getElementById('useCapacityCalculation').checked;
                 
                 let skillCountPerDay;
+                let scheduleData;  // 所持数考慮モード用
+                
                 if (useCapacityMode) {
                     // 所持数考慮モード：睡眠時間を除外
-                    const scheduleData = getScheduleData();
+                    scheduleData = getScheduleData();
                     const activeDuration = scheduleData.workDuration + scheduleData.relaxDuration; // 睡眠を除く
                     const activeHelpCount = (activeDuration * 3600) / finalSpeed;
-                    skillCountPerDay = activeHelpCount * skillProb;
-                    console.log(`スキル発動回数（所持考慮）: 活動時間${activeDuration}h → ${skillCountPerDay.toFixed(2)}回/日`);
+                    
+                    // スキル天井考慮
+                    skillCountPerDay = calculateEffectiveSkillCount(activeHelpCount, skillProb, considerSkillCeiling, 78);
+                    
+                    console.log(`スキル発動回数（所持考慮）: 活動時間${activeDuration}h → ${skillCountPerDay.toFixed(2)}回/日${considerSkillCeiling ? '（天井考慮）' : ''}`);
                 } else {
                     // 通常モード：24時間フル稼働
-                    skillCountPerDay = helpCount * skillProb;
-                    console.log(`スキル発動回数（通常）: 24時間 → ${skillCountPerDay.toFixed(2)}回/日`);
+                    skillCountPerDay = calculateEffectiveSkillCount(helpCount, skillProb, considerSkillCeiling, 78);
+                    
+                    console.log(`スキル発動回数（通常）: 24時間 → ${skillCountPerDay.toFixed(2)}回/日${considerSkillCeiling ? '（天井考慮）' : ''}`);
                 }
                 
                 // ===== ステップ2: 料理スケジュールを取得 =====
+                console.log('ステップ2: 料理スケジュール取得');
                 const selectedMeals = getMealsForCalculation();
+                console.log('取得した食事数:', selectedMeals.length);
                 
                 if (selectedMeals.length === 0) {
+                    console.error('食事が見つかりません');
                     alert('食事が見つかりません。現在時刻と料理タイミングを確認してください。');
                     return;
                 }
+                console.log('食事スケジュール:', selectedMeals);
                 
                 // ===== ステップ3: 料理区間のスキル期待値を計算 =====
+                console.log('ステップ3: 料理区間のスキル期待値計算');
                 const skillPlacements = [];
                 
-                // 所持数考慮モードかチェック
-                const useCapacityMode = document.getElementById('useCapacityCalculation') && 
-                                       document.getElementById('useCapacityCalculation').checked;
+                // useCapacityModeは既に上で宣言済み
                 
                 if (useCapacityMode) {
                     // 所持数考慮モード：スケジュールを考慮した計算
-                    const scheduleData = getScheduleData();
+                    // scheduleDataは既に上で取得済み
                     
                     // 24時間のタイムライン（分単位）を構築
                     const timeline = buildTimeline(scheduleData);
@@ -4762,11 +5225,43 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 }
                 
                 const totalSkillExpected = skillPlacements.reduce((sum, s) => sum + s, 0);
-                console.log(`\n総スキル発動期待値: ${totalSkillExpected.toFixed(2)}`);
+                console.log(`\n総スキル発動期待値（天井考慮前）: ${totalSkillExpected.toFixed(2)}`);
+                
+                // 天井補正の詳細情報を保存（詳細表示用）
+                let ceilingCalcDetails = null;
+                
+                // 天井考慮による補正
+                if (considerSkillCeiling && totalSkillExpected > 0) {
+                    // 天井なしの理論値と天井ありの実効値の比率を計算
+                    const theoreticalSkillCount = useCapacityMode 
+                        ? (scheduleData.workDuration + scheduleData.relaxDuration) * 3600 / finalSpeed * skillProb
+                        : helpCount * skillProb;
+                    
+                    const ceilingMultiplier = skillCountPerDay / theoreticalSkillCount;
+                    
+                    ceilingCalcDetails = {
+                        theoreticalSkillCount: theoreticalSkillCount,
+                        effectiveSkillCount: skillCountPerDay,
+                        ceilingMultiplier: ceilingMultiplier
+                    };
+                    
+                    console.log(`天井補正倍率: ${ceilingMultiplier.toFixed(4)} (${skillCountPerDay.toFixed(2)} / ${theoreticalSkillCount.toFixed(2)})`);
+                    
+                    // 各料理区間のスキル発動を補正
+                    for (let i = 0; i < skillPlacements.length; i++) {
+                        skillPlacements[i] *= ceilingMultiplier;
+                    }
+                }
+                
+                // 補正後の総スキル発動期待値を再計算
+                const totalSkillExpectedFinal = skillPlacements.reduce((sum, s) => sum + s, 0);
+                console.log(`総スキル発動期待値（最終）: ${totalSkillExpectedFinal.toFixed(2)}`);
                 
                 // ===== ステップ4: エナジー計算 =====
+                console.log('ステップ4: エナジー計算');
                 const skillLevel = parseInt(document.getElementById('skillLevel').value);
                 const baseCookEnergy = parseFloat(document.getElementById('cookEnergy').value);
+                console.log('スキルレベル:', skillLevel, '料理エナジー:', baseCookEnergy);
                 
                 const result = calculateSkillEnergyExpectedValue(
                     selectedMeals,
@@ -4775,25 +5270,65 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     baseCookEnergy
                 );
                 
+                // エナジー計算の詳細を保存（詳細表示用）
+                const energyCalcDetails = {
+                    patternCount: Math.pow(2, selectedMeals.length),
+                    baseline: result.baseline,
+                    withSkill: result.withSkill,
+                    skillEffect: skillLevel === 6 ? 0.10 : (skillLevel === 5 ? 0.08 : (skillLevel === 4 ? 0.07 : (skillLevel === 3 ? 0.06 : (skillLevel === 2 ? 0.05 : 0.04))))
+                };
+                
                 const skillEnergyTotal = result.withSkill - result.baseline;
-                const skillEnergyPerActivation = totalSkillExpected > 0 ? skillEnergyTotal / totalSkillExpected : 0;
+                const skillEnergyPerActivation = totalSkillExpectedFinal > 0 ? skillEnergyTotal / totalSkillExpectedFinal : 0;
                 const skillEnergyPerDay = skillEnergyPerActivation * skillCountPerDay;
                 
-                // ===== ステップ5: 結果を表示 =====
-                document.getElementById('skillEnergyPerSkill').textContent = Math.round(skillEnergyPerActivation).toLocaleString();
-                document.getElementById('skillEnergyPerDay').textContent = Math.round(skillEnergyPerDay).toLocaleString();
-                document.getElementById('detailedSkillCalcResult').classList.remove('hidden');
-                
-                // グローバル変数に保存（計算時に使用）
+                // ===== ステップ5: グローバル変数に保存 & 計算過程HTMLを生成 =====
+                console.log('ステップ5: グローバル変数に保存 & 計算過程HTML生成');
+                // グローバル変数に保存（calculate関数で使用）
                 window.detailedSkillEnergyPerDay = skillEnergyPerDay;
                 window.detailedSkillEnergyPerActivation = skillEnergyPerActivation;
+                console.log('グローバル変数に保存:', {
+                    skillEnergyPerActivation: Math.round(skillEnergyPerActivation),
+                    skillEnergyPerDay: Math.round(skillEnergyPerDay)
+                });
                 
-                alert('スキルエナジーを計算しました！\n1日スキルエナジー: ' + Math.round(skillEnergyPerDay).toLocaleString() + '\n\n「計算開始」ボタンで複合期待値を計算してください。');
+                // 計算過程の詳細を生成
+                const processHTML = generateDetailedProcessHTML({
+                    useCapacityMode,
+                    considerSkillCeiling,
+                    scheduleData,
+                    selectedMeals,
+                    skillPlacements,
+                    finalSpeed,
+                    skillProb,
+                    skillCountPerDay,
+                    totalSkillExpectedFinal,
+                    totalSkillExpected,
+                    skillEnergyPerActivation,
+                    skillEnergyPerDay,
+                    skillLevel,
+                    baseCookEnergy,
+                    speedCalcSteps,
+                    skillProbCalcSteps,
+                    ceilingCalcDetails,
+                    skillEnergyTotal,
+                    result,
+                    energyCalcDetails
+                });
+                
+                // 計算過程HTMLもグローバル変数に保存（calculate関数で表示）
+                window.detailedSkillCalcProcessHTML = processHTML;
+                console.log('計算過程HTMLを生成して保存しました');
+                
+                console.log('=== 料理チャンスS詳細計算完了 ===', {
+                    skillEnergyPerActivation: Math.round(skillEnergyPerActivation),
+                    skillEnergyPerDay: Math.round(skillEnergyPerDay)
+                });
                 
             } catch (error) {
                 console.error('詳細計算エラー:', error);
                 console.error('スタックトレース:', error.stack);
-                alert('エラーが発生しました: ' + error.message + '\n\n詳細はコンソールを確認してください。');
+                // エラーが発生しても計算を継続（従来の計算方法にフォールバック）
             }
         }
 
