@@ -399,6 +399,14 @@
                     <input type="radio" id="pokemon_weavile" name="pokemon" value="weavile" onchange="updateFoodSlotLabels()">
                     <label for="pokemon_weavile">マニューラ</label>
                 </div>
+                <div class="radio-item">
+                    <input type="radio" id="pokemon_dedenne" name="pokemon" value="dedenne" onchange="updateFoodSlotLabels()">
+                    <label for="pokemon_dedenne">デデンネ</label>
+                </div>
+                <div class="radio-item">
+                    <input type="radio" id="pokemon_spheal_holiday" name="pokemon" value="spheal_holiday" onchange="updateFoodSlotLabels()">
+                    <label for="pokemon_spheal_holiday">タマザラシ(ホリデーリース)</label>
+                </div>
             </div>
         </div>
 
@@ -903,18 +911,28 @@
             <div class="info-box" style="margin-bottom: 15px;">
                 <div class="info-content">
                     <strong>💡 この設定について：</strong><br>
-                    現在時刻から向こう24時間の食事スケジュールを基準に、料理チャンスSによる正確なスキルエナジーを計算します。<br>
+                    開始時刻から指定期間の食事スケジュールを基準に、料理チャンスSによる正確なスキルエナジーを計算します。<br>
                     計算結果は「計算開始」ボタンで複合期待値の計算に自動的に使用されます。
+                </div>
+            </div>
+
+            <!-- 計算期間設定 -->
+            <div class="input-group">
+                <label class="input-label">計算期間</label>
+                <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                    <input type="range" id="calculationPeriod" min="1" max="24" value="24" 
+                           oninput="updatePeriodDisplay()" style="flex: 1;">
+                    <span id="periodDisplay" style="font-weight: bold; min-width: 60px;">24時間</span>
                 </div>
             </div>
 
             <!-- 現在時刻設定 -->
             <div class="input-group">
-                <label class="input-label">現在時刻設定</label>
+                <label class="input-label">開始時刻設定</label>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
                     <div>
                         <label style="font-size: 13px; color: #666;">曜日</label>
-                        <select id="currentDay" style="margin-top: 5px;">
+                        <select id="currentDay" style="margin-top: 5px;" onchange="updateMealPreview()">
                             <option value="月">月曜日</option>
                             <option value="火">火曜日</option>
                             <option value="水">水曜日</option>
@@ -926,7 +944,7 @@
                     </div>
                     <div>
                         <label style="font-size: 13px; color: #666;">時刻</label>
-                        <input type="time" id="currentTime" value="06:00" style="margin-top: 5px;">
+                        <input type="time" id="currentTime" value="06:00" style="margin-top: 5px;" onchange="updateMealPreview()">
                     </div>
                 </div>
             </div>
@@ -937,15 +955,15 @@
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
                     <div>
                         <label style="font-size: 13px; color: #666;">朝食</label>
-                        <input type="time" id="morningTime" value="06:00" style="margin-top: 5px;">
+                        <input type="time" id="morningTime" value="06:00" style="margin-top: 5px;" onchange="updateMealPreview()">
                     </div>
                     <div>
                         <label style="font-size: 13px; color: #666;">昼食</label>
-                        <input type="time" id="noonTime" value="12:00" style="margin-top: 5px;">
+                        <input type="time" id="noonTime" value="12:00" style="margin-top: 5px;" onchange="updateMealPreview()">
                     </div>
                     <div>
                         <label style="font-size: 13px; color: #666;">夕食</label>
-                        <input type="time" id="eveningTime" value="18:00" style="margin-top: 5px;">
+                        <input type="time" id="eveningTime" value="18:00" style="margin-top: 5px;" onchange="updateMealPreview()">
                     </div>
                 </div>
             </div>
@@ -958,7 +976,7 @@
                         <label style="display: flex; align-items: center; cursor: pointer;">
                             <input type="radio" name="mealCalcMode" value="auto" id="mealCalcAuto" checked 
                                    onchange="updateMealCalcMode()" style="margin-right: 8px;">
-                            <span>向こう24時間の食事を自動計算</span>
+                            <span>期間内の食事を自動計算</span>
                         </label>
                     </div>
                     <div>
@@ -1059,12 +1077,15 @@
             <div class="checkbox-group">
                 <div class="checkbox-item">
                     <input type="checkbox" id="considerSkillCeiling">
-                    <label for="considerSkillCeiling">スキル連続不発天井を考慮する（78回）</label>
+                    <label for="considerSkillCeiling">スキル連続不発天井を考慮する</label>
                 </div>
             </div>
             <div class="note" style="margin-top: 10px; color: #666; font-size: 13px; margin-left: 25px;">
                 <strong>【天井の仕様】</strong><br>
-                きのみ得意ポケモン（ラグラージ・マニューラ）は、積極運用中のお手伝いで77回連続してスキルが不発だった場合、78回目のお手伝いで強制的にスキルが発動します。<br>
+                • ラグラージ・マニューラ（きのみ得意）：77回連続不発→78回目に強制発動<br>
+                • デデンネ（スキル得意）：56回連続不発→57回目に強制発動<br>
+                • タマザラシ(ホリデーリース)（スキル得意）：43回連続不発→44回目に強制発動<br>
+                積極運用中のお手伝いで上記回数連続してスキルが不発だった場合、次のお手伝いで強制的にスキルが発動します。<br>
                 <br>
                 <strong>【計算方法】</strong><br>
                 この機能を有効にすると、モンテカルロシミュレーション（100,000回試行）により天井到達時の強制発動を考慮した実効スキル発動回数を計算します。<br>
@@ -1430,6 +1451,8 @@
                 berryBaseEnergy: 29,  // 基礎エナジー
                 foodProb: 0.146,
                 skillProb: 0.034,
+                baseCapacity: 30,     // 基礎所持数（きのみ18+食材12）
+                maxSkillRights: 1,    // スキル発動権上限（きのみ得意）
                 foodSlots: {
                     lv1: [
                         { label: 'A', name: 'コーン', count: 1, energy: 140 }
@@ -1453,6 +1476,8 @@
                 berryBaseEnergy: 31,  // 基礎エナジー
                 foodProb: 0.251,
                 skillProb: 0.018,
+                baseCapacity: 26,     // 基礎所持数（きのみ18+食材8）
+                maxSkillRights: 1,    // スキル発動権上限（きのみ得意）
                 foodSlots: {
                     lv1: [
                         { label: 'A', name: 'ミート', count: 1, energy: 103 }
@@ -1465,6 +1490,60 @@
                         { label: 'A', name: 'ミート', count: 4, energy: 103 },
                         { label: 'B', name: 'エッグ', count: 3, energy: 115 },
                         { label: 'C', name: '大豆', count: 4, energy: 100 }
+                    ]
+                }
+            },
+            dedenne: {
+                name: 'デデンネ',
+                rawBaseSpeed: 2500,  // 基礎おてスピ
+                lv60RawSpeed: 992,   // Lv60、元気上限での結果（2500*(1-0.002*59)*0.45=992）
+                berryName: 'ウブのみ',
+                berryBaseEnergy: 25,  // 基礎エナジー
+                foodProb: 0.177,      // 17.7%
+                skillProb: 0.045,     // 4.5%
+                skillCeiling: 57,     // スキル天井（56回不発で57回目に強制発動）
+                baseCapacity: 19,     // 基礎所持数（スキル得意）
+                maxSkillRights: 2,    // スキル発動権上限（スキル得意）
+                defaultBerryCount: 1, // デフォルトきのみ個数（スキル得意）
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'りんご', count: 1, energy: 90 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'りんご', count: 2, energy: 90 },
+                        { label: 'B', name: 'カカオ', count: 1, energy: 151 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'りんご', count: 4, energy: 90 },
+                        { label: 'B', name: 'カカオ', count: 2, energy: 151 },
+                        { label: 'C', name: 'コーン', count: 2, energy: 140 }
+                    ]
+                }
+            },
+            spheal_holiday: {
+                name: 'タマザラシ(ホリデーリース)',
+                rawBaseSpeed: 3300,  // 基礎おてスピ
+                lv60RawSpeed: 1309,  // Lv60、元気上限での結果（3300*(1-0.002*59)*0.45=1309）
+                berryName: 'チーゴのみ',
+                berryBaseEnergy: 32,  // 基礎エナジー
+                foodProb: 0.214,      // 21.4%
+                skillProb: 0.050,     // 5.0%
+                skillCeiling: 44,     // スキル天井（43回不発で44回目に強制発動）
+                baseCapacity: 20,     // 基礎所持数（スキル得意）
+                maxSkillRights: 2,    // スキル発動権上限（スキル得意）
+                defaultBerryCount: 1, // デフォルトきのみ個数（スキル得意）
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'オイル', count: 1, energy: 121 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'オイル', count: 2, energy: 121 },
+                        { label: 'B', name: 'ミート', count: 3, energy: 103 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'オイル', count: 4, energy: 121 },
+                        { label: 'B', name: 'ミート', count: 4, energy: 103 },
+                        { label: 'C', name: 'ジンジャー', count: 4, energy: 109 }
                     ]
                 }
             }
@@ -1612,7 +1691,9 @@
 
         // 最大所持数の計算
         function calculateMaxCapacity(pokemonType, campTicket) {
-            const baseCapacity = pokemonType === 'swampert' ? 30 : 26;
+            // ポケモン固有の基礎所持数を取得（未設定の場合はデフォルト18）
+            const pokemon = POKEMON_STATS[pokemonType];
+            const baseCapacity = pokemon.baseCapacity || 18;
             
             // サブスキル補正
             let subskillBonus = 0;
@@ -1671,7 +1752,8 @@
                 fbMultiplier,
                 favoriteBerry,
                 exOther,
-                tFillHours
+                tFillHours,
+                maxSkillRights  // スキル発動権上限
             } = params;
             
             const helpsPerHour = 3600 / finalSpeed;
@@ -1745,8 +1827,8 @@
                 
                 if (elapsedTime > timeTo1Skill) {
                     // タップ間隔がスキル満タン時間より長い場合、損失が発生
-                    const maxSkills = 1;  // 簡略化：上限1回とする
-                    skillEffective = Math.min(skillTheory, maxSkills);
+                    // ポケモン固有のスキル発動権上限を使用（デフォルト1）
+                    skillEffective = Math.min(skillTheory, maxSkillRights || 1);
                 }
                 
                 totalBerryEnergy += activeBerryEnergy + idleBerryEnergy;
@@ -1798,6 +1880,7 @@
                 favoriteBerry,
                 exOther,
                 scheduleData,
+                maxSkillRights,  // スキル発動権上限
                 // Phase 1用の追加パラメータ
                 foodEnergyMode,
                 activeFoodSlots,
@@ -1851,7 +1934,8 @@
                 fbMultiplier: fbMultiplier,
                 favoriteBerry: favoriteBerry,
                 exOther: exOther,
-                tFillHours: tFill.hours
+                tFillHours: tFill.hours,
+                maxSkillRights: maxSkillRights  // スキル発動権上限
             });
             
             // リラックス時間
@@ -1872,7 +1956,8 @@
                 fbMultiplier: fbMultiplier,
                 favoriteBerry: favoriteBerry,
                 exOther: exOther,
-                tFillHours: tFill.hours
+                tFillHours: tFill.hours,
+                maxSkillRights: maxSkillRights  // スキル発動権上限
             });
             
             // 合計エナジー
@@ -2965,8 +3050,12 @@
             
             const finalSpeed = currentSpeed;
             const speedFormulaText = speedFormulaParts.join(' ');
-            const helpCount = 86400 / finalSpeed;
-            console.log('おてスピ計算完了:', finalSpeed.toFixed(1), '秒, お手伝い回数:', helpCount.toFixed(2), '回/日');
+            
+            // 計算期間を取得（1-24時間）
+            const calculationPeriod = parseInt(document.getElementById('calculationPeriod').value);
+            const periodSeconds = calculationPeriod * 3600;
+            const helpCount = periodSeconds / finalSpeed;
+            console.log('おてスピ計算完了:', finalSpeed.toFixed(1), '秒, お手伝い回数:', helpCount.toFixed(2), `回/${calculationPeriod}時間`);
 
             // 2. 食材確率計算
             console.log('食材確率計算を開始...');
@@ -3024,14 +3113,19 @@
             const skillFormulaText = skillFormulaParts.join(' ');
             
             // スキル発動回数（天井考慮あり/なし）
-            const skillCountPerDay = calculateEffectiveSkillCount(helpCount, skillProb, considerSkillCeiling, 78);
+            // ポケモン固有の天井値を使用（未設定の場合は78）
+            const skillCeiling = pokemon.skillCeiling || 78;
+            const skillCountPerDay = calculateEffectiveSkillCount(helpCount, skillProb, considerSkillCeiling, skillCeiling);
 
             // 4. エナジー計算
             const berryBaseEnergy = pokemon.berryBaseEnergy;
             const berryEnergyPerBerry = calculateBerryEnergy(berryBaseEnergy, level);
             
-            let berryPerCount = 2;
-            if (berryS) berryPerCount = 3;
+            // きのみ個数の設定（ポケモン固有の値を優先）
+            let berryPerCount = pokemon.defaultBerryCount !== undefined ? pokemon.defaultBerryCount : 2;
+            if (berryS) {
+                berryPerCount = pokemon.defaultBerryCount !== undefined ? pokemon.defaultBerryCount + 1 : 3;
+            }
             
             let berryEnergyPerHelp = berryEnergyPerBerry * berryPerCount;
             if (favoriteBerry) {
@@ -3326,6 +3420,18 @@
             const skillEffectPercent = SKILL_EFFECTS[skillLevel] * 100;
             const maxActivations = Math.ceil(70 / skillEffectPercent);
             
+            // 期間内の実際の料理回数を計算（料理チャンスS詳細計算から取得 or 簡易計算）
+            let mealsInPeriod = 3; // デフォルト（24時間=3回）
+            if (window.detailedSkillCalcMeals && window.detailedSkillCalcMeals.length > 0) {
+                // 料理チャンスS詳細計算が完了している場合
+                mealsInPeriod = window.detailedSkillCalcMeals.length;
+            } else {
+                // 簡易計算：期間内の食事数を計算
+                const periodMeals = getMealsForPeriod();
+                mealsInPeriod = periodMeals.length;
+            }
+            console.log('期間内の料理回数:', mealsInPeriod, '回');
+            
             const resultsTable = document.getElementById('resultsTable');
             resultsTable.innerHTML = '';
             
@@ -3360,7 +3466,7 @@
                         idleEnergy: totalExpected,
                         idleRatio: 1,
                         skillCountPerDay: skillCountPerDay,
-                        fullActiveTotal: fullActiveTotal  // 24時間分の100%毎分タップ
+                        fullActiveTotal: fullActiveTotal  // 期間分の100%毎分タップ
                     });
                     
                     if (totalExpected > maxExpected) {
@@ -3371,7 +3477,7 @@
                 }
                 
                 const successRate = getSuccessRate(skillLevel, n, weekendBonus);
-                const successExpected = successRate * 3;
+                const successExpected = successRate * mealsInPeriod;  // 期間内の料理回数を使用
                 const skillActivationExpected = successExpected * n;
                 
                 const loopCount = skillCountPerDay / skillActivationExpected;
@@ -3727,7 +3833,11 @@
                 currentSpeed = currentSpeed * (1 - eventSpeed);
                 
                 const finalSpeed = currentSpeed;
-                const helpCount = 86400 / finalSpeed;
+                
+                // 計算期間を取得（1-24時間）
+                const calculationPeriod = parseInt(document.getElementById('calculationPeriod').value);
+                const periodSeconds = calculationPeriod * 3600;
+                const helpCount = periodSeconds / finalSpeed;
                 
                 // おてスピの途中式作成
                 let speedFormulaParts = [`基礎${pokemon.rawBaseSpeed.toFixed(0)}`];
@@ -3799,7 +3909,9 @@
                 skillProb = skillProb * (1 + eventSkill);
                 
                 // スキル発動回数（天井考慮あり/なし）
-                const skillCountPerDay = calculateEffectiveSkillCount(helpCount, skillProb, considerSkillCeiling, 78);
+                // ポケモン固有の天井値を使用（未設定の場合は78）
+                const skillCeiling = pokemon.skillCeiling || 78;
+                const skillCountPerDay = calculateEffectiveSkillCount(helpCount, skillProb, considerSkillCeiling, skillCeiling);
                 
                 // スキル確率の途中式作成
                 let skillFormulaParts = [`お手伝い${helpCount.toFixed(2)}回`, `×基本${(pokemon.skillProb * 100).toFixed(1)}%`];
@@ -3826,8 +3938,11 @@
                 const berryBaseEnergy = pokemon.berryBaseEnergy;
                 const berryEnergyPerBerry = calculateBerryEnergy(berryBaseEnergy, level);
                 
-                let berryPerCount = 2;
-                if (berryS) berryPerCount = 3;
+                // きのみ個数の設定（ポケモン固有の値を優先）
+                let berryPerCount = pokemon.defaultBerryCount !== undefined ? pokemon.defaultBerryCount : 2;
+                if (berryS) {
+                    berryPerCount = pokemon.defaultBerryCount !== undefined ? pokemon.defaultBerryCount + 1 : 3;
+                }
                 if (eventBerryCount) berryPerCount += 1;
                 
                 // 食材計算
@@ -3911,6 +4026,7 @@
                     favoriteBerry: favoriteBerry,
                     exOther: exOther,
                     scheduleData: scheduleData,
+                    maxSkillRights: pokemon.maxSkillRights || 1,  // スキル発動権上限
                     // Phase 1用の追加パラメータ
                     foodEnergyMode: foodEnergyMode,
                     activeFoodSlots: activeFoodSlots,
@@ -4003,7 +4119,7 @@
                 // デバッグ表示
                 if (document.getElementById('showDebugInfo').checked) {
                     // 最大所持数の詳細計算
-                    const baseCapacity = pokemonType === 'swampert' ? 30 : 26;
+                    const baseCapacity = pokemon.baseCapacity || 18;
                     let subskillBonus = 0;
                     const subskillParts = [];
                     if (document.getElementById('capacityS').checked) {
@@ -4369,16 +4485,28 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             const preview = document.getElementById('autoMealPreview');
             if (!preview) return; // 要素がない場合はスキップ
             
-            const meals = getMealsForNext24Hours();
+            const meals = getMealsForPeriod();
             
             if (meals.length === 0) {
                 preview.innerHTML = '<span style="color: #d32f2f;">エラー：食事が見つかりません</span>';
                 return;
             }
             
-            const mealList = meals.map(m => `${m.day}${m.time}`).join('、');
+            // 期間内の料理と期間外の料理を分けて表示
+            const period = parseInt(document.getElementById('calculationPeriod').value);
+            const mealsWithinPeriod = meals.filter(m => m.isWithinPeriod);
+            const mealsOutsidePeriod = meals.filter(m => !m.isWithinPeriod);
+            
+            const mealList = meals.map(m => {
+                if (m.isWithinPeriod) {
+                    return `${m.day}${m.time}`;
+                } else {
+                    return `${m.day}${m.time}（部分：${m.partialHours.toFixed(1)}h）`;
+                }
+            }).join('、');
+            
             preview.innerHTML = `
-                <strong>計算対象：</strong>${meals.length}食<br>
+                <strong>計算対象：</strong>${meals.length}食（${period}時間内${mealsOutsidePeriod.length > 0 ? '＋部分' : ''}）<br>
                 <span style="color: #666;">${mealList}</span>
             `;
         }
@@ -4397,12 +4525,41 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     });
                 }
             });
+            
+            // 期間スライダーのイベントリスナーを追加
+            const periodSlider = document.getElementById('calculationPeriod');
+            if (periodSlider) {
+                periodSlider.addEventListener('input', () => {
+                    updatePeriodDisplay();
+                    if (document.getElementById('mealCalcAuto').checked) {
+                        updateAutoMealPreview();
+                    }
+                });
+            }
+        }
+        
+        // 期間表示を更新
+        function updatePeriodDisplay() {
+            const period = parseInt(document.getElementById('calculationPeriod').value);
+            document.getElementById('periodDisplay').textContent = `${period}時間`;
+        }
+        
+        // 食事プレビューを更新（既存のupdateAutoMealPreviewを呼び出すラッパー）
+        function updateMealPreview() {
+            if (document.getElementById('mealCalcAuto').checked) {
+                updateAutoMealPreview();
+            }
         }
 
-        // 向こう24時間の食事を取得
-        function getMealsForNext24Hours() {
+        // 指定期間内の食事を取得（期間直後の最初の料理も含む）
+        function getMealsForPeriod(hours = null) {
             const DAYS = ['月', '火', '水', '木', '金', '土', '日'];
             const TIMES = ['朝', '昼', '夜'];
+            
+            // 期間が指定されていない場合は入力値から取得
+            if (hours === null) {
+                hours = parseInt(document.getElementById('calculationPeriod').value);
+            }
             
             const currentDay = document.getElementById('currentDay').value;
             const currentTime = document.getElementById('currentTime').value;
@@ -4425,9 +4582,10 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             };
             
             const meals = [];
-            const endMinutes = currentMinutes + 24 * 60; // 24時間後
+            const endMinutes = currentMinutes + hours * 60; // 指定時間後
+            let foundFirstMealAfterPeriod = false;
             
-            // 最大8日分をチェック（24時間 + バッファ）
+            // 最大8日分をチェック（余裕を持たせる）
             for (let dayOffset = 0; dayOffset < 8; dayOffset++) {
                 const dayIndex = (currentDayIndex + dayOffset) % 7;
                 const day = DAYS[dayIndex];
@@ -4435,20 +4593,46 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 for (const time of TIMES) {
                     const mealMinutes = mealTimes[time] + dayOffset * 24 * 60;
                     
-                    // 現在時刻以降、かつ24時間以内
+                    // 現在時刻以降、かつ指定時間以内
                     if (mealMinutes >= currentMinutes && mealMinutes <= endMinutes) {
                         meals.push({
                             day: day,
                             time: time,
-                            isWeekend: day === '日',
+                            isWeekend: day === '土' || day === '日',
                             isMondayMorning: day === '月' && time === '朝',
-                            absoluteMinutes: mealMinutes - currentMinutes  // 現在時刻からの経過分数
+                            absoluteMinutes: mealMinutes - currentMinutes,  // 現在時刻からの経過分数
+                            isWithinPeriod: true  // 期間内の料理
                         });
                     }
+                    // 期間直後の最初の料理も追加（スキル蓄積用）
+                    else if (!foundFirstMealAfterPeriod && mealMinutes > endMinutes) {
+                        // 最後の料理から期間終了までの時間を計算
+                        // lastMealTimeは開始時刻からの経過時間なので、currentMinutesを足して絶対時刻に変換
+                        const lastMealAbsoluteTime = meals.length > 0 ? meals[meals.length - 1].absoluteMinutes + currentMinutes : currentMinutes;
+                        const partialMinutes = endMinutes - lastMealAbsoluteTime;  // 期間終了までの残り時間（分）
+                        
+                        meals.push({
+                            day: day,
+                            time: time,
+                            isWeekend: day === '土' || day === '日',
+                            isMondayMorning: day === '月' && time === '朝',
+                            absoluteMinutes: mealMinutes - currentMinutes,
+                            isWithinPeriod: false,  // 期間外の料理
+                            partialHours: partialMinutes / 60  // 期間残り時間（時間）
+                        });
+                        foundFirstMealAfterPeriod = true;
+                        break;  // 1つだけ追加したら終了
+                    }
                 }
+                if (foundFirstMealAfterPeriod) break;
             }
             
             return meals;
+        }
+        
+        // 後方互換性のため、古い関数名も残しておく
+        function getMealsForNext24Hours() {
+            return getMealsForPeriod(24);
         }
 
         // 計算対象の食事を取得（自動 or 手動）
@@ -4456,11 +4640,14 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             const isAuto = document.getElementById('mealCalcAuto').checked;
             
             if (isAuto) {
-                return getMealsForNext24Hours();
+                // 自動モード：設定された期間内の食事を取得
+                return getMealsForPeriod();
             } else {
                 // 手動モード：指定された食事数分を取得
                 const count = parseInt(document.getElementById('manualMealCount').value);
-                const allMeals = getMealsForNext24Hours();
+                
+                // 期間を取得
+                const calculationPeriod = parseInt(document.getElementById('calculationPeriod').value);
                 
                 // 24時間を超えても指定数まで取得
                 const DAYS = ['月', '火', '水', '木', '金', '土', '日'];
@@ -4637,8 +4824,15 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             for (let i = 0; i < selectedMeals.length - 1; i++) {
                 const meal = selectedMeals[i];
                 const nextMeal = selectedMeals[i + 1];
-                const duration = nextMeal.absoluteMinutes - meal.absoluteMinutes;
-                html += `区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time} (${duration}分 = ${(duration/60).toFixed(1)}h)<br>`;
+                const fullDuration = nextMeal.absoluteMinutes - meal.absoluteMinutes;
+                
+                // 期間外の料理の場合は部分時間を表示
+                if (!nextMeal.isWithinPeriod && nextMeal.partialHours !== undefined) {
+                    const partialMinutes = nextMeal.partialHours * 60;
+                    html += `区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time} <span style="color: #ff9800;">(部分: ${partialMinutes.toFixed(0)}分 = ${nextMeal.partialHours.toFixed(1)}h / 全体: ${(fullDuration/60).toFixed(1)}h)</span><br>`;
+                } else {
+                    html += `区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time} (${fullDuration}分 = ${(fullDuration/60).toFixed(1)}h)<br>`;
+                }
                 html += `　　→ スキル発動: <strong>${skillPlacements[i].toFixed(3)}回</strong><br>`;
             }
             html += '</div>';
@@ -5068,7 +5262,11 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 speedCalcSteps.eventSpeed = eventSpeed;
                 
                 const finalSpeed = currentSpeed;
-                const helpCount = 86400 / finalSpeed;
+                
+                // 計算期間を取得（1-24時間）
+                const calculationPeriod = parseInt(document.getElementById('calculationPeriod').value);
+                const periodSeconds = calculationPeriod * 3600;
+                const helpCount = periodSeconds / finalSpeed;
                 
                 // スキル確率計算（既存ロジック）
                 let skillProb = pokemon.skillProb;
@@ -5112,6 +5310,9 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 let skillCountPerDay;
                 let scheduleData;  // 所持数考慮モード用
                 
+                // ポケモン固有の天井値を取得（未設定の場合は78）
+                const skillCeiling = pokemon.skillCeiling || 78;
+                
                 if (useCapacityMode) {
                     // 所持数考慮モード：睡眠時間を除外
                     scheduleData = getScheduleData();
@@ -5119,12 +5320,12 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     const activeHelpCount = (activeDuration * 3600) / finalSpeed;
                     
                     // スキル天井考慮
-                    skillCountPerDay = calculateEffectiveSkillCount(activeHelpCount, skillProb, considerSkillCeiling, 78);
+                    skillCountPerDay = calculateEffectiveSkillCount(activeHelpCount, skillProb, considerSkillCeiling, skillCeiling);
                     
                     console.log(`スキル発動回数（所持考慮）: 活動時間${activeDuration}h → ${skillCountPerDay.toFixed(2)}回/日${considerSkillCeiling ? '（天井考慮）' : ''}`);
                 } else {
                     // 通常モード：24時間フル稼働
-                    skillCountPerDay = calculateEffectiveSkillCount(helpCount, skillProb, considerSkillCeiling, 78);
+                    skillCountPerDay = calculateEffectiveSkillCount(helpCount, skillProb, considerSkillCeiling, skillCeiling);
                     
                     console.log(`スキル発動回数（通常）: 24時間 → ${skillCountPerDay.toFixed(2)}回/日${considerSkillCeiling ? '（天井考慮）' : ''}`);
                 }
@@ -5163,15 +5364,25 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                         console.log(`  [${idx}] ${p.type}: ${p.start}-${p.end}分 (効率${p.efficiency})`);
                     });
                     
+                    // 計算期間を取得
+                    const calculationPeriod = parseInt(document.getElementById('calculationPeriod').value);
+                    const periodMinutes = calculationPeriod * 60;
+                    
                     for (let i = 0; i < selectedMeals.length - 1; i++) {
                         const meal = selectedMeals[i];
                         const nextMeal = selectedMeals[i + 1];
                         
                         // 料理区間の開始・終了時刻（分単位）
-                        const intervalStart = meal.absoluteMinutes;
-                        const intervalEnd = nextMeal.absoluteMinutes;
+                        let intervalStart = meal.absoluteMinutes;
+                        let intervalEnd = nextMeal.absoluteMinutes;
                         
-                        console.log(`\n料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time} (${intervalStart}-${intervalEnd}分)`);
+                        // 次の料理が期間外の場合、期間終了時刻でクリップ
+                        if (!nextMeal.isWithinPeriod) {
+                            intervalEnd = Math.min(intervalEnd, periodMinutes);
+                            console.log(`\n料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time}（期間外、${periodMinutes}分までクリップ） (${intervalStart}-${intervalEnd}分)`);
+                        } else {
+                            console.log(`\n料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time} (${intervalStart}-${intervalEnd}分)`);
+                        }
                         
                         // この区間内の各時間帯でのスキル発動期待値を計算
                         let intervalSkillExpected = 0;
@@ -5203,21 +5414,34 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                         skillPlacements.push(intervalSkillExpected);
                     }
                 } else {
-                    // 通常モード：24時間フル稼働
-                    console.log('=== 通常モード：24時間フル稼働 ===');
+                    // 通常モード：期間内フル稼働
+                    console.log('=== 通常モード：期間内フル稼働 ===');
+                    
+                    // 計算期間を取得
+                    const calculationPeriod = parseInt(document.getElementById('calculationPeriod').value);
+                    const periodMinutes = calculationPeriod * 60;
+                    
                     for (let i = 0; i < selectedMeals.length - 1; i++) {
                         const meal = selectedMeals[i];
                         const nextMeal = selectedMeals[i + 1];
                         
-                        // absoluteMinutesを使って時間差を計算
-                        const durationMinutes = nextMeal.absoluteMinutes - meal.absoluteMinutes;
-                        const durationSeconds = durationMinutes * 60;
+                        // 料理区間の時間を計算
+                        let durationMinutes = nextMeal.absoluteMinutes - meal.absoluteMinutes;
                         
+                        // 次の料理が期間外の場合、期間終了までの時間のみを使用
+                        if (!nextMeal.isWithinPeriod) {
+                            const remainingMinutes = periodMinutes - meal.absoluteMinutes;
+                            durationMinutes = Math.min(durationMinutes, remainingMinutes);
+                            console.log(`料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time}（期間外、${remainingMinutes.toFixed(1)}分のみ使用）`);
+                        } else {
+                            console.log(`料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time}`);
+                        }
+                        
+                        const durationSeconds = durationMinutes * 60;
                         const helpsInInterval = durationSeconds / finalSpeed;
                         const skillsInInterval = helpsInInterval * skillProb;
                         
-                        console.log(`料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time}`);
-                        console.log(`  時間: ${durationMinutes}分`);
+                        console.log(`  時間: ${durationMinutes.toFixed(1)}分`);
                         console.log(`  スキル発動: ${skillsInInterval.toFixed(2)}`);
                         
                         skillPlacements.push(skillsInInterval);
@@ -5287,9 +5511,11 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 // グローバル変数に保存（calculate関数で使用）
                 window.detailedSkillEnergyPerDay = skillEnergyPerDay;
                 window.detailedSkillEnergyPerActivation = skillEnergyPerActivation;
+                window.detailedSkillCalcMeals = selectedMeals;  // 料理スケジュールも保存
                 console.log('グローバル変数に保存:', {
                     skillEnergyPerActivation: Math.round(skillEnergyPerActivation),
-                    skillEnergyPerDay: Math.round(skillEnergyPerDay)
+                    skillEnergyPerDay: Math.round(skillEnergyPerDay),
+                    meals: selectedMeals.length
                 });
                 
                 // 計算過程の詳細を生成
@@ -5422,6 +5648,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         updateFoodSlotLabels();
         updateScheduleDisplay();
         setupMealPreviewListeners();
+        updatePeriodDisplay();  // 期間表示を初期化
+        updateMealPreview();    // 食事プレビューを初期化
     </script>
 
     <!-- クレジット -->
