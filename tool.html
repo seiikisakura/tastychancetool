@@ -380,91 +380,273 @@
         .hidden {
             display: none !important;
         }
+
+        /* 詳細設定ボタン（右上固定） */
+        .settings-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #667eea;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .settings-button:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        /* 詳細設定オーバーレイ */
+        .settings-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 9998;
+            display: none;
+        }
+
+        .settings-overlay.active {
+            display: block;
+        }
+
+        /* 詳細設定パネル */
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -600px;
+            width: 600px;
+            max-width: 90%;
+            height: 100%;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+            z-index: 9999;
+            overflow-y: auto;
+            transition: right 0.3s ease;
+        }
+
+        .settings-panel.active {
+            right: 0;
+        }
+
+        .settings-header {
+            position: sticky;
+            top: 0;
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .settings-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .settings-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .settings-close:hover {
+            opacity: 0.8;
+        }
+
+        .settings-content {
+            padding: 20px;
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .settings-button {
+                top: 10px;
+                right: 10px;
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .settings-panel {
+                width: 100%;
+                max-width: 100%;
+                right: -100%;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- 詳細設定ボタン -->
+    <button class="settings-button" onclick="toggleSettings()">⚙️</button>
+
+    <!-- 詳細設定オーバーレイ -->
+    <div class="settings-overlay" id="settingsOverlay" onclick="closeSettings()"></div>
+
+    <!-- 詳細設定パネル -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h2>詳細設定</h2>
+            <button class="settings-close" onclick="closeSettings()">×</button>
+        </div>
+        <div class="settings-content" id="settingsContent">
+            <!-- 詳細設定セクションをここに移動 -->
+        </div>
+    </div>
+
     <div class="container">
         <h1>🌊 料理チャンス運用効率化ツール 🌊</h1>
         <div class="subtitle">ラグラージ・マニューラ対応｜所持数・スケジュール計算機能追加版</div>
 
-        <!-- ポケモン選択 -->
+        <!-- 料理チャンスポケモン登録 -->
         <div class="section">
-            <div class="section-title">ポケモン選択</div>
-            <div class="radio-group">
-                <div class="radio-item">
-                    <input type="radio" id="pokemon_swampert" name="pokemon" value="swampert" checked onchange="updateFoodSlotLabels()">
-                    <label for="pokemon_swampert">ラグラージ</label>
-                </div>
-                <div class="radio-item">
-                    <input type="radio" id="pokemon_weavile" name="pokemon" value="weavile" onchange="updateFoodSlotLabels()">
-                    <label for="pokemon_weavile">マニューラ</label>
-                </div>
-                <div class="radio-item">
-                    <input type="radio" id="pokemon_dedenne" name="pokemon" value="dedenne" onchange="updateFoodSlotLabels()">
-                    <label for="pokemon_dedenne">デデンネ</label>
-                </div>
-                <div class="radio-item">
-                    <input type="radio" id="pokemon_spheal_holiday" name="pokemon" value="spheal_holiday" onchange="updateFoodSlotLabels()">
-                    <label for="pokemon_spheal_holiday">タマザラシ(ホリデーリース)</label>
-                </div>
-            </div>
-        </div>
-
-        <!-- レベル設定 -->
-        <div class="section">
-            <div class="section-title">レベル設定</div>
+            <div class="section-title">料理チャンスポケモン登録</div>
+            
+            <!-- 1. ポケモン選択 -->
             <div class="input-group">
-                <label class="input-label" for="level">ポケモンのレベル（1-60）</label>
-                <input type="number" id="level" min="1" max="60" value="60">
+                <label class="input-label">ポケモン選択</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="pokemon_swampert" name="pokemon" value="swampert" checked onchange="updateFoodSlotLabels()">
+                        <label for="pokemon_swampert">ラグラージ</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="pokemon_weavile" name="pokemon" value="weavile" onchange="updateFoodSlotLabels()">
+                        <label for="pokemon_weavile">マニューラ</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="pokemon_dedenne" name="pokemon" value="dedenne" onchange="updateFoodSlotLabels()">
+                        <label for="pokemon_dedenne">デデンネ</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="pokemon_spheal_holiday" name="pokemon" value="spheal_holiday" onchange="updateFoodSlotLabels()">
+                        <label for="pokemon_spheal_holiday">タマザラシ(ホリデーリース)</label>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- サブスキル -->
-        <div class="section">
-            <div class="section-title">サブスキル</div>
-            <div class="checkbox-group">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="speedM">
-                    <label for="speedM">おてつだいスピードM</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="speedS">
-                    <label for="speedS">おてつだいスピードS</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="skillM">
-                    <label for="skillM">スキル確率アップM</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="skillS">
-                    <label for="skillS">スキル確率アップS</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="foodM">
-                    <label for="foodM">食材確率アップM</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="foodS">
-                    <label for="foodS">食材確率アップS</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="berryS">
-                    <label for="berryS">きのみの数S</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="capacityS">
-                    <label for="capacityS">所持数アップS</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="capacityM">
-                    <label for="capacityM">所持数アップM</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="capacityL">
-                    <label for="capacityL">所持数アップL</label>
+            <!-- 2. レベル -->
+            <div class="input-group">
+                <label class="input-label" for="level">レベル（1-100）</label>
+                <input type="number" id="level" min="1" max="100" value="60">
+            </div>
+
+            <!-- 3. 食材スロット選択 -->
+            <div class="input-group">
+                <label class="input-label">Lv30で解放される食材スロット</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="foodLv30" value="A" id="foodLv30_A" checked>
+                        <label for="foodLv30_A" id="foodLv30LabelA">食材A</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="foodLv30" value="B" id="foodLv30_B">
+                        <label for="foodLv30_B" id="foodLv30LabelB">食材B</label>
+                    </div>
                 </div>
             </div>
-            <div class="input-group" style="margin-top: 15px;">
+            <div class="input-group">
+                <label class="input-label">Lv60で解放される食材スロット</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="foodLv60" value="A" id="foodLv60_A" checked>
+                        <label for="foodLv60_A" id="foodLv60LabelA">食材A</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="foodLv60" value="B" id="foodLv60_B">
+                        <label for="foodLv60_B" id="foodLv60LabelB">食材B</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="foodLv60" value="C" id="foodLv60_C">
+                        <label for="foodLv60_C" id="foodLv60LabelC">食材C</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. メインスキルレベル -->
+            <div class="input-group">
+                <label class="input-label" for="skillLevel">メインスキルレベル</label>
+                <select id="skillLevel">
+                    <option value="1">Lv1</option>
+                    <option value="2">Lv2</option>
+                    <option value="3">Lv3</option>
+                    <option value="4">Lv4</option>
+                    <option value="5">Lv5</option>
+                    <option value="6" selected>Lv6</option>
+                </select>
+            </div>
+
+            <!-- 5. サブスキル -->
+            <div class="input-group">
+                <label class="input-label">サブスキル</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="speedM">
+                        <label for="speedM">おてつだいスピードM</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="speedS">
+                        <label for="speedS">おてつだいスピードS</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skillM">
+                        <label for="skillM">スキル確率アップM</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skillS">
+                        <label for="skillS">スキル確率アップS</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="foodM">
+                        <label for="foodM">食材確率アップM</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="foodS">
+                        <label for="foodS">食材確率アップS</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="berryS">
+                        <label for="berryS">きのみの数S</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="capacityS">
+                        <label for="capacityS">最大所持数アップS</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="capacityM">
+                        <label for="capacityM">最大所持数アップM</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="capacityL">
+                        <label for="capacityL">最大所持数アップL</label>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
                 <label class="input-label" for="otebonus">おてつだいボーナス</label>
                 <select id="otebonus">
                     <option value="0">0枚</option>
@@ -475,17 +657,14 @@
                     <option value="5">5枚</option>
                 </select>
             </div>
-        </div>
 
-        <!-- 性格 -->
-        <div class="section">
-            <div class="section-title">性格補正</div>
+            <!-- 6. せいかく補正 -->
             <div class="input-group">
-                <label class="input-label">おてつだいスピード補正</label>
+                <label class="input-label">おてつだいスピード補正（せいかく）</label>
                 <div class="radio-group">
                     <div class="radio-item">
                         <input type="radio" name="speedNature" value="0.9" id="speedNature_plus">
-                        <label for="speedNature_plus">おてスピup(-10%)</label>
+                        <label for="speedNature_plus">おてつだいスピード△△(-10%)</label>
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="speedNature" value="1.0" id="speedNature_normal" checked>
@@ -493,16 +672,16 @@
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="speedNature" value="1.075" id="speedNature_minus">
-                        <label for="speedNature_minus">おてスピdown(+7.5%)</label>
+                        <label for="speedNature_minus">おてつだいスピード▽▽(+7.5%)</label>
                     </div>
                 </div>
             </div>
             <div class="input-group">
-                <label class="input-label">スキル確率補正</label>
+                <label class="input-label">メインスキル発生確率補正（せいかく）</label>
                 <div class="radio-group">
                     <div class="radio-item">
                         <input type="radio" name="skillNature" value="1.2" id="skillNature_plus">
-                        <label for="skillNature_plus">スキル確率up(+20%)</label>
+                        <label for="skillNature_plus">メインスキル発生確率△△(+20%)</label>
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="skillNature" value="1.0" id="skillNature_normal" checked>
@@ -510,16 +689,16 @@
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="skillNature" value="0.8" id="skillNature_minus">
-                        <label for="skillNature_minus">スキル確率down(-20%)</label>
+                        <label for="skillNature_minus">メインスキル発生確率▽▽(-20%)</label>
                     </div>
                 </div>
             </div>
             <div class="input-group">
-                <label class="input-label">食材確率補正</label>
+                <label class="input-label">食材おてつだい確率補正（せいかく）</label>
                 <div class="radio-group">
                     <div class="radio-item">
                         <input type="radio" name="foodNature" value="1.2" id="foodNature_plus">
-                        <label for="foodNature_plus">食材確率up(+20%)</label>
+                        <label for="foodNature_plus">食材おてつだい確率△△(+20%)</label>
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="foodNature" value="1.0" id="foodNature_normal" checked>
@@ -527,9 +706,21 @@
                     </div>
                     <div class="radio-item">
                         <input type="radio" name="foodNature" value="0.8" id="foodNature_minus">
-                        <label for="foodNature_minus">食材確率down(-20%)</label>
+                        <label for="foodNature_minus">食材おてつだい確率▽▽(-20%)</label>
                     </div>
                 </div>
+            </div>
+
+            <!-- 7. おやすみリボン -->
+            <div class="input-group">
+                <label class="input-label" for="sleepRibbon">おやすみリボン</label>
+                <select id="sleepRibbon">
+                    <option value="0">なし</option>
+                    <option value="1">200時間（+1）</option>
+                    <option value="3">500時間（+3）</option>
+                    <option value="6">1,000時間（+6）</option>
+                    <option value="8">2,000時間（+8）</option>
+                </select>
             </div>
         </div>
 
@@ -550,20 +741,10 @@
                     <label for="weekendBonus">ウィークエンドボーナス（料理大成功確率30%、エナジー3倍、鍋容量2倍）</label>
                 </div>
             </div>
-            <div class="input-group" style="margin-top: 15px;">
-                <label class="input-label" for="sleepRibbon">おやすみリボン</label>
-                <select id="sleepRibbon">
-                    <option value="0">なし</option>
-                    <option value="1">200時間（+1）</option>
-                    <option value="3">500時間（+3）</option>
-                    <option value="6">1,000時間（+6）</option>
-                    <option value="8">2,000時間（+8）</option>
-                </select>
-            </div>
         </div>
 
         <!-- スケジュール設定（新規追加） -->
-        <div class="section">
+        <div class="section" id="capacityCalculationSection">
             <div class="section-title">所持数・スケジュール計算</div>
             
             <div class="checkbox-group">
@@ -619,41 +800,6 @@
                         ・所持数計算モードでも入替候補ポケモンを設定できます<br>
                         ・複合期待値 = スケジュール運用エナジー × 積極運用比率 + いつ育（入替候補）エナジー × いつ育比率<br>
                         ・睡眠時間 + 集中作業時間が24時間を超えないようにしてください
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 食材スロット選択 -->
-        <div class="section">
-            <div class="section-title">食材スロット選択</div>
-            <div class="input-group">
-                <label class="input-label">Lv30で解放される食材スロット</label>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" name="foodLv30" value="A" id="foodLv30_A" checked>
-                        <label for="foodLv30_A" id="foodLv30LabelA">食材A</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="foodLv30" value="B" id="foodLv30_B">
-                        <label for="foodLv30_B" id="foodLv30LabelB">食材B</label>
-                    </div>
-                </div>
-            </div>
-            <div class="input-group">
-                <label class="input-label">Lv60で解放される食材スロット</label>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" name="foodLv60" value="A" id="foodLv60_A" checked>
-                        <label for="foodLv60_A" id="foodLv60LabelA">食材A</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="foodLv60" value="B" id="foodLv60_B">
-                        <label for="foodLv60_B" id="foodLv60LabelB">食材B</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="foodLv60" value="C" id="foodLv60_C">
-                        <label for="foodLv60_C" id="foodLv60LabelC">食材C</label>
                     </div>
                 </div>
             </div>
@@ -722,26 +868,26 @@
                         <select id="customRecipeFoodType1">
                             <option value="">-- 食材を選択 --</option>
                             <optgroup label="ラグラージの食材">
-                                <option value="コーン">コーン</option>
-                                <option value="ミルク">ミルク</option>
-                                <option value="キノコ">キノコ</option>
+                                <option value="ワカクサコーン">ワカクサコーン</option>
+                                <option value="モーモーミルク">モーモーミルク</option>
+                                <option value="あじわいキノコ">あじわいキノコ</option>
                             </optgroup>
                             <optgroup label="マニューラの食材">
-                                <option value="ミート">ミート</option>
-                                <option value="エッグ">エッグ</option>
-                                <option value="大豆">大豆</option>
+                                <option value="マメミート">マメミート</option>
+                                <option value="とくせんエッグ">とくせんエッグ</option>
+                                <option value="ワカクサ大豆">ワカクサ大豆</option>
                             </optgroup>
                             <optgroup label="その他の食材">
-                                <option value="ネギ">ネギ</option>
-                                <option value="ポテト">ポテト</option>
-                                <option value="リンゴ">リンゴ</option>
-                                <option value="ハーブ">ハーブ</option>
-                                <option value="ミツ">ミツ</option>
-                                <option value="オイル">オイル</option>
-                                <option value="ジンジャー">ジンジャー</option>
-                                <option value="トマト">トマト</option>
-                                <option value="カカオ">カカオ</option>
-                                <option value="シッポ">シッポ</option>
+                                <option value="ふといながねぎ">ふといながねぎ</option>
+                                <option value="ほっこりポテト">ほっこりポテト</option>
+                                <option value="とくせんリンゴ">とくせんリンゴ</option>
+                                <option value="げきからハーブ">げきからハーブ</option>
+                                <option value="あまいミツ">あまいミツ</option>
+                                <option value="ピュアなオイル">ピュアなオイル</option>
+                                <option value="あったかジンジャー">あったかジンジャー</option>
+                                <option value="あんみんトマト">あんみんトマト</option>
+                                <option value="リラックスカカオ">リラックスカカオ</option>
+                                <option value="おいしいシッポ">おいしいシッポ</option>
                                 <option value="コーヒー">コーヒー</option>
                                 <option value="カボチャ">カボチャ</option>
                                 <option value="アボカド">アボカド</option>
@@ -758,26 +904,26 @@
                         <select id="customRecipeFoodType2">
                             <option value="">-- 食材を選択 --</option>
                             <optgroup label="ラグラージの食材">
-                                <option value="コーン">コーン</option>
-                                <option value="ミルク">ミルク</option>
-                                <option value="キノコ">キノコ</option>
+                                <option value="ワカクサコーン">ワカクサコーン</option>
+                                <option value="モーモーミルク">モーモーミルク</option>
+                                <option value="あじわいキノコ">あじわいキノコ</option>
                             </optgroup>
                             <optgroup label="マニューラの食材">
-                                <option value="ミート">ミート</option>
-                                <option value="エッグ">エッグ</option>
-                                <option value="大豆">大豆</option>
+                                <option value="マメミート">マメミート</option>
+                                <option value="とくせんエッグ">とくせんエッグ</option>
+                                <option value="ワカクサ大豆">ワカクサ大豆</option>
                             </optgroup>
                             <optgroup label="その他の食材">
-                                <option value="ネギ">ネギ</option>
-                                <option value="ポテト">ポテト</option>
-                                <option value="リンゴ">リンゴ</option>
-                                <option value="ハーブ">ハーブ</option>
-                                <option value="ミツ">ミツ</option>
-                                <option value="オイル">オイル</option>
-                                <option value="ジンジャー">ジンジャー</option>
-                                <option value="トマト">トマト</option>
-                                <option value="カカオ">カカオ</option>
-                                <option value="シッポ">シッポ</option>
+                                <option value="ふといながねぎ">ふといながねぎ</option>
+                                <option value="ほっこりポテト">ほっこりポテト</option>
+                                <option value="とくせんリンゴ">とくせんリンゴ</option>
+                                <option value="げきからハーブ">げきからハーブ</option>
+                                <option value="あまいミツ">あまいミツ</option>
+                                <option value="ピュアなオイル">ピュアなオイル</option>
+                                <option value="あったかジンジャー">あったかジンジャー</option>
+                                <option value="あんみんトマト">あんみんトマト</option>
+                                <option value="リラックスカカオ">リラックスカカオ</option>
+                                <option value="おいしいシッポ">おいしいシッポ</option>
                                 <option value="コーヒー">コーヒー</option>
                                 <option value="カボチャ">カボチャ</option>
                                 <option value="アボカド">アボカド</option>
@@ -794,26 +940,26 @@
                         <select id="customRecipeFoodType3">
                             <option value="">-- 食材を選択 --</option>
                             <optgroup label="ラグラージの食材">
-                                <option value="コーン">コーン</option>
-                                <option value="ミルク">ミルク</option>
-                                <option value="キノコ">キノコ</option>
+                                <option value="ワカクサコーン">ワカクサコーン</option>
+                                <option value="モーモーミルク">モーモーミルク</option>
+                                <option value="あじわいキノコ">あじわいキノコ</option>
                             </optgroup>
                             <optgroup label="マニューラの食材">
-                                <option value="ミート">ミート</option>
-                                <option value="エッグ">エッグ</option>
-                                <option value="大豆">大豆</option>
+                                <option value="マメミート">マメミート</option>
+                                <option value="とくせんエッグ">とくせんエッグ</option>
+                                <option value="ワカクサ大豆">ワカクサ大豆</option>
                             </optgroup>
                             <optgroup label="その他の食材">
-                                <option value="ネギ">ネギ</option>
-                                <option value="ポテト">ポテト</option>
-                                <option value="リンゴ">リンゴ</option>
-                                <option value="ハーブ">ハーブ</option>
-                                <option value="ミツ">ミツ</option>
-                                <option value="オイル">オイル</option>
-                                <option value="ジンジャー">ジンジャー</option>
-                                <option value="トマト">トマト</option>
-                                <option value="カカオ">カカオ</option>
-                                <option value="シッポ">シッポ</option>
+                                <option value="ふといながねぎ">ふといながねぎ</option>
+                                <option value="ほっこりポテト">ほっこりポテト</option>
+                                <option value="とくせんリンゴ">とくせんリンゴ</option>
+                                <option value="げきからハーブ">げきからハーブ</option>
+                                <option value="あまいミツ">あまいミツ</option>
+                                <option value="ピュアなオイル">ピュアなオイル</option>
+                                <option value="あったかジンジャー">あったかジンジャー</option>
+                                <option value="あんみんトマト">あんみんトマト</option>
+                                <option value="リラックスカカオ">リラックスカカオ</option>
+                                <option value="おいしいシッポ">おいしいシッポ</option>
                                 <option value="コーヒー">コーヒー</option>
                                 <option value="カボチャ">カボチャ</option>
                                 <option value="アボカド">アボカド</option>
@@ -830,26 +976,26 @@
                         <select id="customRecipeFoodType4">
                             <option value="">-- 食材を選択 --</option>
                             <optgroup label="ラグラージの食材">
-                                <option value="コーン">コーン</option>
-                                <option value="ミルク">ミルク</option>
-                                <option value="キノコ">キノコ</option>
+                                <option value="ワカクサコーン">ワカクサコーン</option>
+                                <option value="モーモーミルク">モーモーミルク</option>
+                                <option value="あじわいキノコ">あじわいキノコ</option>
                             </optgroup>
                             <optgroup label="マニューラの食材">
-                                <option value="ミート">ミート</option>
-                                <option value="エッグ">エッグ</option>
-                                <option value="大豆">大豆</option>
+                                <option value="マメミート">マメミート</option>
+                                <option value="とくせんエッグ">とくせんエッグ</option>
+                                <option value="ワカクサ大豆">ワカクサ大豆</option>
                             </optgroup>
                             <optgroup label="その他の食材">
-                                <option value="ネギ">ネギ</option>
-                                <option value="ポテト">ポテト</option>
-                                <option value="リンゴ">リンゴ</option>
-                                <option value="ハーブ">ハーブ</option>
-                                <option value="ミツ">ミツ</option>
-                                <option value="オイル">オイル</option>
-                                <option value="ジンジャー">ジンジャー</option>
-                                <option value="トマト">トマト</option>
-                                <option value="カカオ">カカオ</option>
-                                <option value="シッポ">シッポ</option>
+                                <option value="ふといながねぎ">ふといながねぎ</option>
+                                <option value="ほっこりポテト">ほっこりポテト</option>
+                                <option value="とくせんリンゴ">とくせんリンゴ</option>
+                                <option value="げきからハーブ">げきからハーブ</option>
+                                <option value="あまいミツ">あまいミツ</option>
+                                <option value="ピュアなオイル">ピュアなオイル</option>
+                                <option value="あったかジンジャー">あったかジンジャー</option>
+                                <option value="あんみんトマト">あんみんトマト</option>
+                                <option value="リラックスカカオ">リラックスカカオ</option>
+                                <option value="おいしいシッポ">おいしいシッポ</option>
                                 <option value="コーヒー">コーヒー</option>
                                 <option value="カボチャ">カボチャ</option>
                                 <option value="アボカド">アボカド</option>
@@ -869,7 +1015,7 @@
             <!-- レシピレベルと料理イベントボーナス -->
             <div class="input-group" style="margin-top: 15px;">
                 <label class="input-label" for="recipeLevel">レシピレベル（1-65）</label>
-                <input type="number" id="recipeLevel" min="1" max="65" value="1">
+                <input type="number" id="recipeLevel" min="1" max="65" value="65">
             </div>
             <div class="input-group">
                 <label class="input-label" for="recipeCookEventBonus">料理イベントボーナス（%）</label>
@@ -885,22 +1031,6 @@
                 </div>
                 <!-- 計算式表示 -->
                 <div id="cookEnergyFormula" class="formula-box" style="display: none; margin-top: 10px;"></div>
-            </div>
-        </div>
-
-        <!-- スキルレベル -->
-        <div class="section">
-            <div class="section-title">スキルレベル</div>
-            <div class="input-group">
-                <label class="input-label" for="skillLevel">基本スキルレベル</label>
-                <select id="skillLevel">
-                    <option value="1">Lv1</option>
-                    <option value="2">Lv2</option>
-                    <option value="3">Lv3</option>
-                    <option value="4">Lv4</option>
-                    <option value="5">Lv5</option>
-                    <option value="6" selected>Lv6</option>
-                </select>
             </div>
         </div>
 
@@ -965,6 +1095,34 @@
                         <label style="font-size: 13px; color: #666;">夕食</label>
                         <input type="time" id="eveningTime" value="18:00" style="margin-top: 5px;" onchange="updateMealPreview()">
                     </div>
+                </div>
+            </div>
+
+            <!-- 開始時の料理チャンス加算値 -->
+            <div class="input-group" style="margin-top: 20px;">
+                <label class="input-label">開始時の料理チャンス加算値（%）</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                    <div>
+                        <label style="font-size: 13px; color: #666;">クイック選択</label>
+                        <select id="initialCookBonusQuick" style="margin-top: 5px;" onchange="updateInitialCookBonus()">
+                            <option value="0">0%（なし）</option>
+                            <option value="10">10%（1回発動）</option>
+                            <option value="20">20%（2回発動）</option>
+                            <option value="30">30%（3回発動）</option>
+                            <option value="40">40%（4回発動）</option>
+                            <option value="50">50%（5回発動）</option>
+                            <option value="60">60%（6回発動）</option>
+                            <option value="70">70%（上限）</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; color: #666;">手入力</label>
+                        <input type="number" id="initialCookBonus" min="0" max="70" value="0" style="margin-top: 5px;">
+                    </div>
+                </div>
+                <div class="note" style="margin-top: 5px; color: #888; font-size: 13px;">
+                    ※開始時点で既に料理チャンスSが蓄積されている場合に設定してください<br>
+                    　例：最初の料理前に2回発動済み → 20%
                 </div>
             </div>
 
@@ -1041,7 +1199,7 @@
         </div>
 
         <!-- イベント補正 -->
-        <div class="section">
+        <div class="section" id="eventCorrectionSection">
             <div class="section-title">イベント補正</div>
             <div class="input-group">
                 <label class="input-label" for="eventSpeed">おてつだいスピード補正（%）</label>
@@ -1072,11 +1230,11 @@
         </div>
 
         <!-- スキル天井考慮 -->
-        <div class="section">
+        <div class="section" id="skillCeilingSection">
             <div class="section-title">スキル天井考慮</div>
             <div class="checkbox-group">
                 <div class="checkbox-item">
-                    <input type="checkbox" id="considerSkillCeiling">
+                    <input type="checkbox" id="considerSkillCeiling" checked>
                     <label for="considerSkillCeiling">スキル連続不発天井を考慮する</label>
                 </div>
             </div>
@@ -1099,7 +1257,7 @@
         </div>
 
         <!-- 食材エナジー計算モード -->
-        <div class="section">
+        <div class="section" id="foodEnergyModeSection">
             <div class="section-title">食材エナジー計算モード</div>
             <div class="radio-group">
                 <div class="radio-item">
@@ -1107,7 +1265,7 @@
                     <label for="mode_ignore">食材度外視モード</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="foodEnergyMode" value="unlimited" id="mode_unlimited" checked>
+                    <input type="radio" name="foodEnergyMode" value="unlimited" id="mode_unlimited">
                     <label for="mode_unlimited">食材無限ごちゃまぜモード</label>
                 </div>
                 <div class="radio-item">
@@ -1119,7 +1277,7 @@
                     <label for="mode_recipe">食材レシピ補正モード</label>
                 </div>
                 <div class="radio-item">
-                    <input type="radio" name="foodEnergyMode" value="hybrid" id="mode_hybrid">
+                    <input type="radio" name="foodEnergyMode" value="hybrid" id="mode_hybrid" checked>
                     <label for="mode_hybrid">食材ハイブリッドモード</label>
                 </div>
             </div>
@@ -1177,19 +1335,14 @@
                     <input type="checkbox" id="replacementIncludesFB">
                     <label for="replacementIncludesFB">入力値にFBを含む</label>
                 </div>
-            </div>
-        </div>
-
-        <!-- デバッグ表示（新規追加） -->
-        <div class="section">
-            <div class="checkbox-group">
                 <div class="checkbox-item">
-                    <input type="checkbox" id="showDebugInfo">
-                    <label for="showDebugInfo">詳細な計算過程を表示（所持数計算用）</label>
+                    <input type="checkbox" id="replacementIs24h" checked>
+                    <label for="replacementIs24h">入力値は24時間の値</label>
                 </div>
             </div>
             <div class="note" style="margin-top: 5px; margin-left: 20px; color: #888; font-size: 13px;">
-                ※所持数・スケジュール計算モードでのみ有効です
+                ※「24時間の値」をONにすると、計算期間に応じてエナジーを按分します<br>
+                　例：6000エナジー、16時間計算 → 6000×16/24=4000エナジー
             </div>
         </div>
 
@@ -1455,16 +1608,16 @@
                 maxSkillRights: 1,    // スキル発動権上限（きのみ得意）
                 foodSlots: {
                     lv1: [
-                        { label: 'A', name: 'コーン', count: 1, energy: 140 }
+                        { label: 'A', name: 'ワカクサコーン', count: 1, energy: 140 }
                     ],
                     lv30: [
-                        { label: 'A', name: 'コーン', count: 2, energy: 140 },
-                        { label: 'B', name: 'ミルク', count: 3, energy: 98 }
+                        { label: 'A', name: 'ワカクサコーン', count: 2, energy: 140 },
+                        { label: 'B', name: 'モーモーミルク', count: 3, energy: 98 }
                     ],
                     lv60: [
-                        { label: 'A', name: 'コーン', count: 4, energy: 140 },
-                        { label: 'B', name: 'ミルク', count: 5, energy: 98 },
-                        { label: 'C', name: 'キノコ', count: 3, energy: 167 }
+                        { label: 'A', name: 'ワカクサコーン', count: 4, energy: 140 },
+                        { label: 'B', name: 'モーモーミルク', count: 5, energy: 98 },
+                        { label: 'C', name: 'あじわいキノコ', count: 3, energy: 167 }
                     ]
                 }
             },
@@ -1480,16 +1633,16 @@
                 maxSkillRights: 1,    // スキル発動権上限（きのみ得意）
                 foodSlots: {
                     lv1: [
-                        { label: 'A', name: 'ミート', count: 1, energy: 103 }
+                        { label: 'A', name: 'マメミート', count: 1, energy: 103 }
                     ],
                     lv30: [
-                        { label: 'A', name: 'ミート', count: 2, energy: 103 },
-                        { label: 'B', name: 'エッグ', count: 2, energy: 115 }
+                        { label: 'A', name: 'マメミート', count: 2, energy: 103 },
+                        { label: 'B', name: 'とくせんエッグ', count: 2, energy: 115 }
                     ],
                     lv60: [
-                        { label: 'A', name: 'ミート', count: 4, energy: 103 },
-                        { label: 'B', name: 'エッグ', count: 3, energy: 115 },
-                        { label: 'C', name: '大豆', count: 4, energy: 100 }
+                        { label: 'A', name: 'マメミート', count: 4, energy: 103 },
+                        { label: 'B', name: 'とくせんエッグ', count: 3, energy: 115 },
+                        { label: 'C', name: 'ワカクサ大豆', count: 4, energy: 100 }
                     ]
                 }
             },
@@ -1507,16 +1660,16 @@
                 defaultBerryCount: 1, // デフォルトきのみ個数（スキル得意）
                 foodSlots: {
                     lv1: [
-                        { label: 'A', name: 'りんご', count: 1, energy: 90 }
+                        { label: 'A', name: 'とくせんリンゴ', count: 1, energy: 90 }
                     ],
                     lv30: [
-                        { label: 'A', name: 'りんご', count: 2, energy: 90 },
-                        { label: 'B', name: 'カカオ', count: 1, energy: 151 }
+                        { label: 'A', name: 'とくせんリンゴ', count: 2, energy: 90 },
+                        { label: 'B', name: 'リラックスカカオ', count: 1, energy: 151 }
                     ],
                     lv60: [
-                        { label: 'A', name: 'りんご', count: 4, energy: 90 },
-                        { label: 'B', name: 'カカオ', count: 2, energy: 151 },
-                        { label: 'C', name: 'コーン', count: 2, energy: 140 }
+                        { label: 'A', name: 'とくせんリンゴ', count: 4, energy: 90 },
+                        { label: 'B', name: 'リラックスカカオ', count: 2, energy: 151 },
+                        { label: 'C', name: 'ワカクサコーン', count: 2, energy: 140 }
                     ]
                 }
             },
@@ -1534,16 +1687,16 @@
                 defaultBerryCount: 1, // デフォルトきのみ個数（スキル得意）
                 foodSlots: {
                     lv1: [
-                        { label: 'A', name: 'オイル', count: 1, energy: 121 }
+                        { label: 'A', name: 'ピュアなオイル', count: 1, energy: 121 }
                     ],
                     lv30: [
-                        { label: 'A', name: 'オイル', count: 2, energy: 121 },
-                        { label: 'B', name: 'ミート', count: 3, energy: 103 }
+                        { label: 'A', name: 'ピュアなオイル', count: 2, energy: 121 },
+                        { label: 'B', name: 'マメミート', count: 3, energy: 103 }
                     ],
                     lv60: [
-                        { label: 'A', name: 'オイル', count: 4, energy: 121 },
-                        { label: 'B', name: 'ミート', count: 4, energy: 103 },
-                        { label: 'C', name: 'ジンジャー', count: 4, energy: 109 }
+                        { label: 'A', name: 'ピュアなオイル', count: 4, energy: 121 },
+                        { label: 'B', name: 'マメミート', count: 4, energy: 103 },
+                        { label: 'C', name: 'あったかジンジャー', count: 4, energy: 109 }
                     ]
                 }
             }
@@ -2072,9 +2225,9 @@
                 bonus: 1.78,
                 ingredients: {
                     'アボカド': 28,
-                    'コーン': 25,
-                    'ハーブ': 30,
-                    '大豆': 22
+                    'ワカクサコーン': 25,
+                    'げきからハーブ': 30,
+                    'ワカクサ大豆': 22
                 }
             },
             avocadogratin: {
@@ -2082,9 +2235,9 @@
                 bonus: 1.78,
                 ingredients: {
                     'アボカド': 22,
-                    'ポテト': 20,
-                    'ミルク': 41,
-                    'オイル': 32
+                    'ほっこりポテト': 20,
+                    'モーモーミルク': 41,
+                    'ピュアなオイル': 32
                 }
             },
             scarypancake: {
@@ -2092,29 +2245,29 @@
                 bonus: 1.78,
                 ingredients: {
                     'カボチャ': 18,
-                    'エッグ': 24,
-                    'ミツ': 32,
-                    'トマト': 29
+                    'とくせんエッグ': 24,
+                    'あまいミツ': 32,
+                    'あんみんトマト': 29
                 }
             },
             eclair: {
                 name: 'ドオーのエクレア',
                 bonus: 1.78,
                 ingredients: {
-                    'カカオ': 30,
-                    'ミルク': 26,
+                    'リラックスカカオ': 30,
+                    'モーモーミルク': 26,
                     'コーヒー': 24,
-                    'ミツ': 22
+                    'あまいミツ': 22
                 }
             },
             sukiyakicurry: {
                 name: 'いあいぎりすき焼きカレー',
                 bonus: 1.61,
                 ingredients: {
-                    'ネギ': 27,
-                    'ミート': 26,
-                    'ミツ': 26,
-                    'エッグ': 22
+                    'ふといながねぎ': 27,
+                    'マメミート': 26,
+                    'あまいミツ': 26,
+                    'とくせんエッグ': 22
                 }
             },
             coffeesalad: {
@@ -2122,28 +2275,28 @@
                 bonus: 1.61,
                 ingredients: {
                     'コーヒー': 28,
-                    'ミート': 28,
-                    'オイル': 22,
-                    'ポテト': 22
+                    'マメミート': 28,
+                    'ピュアなオイル': 22,
+                    'ほっこりポテト': 22
                 }
             },
             yogurtsalad: {
                 name: 'りんごさんヨーグルトサラダ',
                 bonus: 1.61,
                 ingredients: {
-                    'エッグ': 35,
-                    'リンゴ': 28,
-                    'トマト': 23,
-                    'ミルク': 18
+                    'とくせんエッグ': 35,
+                    'とくせんリンゴ': 28,
+                    'あんみんトマト': 23,
+                    'モーモーミルク': 18
                 }
             },
             powerstew: {
                 name: 'めざめるパワーシチュー',
                 bonus: 1.61,
                 ingredients: {
-                    '大豆': 28,
-                    'トマト': 25,
-                    'キノコ': 23,
+                    'ワカクサ大豆': 28,
+                    'あんみんトマト': 25,
+                    'あじわいキノコ': 23,
                     'コーヒー': 16
                 }
             },
@@ -2151,9 +2304,9 @@
                 name: 'スパークスパイスコーラ',
                 bonus: 1.61,
                 ingredients: {
-                    'リンゴ': 35,
-                    'ジンジャー': 20,
-                    'ネギ': 20,
+                    'とくせんリンゴ': 35,
+                    'あったかジンジャー': 20,
+                    'ふといながねぎ': 20,
                     'コーヒー': 12
                 }
             },
@@ -2162,79 +2315,79 @@
                 bonus: 1.48,
                 ingredients: {
                     'カボチャ': 10,
-                    'ミート': 16,
-                    'ポテト': 18,
-                    'キノコ': 25
+                    'マメミート': 16,
+                    'ほっこりポテト': 18,
+                    'あじわいキノコ': 25
                 }
             },
             macaron: {
                 name: 'フラワーギフトマカロン',
                 bonus: 1.48,
                 ingredients: {
-                    'カカオ': 25,
-                    'エッグ': 25,
-                    'ミツ': 17,
-                    'ミルク': 10
+                    'リラックスカカオ': 25,
+                    'とくせんエッグ': 25,
+                    'あまいミツ': 17,
+                    'モーモーミルク': 10
                 }
             },
             keemacurry: {
                 name: 'れんごくコーンキーマカレー',
                 bonus: 1.48,
                 ingredients: {
-                    'ハーブ': 27,
-                    'ミート': 24,
-                    'コーン': 14,
-                    'ジンジャー': 12
+                    'げきからハーブ': 27,
+                    'マメミート': 24,
+                    'ワカクサコーン': 14,
+                    'あったかジンジャー': 12
                 }
             },
             mimosasalad: {
                 name: 'はなふぶきミモザサラダ',
                 bonus: 1.48,
                 ingredients: {
-                    'エッグ': 25,
-                    'オイル': 17,
-                    'ポテト': 15,
-                    'ミート': 12
+                    'とくせんエッグ': 25,
+                    'ピュアなオイル': 17,
+                    'ほっこりポテト': 15,
+                    'マメミート': 12
                 }
             },
             ninjasalad: {
                 name: 'ニンジャサラダ',
                 bonus: 1.48,
                 ingredients: {
-                    'ネギ': 15,
-                    '大豆': 19,
-                    'キノコ': 12,
-                    'ジンジャー': 11
+                    'ふといながねぎ': 15,
+                    'ワカクサ大豆': 19,
+                    'あじわいキノコ': 12,
+                    'あったかジンジャー': 11
                 }
             },
             wakakusasalad: {
                 name: 'ワカクササラダ',
                 bonus: 1.48,
                 ingredients: {
-                    'オイル': 22,
-                    'コーン': 17,
-                    'トマト': 14,
-                    'ポテト': 9
+                    'ピュアなオイル': 22,
+                    'ワカクサコーン': 17,
+                    'あんみんトマト': 14,
+                    'ほっこりポテト': 9
                 }
             },
             scone: {
                 name: 'おちゃかいコーンスコーン',
                 bonus: 1.48,
                 ingredients: {
-                    'リンゴ': 20,
-                    'ジンジャー': 20,
-                    'コーン': 18,
-                    'ミルク': 9
+                    'とくせんリンゴ': 20,
+                    'あったかジンジャー': 20,
+                    'ワカクサコーン': 18,
+                    'モーモーミルク': 9
                 }
             },
             ninjacurry: {
                 name: 'ニンジャカレー',
                 bonus: 1.48,
                 ingredients: {
-                    '大豆': 24,
-                    'ミート': 9,
-                    'ネギ': 12,
-                    'キノコ': 5
+                    'ワカクサ大豆': 24,
+                    'マメミート': 9,
+                    'ふといながねぎ': 12,
+                    'あじわいキノコ': 5
                 }
             }
         };
@@ -2252,10 +2405,10 @@
 
         // 食材基礎エナジー
         const FOOD_BASE_ENERGY = {
-            'ネギ': 185, 'キノコ': 167, 'エッグ': 115, 'ポテト': 124,
-            'リンゴ': 90, 'ハーブ': 130, 'ミート': 103, 'ミルク': 98,
-            'ミツ': 101, 'オイル': 121, 'ジンジャー': 109, 'トマト': 110,
-            'カカオ': 151, 'シッポ': 342, '大豆': 100, 'コーン': 140,
+            'ふといながねぎ': 185, 'あじわいキノコ': 167, 'とくせんエッグ': 115, 'ほっこりポテト': 124,
+            'とくせんリンゴ': 90, 'げきからハーブ': 130, 'マメミート': 103, 'モーモーミルク': 98,
+            'あまいミツ': 101, 'ピュアなオイル': 121, 'あったかジンジャー': 109, 'あんみんトマト': 110,
+            'リラックスカカオ': 151, 'おいしいシッポ': 342, 'ワカクサ大豆': 100, 'ワカクサコーン': 140,
             'コーヒー': 153, 'カボチャ': 250, 'アボカド': 162
         };
 
@@ -2972,8 +3125,20 @@
             const fbMultiplier = 1 + (fieldBonus / 100);
             
             const cookEnergy = parseFloat(document.getElementById('cookEnergy').value);
-            const replacementEnergy = parseFloat(document.getElementById('replacementEnergy').value) || 0;
+            let replacementEnergy = parseFloat(document.getElementById('replacementEnergy').value) || 0;
             const replacementIncludesFB = document.getElementById('replacementIncludesFB').checked;
+            const replacementIs24h = document.getElementById('replacementIs24h').checked;
+            
+            // 計算期間を取得
+            const calculationPeriod = parseInt(document.getElementById('calculationPeriod').value);
+            
+            // 入替候補エナジーを計算期間に応じて調整
+            if (replacementIs24h && calculationPeriod !== 24 && replacementEnergy > 0) {
+                const originalReplacementEnergy = replacementEnergy;
+                replacementEnergy = replacementEnergy * (calculationPeriod / 24);
+                console.log(`入替候補エナジーを期間調整: ${originalReplacementEnergy} → ${replacementEnergy.toFixed(0)} (${calculationPeriod}時間)`);
+            }
+            
             const baseSkillLevel = parseInt(document.getElementById('skillLevel').value);
             
             const exSpeed = parseFloat(document.querySelector('input[name="exSpeed"]:checked').value);
@@ -3051,8 +3216,7 @@
             const finalSpeed = currentSpeed;
             const speedFormulaText = speedFormulaParts.join(' ');
             
-            // 計算期間を取得（1-24時間）
-            const calculationPeriod = parseInt(document.getElementById('calculationPeriod').value);
+            // 計算期間は既に取得済み（replacementEnergy調整時）
             const periodSeconds = calculationPeriod * 3600;
             const helpCount = periodSeconds / finalSpeed;
             console.log('おてスピ計算完了:', finalSpeed.toFixed(1), '秒, お手伝い回数:', helpCount.toFixed(2), `回/${calculationPeriod}時間`);
@@ -4116,8 +4280,8 @@
                         : skillEffectBase.toFixed(0);
                 }
                 
-                // デバッグ表示
-                if (document.getElementById('showDebugInfo').checked) {
+                // 詳細計算（常に実行）
+                {
                     // 最大所持数の詳細計算
                     const baseCapacity = pokemon.baseCapacity || 18;
                     let subskillBonus = 0;
@@ -4186,8 +4350,6 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     `;
                     document.getElementById('debugContent').innerHTML = debugContent;
                     document.getElementById('debugDisplay').classList.remove('hidden');
-                } else {
-                    document.getElementById('debugDisplay').classList.add('hidden');
                 }
                 
                 // 1. 100%毎分タップ（積極運用）= 従来の24時間計算（所持数なし）
@@ -4274,9 +4436,19 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 document.getElementById('scheduleActiveCook').textContent = Math.round(scheduleSkillTotal).toLocaleString();
                 document.getElementById('scheduleActiveTotal').textContent = Math.round(scheduleTotal).toLocaleString();
                 
-                // 3. 100%いつ育の基準値を計算（入替候補 or 24時間きのみのみ）
-                const replacementEnergy = parseFloat(document.getElementById('replacementEnergy').value) || 0;
+                // 3. 100%いつ育の基準値を計算（入替候補 or 期間分きのみのみ）
+                let replacementEnergy = parseFloat(document.getElementById('replacementEnergy').value) || 0;
                 const replacementIncludesFB = document.getElementById('replacementIncludesFB').checked;
+                const replacementIs24h = document.getElementById('replacementIs24h').checked;
+                
+                // 計算期間は既に取得済み（3857行目）
+                
+                // 入替候補エナジーを計算期間に応じて調整
+                if (replacementIs24h && calculationPeriod !== 24 && replacementEnergy > 0) {
+                    replacementEnergy = replacementEnergy * (calculationPeriod / 24);
+                    console.log(`[所持数モード] 入替候補エナジーを期間調整: ${calculationPeriod}時間`);
+                }
+                
                 const useReplacement = replacementEnergy > 0;
                 
                 let fullIdleTotal;
@@ -4286,8 +4458,9 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     document.getElementById('idleModeName').textContent = '100% 入替候補ポケモン';
                     document.getElementById('fullIdleDetail').style.display = 'none';
                 } else {
-                    // 24時間きのみのみ
-                    const fullIdleHelpCount = 86400 / finalSpeed;
+                    // 期間分きのみのみ
+                    const periodSeconds = calculationPeriod * 3600;
+                    const fullIdleHelpCount = periodSeconds / finalSpeed;
                     const fullIdleBerryCount = fullIdleHelpCount * 1.0;
                     const fullIdleBerryEnergyBeforeFB = fullIdleBerryCount * berryEnergyPerBerry * berryPerCount;
                     let fullIdleBerryEnergy = fullIdleBerryEnergyBeforeFB;
@@ -4544,6 +4717,12 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             document.getElementById('periodDisplay').textContent = `${period}時間`;
         }
         
+        // 開始時の料理チャンス加算値を更新（クイック選択 → 手入力フィールド）
+        function updateInitialCookBonus() {
+            const quickValue = parseInt(document.getElementById('initialCookBonusQuick').value);
+            document.getElementById('initialCookBonus').value = quickValue;
+        }
+        
         // 食事プレビューを更新（既存のupdateAutoMealPreviewを呼び出すラッパー）
         function updateMealPreview() {
             if (document.getElementById('mealCalcAuto').checked) {
@@ -4611,15 +4790,18 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                         const lastMealAbsoluteTime = meals.length > 0 ? meals[meals.length - 1].absoluteMinutes + currentMinutes : currentMinutes;
                         const partialMinutes = endMinutes - lastMealAbsoluteTime;  // 期間終了までの残り時間（分）
                         
-                        meals.push({
-                            day: day,
-                            time: time,
-                            isWeekend: day === '土' || day === '日',
-                            isMondayMorning: day === '月' && time === '朝',
-                            absoluteMinutes: mealMinutes - currentMinutes,
-                            isWithinPeriod: false,  // 期間外の料理
-                            partialHours: partialMinutes / 60  // 期間残り時間（時間）
-                        });
+                        // 残り時間が正の値の場合のみ追加（0以下の場合は意味がない）
+                        if (partialMinutes > 0) {
+                            meals.push({
+                                day: day,
+                                time: time,
+                                isWeekend: day === '土' || day === '日',
+                                isMondayMorning: day === '月' && time === '朝',
+                                absoluteMinutes: mealMinutes - currentMinutes,
+                                isWithinPeriod: false,  // 期間外の料理
+                                partialHours: partialMinutes / 60  // 期間残り時間（時間）
+                            });
+                        }
                         foundFirstMealAfterPeriod = true;
                         break;  // 1つだけ追加したら終了
                     }
@@ -5364,8 +5546,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                         console.log(`  [${idx}] ${p.type}: ${p.start}-${p.end}分 (効率${p.efficiency})`);
                     });
                     
-                    // 計算期間を取得
-                    const calculationPeriod = parseInt(document.getElementById('calculationPeriod').value);
+                    // 計算期間は既に取得済み（5301行目）
                     const periodMinutes = calculationPeriod * 60;
                     
                     for (let i = 0; i < selectedMeals.length - 1; i++) {
@@ -5379,6 +5560,13 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                         // 次の料理が期間外の場合、期間終了時刻でクリップ
                         if (!nextMeal.isWithinPeriod) {
                             intervalEnd = Math.min(intervalEnd, periodMinutes);
+                            
+                            // 区間が0以下の場合はスキップ
+                            if (intervalEnd <= intervalStart) {
+                                console.log(`\n料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time}（期間外、時間0のためスキップ）`);
+                                continue;
+                            }
+                            
                             console.log(`\n料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time}（期間外、${periodMinutes}分までクリップ） (${intervalStart}-${intervalEnd}分)`);
                         } else {
                             console.log(`\n料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time} (${intervalStart}-${intervalEnd}分)`);
@@ -5417,8 +5605,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     // 通常モード：期間内フル稼働
                     console.log('=== 通常モード：期間内フル稼働 ===');
                     
-                    // 計算期間を取得
-                    const calculationPeriod = parseInt(document.getElementById('calculationPeriod').value);
+                    // 計算期間は既に取得済み（5301行目）
                     const periodMinutes = calculationPeriod * 60;
                     
                     for (let i = 0; i < selectedMeals.length - 1; i++) {
@@ -5432,6 +5619,13 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                         if (!nextMeal.isWithinPeriod) {
                             const remainingMinutes = periodMinutes - meal.absoluteMinutes;
                             durationMinutes = Math.min(durationMinutes, remainingMinutes);
+                            
+                            // 残り時間が0以下の場合はスキップ
+                            if (durationMinutes <= 0) {
+                                console.log(`料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time}（期間外、時間0のためスキップ）`);
+                                continue;
+                            }
+                            
                             console.log(`料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time}（期間外、${remainingMinutes.toFixed(1)}分のみ使用）`);
                         } else {
                             console.log(`料理区間${i+1}: ${meal.day}${meal.time} → ${nextMeal.day}${nextMeal.time}`);
@@ -5485,13 +5679,15 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 console.log('ステップ4: エナジー計算');
                 const skillLevel = parseInt(document.getElementById('skillLevel').value);
                 const baseCookEnergy = parseFloat(document.getElementById('cookEnergy').value);
-                console.log('スキルレベル:', skillLevel, '料理エナジー:', baseCookEnergy);
+                const initialCookBonus = parseFloat(document.getElementById('initialCookBonus').value) || 0;
+                console.log('スキルレベル:', skillLevel, '料理エナジー:', baseCookEnergy, '開始時ボーナス:', initialCookBonus + '%');
                 
                 const result = calculateSkillEnergyExpectedValue(
                     selectedMeals,
                     skillPlacements,
                     skillLevel,
-                    baseCookEnergy
+                    baseCookEnergy,
+                    initialCookBonus
                 );
                 
                 // エナジー計算の詳細を保存（詳細表示用）
@@ -5559,13 +5755,16 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         }
 
         // スキルエナジー期待値計算（コア関数）
-        function calculateSkillEnergyExpectedValue(meals, skillPlacements, skillLevel, baseCookEnergy) {
+        function calculateSkillEnergyExpectedValue(meals, skillPlacements, skillLevel, baseCookEnergy, initialBonus = 0) {
             const SKILL_EFFECTS = {
                 1: 0.04, 2: 0.05, 3: 0.06,
                 4: 0.07, 5: 0.08, 6: 0.10
             };
             const skillEffect = SKILL_EFFECTS[skillLevel];
             const MAX_BONUS = 0.70;
+            
+            // 開始時のボーナスを％から小数に変換
+            const initialBonusDecimal = initialBonus / 100;
             
             // 全パターン生成
             const patternCount = Math.pow(2, meals.length);
@@ -5603,17 +5802,17 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 // このパターンのエナジー（スキルあり）
                 let skillPatternEnergy = 0;
                 let skillProb = 1.0;
-                let accumulatedBonus = 0;
+                let accumulatedBonus = initialBonusDecimal;  // 開始時のボーナスで初期化
                 
                 for (let i = 0; i < meals.length; i++) {
                     const meal = meals[i];
                     
-                    // 月曜朝リセット
+                    // 月曜朝リセット（ただし最初の料理でない場合のみ）
                     if (meal.isMondayMorning && i > 0) {
                         accumulatedBonus = 0;
                     }
                     
-                    // スキル発動
+                    // スキル発動（最初の料理以降）
                     if (i > 0) {
                         accumulatedBonus = Math.min(
                             accumulatedBonus + skillPlacements[i - 1] * skillEffect,
@@ -5644,12 +5843,53 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             };
         }
 
+        // 詳細設定の開閉機能
+        function toggleSettings() {
+            const overlay = document.getElementById('settingsOverlay');
+            const panel = document.getElementById('settingsPanel');
+            overlay.classList.toggle('active');
+            panel.classList.toggle('active');
+        }
+
+        function closeSettings() {
+            const overlay = document.getElementById('settingsOverlay');
+            const panel = document.getElementById('settingsPanel');
+            overlay.classList.remove('active');
+            panel.classList.remove('active');
+        }
+
+        // 詳細設定セクションを移動
+        function initializeAdvancedSettings() {
+            const settingsContent = document.getElementById('settingsContent');
+            const sectionIds = [
+                'capacityCalculationSection',
+                'eventCorrectionSection',
+                'skillCeilingSection',
+                'foodEnergyModeSection'
+            ];
+            
+            sectionIds.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    settingsContent.appendChild(section);
+                }
+            });
+        }
+
         // 初期化
+        initializeAdvancedSettings();  // 詳細設定を初期化
         updateFoodSlotLabels();
         updateScheduleDisplay();
         setupMealPreviewListeners();
         updatePeriodDisplay();  // 期間表示を初期化
         updateMealPreview();    // 食事プレビューを初期化
+        
+        // デフォルトの食材エナジーモードに応じて鍋容量設定を表示
+        const defaultMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
+        const potCapacitySettings = document.getElementById('potCapacitySettings');
+        if (defaultMode === 'surplus' || defaultMode === 'recipe' || defaultMode === 'hybrid') {
+            potCapacitySettings.classList.add('active');
+        }
     </script>
 
     <!-- クレジット -->
