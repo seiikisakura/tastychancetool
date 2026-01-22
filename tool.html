@@ -724,6 +724,227 @@
             </div>
         </div>
 
+        <!-- フィールド設定 -->
+        <div class="section">
+            <div class="section-title">フィールド設定</div>
+            
+            <!-- フィールド選択 -->
+            <div class="input-group">
+                <label class="input-label" for="fieldSelect">フィールド選択</label>
+                <select id="fieldSelect" onchange="updateFavoriteBerry()">
+                    <option value="">-- フィールドを選択 --</option>
+                    <option value="wakakusa">ワカクサ本島</option>
+                    <option value="cyan">シアンの砂浜</option>
+                    <option value="taupe">トープ洞窟</option>
+                    <option value="unohana">ウノハナ雪原</option>
+                    <option value="lapis">ラピスラズリ湖畔</option>
+                    <option value="gold">ゴールド旧発電所</option>
+                    <option value="amber">アンバー渓谷</option>
+                    <option value="wakakusa_ex">ワカクサ本島EX</option>
+                </select>
+                <div class="note" style="margin-top: 5px; color: #666; font-size: 13px;">
+                    ※フィールドを選択すると、選択中のポケモンのきのみが好物きのみかどうかを自動判定します<br>
+                    　ワカクサ本島EXの場合、おてつだいスピード補正・メインスキルレベル補正が自動計算され、EX補正：ランダムの選択肢が表示されます
+                </div>
+            </div>
+            
+            <!-- ワカクサ本島/EXのきのみ選択 -->
+            <div id="wakakusaBerrySelection" class="input-group" style="display: none; margin-top: 15px; padding: 15px; background: #f0f8ff; border-radius: 8px;">
+                <label class="input-label">ワカクサ本島の好物きのみ（3種選択）</label>
+                <div class="note" style="margin-bottom: 10px; color: #666; font-size: 13px;">
+                    ※ワカクサ本島では全てのきのみからランダムで3種が好物きのみとして抽選されます<br>
+                    　選択したきのみが選択中のポケモンのきのみと一致する場合、好物きのみとして扱われます
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                    <select id="wakakusaBerry1" onchange="updateFavoriteBerry()">
+                        <option value="">-- きのみ1 --</option>
+                        <option value="キーのみ">キーのみ（ノーマル）</option>
+                        <option value="ヒメリのみ">ヒメリのみ（ほのお）</option>
+                        <option value="オレンのみ">オレンのみ（みず）</option>
+                        <option value="ウブのみ">ウブのみ（でんき）</option>
+                        <option value="ドリのみ">ドリのみ（くさ）</option>
+                        <option value="チーゴのみ">チーゴのみ（こおり）</option>
+                        <option value="クラボのみ">クラボのみ（かくとう）</option>
+                        <option value="カゴのみ">カゴのみ（どく）</option>
+                        <option value="フィラのみ">フィラのみ（じめん）</option>
+                        <option value="シーヤのみ">シーヤのみ（ひこう）</option>
+                        <option value="マゴのみ">マゴのみ（エスパー）</option>
+                        <option value="ラムのみ">ラムのみ（むし）</option>
+                        <option value="オボンのみ">オボンのみ（いわ）</option>
+                        <option value="ブリーのみ">ブリーのみ（ゴースト）</option>
+                        <option value="ヤチェのみ">ヤチェのみ（ドラゴン）</option>
+                        <option value="ウイのみ">ウイのみ（あく）</option>
+                        <option value="ベリブのみ">ベリブのみ（はがね）</option>
+                        <option value="モモンのみ">モモンのみ（フェアリー）</option>
+                    </select>
+                    <select id="wakakusaBerry2" onchange="updateFavoriteBerry()">
+                        <option value="">-- きのみ2 --</option>
+                        <option value="キーのみ">キーのみ（ノーマル）</option>
+                        <option value="ヒメリのみ">ヒメリのみ（ほのお）</option>
+                        <option value="オレンのみ">オレンのみ（みず）</option>
+                        <option value="ウブのみ">ウブのみ（でんき）</option>
+                        <option value="ドリのみ">ドリのみ（くさ）</option>
+                        <option value="チーゴのみ">チーゴのみ（こおり）</option>
+                        <option value="クラボのみ">クラボのみ（かくとう）</option>
+                        <option value="カゴのみ">カゴのみ（どく）</option>
+                        <option value="フィラのみ">フィラのみ（じめん）</option>
+                        <option value="シーヤのみ">シーヤのみ（ひこう）</option>
+                        <option value="マゴのみ">マゴのみ（エスパー）</option>
+                        <option value="ラムのみ">ラムのみ（むし）</option>
+                        <option value="オボンのみ">オボンのみ（いわ）</option>
+                        <option value="ブリーのみ">ブリーのみ（ゴースト）</option>
+                        <option value="ヤチェのみ">ヤチェのみ（ドラゴン）</option>
+                        <option value="ウイのみ">ウイのみ（あく）</option>
+                        <option value="ベリブのみ">ベリブのみ（はがね）</option>
+                        <option value="モモンのみ">モモンのみ（フェアリー）</option>
+                    </select>
+                    <select id="wakakusaBerry3" onchange="updateFavoriteBerry()">
+                        <option value="">-- きのみ3 --</option>
+                        <option value="キーのみ">キーのみ（ノーマル）</option>
+                        <option value="ヒメリのみ">ヒメリのみ（ほのお）</option>
+                        <option value="オレンのみ">オレンのみ（みず）</option>
+                        <option value="ウブのみ">ウブのみ（でんき）</option>
+                        <option value="ドリのみ">ドリのみ（くさ）</option>
+                        <option value="チーゴのみ">チーゴのみ（こおり）</option>
+                        <option value="クラボのみ">クラボのみ（かくとう）</option>
+                        <option value="カゴのみ">カゴのみ（どく）</option>
+                        <option value="フィラのみ">フィラのみ（じめん）</option>
+                        <option value="シーヤのみ">シーヤのみ（ひこう）</option>
+                        <option value="マゴのみ">マゴのみ（エスパー）</option>
+                        <option value="ラムのみ">ラムのみ（むし）</option>
+                        <option value="オボンのみ">オボンのみ（いわ）</option>
+                        <option value="ブリーのみ">ブリーのみ（ゴースト）</option>
+                        <option value="ヤチェのみ">ヤチェのみ（ドラゴン）</option>
+                        <option value="ウイのみ">ウイのみ（あく）</option>
+                        <option value="ベリブのみ">ベリブのみ（はがね）</option>
+                        <option value="モモンのみ">モモンのみ（フェアリー）</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- ワカクサ本島EXのきのみ選択 -->
+            <div id="wakakusaExBerrySelection" class="input-group" style="display: none; margin-top: 15px; padding: 15px; background: #fff5e6; border-radius: 8px;">
+                <label class="input-label">ワカクサ本島EXの好物きのみ（メイン1種+サブ2種）</label>
+                <div class="note" style="margin-bottom: 10px; color: #666; font-size: 13px;">
+                    ※ワカクサ本島EXではメイン1種、サブ2種の形で好物きのみが抽選されます<br>
+                    <strong>【メインきのみの恩恵】</strong><br>
+                    　• おてつだいスピード10%アップ（自動計算）<br>
+                    　• メインスキルレベル+1（自動計算）<br>
+                    　• EX補正：ランダムの効果（好物2.4倍など、手動選択）<br>
+                    <strong>【サブきのみの恩恵】</strong><br>
+                    　• EX補正：ランダムの効果のみ（好物2.4倍など、手動選択）<br>
+                    <strong>【好物きのみでない場合】</strong><br>
+                    　• おてつだいスピード15%ダウン（自動計算）
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 13px; color: #666; font-weight: bold;">メインきのみ</label>
+                    <select id="wakakusaExBerryMain" onchange="updateFavoriteBerry()" style="margin-top: 5px;">
+                        <option value="">-- メインきのみ --</option>
+                        <option value="キーのみ">キーのみ（ノーマル）</option>
+                        <option value="ヒメリのみ">ヒメリのみ（ほのお）</option>
+                        <option value="オレンのみ">オレンのみ（みず）</option>
+                        <option value="ウブのみ">ウブのみ（でんき）</option>
+                        <option value="ドリのみ">ドリのみ（くさ）</option>
+                        <option value="チーゴのみ">チーゴのみ（こおり）</option>
+                        <option value="クラボのみ">クラボのみ（かくとう）</option>
+                        <option value="カゴのみ">カゴのみ（どく）</option>
+                        <option value="フィラのみ">フィラのみ（じめん）</option>
+                        <option value="シーヤのみ">シーヤのみ（ひこう）</option>
+                        <option value="マゴのみ">マゴのみ（エスパー）</option>
+                        <option value="ラムのみ">ラムのみ（むし）</option>
+                        <option value="オボンのみ">オボンのみ（いわ）</option>
+                        <option value="ブリーのみ">ブリーのみ（ゴースト）</option>
+                        <option value="ヤチェのみ">ヤチェのみ（ドラゴン）</option>
+                        <option value="ウイのみ">ウイのみ（あく）</option>
+                        <option value="ベリブのみ">ベリブのみ（はがね）</option>
+                        <option value="モモンのみ">モモンのみ（フェアリー）</option>
+                    </select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <label style="font-size: 13px; color: #666; font-weight: bold;">サブきのみ1</label>
+                        <select id="wakakusaExBerrySub1" onchange="updateFavoriteBerry()" style="margin-top: 5px;">
+                            <option value="">-- サブきのみ1 --</option>
+                            <option value="キーのみ">キーのみ（ノーマル）</option>
+                            <option value="ヒメリのみ">ヒメリのみ（ほのお）</option>
+                            <option value="オレンのみ">オレンのみ（みず）</option>
+                            <option value="ウブのみ">ウブのみ（でんき）</option>
+                            <option value="ドリのみ">ドリのみ（くさ）</option>
+                            <option value="チーゴのみ">チーゴのみ（こおり）</option>
+                            <option value="クラボのみ">クラボのみ（かくとう）</option>
+                            <option value="カゴのみ">カゴのみ（どく）</option>
+                            <option value="フィラのみ">フィラのみ（じめん）</option>
+                            <option value="シーヤのみ">シーヤのみ（ひこう）</option>
+                            <option value="マゴのみ">マゴのみ（エスパー）</option>
+                            <option value="ラムのみ">ラムのみ（むし）</option>
+                            <option value="オボンのみ">オボンのみ（いわ）</option>
+                            <option value="ブリーのみ">ブリーのみ（ゴースト）</option>
+                            <option value="ヤチェのみ">ヤチェのみ（ドラゴン）</option>
+                            <option value="ウイのみ">ウイのみ（あく）</option>
+                            <option value="ベリブのみ">ベリブのみ（はがね）</option>
+                            <option value="モモンのみ">モモンのみ（フェアリー）</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; color: #666; font-weight: bold;">サブきのみ2</label>
+                        <select id="wakakusaExBerrySub2" onchange="updateFavoriteBerry()" style="margin-top: 5px;">
+                            <option value="">-- サブきのみ2 --</option>
+                            <option value="キーのみ">キーのみ（ノーマル）</option>
+                            <option value="ヒメリのみ">ヒメリのみ（ほのお）</option>
+                            <option value="オレンのみ">オレンのみ（みず）</option>
+                            <option value="ウブのみ">ウブのみ（でんき）</option>
+                            <option value="ドリのみ">ドリのみ（くさ）</option>
+                            <option value="チーゴのみ">チーゴのみ（こおり）</option>
+                            <option value="クラボのみ">クラボのみ（かくとう）</option>
+                            <option value="カゴのみ">カゴのみ（どく）</option>
+                            <option value="フィラのみ">フィラのみ（じめん）</option>
+                            <option value="シーヤのみ">シーヤのみ（ひこう）</option>
+                            <option value="マゴのみ">マゴのみ（エスパー）</option>
+                            <option value="ラムのみ">ラムのみ（むし）</option>
+                            <option value="オボンのみ">オボンのみ（いわ）</option>
+                            <option value="ブリーのみ">ブリーのみ（ゴースト）</option>
+                            <option value="ヤチェのみ">ヤチェのみ（ドラゴン）</option>
+                            <option value="ウイのみ">ウイのみ（あく）</option>
+                            <option value="ベリブのみ">ベリブのみ（はがね）</option>
+                            <option value="モモンのみ">モモンのみ（フェアリー）</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 好物きのみ（自動設定・非表示） -->
+            <input type="checkbox" id="favoriteBerry" style="display: none;">
+            
+            <!-- フィールドボーナス -->
+            <div class="input-group" style="margin-top: 15px;">
+                <label class="input-label" for="fieldBonus">フィールドボーナス（%）</label>
+                <input type="number" id="fieldBonus" min="0" max="100" step="1" value="0">
+            </div>
+            
+            <!-- EX補正：ランダム（ワカクサ本島EX選択時のみ表示） -->
+            <div class="input-group" id="exRandomSection" style="display: none;">
+                <label class="input-label">EX補正：ランダム</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="exOther" value="none" id="exOther_none" checked>
+                        <label for="exOther_none">なし</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="exOther" value="berry" id="exOther_berry">
+                        <label for="exOther_berry">好物2.4倍</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="exOther" value="food" id="exOther_food">
+                        <label for="exOther_food">食材+1個</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="exOther" value="skill" id="exOther_skill">
+                        <label for="exOther_skill">スキル1.25倍</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- その他設定 -->
         <div class="section">
             <div class="section-title">その他設定</div>
@@ -731,10 +952,6 @@
                 <div class="checkbox-item">
                     <input type="checkbox" id="campTicket">
                     <label for="campTicket">いいキャンプチケット</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="favoriteBerry">
-                    <label for="favoriteBerry">好物きのみ</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox" id="weekendBonus">
@@ -802,15 +1019,6 @@
                         ・睡眠時間 + 集中作業時間が24時間を超えないようにしてください
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- フィールドボーナス -->
-        <div class="section">
-            <div class="section-title">フィールドボーナス</div>
-            <div class="input-group">
-                <label class="input-label" for="fieldBonus">FB（%）</label>
-                <input type="number" id="fieldBonus" min="0" max="100" step="1" value="0">
             </div>
         </div>
 
@@ -1017,10 +1225,6 @@
                 <label class="input-label" for="recipeLevel">レシピレベル（1-65）</label>
                 <input type="number" id="recipeLevel" min="1" max="65" value="65">
             </div>
-            <div class="input-group">
-                <label class="input-label" for="recipeCookEventBonus">料理イベントボーナス（%）</label>
-                <input type="number" id="recipeCookEventBonus" value="0" step="1">
-            </div>
             
             <!-- 料理エナジー（自動計算結果） -->
             <div class="input-group" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #ddd;">
@@ -1151,49 +1355,6 @@
                 <!-- 自動計算時のプレビュー -->
                 <div id="autoMealPreview" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; font-size: 13px;">
                     <!-- 動的生成 -->
-                </div>
-            </div>
-        </div>
-
-        <!-- EX補正 -->
-        <div class="section">
-            <div class="section-title">EX補正</div>
-            <div class="input-group">
-                <label class="input-label">おてつだいスピード</label>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" name="exSpeed" value="1.0" id="exSpeed_none" checked>
-                        <label for="exSpeed_none">なし</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="exSpeed" value="0.9" id="exSpeed_up">
-                        <label for="exSpeed_up">10%アップ</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="exSpeed" value="1.15" id="exSpeed_down">
-                        <label for="exSpeed_down">15%ダウン</label>
-                    </div>
-                </div>
-            </div>
-            <div class="input-group">
-                <label class="input-label">その他補正</label>
-                <div class="radio-group">
-                    <div class="radio-item">
-                        <input type="radio" name="exOther" value="none" id="exOther_none" checked>
-                        <label for="exOther_none">なし</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="exOther" value="berry" id="exOther_berry">
-                        <label for="exOther_berry">好物2.4倍</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="exOther" value="food" id="exOther_food">
-                        <label for="exOther_food">食材+1個</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" name="exOther" value="skill" id="exOther_skill">
-                        <label for="exOther_skill">スキル1.25倍</label>
-                    </div>
                 </div>
             </div>
         </div>
@@ -2037,7 +2198,7 @@
                 // Phase 1用の追加パラメータ
                 foodEnergyMode,
                 activeFoodSlots,
-                recipeCookEventBonus
+                eventCookEnergy
             } = params;
             
             // T_fill計算
@@ -2159,7 +2320,7 @@
                         dailyFoodCountByType,
                         avgFoodEnergy,
                         1.0,  // FB適用は後で行うので1.0
-                        recipeCookEventBonus,
+                        eventCookEnergy,
                         1.0   // activeRatio = 1.0（100%運用）
                     );
                     const totalFoodEnergyBeforeFB = foodEnergyResult.energyBeforeFB;
@@ -2456,7 +2617,7 @@
             }
             
             const recipeLevel = parseInt(document.getElementById('recipeLevel').value) || 1;
-            const recipeCookEventBonus = parseFloat(document.getElementById('recipeCookEventBonus').value) || 0;
+            const eventCookEnergy = parseFloat(document.getElementById('eventCookEnergy').value) / 100;
             
             // 基本エナジー：各食材の個数 × エナジー単価の合計
             let baseEnergy = 0;
@@ -2471,7 +2632,7 @@
             
             // レシピボーナスを適用
             const recipeLevelBonus = RECIPE_LEVEL_BONUS[recipeLevel - 1] || 1.0;
-            const cookEventMultiplier = 1 + (recipeCookEventBonus / 100);
+            const cookEventMultiplier = 1 + eventCookEnergy;
             
             const totalEnergy = baseEnergy * recipe.bonus * recipeLevelBonus * cookEventMultiplier;
             
@@ -2481,8 +2642,8 @@
             formulaParts.push(`レシピボーナス: ${baseEnergy.toLocaleString()} × ${recipe.bonus.toFixed(2)} = ${Math.round(baseEnergy * recipe.bonus).toLocaleString()}`);
             formulaParts.push(`レシピレベルボーナス(Lv${recipeLevel}): ${Math.round(baseEnergy * recipe.bonus).toLocaleString()} × ${recipeLevelBonus.toFixed(2)} = ${Math.round(baseEnergy * recipe.bonus * recipeLevelBonus).toLocaleString()}`);
             
-            if (recipeCookEventBonus !== 0) {
-                formulaParts.push(`料理イベントボーナス: ${Math.round(baseEnergy * recipe.bonus * recipeLevelBonus).toLocaleString()} × ${cookEventMultiplier.toFixed(2)} = ${Math.round(totalEnergy).toLocaleString()}`);
+            if (eventCookEnergy !== 0) {
+                formulaParts.push(`料理エナジー補正(イベント): ${Math.round(baseEnergy * recipe.bonus * recipeLevelBonus).toLocaleString()} × ${cookEventMultiplier.toFixed(2)} = ${Math.round(totalEnergy).toLocaleString()}`);
             }
             
             formulaParts.push(`\n最終料理エナジー: ${Math.round(totalEnergy).toLocaleString()}`);
@@ -2536,6 +2697,132 @@
                 const label = document.getElementById(`foodLv60Label${slot.label}`);
                 label.textContent = `${slot.name}${slot.count}`;
             });
+            
+            // ポケモン変更時に好物きのみも再判定
+            updateFavoriteBerry();
+        }
+
+        // フィールド選択に応じて好物きのみを自動判定
+        function updateFavoriteBerry() {
+            const fieldSelect = document.getElementById('fieldSelect').value;
+            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemon = POKEMON_STATS[pokemonType];
+            const pokemonBerry = pokemon.berryName;
+            
+            // ワカクサ本島/EXの表示切り替え
+            const wakakusaBerrySelection = document.getElementById('wakakusaBerrySelection');
+            const wakakusaExBerrySelection = document.getElementById('wakakusaExBerrySelection');
+            const exRandomSection = document.getElementById('exRandomSection');
+            
+            if (fieldSelect === 'wakakusa') {
+                wakakusaBerrySelection.style.display = 'block';
+                wakakusaExBerrySelection.style.display = 'none';
+                exRandomSection.style.display = 'none';
+            } else if (fieldSelect === 'wakakusa_ex') {
+                wakakusaBerrySelection.style.display = 'none';
+                wakakusaExBerrySelection.style.display = 'block';
+                exRandomSection.style.display = 'block';
+            } else {
+                wakakusaBerrySelection.style.display = 'none';
+                wakakusaExBerrySelection.style.display = 'none';
+                exRandomSection.style.display = 'none';
+            }
+            
+            // 各フィールドの好物きのみ定義
+            const fieldBerries = {
+                'cyan': ['オレンのみ', 'モモンのみ', 'シーヤのみ'],
+                'taupe': ['ヒメリのみ', 'フィラのみ', 'オボンのみ'],
+                'unohana': ['チーゴのみ', 'キーのみ', 'ウイのみ'],
+                'lapis': ['ドリのみ', 'マゴのみ', 'クラボのみ'],
+                'gold': ['ウブのみ', 'ベリブのみ', 'ブリーのみ'],
+                'amber': ['カゴのみ', 'ラムのみ', 'ヤチェのみ']
+            };
+            
+            let isFavorite = false;
+            
+            // ワカクサ本島の場合
+            if (fieldSelect === 'wakakusa') {
+                const berry1 = document.getElementById('wakakusaBerry1').value;
+                const berry2 = document.getElementById('wakakusaBerry2').value;
+                const berry3 = document.getElementById('wakakusaBerry3').value;
+                const selectedBerries = [berry1, berry2, berry3].filter(b => b !== '');
+                
+                isFavorite = selectedBerries.includes(pokemonBerry);
+            }
+            // ワカクサ本島EXの場合
+            else if (fieldSelect === 'wakakusa_ex') {
+                const berryMain = document.getElementById('wakakusaExBerryMain').value;
+                const berrySub1 = document.getElementById('wakakusaExBerrySub1').value;
+                const berrySub2 = document.getElementById('wakakusaExBerrySub2').value;
+                const selectedBerries = [berryMain, berrySub1, berrySub2].filter(b => b !== '');
+                
+                isFavorite = selectedBerries.includes(pokemonBerry);
+            }
+            // その他のフィールドの場合
+            else if (fieldBerries[fieldSelect]) {
+                isFavorite = fieldBerries[fieldSelect].includes(pokemonBerry);
+            }
+            
+            // 好物きのみチェックボックスを更新
+            document.getElementById('favoriteBerry').checked = isFavorite;
+        }
+
+        // ワカクサ本島EXのおてスピード補正を計算
+        function getExSpeedMultiplier() {
+            const fieldSelect = document.getElementById('fieldSelect').value;
+            
+            // ワカクサ本島EX以外の場合は常に1.0（補正なし）
+            if (fieldSelect !== 'wakakusa_ex') {
+                return 1.0;
+            }
+            
+            // ワカクサ本島EXの場合、メイン/サブきのみを判定
+            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemon = POKEMON_STATS[pokemonType];
+            const pokemonBerry = pokemon.berryName;
+            
+            const berryMain = document.getElementById('wakakusaExBerryMain').value;
+            const berrySub1 = document.getElementById('wakakusaExBerrySub1').value;
+            const berrySub2 = document.getElementById('wakakusaExBerrySub2').value;
+            
+            if (berryMain === pokemonBerry) {
+                // メインきのみが一致 → 10%アップ
+                return 0.9;
+            } else if (berrySub1 === pokemonBerry || berrySub2 === pokemonBerry) {
+                // サブきのみが一致 → 補正なし
+                return 1.0;
+            } else if (berryMain || berrySub1 || berrySub2) {
+                // きのみが選択されているが一致しない → 15%ダウン
+                return 1.15;
+            } else {
+                // きのみが選択されていない → 補正なし
+                return 1.0;
+            }
+        }
+
+        // ワカクサ本島EXのメインきのみスキルレベル補正を計算
+        function getMainBerrySkillLevelBonus() {
+            const fieldSelect = document.getElementById('fieldSelect').value;
+            
+            // ワカクサ本島EX以外の場合は補正なし
+            if (fieldSelect !== 'wakakusa_ex') {
+                return 0;
+            }
+            
+            // ワカクサ本島EXの場合、メインきのみを判定
+            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemon = POKEMON_STATS[pokemonType];
+            const pokemonBerry = pokemon.berryName;
+            
+            const berryMain = document.getElementById('wakakusaExBerryMain').value;
+            
+            if (berryMain === pokemonBerry) {
+                // メインきのみが一致 → スキルレベル+1
+                return 1;
+            } else {
+                // メインきのみが一致しない → 補正なし
+                return 0;
+            }
         }
 
         // モード選択時の条件付き表示制御
@@ -2662,8 +2949,8 @@
             }
         });
 
-        // レシピレベルと料理イベントボーナスの変更時に料理エナジーを再計算
-        ['recipeLevel', 'recipeCookEventBonus'].forEach(id => {
+        // レシピレベルと料理エナジー補正の変更時に料理エナジーを再計算
+        ['recipeLevel', 'eventCookEnergy'].forEach(id => {
             const element = document.getElementById(id);
             if (element) {
                 element.addEventListener('change', updateCookEnergyFromRecipe);
@@ -2722,7 +3009,7 @@
         // 食材エナジー計算（モード別）
         // foodCountByTypeは食材名: 個数（期待値）のマップ
         // activeRatioは積極運用比率（0-1）、1の場合は100%積極運用
-        function calculateFoodEnergy(mode, foodCountByType, avgFoodEnergy, fbMultiplier, recipeCookEventBonus, activeRatio = 1.0) {
+        function calculateFoodEnergy(mode, foodCountByType, avgFoodEnergy, fbMultiplier, eventCookEnergy, activeRatio = 1.0) {
             const recipeSelect = document.getElementById('recipeSelect').value;
             const recipeLevel = parseInt(document.getElementById('recipeLevel').value);
             const potCapacity = calculatePotCapacity();
@@ -2800,7 +3087,7 @@
                     
                     const recipeData = recipeSelect === 'custom' ? getCustomRecipeData() : RECIPES[recipeSelect];
                     const recipeLevelBonus = RECIPE_LEVEL_BONUS[recipeLevel - 1];
-                    const cookEventMultiplier = 1 + (recipeCookEventBonus / 100);
+                    const cookEventMultiplier = 1 + eventCookEnergy;
                     
                     // レシピに必要な食材が含まれているかチェック
                     let relevantFoodCount = 0;
@@ -2856,7 +3143,7 @@
                     }
                     
                     const recipeLevelBonusHybrid = RECIPE_LEVEL_BONUS[recipeLevel - 1];
-                    const cookEventMultiplierHybrid = 1 + (recipeCookEventBonus / 100);
+                    const cookEventMultiplierHybrid = 1 + eventCookEnergy;
                     
                     // 鍋容量チェック
                     if (potCapacity < recipeTotalIngredientsHybrid) {
@@ -3141,8 +3428,12 @@
             
             const baseSkillLevel = parseInt(document.getElementById('skillLevel').value);
             
-            const exSpeed = parseFloat(document.querySelector('input[name="exSpeed"]:checked').value);
+            // ワカクサ本島EXの場合は自動計算、それ以外は補正なし
+            const exSpeed = getExSpeedMultiplier();
             const exOther = document.querySelector('input[name="exOther"]:checked').value;
+            
+            // ワカクサ本島EXのメインきのみスキルレベル補正
+            const mainBerrySkillBonus = getMainBerrySkillLevelBonus();
             
             const eventSpeed = parseFloat(document.getElementById('eventSpeed').value) / 100;
             const eventSkill = parseFloat(document.getElementById('eventSkill').value) / 100;
@@ -3157,10 +3448,9 @@
             
             // 食材エナジーモード
             const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
-            const recipeCookEventBonus = parseFloat(document.getElementById('recipeCookEventBonus').value) || 0;
 
-            // スキルレベル計算（基本値 + イベント補正、上限6）
-            const skillLevel = Math.min(baseSkillLevel + eventSkillLevel, 6);
+            // スキルレベル計算（基本値 + イベント補正 + メインきのみ補正、上限6）
+            const skillLevel = Math.min(baseSkillLevel + eventSkillLevel + mainBerrySkillBonus, 6);
 
             // 運用モードの判定
             const useReplacement = replacementEnergy > 0;
@@ -3428,13 +3718,19 @@
             } else {
                 // 詳細計算が完了していない場合（エラー時など）は従来の計算を使用
                 document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyBase).toLocaleString();
-                document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
+                
+                // 料理エナジー（基礎）に補正を適用して表示
+                const cookEnergyWithEvent = cookEnergy * (1 + eventCookEnergy);
+                if (eventCookEnergy !== 0) {
+                    document.getElementById('skillEffectCookEnergy').textContent = 
+                        `${Math.round(cookEnergy).toLocaleString()}×(1+${eventCookEnergy.toFixed(2)})=${Math.round(cookEnergyWithEvent).toLocaleString()}`;
+                } else {
+                    document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
+                }
+                
                 document.getElementById('skillEffectWeekendMultiplier').textContent = weekendBonus ? '×2' : '';
                 const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
-                const skillEffectWithEvent = skillEffectBase * (1 + eventCookEnergy);
-                document.getElementById('skillEffectPercent').textContent = eventCookEnergy !== 0 
-                    ? `${skillEffectBase}×(1+${eventCookEnergy.toFixed(2)})=${skillEffectWithEvent.toFixed(1)}`
-                    : skillEffectBase.toFixed(0);
+                document.getElementById('skillEffectPercent').textContent = skillEffectBase.toFixed(0);
             }
             
             // 警告メッセージの表示制御
@@ -3485,7 +3781,7 @@
                 foodCountByType,
                 avgFoodEnergy,
                 fbMultiplier,
-                recipeCookEventBonus,
+                eventCookEnergy,
                 1.0  // 100%積極運用
             );
             
@@ -3672,7 +3968,7 @@
                     activeFoodCountByType,
                     avgFoodEnergy,
                     fbMultiplier,
-                    recipeCookEventBonus,
+                    eventCookEnergy,
                     activeRatio  // 積極運用比率を渡す
                 );
                 let activeFoodEnergyBeforeFB = activeFoodEnergyResult.energyBeforeFB;
@@ -3959,8 +4255,13 @@
                 const fbMultiplier = 1 + (fieldBonus / 100);
                 const cookEnergy = parseFloat(document.getElementById('cookEnergy').value);
                 const baseSkillLevel = parseInt(document.getElementById('skillLevel').value);
-                const exSpeed = parseFloat(document.querySelector('input[name="exSpeed"]:checked').value);
+                // ワカクサ本島EXの場合は自動計算、それ以外は補正なし
+                const exSpeed = getExSpeedMultiplier();
                 const exOther = document.querySelector('input[name="exOther"]:checked').value;
+                
+                // ワカクサ本島EXのメインきのみスキルレベル補正
+                const mainBerrySkillBonus = getMainBerrySkillLevelBonus();
+                
                 const eventSpeed = parseFloat(document.getElementById('eventSpeed').value) / 100;
                 const eventSkill = parseFloat(document.getElementById('eventSkill').value) / 100;
                 const eventBerryCount = document.getElementById('eventBerryCount').checked ? 1 : 0;
@@ -3974,9 +4275,8 @@
                 
                 // 食材エナジーモード
                 const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
-                const recipeCookEventBonus = parseFloat(document.getElementById('recipeCookEventBonus').value) || 0;
                 
-                const skillLevel = Math.min(baseSkillLevel + eventSkillLevel, 6);
+                const skillLevel = Math.min(baseSkillLevel + eventSkillLevel + mainBerrySkillBonus, 6);
                 
                 // おてスピ計算（既存と同じロジック）
                 const levelSpeedBonus = 1 - 0.002 * (level - 1);
@@ -4194,7 +4494,7 @@
                     // Phase 1用の追加パラメータ
                     foodEnergyMode: foodEnergyMode,
                     activeFoodSlots: activeFoodSlots,
-                    recipeCookEventBonus: recipeCookEventBonus
+                    eventCookEnergy: eventCookEnergy
                 });
                 
                 // 結果表示
@@ -4271,13 +4571,19 @@
                 } else {
                     // 詳細計算が完了していない場合（エラー時など）は従来の計算を使用
                     document.getElementById('skillEffectAmount').textContent = Math.round(cookEnergyBase).toLocaleString();
-                    document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
+                    
+                    // 料理エナジー（基礎）に補正を適用して表示
+                    const cookEnergyWithEvent = cookEnergy * (1 + eventCookEnergy);
+                    if (eventCookEnergy !== 0) {
+                        document.getElementById('skillEffectCookEnergy').textContent = 
+                            `${Math.round(cookEnergy).toLocaleString()}×(1+${eventCookEnergy.toFixed(2)})=${Math.round(cookEnergyWithEvent).toLocaleString()}`;
+                    } else {
+                        document.getElementById('skillEffectCookEnergy').textContent = Math.round(cookEnergy).toLocaleString();
+                    }
+                    
                     document.getElementById('skillEffectWeekendMultiplier').textContent = weekendBonus ? '×2' : '';
                     const skillEffectBase = SKILL_EFFECTS[skillLevel] * 100;
-                    const skillEffectWithEvent = skillEffectBase * (1 + eventCookEnergy);
-                    document.getElementById('skillEffectPercent').textContent = eventCookEnergy !== 0 
-                        ? `${skillEffectBase}×(1+${eventCookEnergy.toFixed(2)})=${skillEffectWithEvent.toFixed(1)}`
-                        : skillEffectBase.toFixed(0);
+                    document.getElementById('skillEffectPercent').textContent = skillEffectBase.toFixed(0);
                 }
                 
                 // 詳細計算（常に実行）
@@ -4382,7 +4688,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     fullActiveFoodCountByType,
                     avgFoodEnergy,
                     fbMultiplier,
-                    recipeCookEventBonus,
+                    eventCookEnergy,
                     1.0  // 100%積極運用
                 );
                 
@@ -4908,6 +5214,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 skillEnergyPerDay,
                 skillLevel,
                 baseCookEnergy,
+                eventCookEnergy,
                 speedCalcSteps,
                 skillProbCalcSteps,
                 ceilingCalcDetails,
@@ -5059,6 +5366,10 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             html += '<strong style="color: #1976d2; font-size: 14px;">【エナジー計算】</strong><br>';
             html += `<div style="margin-left: 10px; font-size: 12px;">`;
             html += `• 料理エナジー（基礎）: ${Math.round(baseCookEnergy).toLocaleString()}<br>`;
+            if (eventCookEnergy !== 0) {
+                const cookEnergyWithEvent = baseCookEnergy * (1 + eventCookEnergy);
+                html += `• イベント補正適用後: ${Math.round(baseCookEnergy).toLocaleString()} × ${(1 + eventCookEnergy).toFixed(2)} = ${Math.round(cookEnergyWithEvent).toLocaleString()}<br>`;
+            }
             html += `• スキルレベル: Lv.${skillLevel}<br>`;
             html += `<br>`;
             html += `• 料理スケジュール全体のスキル効果: ${Math.round(skillEnergyTotal).toLocaleString()}<br>`;
@@ -5401,7 +5712,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked').value);
                 const campTicket = document.getElementById('campTicket').checked;
                 
-                const exSpeed = parseFloat(document.querySelector('input[name="exSpeed"]:checked').value);
+                // ワカクサ本島EXの場合は自動計算、それ以外は補正なし
+                const exSpeed = getExSpeedMultiplier();
                 const exOther = document.querySelector('input[name="exOther"]:checked').value;
                 const eventSpeed = parseFloat(document.getElementById('eventSpeed').value) / 100;
                 const eventSkill = parseFloat(document.getElementById('eventSkill').value) / 100;
@@ -5677,10 +5989,15 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 
                 // ===== ステップ4: エナジー計算 =====
                 console.log('ステップ4: エナジー計算');
-                const skillLevel = parseInt(document.getElementById('skillLevel').value);
+                const baseSkillLevelDetail = parseInt(document.getElementById('skillLevel').value);
+                const eventSkillLevelDetail = parseInt(document.getElementById('eventSkillLevel').value) || 0;
+                const mainBerrySkillBonusDetail = getMainBerrySkillLevelBonus();
+                const skillLevel = Math.min(baseSkillLevelDetail + eventSkillLevelDetail + mainBerrySkillBonusDetail, 6);
+                
                 const baseCookEnergy = parseFloat(document.getElementById('cookEnergy').value);
+                const eventCookEnergyForDetail = parseFloat(document.getElementById('eventCookEnergy').value) / 100;
                 const initialCookBonus = parseFloat(document.getElementById('initialCookBonus').value) || 0;
-                console.log('スキルレベル:', skillLevel, '料理エナジー:', baseCookEnergy, '開始時ボーナス:', initialCookBonus + '%');
+                console.log('スキルレベル（基礎）:', baseSkillLevelDetail, 'イベント補正:', eventSkillLevelDetail, 'メインきのみ補正:', mainBerrySkillBonusDetail, '最終スキルレベル:', skillLevel, '料理エナジー（基礎）:', baseCookEnergy, '料理エナジー補正:', eventCookEnergyForDetail, '開始時ボーナス:', initialCookBonus + '%');
                 
                 const result = calculateSkillEnergyExpectedValue(
                     selectedMeals,
@@ -5698,7 +6015,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     skillEffect: skillLevel === 6 ? 0.10 : (skillLevel === 5 ? 0.08 : (skillLevel === 4 ? 0.07 : (skillLevel === 3 ? 0.06 : (skillLevel === 2 ? 0.05 : 0.04))))
                 };
                 
-                const skillEnergyTotal = result.withSkill - result.baseline;
+                // スキル効果のエナジーを計算（イベント補正を適用）
+                const skillEnergyTotal = (result.withSkill - result.baseline) * (1 + eventCookEnergyForDetail);
                 const skillEnergyPerActivation = totalSkillExpectedFinal > 0 ? skillEnergyTotal / totalSkillExpectedFinal : 0;
                 const skillEnergyPerDay = skillEnergyPerActivation * skillCountPerDay;
                 
@@ -5730,6 +6048,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     skillEnergyPerDay,
                     skillLevel,
                     baseCookEnergy,
+                    eventCookEnergy: eventCookEnergyForDetail,
                     speedCalcSteps,
                     skillProbCalcSteps,
                     ceilingCalcDetails,
