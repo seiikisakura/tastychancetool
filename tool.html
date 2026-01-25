@@ -560,19 +560,19 @@
                 <label class="input-label">ポケモン選択</label>
                 <div class="radio-group">
                     <div class="radio-item">
-                        <input type="radio" id="pokemon_swampert" name="pokemon" value="swampert" checked onchange="updateFoodSlotLabels()">
+                        <input type="radio" id="pokemon_swampert" name="pokemon" value="swampert" checked onchange="updateFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();">
                         <label for="pokemon_swampert">ラグラージ</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" id="pokemon_weavile" name="pokemon" value="weavile" onchange="updateFoodSlotLabels()">
+                        <input type="radio" id="pokemon_weavile" name="pokemon" value="weavile" onchange="updateFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();">
                         <label for="pokemon_weavile">マニューラ</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" id="pokemon_dedenne" name="pokemon" value="dedenne" onchange="updateFoodSlotLabels()">
+                        <input type="radio" id="pokemon_dedenne" name="pokemon" value="dedenne" onchange="updateFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();">
                         <label for="pokemon_dedenne">デデンネ</label>
                     </div>
                     <div class="radio-item">
-                        <input type="radio" id="pokemon_spheal_holiday" name="pokemon" value="spheal_holiday" onchange="updateFoodSlotLabels()">
+                        <input type="radio" id="pokemon_spheal_holiday" name="pokemon" value="spheal_holiday" onchange="updateFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();">
                         <label for="pokemon_spheal_holiday">タマザラシ(ホリデーリース)</label>
                     </div>
                 </div>
@@ -1387,6 +1387,128 @@
         <!-- イベント補正 -->
         <div class="section" id="eventCorrectionSection">
             <div class="section-title">イベント補正</div>
+            
+            <!-- タイプ指定 -->
+            <div class="input-group" style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <div class="checkbox-item" style="margin-bottom: 10px;">
+                    <input type="checkbox" id="eventTypeRestriction" onchange="toggleEventTypeSelection()">
+                    <label for="eventTypeRestriction"><strong>タイプ指定あり（特定タイプのみに効果）</strong></label>
+                </div>
+                
+                <div id="eventTypeSelectionArea" style="display: none; margin-left: 20px; padding: 10px; background: #fff; border-radius: 5px; border: 1px solid #ddd;">
+                    <div style="font-size: 13px; color: #666; margin-bottom: 8px;"><strong>対象タイプを選択（複数選択可）：</strong></div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeNormal" value="ノーマル">
+                            <label for="typeNormal">ノーマル</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeFire" value="ほのお">
+                            <label for="typeFire">ほのお</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeWater" value="みず">
+                            <label for="typeWater">みず</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeElectric" value="でんき">
+                            <label for="typeElectric">でんき</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeGrass" value="くさ">
+                            <label for="typeGrass">くさ</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeIce" value="こおり">
+                            <label for="typeIce">こおり</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeFighting" value="かくとう">
+                            <label for="typeFighting">かくとう</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typePoison" value="どく">
+                            <label for="typePoison">どく</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeGround" value="じめん">
+                            <label for="typeGround">じめん</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeFlying" value="ひこう">
+                            <label for="typeFlying">ひこう</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typePsychic" value="エスパー">
+                            <label for="typePsychic">エスパー</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeBug" value="むし">
+                            <label for="typeBug">むし</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeRock" value="いわ">
+                            <label for="typeRock">いわ</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeGhost" value="ゴースト">
+                            <label for="typeGhost">ゴースト</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeDragon" value="ドラゴン">
+                            <label for="typeDragon">ドラゴン</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeDark" value="あく">
+                            <label for="typeDark">あく</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeSteel" value="はがね">
+                            <label for="typeSteel">はがね</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-type-check" id="typeFairy" value="フェアリー">
+                            <label for="typeFairy">フェアリー</label>
+                        </div>
+                    </div>
+                    <div id="pokemonTypeInfo" style="font-size: 12px; color: #666; margin-top: 8px; padding: 8px; background: #e8f5e9; border-radius: 4px;">
+                        <!-- ポケモンのタイプ情報がここに表示される -->
+                    </div>
+                    <div style="font-size: 11px; color: #888; margin-top: 8px; padding: 6px; background: #fff9e6; border-radius: 4px; border: 1px solid #ffe082;">
+                        ℹ️ ポケモンスリープでは本編と異なり、単一タイプのみが設定されています
+                    </div>
+                </div>
+            </div>
+            
+            <!-- とくいなもの指定 -->
+            <div class="input-group" style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <div class="checkbox-item" style="margin-bottom: 10px;">
+                    <input type="checkbox" id="eventSpecialtyRestriction" onchange="toggleEventSpecialtySelection()">
+                    <label for="eventSpecialtyRestriction"><strong>とくいなもの指定あり（特定のとくいなものに効果）</strong></label>
+                </div>
+                
+                <div id="eventSpecialtySelectionArea" style="display: none; margin-left: 20px; padding: 10px; background: #fff; border-radius: 5px; border: 1px solid #ddd;">
+                    <div style="font-size: 13px; color: #666; margin-bottom: 8px;"><strong>対象のとくいなものを選択（複数選択可）：</strong></div>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-specialty-check" id="specialtyBerry" value="きのみとくい">
+                            <label for="specialtyBerry">きのみとくい</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-specialty-check" id="specialtyFood" value="食材とくい">
+                            <label for="specialtyFood">食材とくい</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" class="event-specialty-check" id="specialtySkill" value="スキルとくい">
+                            <label for="specialtySkill">スキルとくい</label>
+                        </div>
+                    </div>
+                    <div id="pokemonSpecialtyInfo" style="font-size: 12px; color: #666; margin-top: 8px; padding: 8px; background: #e1f5fe; border-radius: 4px;">
+                        <!-- ポケモンのとくいなもの情報がここに表示される -->
+                    </div>
+                </div>
+            </div>
+            
             <div class="input-group">
                 <label class="input-label" for="eventSkill">メインスキル発生確率</label>
                 <input type="number" id="eventSkill" value="1.0" step="0.1" min="0">
@@ -1470,6 +1592,84 @@
                 <div class="radio-item">
                     <input type="radio" name="foodEnergyMode" value="hybrid" id="mode_hybrid" checked>
                     <label for="mode_hybrid">食材ハイブリッドモード</label>
+                </div>
+            </div>
+            
+            <!-- モード説明 -->
+            <div style="margin-top: 15px; padding: 15px; background: #f0f7ff; border-radius: 8px; border-left: 4px solid #2196F3;">
+                <div style="font-size: 14px; font-weight: bold; color: #1976D2; margin-bottom: 10px;">
+                    📖 各モードの説明
+                </div>
+                
+                <div style="margin-bottom: 12px;">
+                    <div style="font-weight: bold; color: #333; margin-bottom: 4px;">
+                        🔹 食材度外視モード
+                    </div>
+                    <div style="font-size: 13px; color: #555; margin-left: 15px; line-height: 1.6;">
+                        食材エナジーを完全に無視します。料理チャンスのスキルエナジーのみで評価する場合に使用。<br>
+                        <span style="color: #666; font-size: 12px;">💡 用途：料理チャンス特化で、食材が活かせない場合</span>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 12px;">
+                    <div style="font-weight: bold; color: #333; margin-bottom: 4px;">
+                        🔹 食材無限ごちゃまぜモード
+                    </div>
+                    <div style="font-size: 13px; color: #555; margin-left: 15px; line-height: 1.6;">
+                        すべての食材を「無限ごちゃまぜ料理」として評価します。<br>
+                        基本大成功確率（平日10%→1.1倍、週末30%→1.6倍）が反映されます。<br>
+                        <span style="color: #888; font-size: 11px;">※計算式：平日 0.9×1 + 0.1×2 = 1.1倍、週末 0.7×1 + 0.3×3 = 1.6倍</span><br>
+                        <span style="color: #666; font-size: 12px;">💡 用途：食材の種類・レシピを考慮せず、シンプルに評価したい場合</span>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 12px;">
+                    <div style="font-weight: bold; color: #333; margin-bottom: 4px;">
+                        🔹 食材余剰モード
+                    </div>
+                    <div style="font-size: 13px; color: #555; margin-left: 15px; line-height: 1.6;">
+                        レシピの「余剰枠」に入る食材のみ評価します（ごちゃまぜ料理として）。<br>
+                        例：鍋容量78個、レシピが60個必要 → 余剰枠は18個 → 3食分で54個まで評価<br>
+                        基本大成功確率（平日10%→1.1倍、週末30%→1.6倍）が反映されます。<br>
+                        <span style="color: #888; font-size: 11px;">※計算式：平日 0.9×1 + 0.1×2 = 1.1倍、週末 0.7×1 + 0.3×3 = 1.6倍</span><br>
+                        <span style="color: #666; font-size: 12px;">💡 用途：レシピは他のポケモンに任せ、余った枠だけ使う想定</span>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 12px;">
+                    <div style="font-weight: bold; color: #333; margin-bottom: 4px;">
+                        🔹 食材レシピ補正モード
+                    </div>
+                    <div style="font-size: 13px; color: #555; margin-left: 15px; line-height: 1.6;">
+                        レシピに必要な食材を「レシピボーナス付き」で評価します。<br>
+                        例：じならしワカモレチップス（食材エナジー×1.78倍）で評価<br>
+                        基本大成功確率（平日10%→1.1倍、週末30%→1.6倍）が反映されます。<br>
+                        <span style="color: #888; font-size: 11px;">※計算式：平日 0.9×1 + 0.1×2 = 1.1倍、週末 0.7×1 + 0.3×3 = 1.6倍</span><br>
+                        <span style="color: #666; font-size: 12px;">💡 用途：特定のレシピに特化して食材を集める場合</span>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 0;">
+                    <div style="font-weight: bold; color: #333; margin-bottom: 4px;">
+                        🔹 食材ハイブリッドモード（推奨）
+                    </div>
+                    <div style="font-size: 13px; color: #555; margin-left: 15px; line-height: 1.6;">
+                        <strong>レシピ分＋余剰分の両方を評価する最も現実的なモード</strong>です。<br>
+                        1. まずレシピに必要な食材を「レシピボーナス付き」で評価<br>
+                        2. 余った食材を「余剰枠のごちゃまぜ料理」として評価<br>
+                        基本大成功確率（平日10%→1.1倍、週末30%→1.6倍）が両方に反映されます。<br>
+                        <span style="color: #888; font-size: 11px;">※計算式：平日 0.9×1 + 0.1×2 = 1.1倍、週末 0.7×1 + 0.3×3 = 1.6倍</span><br>
+                        <span style="color: #666; font-size: 12px;">💡 用途：通常はこのモードを推奨（最も実用的）</span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 12px; padding: 10px; background: #fff9e6; border-radius: 4px; border: 1px solid #ffe082;">
+                    <div style="font-size: 12px; color: #666; line-height: 1.5;">
+                        <strong>💡 ヒント：</strong><br>
+                        • 「余剰」「レシピ補正」「ハイブリッド」モードを使う場合は、下の<strong>「鍋容量設定」と「レシピ選択」</strong>も設定してください<br>
+                        • 料理大成功の基本確率（平日10%で2倍、週末30%で3倍）は自動で計算に含まれます<br>
+                        • スキルによる料理チャンス効果は別途計算されます
+                    </div>
                 </div>
             </div>
         </div>
@@ -3108,6 +3308,11 @@
             const recipeLevel = parseInt(document.getElementById('recipeLevel').value);
             const potCapacity = calculatePotCapacity(isWeekend);  // 日曜の場合は鍋容量2倍
             
+            // 料理大成功の基本確率による期待値倍率
+            // 平日：10%で2倍 → 0.9×1 + 0.1×2 = 1.1倍
+            // 週末：30%で3倍 → 0.7×1 + 0.3×3 = 1.6倍
+            const baseCookSuccessMultiplier = isWeekend ? 1.6 : 1.1;
+            
             let foodEnergyBeforeFB = 0;
             let probabilityText = '';
             let breakdown = '';  // 食材の内訳
@@ -3160,12 +3365,12 @@
                         const surplusFor3Meals = surplusPerMeal * 3;
                         
                         if (totalFoodCount <= surplusFor3Meals) {
-                            // 全て余剰として評価
-                            foodEnergyBeforeFB = totalFoodCount * avgFoodEnergy;
+                            // 全て余剰として評価（ごちゃまぜ料理なので基本大成功倍率を適用）
+                            foodEnergyBeforeFB = totalFoodCount * avgFoodEnergy * baseCookSuccessMultiplier;
                             breakdown = `${totalFoodCount.toFixed(2)}個の${foodName}のうち、${totalFoodCount.toFixed(2)}個が余剰食材として評価（余剰枠${surplusFor3Meals.toFixed(0)}個以内）`;
                         } else {
-                            // 余剰分のみ評価
-                            foodEnergyBeforeFB = surplusFor3Meals * avgFoodEnergy;
+                            // 余剰分のみ評価（ごちゃまぜ料理なので基本大成功倍率を適用）
+                            foodEnergyBeforeFB = surplusFor3Meals * avgFoodEnergy * baseCookSuccessMultiplier;
                             const ignored = totalFoodCount - surplusFor3Meals;
                             breakdown = `${totalFoodCount.toFixed(2)}個の${foodName}のうち、${surplusFor3Meals.toFixed(0)}個が余剰食材として評価、${ignored.toFixed(2)}個が度外視`;
                         }
@@ -3202,12 +3407,12 @@
                         const recipe3MealsRequired = recipeData.ingredients[relevantFoodName] * 3;
                         
                         if (relevantFoodCount <= recipe3MealsRequired) {
-                            // 全てレシピ分として評価
-                            foodEnergyBeforeFB = relevantFoodCount * avgFoodEnergy * recipeData.bonus * recipeLevelBonus * cookEventMultiplier;
+                            // 全てレシピ分として評価（基本大成功倍率を適用）
+                            foodEnergyBeforeFB = relevantFoodCount * avgFoodEnergy * recipeData.bonus * recipeLevelBonus * cookEventMultiplier * baseCookSuccessMultiplier;
                             breakdown = `${relevantFoodCount.toFixed(2)}個の${relevantFoodName}のうち、${relevantFoodCount.toFixed(2)}個がレシピ補正を受けて評価（必要${recipe3MealsRequired.toFixed(0)}個以内）`;
                         } else {
-                            // 3食分のみ評価
-                            foodEnergyBeforeFB = recipe3MealsRequired * avgFoodEnergy * recipeData.bonus * recipeLevelBonus * cookEventMultiplier;
+                            // 3食分のみ評価（基本大成功倍率を適用）
+                            foodEnergyBeforeFB = recipe3MealsRequired * avgFoodEnergy * recipeData.bonus * recipeLevelBonus * cookEventMultiplier * baseCookSuccessMultiplier;
                             const ignored = relevantFoodCount - recipe3MealsRequired;
                             breakdown = `${relevantFoodCount.toFixed(2)}個の${relevantFoodName}のうち、${recipe3MealsRequired.toFixed(0)}個がレシピ補正を受けて評価、${ignored.toFixed(2)}個が度外視`;
                         }
@@ -3272,24 +3477,24 @@
                         let ignoredCount = 0;
                         
                         if (relevantFoodCountHybrid === 0) {
-                            // レシピに必要な食材を持っていない = 全て余剰
+                            // レシピに必要な食材を持っていない = 全て余剰（ごちゃまぜなので基本大成功倍率適用）
                             const actualSurplus = Math.min(totalFoodCount, surplusFor3MealsHybrid);
-                            surplusEnergyBeforeFB = actualSurplus * avgFoodEnergy;
+                            surplusEnergyBeforeFB = actualSurplus * avgFoodEnergy * baseCookSuccessMultiplier;
                             surplusCount = actualSurplus;
                             ignoredCount = totalFoodCount - actualSurplus;
                         } else if (relevantFoodCountHybrid <= recipe3MealsTotalHybrid) {
-                            // 全てレシピ分として評価
-                            recipeEnergyBeforeFB = relevantFoodCountHybrid * avgFoodEnergy * recipeInfo.bonus * recipeLevelBonusHybrid * cookEventMultiplierHybrid;
+                            // 全てレシピ分として評価（基本大成功倍率を適用）
+                            recipeEnergyBeforeFB = relevantFoodCountHybrid * avgFoodEnergy * recipeInfo.bonus * recipeLevelBonusHybrid * cookEventMultiplierHybrid * baseCookSuccessMultiplier;
                             recipeCount = relevantFoodCountHybrid;
                         } else {
-                            // レシピ3食分
-                            recipeEnergyBeforeFB = recipe3MealsTotalHybrid * avgFoodEnergy * recipeInfo.bonus * recipeLevelBonusHybrid * cookEventMultiplierHybrid;
+                            // レシピ3食分（基本大成功倍率を適用）
+                            recipeEnergyBeforeFB = recipe3MealsTotalHybrid * avgFoodEnergy * recipeInfo.bonus * recipeLevelBonusHybrid * cookEventMultiplierHybrid * baseCookSuccessMultiplier;
                             recipeCount = recipe3MealsTotalHybrid;
                             
-                            // 余剰分
+                            // 余剰分（ごちゃまぜなので基本大成功倍率適用）
                             const excessFood = relevantFoodCountHybrid - recipe3MealsTotalHybrid;
                             const actualSurplus = Math.min(excessFood, surplusFor3MealsHybrid);
-                            surplusEnergyBeforeFB = actualSurplus * avgFoodEnergy;
+                            surplusEnergyBeforeFB = actualSurplus * avgFoodEnergy * baseCookSuccessMultiplier;
                             surplusCount = actualSurplus;
                             ignoredCount = excessFood - actualSurplus;
                         }
@@ -3536,11 +3741,29 @@
             // ワカクサ本島EXのメインきのみスキルレベル補正
             const mainBerrySkillBonus = getMainBerrySkillLevelBonus();
             
-            const eventSkill = parseFloat(document.getElementById('eventSkill').value);
-            const eventBerryCount = document.getElementById('eventBerryCount').checked ? 1 : 0;
-            const eventFoodCount = document.getElementById('eventFoodCount').checked ? 1 : 0;
-            const eventSkillLevel = parseInt(document.getElementById('eventSkillLevel').value) || 0;
-            const eventCookEnergy = parseFloat(document.getElementById('eventCookEnergy').value);
+            // イベント補正のタイプととくいなものチェック
+            const eventTypeMatch = checkEventTypeMatch();
+            
+            // タイプが一致する場合のみイベント補正を適用、一致しない場合はデフォルト値
+            const eventSkill = eventTypeMatch ? parseFloat(document.getElementById('eventSkill').value) : 1.0;
+            const eventBerryCount = eventTypeMatch ? (document.getElementById('eventBerryCount').checked ? 1 : 0) : 0;
+            const eventFoodCount = eventTypeMatch ? (document.getElementById('eventFoodCount').checked ? 1 : 0) : 0;
+            const eventSkillLevel = eventTypeMatch ? (parseInt(document.getElementById('eventSkillLevel').value) || 0) : 0;
+            const eventCookEnergy = eventTypeMatch ? parseFloat(document.getElementById('eventCookEnergy').value) : 1.0;
+            
+            // タイプまたはとくいなもの不一致の場合はコンソールに警告を出力
+            if (!eventTypeMatch) {
+                const typeRestriction = document.getElementById('eventTypeRestriction').checked;
+                const specialtyRestriction = document.getElementById('eventSpecialtyRestriction').checked;
+                
+                if (typeRestriction && specialtyRestriction) {
+                    console.log('⚠️ イベント補正がタイプまたはとくいなもの不一致のため適用されません');
+                } else if (typeRestriction) {
+                    console.log('⚠️ イベント補正がタイプ不一致のため適用されません');
+                } else if (specialtyRestriction) {
+                    console.log('⚠️ イベント補正がとくいなもの不一致のため適用されません');
+                }
+            }
             
             // スキル天井考慮フラグ
             const considerSkillCeiling = document.getElementById('considerSkillCeiling').checked;
@@ -5807,7 +6030,24 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 // ワカクサ本島EXの場合は自動計算、それ以外は補正なし
                 const exSpeed = getExSpeedMultiplier();
                 const exOther = document.querySelector('input[name="exOther"]:checked').value;
-                const eventSkill = parseFloat(document.getElementById('eventSkill').value);
+                
+                // イベント補正のタイプととくいなものチェック
+                const eventTypeMatch = checkEventTypeMatch();
+                const eventSkill = eventTypeMatch ? parseFloat(document.getElementById('eventSkill').value) : 1.0;
+                
+                // タイプまたはとくいなもの不一致の場合はコンソールに警告を出力
+                if (!eventTypeMatch) {
+                    const typeRestriction = document.getElementById('eventTypeRestriction').checked;
+                    const specialtyRestriction = document.getElementById('eventSpecialtyRestriction').checked;
+                    
+                    if (typeRestriction && specialtyRestriction) {
+                        console.log('⚠️ 詳細計算：イベント補正がタイプまたはとくいなもの不一致のため適用されません');
+                    } else if (typeRestriction) {
+                        console.log('⚠️ 詳細計算：イベント補正がタイプ不一致のため適用されません');
+                    } else if (specialtyRestriction) {
+                        console.log('⚠️ 詳細計算：イベント補正がとくいなもの不一致のため適用されません');
+                    }
+                }
                 
                 // おてつだいスピード計算（既存ロジック）
                 const levelSpeedBonus = 1 - 0.002 * (level - 1);
@@ -6264,6 +6504,136 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             const panel = document.getElementById('settingsPanel');
             overlay.classList.remove('active');
             panel.classList.remove('active');
+        }
+
+        // ===== タイプ指定関連の関数 =====
+        
+        // ポケモンのタイプ定義（ポケモンスリープでは単一タイプのみ）
+        const POKEMON_TYPES = {
+            'swampert': ['じめん'],
+            'weavile': ['あく'],
+            'dedenne': ['でんき'],
+            'spheal_holiday': ['こおり']
+        };
+        
+        // ポケモンの得意なもの定義
+        const POKEMON_SPECIALTIES = {
+            'swampert': 'きのみとくい',
+            'weavile': 'きのみとくい',
+            'dedenne': 'スキルとくい',
+            'spheal_holiday': 'スキルとくい'
+        };
+        
+        // タイプ選択エリアの表示/非表示を切り替え
+        function toggleEventTypeSelection() {
+            const checkbox = document.getElementById('eventTypeRestriction');
+            const area = document.getElementById('eventTypeSelectionArea');
+            
+            if (checkbox.checked) {
+                area.style.display = 'block';
+                updatePokemonTypeInfo();
+            } else {
+                area.style.display = 'none';
+            }
+        }
+        
+        // とくいなもの選択エリアの表示/非表示を切り替え
+        function toggleEventSpecialtySelection() {
+            const checkbox = document.getElementById('eventSpecialtyRestriction');
+            const area = document.getElementById('eventSpecialtySelectionArea');
+            
+            if (checkbox.checked) {
+                area.style.display = 'block';
+                updatePokemonSpecialtyInfo();
+            } else {
+                area.style.display = 'none';
+            }
+        }
+        
+        // ポケモンのタイプ情報を更新して表示
+        function updatePokemonTypeInfo() {
+            const pokemon = document.querySelector('input[name="pokemon"]:checked').value;
+            const types = POKEMON_TYPES[pokemon];
+            const infoDiv = document.getElementById('pokemonTypeInfo');
+            
+            const pokemonNames = {
+                'swampert': 'ラグラージ',
+                'weavile': 'マニューラ',
+                'dedenne': 'デデンネ',
+                'spheal_holiday': 'タマザラシ(ホリデーリース)'
+            };
+            
+            infoDiv.innerHTML = `<strong>${pokemonNames[pokemon]}のタイプ：${types[0]}</strong>`;
+        }
+        
+        // ポケモンのとくいなもの情報を更新して表示
+        function updatePokemonSpecialtyInfo() {
+            const pokemon = document.querySelector('input[name="pokemon"]:checked').value;
+            const specialty = POKEMON_SPECIALTIES[pokemon];
+            const infoDiv = document.getElementById('pokemonSpecialtyInfo');
+            
+            const pokemonNames = {
+                'swampert': 'ラグラージ',
+                'weavile': 'マニューラ',
+                'dedenne': 'デデンネ',
+                'spheal_holiday': 'タマザラシ(ホリデーリース)'
+            };
+            
+            infoDiv.innerHTML = `<strong>${pokemonNames[pokemon]}のとくいなもの：${specialty}</strong>`;
+        }
+        
+        // イベント補正がポケモンに適用されるかをチェック（タイプととくいなものの統合チェック）
+        function checkEventTypeMatch() {
+            const typeRestriction = document.getElementById('eventTypeRestriction').checked;
+            const specialtyRestriction = document.getElementById('eventSpecialtyRestriction').checked;
+            
+            // 両方OFFの場合は常に適用
+            if (!typeRestriction && !specialtyRestriction) {
+                return true;
+            }
+            
+            // 選択されたポケモンの情報を取得
+            const pokemon = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemonTypes = POKEMON_TYPES[pokemon];
+            const pokemonSpecialty = POKEMON_SPECIALTIES[pokemon];
+            
+            let typeMatch = true;
+            let specialtyMatch = true;
+            
+            // タイプチェック
+            if (typeRestriction) {
+                const selectedTypes = [];
+                document.querySelectorAll('.event-type-check:checked').forEach(checkbox => {
+                    selectedTypes.push(checkbox.value);
+                });
+                
+                // 対象タイプが選択されていない場合は不一致
+                if (selectedTypes.length === 0) {
+                    typeMatch = false;
+                } else {
+                    // ポケモンのタイプと対象タイプに一致があるかチェック
+                    typeMatch = pokemonTypes.some(type => selectedTypes.includes(type));
+                }
+            }
+            
+            // とくいなものチェック
+            if (specialtyRestriction) {
+                const selectedSpecialties = [];
+                document.querySelectorAll('.event-specialty-check:checked').forEach(checkbox => {
+                    selectedSpecialties.push(checkbox.value);
+                });
+                
+                // 対象が選択されていない場合は不一致
+                if (selectedSpecialties.length === 0) {
+                    specialtyMatch = false;
+                } else {
+                    // ポケモンの得意なものと対象に一致があるかチェック
+                    specialtyMatch = selectedSpecialties.includes(pokemonSpecialty);
+                }
+            }
+            
+            // 両方の条件を満たす必要がある（AND条件）
+            return typeMatch && specialtyMatch;
         }
 
         // 詳細設定セクションを移動
