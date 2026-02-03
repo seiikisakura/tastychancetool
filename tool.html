@@ -1810,6 +1810,14 @@
                         <div class="pokemon-option" data-value="entei" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">エンテイ</div>
                         <div class="pokemon-option" data-value="suicune" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">スイクン</div>
                         <div class="pokemon-option" data-value="musharna" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ムシャーナ</div>
+                        <div class="pokemon-option" data-value="dodrio" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ドードリオ</div>
+                        <div class="pokemon-option" data-value="ratta" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ラッタ</div>
+                        <div class="pokemon-option" data-value="arbok" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">アーボック</div>
+                        <div class="pokemon-option" data-value="marowak" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ガラガラ</div>
+                        <div class="pokemon-option" data-value="blaziken" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">バシャーモ</div>
+                        <div class="pokemon-option" data-value="altaria" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">チルタリス</div>
+                        <div class="pokemon-option" data-value="kyukon" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">キュウコン</div>
+                        <div class="pokemon-option" data-value="pixie" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ピクシー</div>
                     </div>
                 </div>
                 <input type="hidden" id="replacementPokemonValue" value="none">
@@ -6956,6 +6964,1575 @@
                 </div>
             </div>
 
+            <!-- ドードリオ設定モード -->
+            <div id="replacementPokemonMode_dodrio" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label" for="dodrioLevel">レベル（1-100）</label>
+                    <input type="number" id="dodrioLevel" min="1" max="100" value="60">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv30で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioFoodLv30" value="A" id="dodrioFoodLv30_A" checked>
+                            <label for="dodrioFoodLv30_A" id="dodrioFoodLv30LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioFoodLv30" value="B" id="dodrioFoodLv30_B">
+                            <label for="dodrioFoodLv30_B" id="dodrioFoodLv30LabelB">食材B</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Lv60で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioFoodLv60" value="A" id="dodrioFoodLv60_A" checked>
+                            <label for="dodrioFoodLv60_A" id="dodrioFoodLv60LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioFoodLv60" value="B" id="dodrioFoodLv60_B">
+                            <label for="dodrioFoodLv60_B" id="dodrioFoodLv60LabelB">食材B</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioFoodLv60" value="C" id="dodrioFoodLv60_C">
+                            <label for="dodrioFoodLv60_C" id="dodrioFoodLv60LabelC">食材C</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">サブスキル</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dodrioSpeedM">
+                            <label for="dodrioSpeedM">おてつだいスピードM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dodrioSpeedS">
+                            <label for="dodrioSpeedS">おてつだいスピードS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dodrioSkillM">
+                            <label for="dodrioSkillM">スキル確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dodrioSkillS">
+                            <label for="dodrioSkillS">スキル確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dodrioFoodM">
+                            <label for="dodrioFoodM">食材確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dodrioFoodS">
+                            <label for="dodrioFoodS">食材確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dodrioBerryS">
+                            <label for="dodrioBerryS">きのみの数S</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label" for="dodrioOtebonus">おてつだいボーナス</label>
+                        <select id="dodrioOtebonus">
+                            <option value="0">0枚</option>
+                            <option value="1">1枚</option>
+                            <option value="2">2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">性格</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioSpeedNature" value="0.9" id="dodrioSpeedFast">
+                            <label for="dodrioSpeedFast">おてスピ補正（-10%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioSpeedNature" value="1.0" id="dodrioSpeedNormal" checked>
+                            <label for="dodrioSpeedNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioSpeedNature" value="1.075" id="dodrioSpeedSlow">
+                            <label for="dodrioSpeedSlow">おてスピ補正（+7.5%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioSkillNature" value="0.8" id="dodrioSkillDown">
+                            <label for="dodrioSkillDown">スキル確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioSkillNature" value="1.0" id="dodrioSkillNormal" checked>
+                            <label for="dodrioSkillNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioSkillNature" value="1.2" id="dodrioSkillUp">
+                            <label for="dodrioSkillUp">スキル確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioFoodNature" value="0.8" id="dodrioFoodDown">
+                            <label for="dodrioFoodDown">食材確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioFoodNature" value="1.0" id="dodrioFoodNormal" checked>
+                            <label for="dodrioFoodNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="dodrioFoodNature" value="1.2" id="dodrioFoodUp">
+                            <label for="dodrioFoodUp">食材確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">メインスキルレベル</label>
+                    <select id="dodrioSkillLevel">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6" selected>Lv6</option>
+                    </select>
+                </div>
+                
+                <!-- げんきチャージS計算モード選択 -->
+                <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #4682b4;">
+                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #1e90ff;">
+                        ⚡ げんきチャージS計算モード
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="dodrioEnergyRecoverMultiplier" name="dodrioEnergyRecoverMode" value="multiplier" checked>
+                            <label for="dodrioEnergyRecoverMultiplier">エナジーチャージM倍率モード（エナジーチャージM × 倍率で計算）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="dodrioEnergyRecoverDirect" name="dodrioEnergyRecoverMode" value="direct">
+                            <label for="dodrioEnergyRecoverDirect">直接入力モード（任意のエナジー値を入力）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="dodrioEnergyRecoverIgnore" name="dodrioEnergyRecoverMode" value="ignore">
+                            <label for="dodrioEnergyRecoverIgnore">スキル度外視モード（スキルエナジー = 0）</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 12px;">
+                        <strong>エナジーチャージM倍率モード：</strong>エナジーチャージMの効果量を基準に、指定した倍率で計算します<br>
+                        <strong>直接入力モード：</strong>げんき1回復あたりのエナジー換算値を直接入力します<br>
+                        <strong>スキル度外視モード：</strong>スキル効果を無視し、きのみ・食材のみで計算します
+                    </div>
+                </div>
+                
+                <!-- エナジーチャージM倍率入力 -->
+                <div class="input-group" id="dodrioEnergyRecoverMultiplierInput" style="display: block; margin-top: 15px;">
+                    <label class="input-label" for="dodrioEnergyRecoverMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+                    <input type="number" id="dodrioEnergyRecoverMultiplierValue" min="0" max="10" step="0.1" value="0.5">
+                    <small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等、2.0 = エナジーチャージMの2倍）</small>
+                </div>
+                
+                <!-- 直接入力 -->
+                <div class="input-group" id="dodrioEnergyRecoverDirectInput" style="display: none; margin-top: 15px;">
+                    <label class="input-label" for="dodrioEnergyRecoverDirectValue">げんき1回復あたりエナジー</label>
+                    <input type="number" id="dodrioEnergyRecoverDirectValue" min="0" step="100" value="5000">
+                    <small style="color: #666; margin-top: 5px; display: block;">※げんきの回復量に関係なく、スキル1回あたりこの値を使用します</small>
+                </div>
+                
+                <div class="note" style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 5px; font-size: 13px; color: #666;">
+                    <strong>📝 メイン設定から自動取得される項目：</strong><br>
+                    • カビゴンの好きなきのみ（フィールド設定から自動判定）<br>
+                    • EX補正（フィールド設定から自動取得）<br>
+                    • いいキャンプチケット（その他設定から自動取得）<br>
+                    • スキル天井考慮（詳細設定から自動取得）<br>
+                    <br>
+                    <strong>💡 計算結果の表示：</strong><br>
+                    計算結果は「100% 入替候補ポケモン」のエリアに表示されます
+                </div>
+            </div>
+
+            <!-- ラッタ設定モード -->
+            <div id="replacementPokemonMode_ratta" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label" for="rattaLevel">レベル（1-100）</label>
+                    <input type="number" id="rattaLevel" min="1" max="100" value="60">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv30で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="rattaFoodLv30" value="A" id="rattaFoodLv30_A" checked>
+                            <label for="rattaFoodLv30_A" id="rattaFoodLv30LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="rattaFoodLv30" value="B" id="rattaFoodLv30_B">
+                            <label for="rattaFoodLv30_B" id="rattaFoodLv30LabelB">食材B</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Lv60で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="rattaFoodLv60" value="A" id="rattaFoodLv60_A" checked>
+                            <label for="rattaFoodLv60_A" id="rattaFoodLv60LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="rattaFoodLv60" value="B" id="rattaFoodLv60_B">
+                            <label for="rattaFoodLv60_B" id="rattaFoodLv60LabelB">食材B</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="rattaFoodLv60" value="C" id="rattaFoodLv60_C">
+                            <label for="rattaFoodLv60_C" id="rattaFoodLv60LabelC">食材C</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">サブスキル</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="rattaSpeedM">
+                            <label for="rattaSpeedM">おてつだいスピードM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="rattaSpeedS">
+                            <label for="rattaSpeedS">おてつだいスピードS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="rattaSkillM">
+                            <label for="rattaSkillM">スキル確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="rattaSkillS">
+                            <label for="rattaSkillS">スキル確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="rattaFoodM">
+                            <label for="rattaFoodM">食材確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="rattaFoodS">
+                            <label for="rattaFoodS">食材確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="rattaBerryS">
+                            <label for="rattaBerryS">きのみの数S</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label" for="rattaOtebonus">おてつだいボーナス</label>
+                        <select id="rattaOtebonus">
+                            <option value="0">0枚</option>
+                            <option value="1">1枚</option>
+                            <option value="2">2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">性格</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="rattaSpeedNature" value="0.9" id="rattaSpeedFast">
+                            <label for="rattaSpeedFast">おてスピ補正（-10%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="rattaSpeedNature" value="1.0" id="rattaSpeedNormal" checked>
+                            <label for="rattaSpeedNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="rattaSpeedNature" value="1.075" id="rattaSpeedSlow">
+                            <label for="rattaSpeedSlow">おてスピ補正（+7.5%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="rattaSkillNature" value="0.8" id="rattaSkillDown">
+                            <label for="rattaSkillDown">スキル確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="rattaSkillNature" value="1.0" id="rattaSkillNormal" checked>
+                            <label for="rattaSkillNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="rattaSkillNature" value="1.2" id="rattaSkillUp">
+                            <label for="rattaSkillUp">スキル確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="rattaFoodNature" value="0.8" id="rattaFoodDown">
+                            <label for="rattaFoodDown">食材確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="rattaFoodNature" value="1.0" id="rattaFoodNormal" checked>
+                            <label for="rattaFoodNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="rattaFoodNature" value="1.2" id="rattaFoodUp">
+                            <label for="rattaFoodUp">食材確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">メインスキルレベル</label>
+                    <select id="rattaSkillLevel">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6" selected>Lv6</option>
+                    </select>
+                </div>
+                
+                <!-- げんきチャージS計算モード選択 -->
+                <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #4682b4;">
+                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #1e90ff;">
+                        ⚡ げんきチャージS計算モード
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="rattaEnergyRecoverMultiplier" name="rattaEnergyRecoverMode" value="multiplier" checked>
+                            <label for="rattaEnergyRecoverMultiplier">エナジーチャージM倍率モード（エナジーチャージM × 倍率で計算）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="rattaEnergyRecoverDirect" name="rattaEnergyRecoverMode" value="direct">
+                            <label for="rattaEnergyRecoverDirect">直接入力モード（任意のエナジー値を入力）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="rattaEnergyRecoverIgnore" name="rattaEnergyRecoverMode" value="ignore">
+                            <label for="rattaEnergyRecoverIgnore">スキル度外視モード（スキルエナジー = 0）</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 12px;">
+                        <strong>エナジーチャージM倍率モード：</strong>エナジーチャージMの効果量を基準に、指定した倍率で計算します<br>
+                        <strong>直接入力モード：</strong>げんき1回復あたりのエナジー換算値を直接入力します<br>
+                        <strong>スキル度外視モード：</strong>スキル効果を無視し、きのみ・食材のみで計算します
+                    </div>
+                </div>
+                
+                <!-- エナジーチャージM倍率入力 -->
+                <div class="input-group" id="rattaEnergyRecoverMultiplierInput" style="display: block; margin-top: 15px;">
+                    <label class="input-label" for="rattaEnergyRecoverMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+                    <input type="number" id="rattaEnergyRecoverMultiplierValue" min="0" max="10" step="0.1" value="0.5">
+                    <small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等、2.0 = エナジーチャージMの2倍）</small>
+                </div>
+                
+                <!-- 直接入力 -->
+                <div class="input-group" id="rattaEnergyRecoverDirectInput" style="display: none; margin-top: 15px;">
+                    <label class="input-label" for="rattaEnergyRecoverDirectValue">げんき1回復あたりエナジー</label>
+                    <input type="number" id="rattaEnergyRecoverDirectValue" min="0" step="100" value="5000">
+                    <small style="color: #666; margin-top: 5px; display: block;">※げんきの回復量に関係なく、スキル1回あたりこの値を使用します</small>
+                </div>
+                
+                <div class="note" style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 5px; font-size: 13px; color: #666;">
+                    <strong>📝 メイン設定から自動取得される項目：</strong><br>
+                    • カビゴンの好きなきのみ（フィールド設定から自動判定）<br>
+                    • EX補正（フィールド設定から自動取得）<br>
+                    • いいキャンプチケット（その他設定から自動取得）<br>
+                    • スキル天井考慮（詳細設定から自動取得）<br>
+                    <br>
+                    <strong>💡 計算結果の表示：</strong><br>
+                    計算結果は「100% 入替候補ポケモン」のエリアに表示されます
+                </div>
+            </div>
+
+            <!-- アーボック設定モード -->
+            <div id="replacementPokemonMode_arbok" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label" for="arbokLevel">レベル（1-100）</label>
+                    <input type="number" id="arbokLevel" min="1" max="100" value="60">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv30で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="arbokFoodLv30" value="A" id="arbokFoodLv30_A" checked>
+                            <label for="arbokFoodLv30_A" id="arbokFoodLv30LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="arbokFoodLv30" value="B" id="arbokFoodLv30_B">
+                            <label for="arbokFoodLv30_B" id="arbokFoodLv30LabelB">食材B</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Lv60で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="arbokFoodLv60" value="A" id="arbokFoodLv60_A" checked>
+                            <label for="arbokFoodLv60_A" id="arbokFoodLv60LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="arbokFoodLv60" value="B" id="arbokFoodLv60_B">
+                            <label for="arbokFoodLv60_B" id="arbokFoodLv60LabelB">食材B</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="arbokFoodLv60" value="C" id="arbokFoodLv60_C">
+                            <label for="arbokFoodLv60_C" id="arbokFoodLv60LabelC">食材C</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">サブスキル</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="arbokSpeedM">
+                            <label for="arbokSpeedM">おてつだいスピードM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="arbokSpeedS">
+                            <label for="arbokSpeedS">おてつだいスピードS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="arbokSkillM">
+                            <label for="arbokSkillM">スキル確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="arbokSkillS">
+                            <label for="arbokSkillS">スキル確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="arbokFoodM">
+                            <label for="arbokFoodM">食材確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="arbokFoodS">
+                            <label for="arbokFoodS">食材確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="arbokBerryS">
+                            <label for="arbokBerryS">きのみの数S</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label" for="arbokOtebonus">おてつだいボーナス</label>
+                        <select id="arbokOtebonus">
+                            <option value="0">0枚</option>
+                            <option value="1">1枚</option>
+                            <option value="2">2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">性格</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="arbokSpeedNature" value="0.9" id="arbokSpeedFast">
+                            <label for="arbokSpeedFast">おてスピ補正（-10%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="arbokSpeedNature" value="1.0" id="arbokSpeedNormal" checked>
+                            <label for="arbokSpeedNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="arbokSpeedNature" value="1.075" id="arbokSpeedSlow">
+                            <label for="arbokSpeedSlow">おてスピ補正（+7.5%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="arbokSkillNature" value="0.8" id="arbokSkillDown">
+                            <label for="arbokSkillDown">スキル確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="arbokSkillNature" value="1.0" id="arbokSkillNormal" checked>
+                            <label for="arbokSkillNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="arbokSkillNature" value="1.2" id="arbokSkillUp">
+                            <label for="arbokSkillUp">スキル確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="arbokFoodNature" value="0.8" id="arbokFoodDown">
+                            <label for="arbokFoodDown">食材確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="arbokFoodNature" value="1.0" id="arbokFoodNormal" checked>
+                            <label for="arbokFoodNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="arbokFoodNature" value="1.2" id="arbokFoodUp">
+                            <label for="arbokFoodUp">食材確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">メインスキルレベル</label>
+                    <select id="arbokSkillLevel">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6" selected>Lv6</option>
+                    </select>
+                </div>
+                
+                <!-- げんきチャージS計算モード選択 -->
+                <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #4682b4;">
+                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #1e90ff;">
+                        ⚡ げんきチャージS計算モード
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="arbokEnergyRecoverMultiplier" name="arbokEnergyRecoverMode" value="multiplier" checked>
+                            <label for="arbokEnergyRecoverMultiplier">エナジーチャージM倍率モード（エナジーチャージM × 倍率で計算）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="arbokEnergyRecoverDirect" name="arbokEnergyRecoverMode" value="direct">
+                            <label for="arbokEnergyRecoverDirect">直接入力モード（任意のエナジー値を入力）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="arbokEnergyRecoverIgnore" name="arbokEnergyRecoverMode" value="ignore">
+                            <label for="arbokEnergyRecoverIgnore">スキル度外視モード（スキルエナジー = 0）</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 12px;">
+                        <strong>エナジーチャージM倍率モード：</strong>エナジーチャージMの効果量を基準に、指定した倍率で計算します<br>
+                        <strong>直接入力モード：</strong>げんき1回復あたりのエナジー換算値を直接入力します<br>
+                        <strong>スキル度外視モード：</strong>スキル効果を無視し、きのみ・食材のみで計算します
+                    </div>
+                </div>
+                
+                <!-- エナジーチャージM倍率入力 -->
+                <div class="input-group" id="arbokEnergyRecoverMultiplierInput" style="display: block; margin-top: 15px;">
+                    <label class="input-label" for="arbokEnergyRecoverMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+                    <input type="number" id="arbokEnergyRecoverMultiplierValue" min="0" max="10" step="0.1" value="0.5">
+                    <small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等、2.0 = エナジーチャージMの2倍）</small>
+                </div>
+                
+                <!-- 直接入力 -->
+                <div class="input-group" id="arbokEnergyRecoverDirectInput" style="display: none; margin-top: 15px;">
+                    <label class="input-label" for="arbokEnergyRecoverDirectValue">げんき1回復あたりエナジー</label>
+                    <input type="number" id="arbokEnergyRecoverDirectValue" min="0" step="100" value="5000">
+                    <small style="color: #666; margin-top: 5px; display: block;">※げんきの回復量に関係なく、スキル1回あたりこの値を使用します</small>
+                </div>
+                
+                <div class="note" style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 5px; font-size: 13px; color: #666;">
+                    <strong>📝 メイン設定から自動取得される項目：</strong><br>
+                    • カビゴンの好きなきのみ（フィールド設定から自動判定）<br>
+                    • EX補正（フィールド設定から自動取得）<br>
+                    • いいキャンプチケット（その他設定から自動取得）<br>
+                    • スキル天井考慮（詳細設定から自動取得）<br>
+                    <br>
+                    <strong>💡 計算結果の表示：</strong><br>
+                    計算結果は「100% 入替候補ポケモン」のエリアに表示されます
+                </div>
+            </div>
+
+            <!-- ガラガラ設定モード -->
+            <div id="replacementPokemonMode_marowak" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label" for="marowakLevel">レベル（1-100）</label>
+                    <input type="number" id="marowakLevel" min="1" max="100" value="60">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv30で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="marowakFoodLv30" value="A" id="marowakFoodLv30_A" checked>
+                            <label for="marowakFoodLv30_A" id="marowakFoodLv30LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="marowakFoodLv30" value="B" id="marowakFoodLv30_B">
+                            <label for="marowakFoodLv30_B" id="marowakFoodLv30LabelB">食材B</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- ガラガラはLv60でも2種類のみ -->
+                <div class="input-group">
+                    <label class="input-label">Lv60で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="marowakFoodLv60" value="A" id="marowakFoodLv60_A" checked>
+                            <label for="marowakFoodLv60_A" id="marowakFoodLv60LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="marowakFoodLv60" value="B" id="marowakFoodLv60_B">
+                            <label for="marowakFoodLv60_B" id="marowakFoodLv60LabelB">食材B</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">サブスキル</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="marowakSpeedM">
+                            <label for="marowakSpeedM">おてつだいスピードM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="marowakSpeedS">
+                            <label for="marowakSpeedS">おてつだいスピードS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="marowakSkillM">
+                            <label for="marowakSkillM">スキル確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="marowakSkillS">
+                            <label for="marowakSkillS">スキル確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="marowakFoodM">
+                            <label for="marowakFoodM">食材確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="marowakFoodS">
+                            <label for="marowakFoodS">食材確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="marowakBerryS">
+                            <label for="marowakBerryS">きのみの数S</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label" for="marowakOtebonus">おてつだいボーナス</label>
+                        <select id="marowakOtebonus">
+                            <option value="0">0枚</option>
+                            <option value="1">1枚</option>
+                            <option value="2">2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">性格</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="marowakSpeedNature" value="0.9" id="marowakSpeedFast">
+                            <label for="marowakSpeedFast">おてスピ補正（-10%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="marowakSpeedNature" value="1.0" id="marowakSpeedNormal" checked>
+                            <label for="marowakSpeedNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="marowakSpeedNature" value="1.075" id="marowakSpeedSlow">
+                            <label for="marowakSpeedSlow">おてスピ補正（+7.5%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="marowakSkillNature" value="0.8" id="marowakSkillDown">
+                            <label for="marowakSkillDown">スキル確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="marowakSkillNature" value="1.0" id="marowakSkillNormal" checked>
+                            <label for="marowakSkillNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="marowakSkillNature" value="1.2" id="marowakSkillUp">
+                            <label for="marowakSkillUp">スキル確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="marowakFoodNature" value="0.8" id="marowakFoodDown">
+                            <label for="marowakFoodDown">食材確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="marowakFoodNature" value="1.0" id="marowakFoodNormal" checked>
+                            <label for="marowakFoodNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="marowakFoodNature" value="1.2" id="marowakFoodUp">
+                            <label for="marowakFoodUp">食材確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">メインスキルレベル</label>
+                    <select id="marowakSkillLevel">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6" selected>Lv6</option>
+                    </select>
+                </div>
+                
+                <!-- げんきチャージS計算モード選択 -->
+                <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #4682b4;">
+                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #1e90ff;">
+                        ⚡ げんきチャージS計算モード
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="marowakEnergyRecoverMultiplier" name="marowakEnergyRecoverMode" value="multiplier" checked>
+                            <label for="marowakEnergyRecoverMultiplier">エナジーチャージM倍率モード（エナジーチャージM × 倍率で計算）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="marowakEnergyRecoverDirect" name="marowakEnergyRecoverMode" value="direct">
+                            <label for="marowakEnergyRecoverDirect">直接入力モード（任意のエナジー値を入力）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="marowakEnergyRecoverIgnore" name="marowakEnergyRecoverMode" value="ignore">
+                            <label for="marowakEnergyRecoverIgnore">スキル度外視モード（スキルエナジー = 0）</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 12px;">
+                        <strong>エナジーチャージM倍率モード：</strong>エナジーチャージMの効果量を基準に、指定した倍率で計算します<br>
+                        <strong>直接入力モード：</strong>げんき1回復あたりのエナジー換算値を直接入力します<br>
+                        <strong>スキル度外視モード：</strong>スキル効果を無視し、きのみ・食材のみで計算します
+                    </div>
+                </div>
+                
+                <!-- エナジーチャージM倍率入力 -->
+                <div class="input-group" id="marowakEnergyRecoverMultiplierInput" style="display: block; margin-top: 15px;">
+                    <label class="input-label" for="marowakEnergyRecoverMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+                    <input type="number" id="marowakEnergyRecoverMultiplierValue" min="0" max="10" step="0.1" value="0.5">
+                    <small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等、2.0 = エナジーチャージMの2倍）</small>
+                </div>
+                
+                <!-- 直接入力 -->
+                <div class="input-group" id="marowakEnergyRecoverDirectInput" style="display: none; margin-top: 15px;">
+                    <label class="input-label" for="marowakEnergyRecoverDirectValue">げんき1回復あたりエナジー</label>
+                    <input type="number" id="marowakEnergyRecoverDirectValue" min="0" step="100" value="5000">
+                    <small style="color: #666; margin-top: 5px; display: block;">※げんきの回復量に関係なく、スキル1回あたりこの値を使用します</small>
+                </div>
+                
+                <div class="note" style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 5px; font-size: 13px; color: #666;">
+                    <strong>📝 メイン設定から自動取得される項目：</strong><br>
+                    • カビゴンの好きなきのみ（フィールド設定から自動判定）<br>
+                    • EX補正（フィールド設定から自動取得）<br>
+                    • いいキャンプチケット（その他設定から自動取得）<br>
+                    • スキル天井考慮（詳細設定から自動取得）<br>
+                    <br>
+                    <strong>💡 計算結果の表示：</strong><br>
+                    計算結果は「100% 入替候補ポケモン」のエリアに表示されます
+                </div>
+            </div>
+
+            <!-- バシャーモ設定モード -->
+            <div id="replacementPokemonMode_blaziken" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label" for="blazikenLevel">レベル（1-100）</label>
+                    <input type="number" id="blazikenLevel" min="1" max="100" value="60">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv30で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenFoodLv30" value="A" id="blazikenFoodLv30_A" checked>
+                            <label for="blazikenFoodLv30_A" id="blazikenFoodLv30LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenFoodLv30" value="B" id="blazikenFoodLv30_B">
+                            <label for="blazikenFoodLv30_B" id="blazikenFoodLv30LabelB">食材B</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Lv60で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenFoodLv60" value="A" id="blazikenFoodLv60_A" checked>
+                            <label for="blazikenFoodLv60_A" id="blazikenFoodLv60LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenFoodLv60" value="B" id="blazikenFoodLv60_B">
+                            <label for="blazikenFoodLv60_B" id="blazikenFoodLv60LabelB">食材B</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenFoodLv60" value="C" id="blazikenFoodLv60_C">
+                            <label for="blazikenFoodLv60_C" id="blazikenFoodLv60LabelC">食材C</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">サブスキル</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="blazikenSpeedM">
+                            <label for="blazikenSpeedM">おてつだいスピードM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="blazikenSpeedS">
+                            <label for="blazikenSpeedS">おてつだいスピードS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="blazikenSkillM">
+                            <label for="blazikenSkillM">スキル確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="blazikenSkillS">
+                            <label for="blazikenSkillS">スキル確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="blazikenFoodM">
+                            <label for="blazikenFoodM">食材確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="blazikenFoodS">
+                            <label for="blazikenFoodS">食材確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="blazikenBerryS">
+                            <label for="blazikenBerryS">きのみの数S</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label" for="blazikenOtebonus">おてつだいボーナス</label>
+                        <select id="blazikenOtebonus">
+                            <option value="0">0枚</option>
+                            <option value="1">1枚</option>
+                            <option value="2">2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">性格</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenSpeedNature" value="0.9" id="blazikenSpeedFast">
+                            <label for="blazikenSpeedFast">おてスピ補正（-10%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenSpeedNature" value="1.0" id="blazikenSpeedNormal" checked>
+                            <label for="blazikenSpeedNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenSpeedNature" value="1.075" id="blazikenSpeedSlow">
+                            <label for="blazikenSpeedSlow">おてスピ補正（+7.5%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenSkillNature" value="0.8" id="blazikenSkillDown">
+                            <label for="blazikenSkillDown">スキル確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenSkillNature" value="1.0" id="blazikenSkillNormal" checked>
+                            <label for="blazikenSkillNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenSkillNature" value="1.2" id="blazikenSkillUp">
+                            <label for="blazikenSkillUp">スキル確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenFoodNature" value="0.8" id="blazikenFoodDown">
+                            <label for="blazikenFoodDown">食材確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenFoodNature" value="1.0" id="blazikenFoodNormal" checked>
+                            <label for="blazikenFoodNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="blazikenFoodNature" value="1.2" id="blazikenFoodUp">
+                            <label for="blazikenFoodUp">食材確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">メインスキルレベル</label>
+                    <select id="blazikenSkillLevel">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6" selected>Lv6</option>
+                    </select>
+                </div>
+                
+                <!-- げんきチャージS計算モード選択 -->
+                <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #4682b4;">
+                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #1e90ff;">
+                        ⚡ げんきチャージS計算モード
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="blazikenEnergyRecoverMultiplier" name="blazikenEnergyRecoverMode" value="multiplier" checked>
+                            <label for="blazikenEnergyRecoverMultiplier">エナジーチャージM倍率モード（エナジーチャージM × 倍率で計算）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="blazikenEnergyRecoverDirect" name="blazikenEnergyRecoverMode" value="direct">
+                            <label for="blazikenEnergyRecoverDirect">直接入力モード（任意のエナジー値を入力）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="blazikenEnergyRecoverIgnore" name="blazikenEnergyRecoverMode" value="ignore">
+                            <label for="blazikenEnergyRecoverIgnore">スキル度外視モード（スキルエナジー = 0）</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 12px;">
+                        <strong>エナジーチャージM倍率モード：</strong>エナジーチャージMの効果量を基準に、指定した倍率で計算します<br>
+                        <strong>直接入力モード：</strong>げんき1回復あたりのエナジー換算値を直接入力します<br>
+                        <strong>スキル度外視モード：</strong>スキル効果を無視し、きのみ・食材のみで計算します
+                    </div>
+                </div>
+                
+                <!-- エナジーチャージM倍率入力 -->
+                <div class="input-group" id="blazikenEnergyRecoverMultiplierInput" style="display: block; margin-top: 15px;">
+                    <label class="input-label" for="blazikenEnergyRecoverMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+                    <input type="number" id="blazikenEnergyRecoverMultiplierValue" min="0" max="10" step="0.1" value="0.5">
+                    <small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等、2.0 = エナジーチャージMの2倍）</small>
+                </div>
+                
+                <!-- 直接入力 -->
+                <div class="input-group" id="blazikenEnergyRecoverDirectInput" style="display: none; margin-top: 15px;">
+                    <label class="input-label" for="blazikenEnergyRecoverDirectValue">げんき1回復あたりエナジー</label>
+                    <input type="number" id="blazikenEnergyRecoverDirectValue" min="0" step="100" value="5000">
+                    <small style="color: #666; margin-top: 5px; display: block;">※げんきの回復量に関係なく、スキル1回あたりこの値を使用します</small>
+                </div>
+                
+                <div class="note" style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 5px; font-size: 13px; color: #666;">
+                    <strong>📝 メイン設定から自動取得される項目：</strong><br>
+                    • カビゴンの好きなきのみ（フィールド設定から自動判定）<br>
+                    • EX補正（フィールド設定から自動取得）<br>
+                    • いいキャンプチケット（その他設定から自動取得）<br>
+                    • スキル天井考慮（詳細設定から自動取得）<br>
+                    <br>
+                    <strong>💡 計算結果の表示：</strong><br>
+                    計算結果は「100% 入替候補ポケモン」のエリアに表示されます
+                </div>
+            </div>
+
+            <!-- チルタリス設定モード -->
+            <div id="replacementPokemonMode_altaria" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label" for="altariaLevel">レベル（1-100）</label>
+                    <input type="number" id="altariaLevel" min="1" max="100" value="60">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv30で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="altariaFoodLv30" value="A" id="altariaFoodLv30_A" checked>
+                            <label for="altariaFoodLv30_A" id="altariaFoodLv30LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="altariaFoodLv30" value="B" id="altariaFoodLv30_B">
+                            <label for="altariaFoodLv30_B" id="altariaFoodLv30LabelB">食材B</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Lv60で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="altariaFoodLv60" value="A" id="altariaFoodLv60_A" checked>
+                            <label for="altariaFoodLv60_A" id="altariaFoodLv60LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="altariaFoodLv60" value="B" id="altariaFoodLv60_B">
+                            <label for="altariaFoodLv60_B" id="altariaFoodLv60LabelB">食材B</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="altariaFoodLv60" value="C" id="altariaFoodLv60_C">
+                            <label for="altariaFoodLv60_C" id="altariaFoodLv60LabelC">食材C</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">サブスキル</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="altariaSpeedM">
+                            <label for="altariaSpeedM">おてつだいスピードM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="altariaSpeedS">
+                            <label for="altariaSpeedS">おてつだいスピードS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="altariaSkillM">
+                            <label for="altariaSkillM">スキル確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="altariaSkillS">
+                            <label for="altariaSkillS">スキル確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="altariaFoodM">
+                            <label for="altariaFoodM">食材確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="altariaFoodS">
+                            <label for="altariaFoodS">食材確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="altariaBerryS">
+                            <label for="altariaBerryS">きのみの数S</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label" for="altariaOtebonus">おてつだいボーナス</label>
+                        <select id="altariaOtebonus">
+                            <option value="0">0枚</option>
+                            <option value="1">1枚</option>
+                            <option value="2">2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">性格</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="altariaSpeedNature" value="0.9" id="altariaSpeedFast">
+                            <label for="altariaSpeedFast">おてスピ補正（-10%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="altariaSpeedNature" value="1.0" id="altariaSpeedNormal" checked>
+                            <label for="altariaSpeedNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="altariaSpeedNature" value="1.075" id="altariaSpeedSlow">
+                            <label for="altariaSpeedSlow">おてスピ補正（+7.5%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="altariaSkillNature" value="0.8" id="altariaSkillDown">
+                            <label for="altariaSkillDown">スキル確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="altariaSkillNature" value="1.0" id="altariaSkillNormal" checked>
+                            <label for="altariaSkillNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="altariaSkillNature" value="1.2" id="altariaSkillUp">
+                            <label for="altariaSkillUp">スキル確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="altariaFoodNature" value="0.8" id="altariaFoodDown">
+                            <label for="altariaFoodDown">食材確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="altariaFoodNature" value="1.0" id="altariaFoodNormal" checked>
+                            <label for="altariaFoodNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="altariaFoodNature" value="1.2" id="altariaFoodUp">
+                            <label for="altariaFoodUp">食材確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">メインスキルレベル</label>
+                    <select id="altariaSkillLevel">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6" selected>Lv6</option>
+                    </select>
+                </div>
+                
+                <!-- げんきチャージS計算モード選択 -->
+                <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #4682b4;">
+                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #1e90ff;">
+                        ⚡ げんきチャージS計算モード
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="altariaEnergyRecoverMultiplier" name="altariaEnergyRecoverMode" value="multiplier" checked>
+                            <label for="altariaEnergyRecoverMultiplier">エナジーチャージM倍率モード（エナジーチャージM × 倍率で計算）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="altariaEnergyRecoverDirect" name="altariaEnergyRecoverMode" value="direct">
+                            <label for="altariaEnergyRecoverDirect">直接入力モード（任意のエナジー値を入力）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="altariaEnergyRecoverIgnore" name="altariaEnergyRecoverMode" value="ignore">
+                            <label for="altariaEnergyRecoverIgnore">スキル度外視モード（スキルエナジー = 0）</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 12px;">
+                        <strong>エナジーチャージM倍率モード：</strong>エナジーチャージMの効果量を基準に、指定した倍率で計算します<br>
+                        <strong>直接入力モード：</strong>げんき1回復あたりのエナジー換算値を直接入力します<br>
+                        <strong>スキル度外視モード：</strong>スキル効果を無視し、きのみ・食材のみで計算します
+                    </div>
+                </div>
+                
+                <!-- エナジーチャージM倍率入力 -->
+                <div class="input-group" id="altariaEnergyRecoverMultiplierInput" style="display: block; margin-top: 15px;">
+                    <label class="input-label" for="altariaEnergyRecoverMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+                    <input type="number" id="altariaEnergyRecoverMultiplierValue" min="0" max="10" step="0.1" value="0.5">
+                    <small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等、2.0 = エナジーチャージMの2倍）</small>
+                </div>
+                
+                <!-- 直接入力 -->
+                <div class="input-group" id="altariaEnergyRecoverDirectInput" style="display: none; margin-top: 15px;">
+                    <label class="input-label" for="altariaEnergyRecoverDirectValue">げんき1回復あたりエナジー</label>
+                    <input type="number" id="altariaEnergyRecoverDirectValue" min="0" step="100" value="5000">
+                    <small style="color: #666; margin-top: 5px; display: block;">※げんきの回復量に関係なく、スキル1回あたりこの値を使用します</small>
+                </div>
+                
+                <div class="note" style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 5px; font-size: 13px; color: #666;">
+                    <strong>📝 メイン設定から自動取得される項目：</strong><br>
+                    • カビゴンの好きなきのみ（フィールド設定から自動判定）<br>
+                    • EX補正（フィールド設定から自動取得）<br>
+                    • いいキャンプチケット（その他設定から自動取得）<br>
+                    • スキル天井考慮（詳細設定から自動取得）<br>
+                    <br>
+                    <strong>💡 計算結果の表示：</strong><br>
+                    計算結果は「100% 入替候補ポケモン」のエリアに表示されます
+                </div>
+            </div>
+
+            <!-- キュウコン設定モード -->
+            <div id="replacementPokemonMode_kyukon" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label" for="kyukonLevel">レベル（1-100）</label>
+                    <input type="number" id="kyukonLevel" min="1" max="100" value="60">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv30で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonFoodLv30" value="A" id="kyukonFoodLv30_A" checked>
+                            <label for="kyukonFoodLv30_A" id="kyukonFoodLv30LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonFoodLv30" value="B" id="kyukonFoodLv30_B">
+                            <label for="kyukonFoodLv30_B" id="kyukonFoodLv30LabelB">食材B</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Lv60で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonFoodLv60" value="A" id="kyukonFoodLv60_A" checked>
+                            <label for="kyukonFoodLv60_A" id="kyukonFoodLv60LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonFoodLv60" value="B" id="kyukonFoodLv60_B">
+                            <label for="kyukonFoodLv60_B" id="kyukonFoodLv60LabelB">食材B</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonFoodLv60" value="C" id="kyukonFoodLv60_C">
+                            <label for="kyukonFoodLv60_C" id="kyukonFoodLv60LabelC">食材C</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">サブスキル</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kyukonSpeedM">
+                            <label for="kyukonSpeedM">おてつだいスピードM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kyukonSpeedS">
+                            <label for="kyukonSpeedS">おてつだいスピードS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kyukonSkillM">
+                            <label for="kyukonSkillM">スキル確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kyukonSkillS">
+                            <label for="kyukonSkillS">スキル確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kyukonFoodM">
+                            <label for="kyukonFoodM">食材確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kyukonFoodS">
+                            <label for="kyukonFoodS">食材確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="kyukonBerryS">
+                            <label for="kyukonBerryS">きのみの数S</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label" for="kyukonOtebonus">おてつだいボーナス</label>
+                        <select id="kyukonOtebonus">
+                            <option value="0">0枚</option>
+                            <option value="1">1枚</option>
+                            <option value="2">2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">性格</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonSpeedNature" value="0.9" id="kyukonSpeedFast">
+                            <label for="kyukonSpeedFast">おてスピ補正（-10%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonSpeedNature" value="1.0" id="kyukonSpeedNormal" checked>
+                            <label for="kyukonSpeedNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonSpeedNature" value="1.075" id="kyukonSpeedSlow">
+                            <label for="kyukonSpeedSlow">おてスピ補正（+7.5%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonSkillNature" value="0.8" id="kyukonSkillDown">
+                            <label for="kyukonSkillDown">スキル確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonSkillNature" value="1.0" id="kyukonSkillNormal" checked>
+                            <label for="kyukonSkillNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonSkillNature" value="1.2" id="kyukonSkillUp">
+                            <label for="kyukonSkillUp">スキル確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonFoodNature" value="0.8" id="kyukonFoodDown">
+                            <label for="kyukonFoodDown">食材確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonFoodNature" value="1.0" id="kyukonFoodNormal" checked>
+                            <label for="kyukonFoodNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="kyukonFoodNature" value="1.2" id="kyukonFoodUp">
+                            <label for="kyukonFoodUp">食材確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">メインスキルレベル</label>
+                    <select id="kyukonSkillLevel">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6" selected>Lv6</option>
+                    </select>
+                </div>
+                
+                <!-- げんきエールS計算モード選択 -->
+                <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #4682b4;">
+                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #1e90ff;">
+                        ⚡ げんきエールS計算モード
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="kyukonEnergyYellMultiplier" name="kyukonEnergyYellMode" value="multiplier" checked>
+                            <label for="kyukonEnergyYellMultiplier">エナジーチャージM倍率モード（エナジーチャージM × 倍率で計算）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="kyukonEnergyYellDirect" name="kyukonEnergyYellMode" value="direct">
+                            <label for="kyukonEnergyYellDirect">直接入力モード（任意のエナジー値を入力）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="kyukonEnergyYellIgnore" name="kyukonEnergyYellMode" value="ignore">
+                            <label for="kyukonEnergyYellIgnore">スキル度外視モード（スキルエナジー = 0）</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 12px;">
+                        <strong>エナジーチャージM倍率モード：</strong>エナジーチャージMの効果量を基準に、指定した倍率で計算します<br>
+                        <strong>直接入力モード：</strong>げんき1回復あたりのエナジー換算値を直接入力します<br>
+                        <strong>スキル度外視モード：</strong>スキル効果を無視し、きのみ・食材のみで計算します
+                    </div>
+                </div>
+                
+                <!-- エナジーチャージM倍率入力 -->
+                <div class="input-group" id="kyukonEnergyYellMultiplierInput" style="display: block; margin-top: 15px;">
+                    <label class="input-label" for="kyukonEnergyYellMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+                    <input type="number" id="kyukonEnergyYellMultiplierValue" min="0" max="10" step="0.1" value="1.0">
+                    <small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等、2.0 = エナジーチャージMの2倍）</small>
+                </div>
+                
+                <!-- 直接入力 -->
+                <div class="input-group" id="kyukonEnergyYellDirectInput" style="display: none; margin-top: 15px;">
+                    <label class="input-label" for="kyukonEnergyYellDirectValue">げんき1回復あたりエナジー</label>
+                    <input type="number" id="kyukonEnergyYellDirectValue" min="0" step="100" value="5000">
+                    <small style="color: #666; margin-top: 5px; display: block;">※げんきの回復量に関係なく、スキル1回あたりこの値を使用します</small>
+                </div>
+                
+                <div class="note" style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 5px; font-size: 13px; color: #666;">
+                    <strong>📝 メイン設定から自動取得される項目：</strong><br>
+                    • カビゴンの好きなきのみ（フィールド設定から自動判定）<br>
+                    • EX補正（フィールド設定から自動取得）<br>
+                    • いいキャンプチケット（その他設定から自動取得）<br>
+                    • スキル天井考慮（詳細設定から自動取得）<br>
+                    <br>
+                    <strong>💡 計算結果の表示：</strong><br>
+                    計算結果は「100% 入替候補ポケモン」のエリアに表示されます
+                </div>
+            </div>
+
+            <!-- ピクシー設定モード -->
+            <div id="replacementPokemonMode_pixie" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label" for="pixieLevel">レベル（1-100）</label>
+                    <input type="number" id="pixieLevel" min="1" max="100" value="60">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv30で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="pixieFoodLv30" value="A" id="pixieFoodLv30_A" checked>
+                            <label for="pixieFoodLv30_A" id="pixieFoodLv30LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="pixieFoodLv30" value="B" id="pixieFoodLv30_B">
+                            <label for="pixieFoodLv30_B" id="pixieFoodLv30LabelB">食材B</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Lv60で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="pixieFoodLv60" value="A" id="pixieFoodLv60_A" checked>
+                            <label for="pixieFoodLv60_A" id="pixieFoodLv60LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="pixieFoodLv60" value="B" id="pixieFoodLv60_B">
+                            <label for="pixieFoodLv60_B" id="pixieFoodLv60LabelB">食材B</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="pixieFoodLv60" value="C" id="pixieFoodLv60_C">
+                            <label for="pixieFoodLv60_C" id="pixieFoodLv60LabelC">食材C</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">サブスキル</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pixieSpeedM">
+                            <label for="pixieSpeedM">おてつだいスピードM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pixieSpeedS">
+                            <label for="pixieSpeedS">おてつだいスピードS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pixieSkillM">
+                            <label for="pixieSkillM">スキル確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pixieSkillS">
+                            <label for="pixieSkillS">スキル確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pixieFoodM">
+                            <label for="pixieFoodM">食材確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pixieFoodS">
+                            <label for="pixieFoodS">食材確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pixieBerryS">
+                            <label for="pixieBerryS">きのみの数S</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label" for="pixieOtebonus">おてつだいボーナス</label>
+                        <select id="pixieOtebonus">
+                            <option value="0">0枚</option>
+                            <option value="1">1枚</option>
+                            <option value="2">2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">性格</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="pixieSpeedNature" value="0.9" id="pixieSpeedFast">
+                            <label for="pixieSpeedFast">おてスピ補正（-10%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="pixieSpeedNature" value="1.0" id="pixieSpeedNormal" checked>
+                            <label for="pixieSpeedNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="pixieSpeedNature" value="1.075" id="pixieSpeedSlow">
+                            <label for="pixieSpeedSlow">おてスピ補正（+7.5%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="pixieSkillNature" value="0.8" id="pixieSkillDown">
+                            <label for="pixieSkillDown">スキル確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="pixieSkillNature" value="1.0" id="pixieSkillNormal" checked>
+                            <label for="pixieSkillNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="pixieSkillNature" value="1.2" id="pixieSkillUp">
+                            <label for="pixieSkillUp">スキル確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="pixieFoodNature" value="0.8" id="pixieFoodDown">
+                            <label for="pixieFoodDown">食材確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="pixieFoodNature" value="1.0" id="pixieFoodNormal" checked>
+                            <label for="pixieFoodNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="pixieFoodNature" value="1.2" id="pixieFoodUp">
+                            <label for="pixieFoodUp">食材確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">メインスキルレベル</label>
+                    <select id="pixieSkillLevel">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6">Lv6</option>
+                        <option value="7" selected>Lv7</option>
+                    </select>
+                </div>
+                
+                <!-- ゆびをふる計算モード選択 -->
+                <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #4682b4;">
+                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #1e90ff;">
+                        🎲 ゆびをふる計算モード
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="pixieMetronomeMultiplier" name="pixieMetronomeMode" value="multiplier" checked>
+                            <label for="pixieMetronomeMultiplier">エナジーチャージM倍率モード（エナジーチャージM × 倍率で計算）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="pixieMetronomeDirect" name="pixieMetronomeMode" value="direct">
+                            <label for="pixieMetronomeDirect">直接入力モード（任意のエナジー値を入力）</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 12px;">
+                        <strong>エナジーチャージM倍率モード：</strong>エナジーチャージMの効果量を基準に、発動先スキルの期待値を倍率で近似します<br>
+                        <strong>直接入力モード：</strong>発動先スキルの期待値をエナジーに換算した値を直接入力します
+                    </div>
+                </div>
+                
+                <!-- エナジーチャージM倍率入力 -->
+                <div class="input-group" id="pixieMetronomeMultiplierInput" style="display: block; margin-top: 15px;">
+                    <label class="input-label" for="pixieMetronomeMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+                    <input type="number" id="pixieMetronomeMultiplierValue" min="0" max="10" step="0.1" value="1.0">
+                    <small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等）</small>
+                </div>
+                
+                <!-- 直接入力 -->
+                <div class="input-group" id="pixieMetronomeDirectInput" style="display: none; margin-top: 15px;">
+                    <label class="input-label" for="pixieMetronomeDirectValue">スキル1回あたりエナジー（発動先期待値）</label>
+                    <input type="number" id="pixieMetronomeDirectValue" min="0" step="100" value="5000">
+                    <small style="color: #666; margin-top: 5px; display: block;">※発動先スキルの確率分布から算出した期待値をエナジーに換算した値を入力してください</small>
+                </div>
+                
+                <div class="note" style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 5px; font-size: 13px; color: #666;">
+                    <strong>📝 メイン設定から自動取得される項目：</strong><br>
+                    • カビゴンの好きなきのみ（フィールド設定から自動判定）<br>
+                    • EX補正（フィールド設定から自動取得）<br>
+                    • いいキャンプチケット（その他設定から自動取得）<br>
+                    • スキル天井考慮（詳細設定から自動取得）<br>
+                    <br>
+                    <strong>💡 計算結果の表示：</strong><br>
+                    計算結果は「100% 入替候補ポケモン」のエリアに表示されます
+                </div>
+            </div>
+
         <!-- 計算ボタン -->
         <button onclick="calculate()">計算する</button>
 
@@ -8453,6 +10030,245 @@
                         { label: 'C', name: 'めざましコーヒー', count: 2, energy: 153 }
                     ]
                 }
+            },
+            dodrio: {
+                name: 'ドードリオ',
+                rawBaseSpeed: 2300,  // Lv1基礎おてスピ
+                lv60RawSpeed: 913,   // Lv60、元気上限での結果（2300*(1-0.002*59)*0.45=913）
+                berryName: 'シーヤのみ',
+                berryBaseEnergy: 24,  // きのみ基礎値
+                foodProb: 0.184,      // 18.4%（基本食材確率）
+                skillProb: 0.020,     // 2.0%（基本スキル確率）
+                skillCeiling: 78,     // スキル天井
+                baseCapacity: 26,     // 所持数
+                maxSkillRights: 1,    // スキル発動権上限（きのみとくい）
+                defaultBerryCount: 2, // デフォルトきのみ個数（きのみとくい×2）
+                specialty: 'きのみとくい',
+                type: 'ひこう',
+                mainSkill: 'energyRecover_S',  // げんきチャージS
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'ワカクサ大豆', count: 1, energy: 100 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'ワカクサ大豆', count: 2, energy: 100 },
+                        { label: 'B', name: 'リラックスカカオ', count: 1, energy: 151 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'ワカクサ大豆', count: 4, energy: 100 },
+                        { label: 'B', name: 'リラックスカカオ', count: 2, energy: 151 },
+                        { label: 'C', name: 'マメミート', count: 3, energy: 103 }
+                    ]
+                }
+            },
+            ratta: {
+                name: 'ラッタ',
+                rawBaseSpeed: 2950,  // Lv1基礎おてスピ
+                lv60RawSpeed: 1170,  // Lv60、元気上限での結果（2950*(1-0.002*59)*0.45=1170）
+                berryName: 'キーのみ',
+                berryBaseEnergy: 28,  // きのみ基礎値
+                foodProb: 0.237,      // 23.7%（基本食材確率）
+                skillProb: 0.030,     // 3.0%（基本スキル確率）
+                skillCeiling: 78,     // スキル天井
+                baseCapacity: 21,     // 所持数
+                maxSkillRights: 1,    // スキル発動権上限（きのみとくい）
+                defaultBerryCount: 2, // デフォルトきのみ個数（きのみとくい×2）
+                specialty: 'きのみとくい',
+                type: 'ノーマル',
+                mainSkill: 'energyRecover_S',  // げんきチャージS
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 1, energy: 90 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 2, energy: 90 },
+                        { label: 'B', name: 'ワカクサ大豆', count: 2, energy: 100 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 4, energy: 90 },
+                        { label: 'B', name: 'ワカクサ大豆', count: 3, energy: 100 },
+                        { label: 'C', name: 'マメミート', count: 3, energy: 103 }
+                    ]
+                }
+            },
+            arbok: {
+                name: 'アーボック',
+                rawBaseSpeed: 3400,  // Lv1基礎おてスピ
+                lv60RawSpeed: 1349,  // Lv60、元気上限での結果（3400*(1-0.002*59)*0.45=1349）
+                berryName: 'カゴのみ',
+                berryBaseEnergy: 32,  // きのみ基礎値
+                foodProb: 0.264,      // 26.4%（基本食材確率）
+                skillProb: 0.057,     // 5.7%（基本スキル確率）
+                skillCeiling: 78,     // スキル天井
+                baseCapacity: 19,     // 所持数
+                maxSkillRights: 1,    // スキル発動権上限（きのみとくい）
+                defaultBerryCount: 2, // デフォルトきのみ個数（きのみとくい×2）
+                specialty: 'きのみとくい',
+                type: 'どく',
+                mainSkill: 'energyRecover_S',  // げんきチャージS
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'マメミート', count: 1, energy: 103 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'マメミート', count: 2, energy: 103 },
+                        { label: 'B', name: 'とくせんエッグ', count: 2, energy: 115 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'マメミート', count: 4, energy: 103 },
+                        { label: 'B', name: 'とくせんエッグ', count: 3, energy: 115 },
+                        { label: 'C', name: 'げきからハーブ', count: 3, energy: 130 }
+                    ]
+                }
+            },
+            marowak: {
+                name: 'ガラガラ',
+                rawBaseSpeed: 3300,  // Lv1基礎おてスピ
+                lv60RawSpeed: 1310,  // Lv60、元気上限での結果（3300*(1-0.002*59)*0.45=1310）
+                berryName: 'フィラのみ',
+                berryBaseEnergy: 29,  // きのみ基礎値
+                foodProb: 0.225,      // 22.5%（基本食材確率）
+                skillProb: 0.045,     // 4.5%（基本スキル確率）
+                skillCeiling: 78,     // スキル天井
+                baseCapacity: 20,     // 所持数
+                maxSkillRights: 1,    // スキル発動権上限（きのみとくい）
+                defaultBerryCount: 2, // デフォルトきのみ個数（きのみとくい×2）
+                specialty: 'きのみとくい',
+                type: 'じめん',
+                mainSkill: 'energyRecover_S',  // げんきチャージS
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'あったかジンジャー', count: 1, energy: 109 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'あったかジンジャー', count: 2, energy: 109 },
+                        { label: 'B', name: 'リラックスカカオ', count: 2, energy: 151 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'あったかジンジャー', count: 4, energy: 109 },
+                        { label: 'B', name: 'リラックスカカオ', count: 3, energy: 151 }
+                    ]
+                }
+            },
+            blaziken: {
+                name: 'バシャーモ',
+                rawBaseSpeed: 2600,  // Lv1基礎おてスピ
+                lv60RawSpeed: 1032,  // Lv60、元気上限での結果（2600*(1-0.002*59)*0.45=1032）
+                berryName: 'クラボのみ',
+                berryBaseEnergy: 27,  // きのみ基礎値
+                foodProb: 0.153,      // 15.3%（基本食材確率）
+                skillProb: 0.049,     // 4.9%（基本スキル確率）
+                skillCeiling: 78,     // スキル天井
+                baseCapacity: 32,     // 所持数
+                maxSkillRights: 1,    // スキル発動権上限（きのみとくい）
+                defaultBerryCount: 2, // デフォルトきのみ個数（きのみとくい×2）
+                specialty: 'きのみとくい',
+                type: 'かくとう',
+                mainSkill: 'energyRecover_S',  // げんきチャージS
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'あじわいキノコ', count: 1, energy: 167 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'あじわいキノコ', count: 2, energy: 167 },
+                        { label: 'B', name: 'ワカクサ大豆', count: 4, energy: 100 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'あじわいキノコ', count: 4, energy: 167 },
+                        { label: 'B', name: 'ワカクサ大豆', count: 6, energy: 100 },
+                        { label: 'C', name: 'ピュアなオイル', count: 5, energy: 121 }
+                    ]
+                }
+            },
+            altaria: {
+                name: 'チルタリス',
+                rawBaseSpeed: 3500,  // Lv1基礎おてスピ
+                lv60RawSpeed: 1389,  // Lv60、元気上限での結果（3500*(1-0.002*59)*0.45=1389）
+                berryName: 'ヤチェのみ',
+                berryBaseEnergy: 35,  // きのみ基礎値
+                foodProb: 0.258,      // 25.8%（基本食材確率）
+                skillProb: 0.061,     // 6.1%（基本スキル確率）
+                skillCeiling: 78,     // スキル天井
+                baseCapacity: 19,     // 所持数
+                maxSkillRights: 1,    // スキル発動権上限（きのみとくい）
+                defaultBerryCount: 2, // デフォルトきのみ個数（きのみとくい×2）
+                specialty: 'きのみとくい',
+                type: 'ドラゴン',
+                mainSkill: 'energyRecover_S',  // げんきチャージS
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'とくせんエッグ', count: 1, energy: 115 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'とくせんエッグ', count: 2, energy: 115 },
+                        { label: 'B', name: 'ワカクサ大豆', count: 3, energy: 100 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'とくせんエッグ', count: 4, energy: 115 },
+                        { label: 'B', name: 'ワカクサ大豆', count: 4, energy: 100 },
+                        { label: 'C', name: 'とくせんリンゴ', count: 5, energy: 90 }
+                    ]
+                }
+            },
+            kyukon: {
+                name: 'キュウコン',
+                rawBaseSpeed: 2600,
+                lv60RawSpeed: 1032,
+                berryName: 'ヒメリのみ',
+                berryBaseEnergy: 27,
+                foodProb: 0.164,
+                skillProb: 0.029,
+                skillCeiling: 78,
+                baseCapacity: 28,
+                maxSkillRights: 1,
+                defaultBerryCount: 2,
+                specialty: 'きのみとくい',
+                type: 'ほのお',
+                mainSkill: 'energyYell_S',  // げんきエールS
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'ワカクサ大豆', count: 1, energy: 100 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'ワカクサ大豆', count: 2, energy: 100 },
+                        { label: 'B', name: 'ワカクサコーン', count: 2, energy: 140 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'ワカクサ大豆', count: 4, energy: 100 },
+                        { label: 'B', name: 'ワカクサコーン', count: 3, energy: 140 },
+                        { label: 'C', name: 'ほっこりポテト', count: 3, energy: 124 }
+                    ]
+                }
+            },
+            pixie: {
+                name: 'ピクシー',
+                rawBaseSpeed: 2800,
+                lv60RawSpeed: 1112,
+                berryName: 'モモンのみ',
+                berryBaseEnergy: 26,
+                foodProb: 0.168,
+                skillProb: 0.036,
+                skillCeiling: 78,
+                baseCapacity: 34,
+                maxSkillRights: 1,
+                defaultBerryCount: 2,
+                specialty: 'きのみとくい',
+                type: 'フェアリー',
+                mainSkill: 'metronome',  // ゆびをふる
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 1, energy: 90 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 2, energy: 90 },
+                        { label: 'B', name: 'あまいミツ', count: 2, energy: 101 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 4, energy: 90 },
+                        { label: 'B', name: 'あまいミツ', count: 3, energy: 101 },
+                        { label: 'C', name: 'ワカクサ大豆', count: 3, energy: 100 }
+                    ]
+                }
             }
         };
         
@@ -8649,6 +10465,46 @@
                     katakana: 'ムシャーナ',
                     hiragana: 'むしゃーな',
                     romaji: 'musharna mushaana mushana'
+                },
+                'dodrio': {
+                    katakana: 'ドードリオ',
+                    hiragana: 'どーどりお',
+                    romaji: 'dodrio doodorio'
+                },
+                'ratta': {
+                    katakana: 'ラッタ',
+                    hiragana: 'らった',
+                    romaji: 'ratta rattta'
+                },
+                'arbok': {
+                    katakana: 'アーボック',
+                    hiragana: 'あーぼっく',
+                    romaji: 'arbok aabokku'
+                },
+                'marowak': {
+                    katakana: 'ガラガラ',
+                    hiragana: 'がらがら',
+                    romaji: 'marowak garagara'
+                },
+                'blaziken': {
+                    katakana: 'バシャーモ',
+                    hiragana: 'ばしゃーも',
+                    romaji: 'blaziken bashamo bashaamo'
+                },
+                'altaria': {
+                    katakana: 'チルタリス',
+                    hiragana: 'ちるたりす',
+                    romaji: 'altaria chirutarisu'
+                },
+                'kyukon': {
+                    katakana: 'キュウコン',
+                    hiragana: 'きゅうこん',
+                    romaji: 'kyukon kyuukon'
+                },
+                'pixie': {
+                    katakana: 'ピクシー',
+                    hiragana: 'ぴくしー',
+                    romaji: 'pixie pikushi'
                 }
             };
             
@@ -9022,6 +10878,232 @@
         }
         
         /**
+         * ドードリオのげんきチャージSモード切り替えを初期化
+         */
+        function initializeDodrioEnergyRecoverMode() {
+            const radios = document.querySelectorAll('input[name="dodrioEnergyRecoverMode"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updateDodrioEnergyRecoverInputDisplay();
+                });
+            });
+            
+            // 初期状態を設定
+            updateDodrioEnergyRecoverInputDisplay();
+        }
+        
+        /**
+         * ドードリオの入力フィールドの表示/非表示を更新
+         */
+        function updateDodrioEnergyRecoverInputDisplay() {
+            const mode = document.querySelector('input[name="dodrioEnergyRecoverMode"]:checked')?.value || 'multiplier';
+            
+            // 各入力フィールドの表示/非表示
+            const multiplierInput = document.getElementById('dodrioEnergyRecoverMultiplierInput');
+            const directInput = document.getElementById('dodrioEnergyRecoverDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
+        /**
+         * ラッタのげんきチャージSモード切り替えを初期化
+         */
+        function initializeRattaEnergyRecoverMode() {
+            const radios = document.querySelectorAll('input[name="rattaEnergyRecoverMode"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updateRattaEnergyRecoverInputDisplay();
+                });
+            });
+            
+            // 初期状態を設定
+            updateRattaEnergyRecoverInputDisplay();
+        }
+        
+        /**
+         * ラッタの入力フィールドの表示/非表示を更新
+         */
+        function updateRattaEnergyRecoverInputDisplay() {
+            const mode = document.querySelector('input[name="rattaEnergyRecoverMode"]:checked')?.value || 'multiplier';
+            
+            // 各入力フィールドの表示/非表示
+            const multiplierInput = document.getElementById('rattaEnergyRecoverMultiplierInput');
+            const directInput = document.getElementById('rattaEnergyRecoverDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
+        /**
+         * アーボックのげんきチャージSモード切り替えを初期化
+         */
+        function initializeArbokEnergyRecoverMode() {
+            const radios = document.querySelectorAll('input[name="arbokEnergyRecoverMode"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updateArbokEnergyRecoverInputDisplay();
+                });
+            });
+            
+            // 初期状態を設定
+            updateArbokEnergyRecoverInputDisplay();
+        }
+        
+        /**
+         * アーボックの入力フィールドの表示/非表示を更新
+         */
+        function updateArbokEnergyRecoverInputDisplay() {
+            const mode = document.querySelector('input[name="arbokEnergyRecoverMode"]:checked')?.value || 'multiplier';
+            
+            // 各入力フィールドの表示/非表示
+            const multiplierInput = document.getElementById('arbokEnergyRecoverMultiplierInput');
+            const directInput = document.getElementById('arbokEnergyRecoverDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
+        /**
+         * ガラガラのげんきチャージSモード切り替えを初期化
+         */
+        function initializeMarowakEnergyRecoverMode() {
+            const radios = document.querySelectorAll('input[name="marowakEnergyRecoverMode"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updateMarowakEnergyRecoverInputDisplay();
+                });
+            });
+            
+            // 初期状態を設定
+            updateMarowakEnergyRecoverInputDisplay();
+        }
+        
+        /**
+         * ガラガラの入力フィールドの表示/非表示を更新
+         */
+        function updateMarowakEnergyRecoverInputDisplay() {
+            const mode = document.querySelector('input[name="marowakEnergyRecoverMode"]:checked')?.value || 'multiplier';
+            
+            // 各入力フィールドの表示/非表示
+            const multiplierInput = document.getElementById('marowakEnergyRecoverMultiplierInput');
+            const directInput = document.getElementById('marowakEnergyRecoverDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
+        /**
+         * バシャーモのげんきチャージSモード切り替えを初期化
+         */
+        function initializeBlazikenEnergyRecoverMode() {
+            const radios = document.querySelectorAll('input[name="blazikenEnergyRecoverMode"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updateBlazikenEnergyRecoverInputDisplay();
+                });
+            });
+            
+            // 初期状態を設定
+            updateBlazikenEnergyRecoverInputDisplay();
+        }
+        
+        /**
+         * バシャーモの入力フィールドの表示/非表示を更新
+         */
+        function updateBlazikenEnergyRecoverInputDisplay() {
+            const mode = document.querySelector('input[name="blazikenEnergyRecoverMode"]:checked')?.value || 'multiplier';
+            
+            // 各入力フィールドの表示/非表示
+            const multiplierInput = document.getElementById('blazikenEnergyRecoverMultiplierInput');
+            const directInput = document.getElementById('blazikenEnergyRecoverDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
+        /**
+         * チルタリスのげんきチャージSモード切り替えを初期化
+         */
+        function initializeAltariaEnergyRecoverMode() {
+            const radios = document.querySelectorAll('input[name="altariaEnergyRecoverMode"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updateAltariaEnergyRecoverInputDisplay();
+                });
+            });
+            
+            // 初期状態を設定
+            updateAltariaEnergyRecoverInputDisplay();
+        }
+        
+        /**
+         * チルタリスの入力フィールドの表示/非表示を更新
+         */
+        function updateAltariaEnergyRecoverInputDisplay() {
+            const mode = document.querySelector('input[name="altariaEnergyRecoverMode"]:checked')?.value || 'multiplier';
+            
+            // 各入力フィールドの表示/非表示
+            const multiplierInput = document.getElementById('altariaEnergyRecoverMultiplierInput');
+            const directInput = document.getElementById('altariaEnergyRecoverDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
+        /**
+         * キュウコンのげんきエールSモード切り替えを初期化
+         */
+        function initializeKyukonEnergyYellMode() {
+            const radios = document.querySelectorAll('input[name="kyukonEnergyYellMode"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updateKyukonEnergyYellInputDisplay();
+                });
+            });
+            updateKyukonEnergyYellInputDisplay();
+        }
+        
+        /**
+         * キュウコンの入力フィールドの表示/非表示を更新
+         */
+        function updateKyukonEnergyYellInputDisplay() {
+            const mode = document.querySelector('input[name="kyukonEnergyYellMode"]:checked')?.value || 'multiplier';
+            
+            const multiplierInput = document.getElementById('kyukonEnergyYellMultiplierInput');
+            const directInput = document.getElementById('kyukonEnergyYellDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
+        /**
+         * ピクシーのゆびをふるモード切り替えを初期化
+         */
+        function initializePixieMetronomeMode() {
+            const radios = document.querySelectorAll('input[name="pixieMetronomeMode"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updatePixieMetronomeInputDisplay();
+                });
+            });
+            updatePixieMetronomeInputDisplay();
+        }
+        
+        /**
+         * ピクシーの入力フィールドの表示/非表示を更新
+         */
+        function updatePixieMetronomeInputDisplay() {
+            const mode = document.querySelector('input[name="pixieMetronomeMode"]:checked')?.value || 'multiplier';
+            
+            const multiplierInput = document.getElementById('pixieMetronomeMultiplierInput');
+            const directInput = document.getElementById('pixieMetronomeDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
+        /**
          * 全ての入替候補ポケモンの食材ラベルを初期化
          */
         function initializeAllFoodSlotLabels() {
@@ -9220,6 +11302,14 @@
                 initializeEnteiOtetsudaiBoostMode();
                 initializeSuicuneOtetsudaiBoostMode();
                 initializeMusharnaYumeKakeraMode();
+                initializeDodrioEnergyRecoverMode();
+                initializeRattaEnergyRecoverMode();
+                initializeArbokEnergyRecoverMode();
+                initializeMarowakEnergyRecoverMode();
+                initializeBlazikenEnergyRecoverMode();
+                initializeAltariaEnergyRecoverMode();
+                initializeKyukonEnergyYellMode();
+                initializePixieMetronomeMode();
             });
         } else {
             initializeAllFoodSlotLabels();
@@ -9238,6 +11328,14 @@
             initializeEnteiOtetsudaiBoostMode();
             initializeSuicuneOtetsudaiBoostMode();
             initializeMusharnaYumeKakeraMode();
+            initializeDodrioEnergyRecoverMode();
+            initializeRattaEnergyRecoverMode();
+            initializeArbokEnergyRecoverMode();
+            initializeMarowakEnergyRecoverMode();
+            initializeBlazikenEnergyRecoverMode();
+            initializeAltariaEnergyRecoverMode();
+            initializeKyukonEnergyYellMode();
+            initializePixieMetronomeMode();
         }
         
         // きのみエナジーを計算（レベル依存）
@@ -9465,7 +11563,15 @@
                 'replacementPokemonMode_raikou',
                 'replacementPokemonMode_entei',
                 'replacementPokemonMode_suicune',
-                'replacementPokemonMode_musharna'
+                'replacementPokemonMode_musharna',
+                'replacementPokemonMode_dodrio',
+                'replacementPokemonMode_ratta',
+                'replacementPokemonMode_arbok',
+                'replacementPokemonMode_marowak',
+                'replacementPokemonMode_blaziken',
+                'replacementPokemonMode_altaria',
+                'replacementPokemonMode_kyukon',
+                'replacementPokemonMode_pixie'
             ];
             
             pokemonModes.forEach(modeId => {
@@ -10336,6 +12442,116 @@
                     
                     console.log('[yumeKakeraGetS スキル度外視モード] スキルエナジー = 0');
                 }
+            } else if (mainSkill === 'energyRecover_S') {
+                // げんきチャージS
+                console.log('[energyRecover_S] 計算開始:', {
+                    pokemonType: pokemonType,
+                    skillLevel: skillLevel
+                });
+                
+                // 計算モードを取得
+                const energyRecoverMode = document.querySelector(`input[name="${pokemonType}EnergyRecoverMode"]:checked`)?.value || 'multiplier';
+                
+                console.log('[energyRecover_S] モード:', energyRecoverMode);
+                
+                if (energyRecoverMode === 'multiplier') {
+                    // モード1：エナジーチャージM倍率モード
+                    const multiplierValue = parseFloat(document.getElementById(`${pokemonType}EnergyRecoverMultiplierValue`)?.value) || 1.0;
+                    // きのみとくい用のエナジーチャージM（Lv6まで）
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546
+                    };
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
+                    energyPerSkill = baseEnergy * multiplierValue;
+                    
+                    console.log('[energyRecover_S 倍率モード] 計算:', {
+                        skillLevel: skillLevel,
+                        baseEnergy: baseEnergy,
+                        multiplierValue: multiplierValue,
+                        energyPerSkill: Math.round(energyPerSkill)
+                    });
+                } else if (energyRecoverMode === 'direct') {
+                    // モード2：直接入力モード
+                    energyPerSkill = parseFloat(document.getElementById(`${pokemonType}EnergyRecoverDirectValue`)?.value) || 5000;
+                    
+                    console.log('[energyRecover_S 直接入力モード] 計算:', {
+                        energyPerSkill: Math.round(energyPerSkill)
+                    });
+                } else if (energyRecoverMode === 'ignore') {
+                    // モード3：スキル度外視モード
+                    energyPerSkill = 0;
+                    
+                    console.log('[energyRecover_S スキル度外視モード] スキルエナジー = 0');
+                }
+            } else if (mainSkill === 'energyYell_S') {
+                // げんきエールS
+                console.log('[energyYell_S] 計算開始:', {
+                    pokemonType: pokemonType,
+                    skillLevel: skillLevel
+                });
+                
+                const energyYellMode = document.querySelector(`input[name="${pokemonType}EnergyYellMode"]:checked`)?.value || 'multiplier';
+                
+                console.log('[energyYell_S] モード:', energyYellMode);
+                
+                if (energyYellMode === 'multiplier') {
+                    const multiplierValue = parseFloat(document.getElementById(`${pokemonType}EnergyYellMultiplierValue`)?.value) || 0.5;
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546
+                    };
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
+                    energyPerSkill = baseEnergy * multiplierValue;
+                    
+                    console.log('[energyYell_S 倍率モード] 計算:', {
+                        skillLevel: skillLevel,
+                        baseEnergy: baseEnergy,
+                        multiplierValue: multiplierValue,
+                        energyPerSkill: Math.round(energyPerSkill)
+                    });
+                } else if (energyYellMode === 'direct') {
+                    energyPerSkill = parseFloat(document.getElementById(`${pokemonType}EnergyYellDirectValue`)?.value) || 5000;
+                    
+                    console.log('[energyYell_S 直接入力モード] 計算:', {
+                        energyPerSkill: Math.round(energyPerSkill)
+                    });
+                } else if (energyYellMode === 'ignore') {
+                    energyPerSkill = 0;
+                    
+                    console.log('[energyYell_S スキル度外視モード] スキルエナジー = 0');
+                }
+            } else if (mainSkill === 'metronome') {
+                // ゆびをふる
+                console.log('[metronome] 計算開始:', {
+                    pokemonType: pokemonType,
+                    skillLevel: skillLevel
+                });
+                
+                const metronomeMode = document.querySelector(`input[name="${pokemonType}MetronomeMode"]:checked`)?.value || 'multiplier';
+                
+                console.log('[metronome] モード:', metronomeMode);
+                
+                if (metronomeMode === 'multiplier') {
+                    const multiplierValue = parseFloat(document.getElementById(`${pokemonType}MetronomeMultiplierValue`)?.value) || 1.0;
+                    // きのみとくい用のエナジーチャージM（Lv7まで、Lv7は外挿値）
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                    };
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
+                    energyPerSkill = baseEnergy * multiplierValue;
+                    
+                    console.log('[metronome 倍率モード] 計算:', {
+                        skillLevel: skillLevel,
+                        baseEnergy: baseEnergy,
+                        multiplierValue: multiplierValue,
+                        energyPerSkill: Math.round(energyPerSkill)
+                    });
+                } else if (metronomeMode === 'direct') {
+                    energyPerSkill = parseFloat(document.getElementById(`${pokemonType}MetronomeDirectValue`)?.value) || 5000;
+                    
+                    console.log('[metronome 直接入力モード] 計算:', {
+                        energyPerSkill: Math.round(energyPerSkill)
+                    });
+                }
             }
             
             // スキル天井考慮（メイン設定から取得）
@@ -10512,6 +12728,53 @@
                     skillEffectFormula = `ゆめのかけらゲットS (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'ignore') {
                     skillEffectFormula = `ゆめのかけらゲットS (スキル度外視) Lv${skillLevel}: スキルエナジー = 0`;
+                }
+            } else if (mainSkill === 'energyRecover_S') {
+                // げんきチャージSの計算式表示
+                const mode = document.querySelector(`input[name="${pokemonType}EnergyRecoverMode"]:checked`)?.value || 'multiplier';
+                
+                if (mode === 'multiplier') {
+                    const multiplier = parseFloat(document.getElementById(`${pokemonType}EnergyRecoverMultiplierValue`)?.value) || 1.0;
+                    // きのみとくい用のエナジーチャージM（Lv6まで）
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546
+                    };
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
+                    skillEffectFormula = `げんきチャージS (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
+                } else if (mode === 'direct') {
+                    skillEffectFormula = `げんきチャージS (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
+                } else if (mode === 'ignore') {
+                    skillEffectFormula = `げんきチャージS (スキル度外視) Lv${skillLevel}: スキルエナジー = 0`;
+                }
+            } else if (mainSkill === 'energyYell_S') {
+                // げんきエールSの計算式表示
+                const mode = document.querySelector(`input[name="${pokemonType}EnergyYellMode"]:checked`)?.value || 'multiplier';
+                
+                if (mode === 'multiplier') {
+                    const multiplier = parseFloat(document.getElementById(`${pokemonType}EnergyYellMultiplierValue`)?.value) || 0.5;
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546
+                    };
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
+                    skillEffectFormula = `げんきエールS (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
+                } else if (mode === 'direct') {
+                    skillEffectFormula = `げんきエールS (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
+                } else if (mode === 'ignore') {
+                    skillEffectFormula = `げんきエールS (スキル度外視) Lv${skillLevel}: スキルエナジー = 0`;
+                }
+            } else if (mainSkill === 'metronome') {
+                // ゆびをふるの計算式表示
+                const mode = document.querySelector(`input[name="${pokemonType}MetronomeMode"]:checked`)?.value || 'multiplier';
+                
+                if (mode === 'multiplier') {
+                    const multiplier = parseFloat(document.getElementById(`${pokemonType}MetronomeMultiplierValue`)?.value) || 1.0;
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                    };
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
+                    skillEffectFormula = `ゆびをふる (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
+                } else if (mode === 'direct') {
+                    skillEffectFormula = `ゆびをふる (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
                 }
             } else if (mainSkill === 'cookingPower_S') {
                 // 料理パワーアップSの計算式表示
