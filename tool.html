@@ -1093,6 +1093,7 @@
                         <option value="wakakusasalad">ワカクササラダ</option>
                         <option value="scone">おちゃかいコーンスコーン</option>
                         <option value="ninjacurry">ニンジャカレー</option>
+                        <option value="honeychocowaffel">みつあつめチョコワッフル</option>
                     </optgroup>
                     <option value="custom">カスタムレシピ</option>
                 </select>
@@ -1818,6 +1819,8 @@
                         <div class="pokemon-option" data-value="altaria" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">チルタリス</div>
                         <div class="pokemon-option" data-value="kyukon" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">キュウコン</div>
                         <div class="pokemon-option" data-value="pixie" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ピクシー</div>
+                        <div class="pokemon-option" data-value="fuwaride" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">フワライド</div>
+                        <div class="pokemon-option" data-value="darkrai" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ダークライ</div>
                     </div>
                 </div>
                 <input type="hidden" id="replacementPokemonValue" value="none">
@@ -8533,6 +8536,426 @@
                 </div>
             </div>
 
+            <!-- フワライド設定モード -->
+            <div id="replacementPokemonMode_fuwaride" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label" for="fuwarideLevel">レベル（1-100）</label>
+                    <input type="number" id="fuwarideLevel" min="1" max="100" value="60">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv30で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideFoodLv30" value="A" id="fuwarideFoodLv30_A" checked>
+                            <label for="fuwarideFoodLv30_A" id="fuwarideFoodLv30LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideFoodLv30" value="B" id="fuwarideFoodLv30_B">
+                            <label for="fuwarideFoodLv30_B" id="fuwarideFoodLv30LabelB">食材B</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Lv60で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideFoodLv60" value="A" id="fuwarideFoodLv60_A" checked>
+                            <label for="fuwarideFoodLv60_A" id="fuwarideFoodLv60LabelA">食材A</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideFoodLv60" value="B" id="fuwarideFoodLv60_B">
+                            <label for="fuwarideFoodLv60_B" id="fuwarideFoodLv60LabelB">食材B</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideFoodLv60" value="C" id="fuwarideFoodLv60_C">
+                            <label for="fuwarideFoodLv60_C" id="fuwarideFoodLv60LabelC">食材C</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">サブスキル</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fuwarideSpeedM">
+                            <label for="fuwarideSpeedM">おてつだいスピードM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fuwarideSpeedS">
+                            <label for="fuwarideSpeedS">おてつだいスピードS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fuwarideSkillM">
+                            <label for="fuwarideSkillM">スキル確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fuwarideSkillS">
+                            <label for="fuwarideSkillS">スキル確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fuwarideFoodM">
+                            <label for="fuwarideFoodM">食材確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fuwarideFoodS">
+                            <label for="fuwarideFoodS">食材確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fuwarideBerryS">
+                            <label for="fuwarideBerryS">きのみの数S</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label" for="fuwarideOtebonus">おてつだいボーナス</label>
+                        <select id="fuwarideOtebonus">
+                            <option value="0">0枚</option>
+                            <option value="1">1枚</option>
+                            <option value="2">2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">性格</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideSpeedNature" value="0.9" id="fuwarideSpeedFast">
+                            <label for="fuwarideSpeedFast">おてスピ補正（-10%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideSpeedNature" value="1.0" id="fuwarideSpeedNormal" checked>
+                            <label for="fuwarideSpeedNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideSpeedNature" value="1.075" id="fuwarideSpeedSlow">
+                            <label for="fuwarideSpeedSlow">おてスピ補正（+7.5%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideSkillNature" value="0.8" id="fuwarideSkillDown">
+                            <label for="fuwarideSkillDown">スキル確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideSkillNature" value="1.0" id="fuwarideSkillNormal" checked>
+                            <label for="fuwarideSkillNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideSkillNature" value="1.2" id="fuwarideSkillUp">
+                            <label for="fuwarideSkillUp">スキル確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideFoodNature" value="0.8" id="fuwarideFoodDown">
+                            <label for="fuwarideFoodDown">食材確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideFoodNature" value="1.0" id="fuwarideFoodNormal" checked>
+                            <label for="fuwarideFoodNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="fuwarideFoodNature" value="1.2" id="fuwarideFoodUp">
+                            <label for="fuwarideFoodUp">食材確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">メインスキルレベル</label>
+                    <select id="fuwarideSkillLevel">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6">Lv6</option>
+                        <option value="7" selected>Lv7</option>
+                    </select>
+                </div>
+                
+                <div class="note" style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 5px; font-size: 13px; color: #666;">
+                    <strong>📝 メイン設定から自動取得される項目：</strong><br>
+                    • カビゴンの好きなきのみ（フィールド設定から自動判定）<br>
+                    • EX補正（フィールド設定から自動取得）<br>
+                    • いいキャンプチケット（その他設定から自動取得）<br>
+                    • スキル天井考慮（詳細設定から自動取得）<br>
+                    <br>
+                    <strong>💡 計算結果の表示：</strong><br>
+                    計算結果は「100% 入替候補ポケモン」のエリアに表示されます<br>
+                    <br>
+                    <strong>📖 たくわえるスキルの詳しい説明：</strong><br>
+                    計算結果の「スキル1回あたりの効果量」の<strong>「詳細」ボタン</strong>を押すと、たくわえるスキルの特徴や計算方法の詳しい説明が表示されます
+                </div>
+            </div>
+
+            <!-- ダークライ設定モード -->
+            <div id="replacementPokemonMode_darkrai" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label" for="darkraiLevel">レベル（1-100）</label>
+                    <input type="number" id="darkraiLevel" min="1" max="100" value="60">
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv30で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv30" value="none" id="darkraiFoodLv30_none">
+                            <label for="darkraiFoodLv30_none">食材なし</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv30" value="apple" id="darkraiFoodLv30_apple" checked>
+                            <label for="darkraiFoodLv30_apple">りんご5</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv30" value="herb" id="darkraiFoodLv30_herb">
+                            <label for="darkraiFoodLv30_herb">ハーブ3</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv30" value="meat" id="darkraiFoodLv30_meat">
+                            <label for="darkraiFoodLv30_meat">ミート4</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv30" value="milk" id="darkraiFoodLv30_milk">
+                            <label for="darkraiFoodLv30_milk">ミルク4</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv30" value="honey" id="darkraiFoodLv30_honey">
+                            <label for="darkraiFoodLv30_honey">みつ4</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv30" value="soybean" id="darkraiFoodLv30_soybean">
+                            <label for="darkraiFoodLv30_soybean">大豆4</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv30" value="corn" id="darkraiFoodLv30_corn">
+                            <label for="darkraiFoodLv30_corn">コーン3</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv30" value="coffee" id="darkraiFoodLv30_coffee">
+                            <label for="darkraiFoodLv30_coffee">コーヒー3</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">Lv60で解放される食材スロット</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv60" value="none" id="darkraiFoodLv60_none">
+                            <label for="darkraiFoodLv60_none">食材なし</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv60" value="apple" id="darkraiFoodLv60_apple" checked>
+                            <label for="darkraiFoodLv60_apple">りんご7</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv60" value="herb" id="darkraiFoodLv60_herb">
+                            <label for="darkraiFoodLv60_herb">ハーブ5</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv60" value="meat" id="darkraiFoodLv60_meat">
+                            <label for="darkraiFoodLv60_meat">ミート6</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv60" value="milk" id="darkraiFoodLv60_milk">
+                            <label for="darkraiFoodLv60_milk">ミルク6</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv60" value="honey" id="darkraiFoodLv60_honey">
+                            <label for="darkraiFoodLv60_honey">みつ6</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv60" value="soybean" id="darkraiFoodLv60_soybean">
+                            <label for="darkraiFoodLv60_soybean">大豆6</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv60" value="corn" id="darkraiFoodLv60_corn">
+                            <label for="darkraiFoodLv60_corn">コーン4</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodLv60" value="coffee" id="darkraiFoodLv60_coffee">
+                            <label for="darkraiFoodLv60_coffee">コーヒー4</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">サブスキル</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="darkraiSpeedM">
+                            <label for="darkraiSpeedM">おてつだいスピードM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="darkraiSpeedS">
+                            <label for="darkraiSpeedS">おてつだいスピードS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="darkraiSkillM">
+                            <label for="darkraiSkillM">スキル確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="darkraiSkillS">
+                            <label for="darkraiSkillS">スキル確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="darkraiFoodM">
+                            <label for="darkraiFoodM">食材確率アップM</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="darkraiFoodS">
+                            <label for="darkraiFoodS">食材確率アップS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="darkraiBerryS">
+                            <label for="darkraiBerryS">きのみの数S</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <label class="input-label" for="darkraiOtebonus">おてつだいボーナス</label>
+                        <select id="darkraiOtebonus">
+                            <option value="0">0枚</option>
+                            <option value="1">1枚</option>
+                            <option value="2">2枚</option>
+                            <option value="3">3枚</option>
+                            <option value="4">4枚</option>
+                            <option value="5">5枚</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">性格</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiSpeedNature" value="0.9" id="darkraiSpeedFast">
+                            <label for="darkraiSpeedFast">おてスピ補正（-10%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiSpeedNature" value="1.0" id="darkraiSpeedNormal" checked>
+                            <label for="darkraiSpeedNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiSpeedNature" value="1.075" id="darkraiSpeedSlow">
+                            <label for="darkraiSpeedSlow">おてスピ補正（+7.5%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiSkillNature" value="0.8" id="darkraiSkillDown">
+                            <label for="darkraiSkillDown">スキル確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiSkillNature" value="1.0" id="darkraiSkillNormal" checked>
+                            <label for="darkraiSkillNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiSkillNature" value="1.2" id="darkraiSkillUp">
+                            <label for="darkraiSkillUp">スキル確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodNature" value="0.8" id="darkraiFoodDown">
+                            <label for="darkraiFoodDown">食材確率補正（-20%）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodNature" value="1.0" id="darkraiFoodNormal" checked>
+                            <label for="darkraiFoodNormal">通常</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="darkraiFoodNature" value="1.2" id="darkraiFoodUp">
+                            <label for="darkraiFoodUp">食材確率補正（+20%）</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">メインスキルレベル</label>
+                    <select id="darkraiSkillLevel">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6" selected>Lv6</option>
+                        <option value="7">Lv7</option>
+                    </select>
+                </div>
+                
+                <!-- ナイトメア計算モード選択 -->
+                <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #4682b4;">
+                    <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #1e90ff;">
+                        😈 ナイトメア計算モード
+                    </div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="darkraiNightmareMultiplier" name="darkraiNightmareMode" value="multiplier" checked>
+                            <label for="darkraiNightmareMultiplier">エナジーチャージM倍率モード（エナジーチャージM × 倍率で計算）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="darkraiNightmareDirect" name="darkraiNightmareMode" value="direct">
+                            <label for="darkraiNightmareDirect">直接入力モード（任意のエナジー値を入力）</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="darkraiNightmareIgnore" name="darkraiNightmareMode" value="ignore">
+                            <label for="darkraiNightmareIgnore">げんき減少度外視モード（ナイトメア固有効果量を使用）</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; color: #666; font-size: 12px;">
+                        <strong>エナジーチャージM倍率モード：</strong>エナジーチャージMの効果量を基準に、ナイトメアの効果を倍率で表現します<br>
+                        <strong>直接入力モード：</strong>げんき減少を含めた総合的な効果をエナジーに換算した値を直接入力します<br>
+                        <strong>げんき減少度外視モード：</strong>げんき減少を無視したナイトメア固有の効果量（純粋なエナジー獲得）を使用します
+                    </div>
+                </div>
+                
+                <!-- エナジーチャージM倍率入力 -->
+                <div class="input-group" id="darkraiNightmareMultiplierInput" style="display: block; margin-top: 15px;">
+                    <label class="input-label" for="darkraiNightmareMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+                    <input type="number" id="darkraiNightmareMultiplierValue" min="0" max="10" step="0.1" value="2.0">
+                    <small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等、2.0 = エナジーチャージMの2倍）</small>
+                </div>
+                
+                <!-- 直接入力 -->
+                <div class="input-group" id="darkraiNightmareDirectInput" style="display: none; margin-top: 15px;">
+                    <label class="input-label" for="darkraiNightmareDirectValue">スキル1回あたりエナジー（げんき減少含む）</label>
+                    <input type="number" id="darkraiNightmareDirectValue" min="0" step="100" value="0">
+                    <small style="color: #666; margin-top: 5px; display: block;">※げんき減少の効果を含めた総合的な価値をエナジーに換算した値を入力してください</small>
+                </div>
+                
+                <div class="note" style="margin-top: 15px; padding: 10px; background: #fff3e0; border-radius: 5px; font-size: 13px; color: #666;">
+                    <strong>📝 ダークライの特性：</strong><br>
+                    • 得意なもの「オール」：すべての得意なものの性質を持ちます<br>
+                    • きのみ：デフォルトで2個持ってきます（きのみの数Sで3個）<br>
+                    • スキル：発動権を2回まで貯めることができます<br>
+                    • 食材：「食材なし」を選んだスロットは抽選対象から除外されます<br>
+                    <br>
+                    <strong>📝 メイン設定から自動取得される項目：</strong><br>
+                    • カビゴンの好きなきのみ（フィールド設定から自動判定）<br>
+                    • EX補正（フィールド設定から自動取得）<br>
+                    • いいキャンプチケット（その他設定から自動取得）<br>
+                    • スキル天井考慮（詳細設定から自動取得）<br>
+                    <br>
+                    <strong>💡 計算結果の表示：</strong><br>
+                    計算結果は「100% 入替候補ポケモン」のエリアに表示されます
+                </div>
+            </div>
+
         <!-- 計算ボタン -->
         <button onclick="calculate()">計算する</button>
 
@@ -8815,6 +9238,9 @@
                         </div>
                         <div id="replacementSkillEffectFormulaContainer" style="display: none; margin-bottom: 12px; padding: 10px; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #555;">
                             <div id="replacementSkillEffectFormula"></div>
+                            <div id="replacementSkillEffectExplanation" style="display: none; margin-top: 15px; padding: 12px; background: #fff3e0; border-radius: 5px; border-left: 4px solid #ff9800; font-size: 12px; line-height: 1.7;">
+                                <!-- たくわえるスキルの説明（動的表示） -->
+                            </div>
                         </div>
                         <div style="margin-top: 15px; padding: 10px; background: white; border-radius: 4px; border: 2px solid #1565c0;">
                             <div style="font-size: 12px; color: #666; margin-bottom: 5px;">1日エナジー:</div>
@@ -8881,6 +9307,7 @@
             'つやつやアボカド': 162,
             'めざましコーヒー': 153,
             'リラックスカカオ': 151,
+            'ネムリコーヒー': 151,
             'ワカクサコーン': 140,
             'げきからハーブ': 130,
             'ほっこりポテト': 124,
@@ -10269,6 +10696,63 @@
                         { label: 'C', name: 'ワカクサ大豆', count: 3, energy: 100 }
                     ]
                 }
+            },
+            fuwaride: {
+                name: 'フワライド',
+                rawBaseSpeed: 2500,
+                lv60RawSpeed: 992,
+                berryName: 'ブリーのみ',
+                berryBaseEnergy: 26,
+                foodProb: 0.128,
+                skillProb: 0.063,
+                skillCeiling: 57,
+                baseCapacity: 22,
+                maxSkillRights: 1,
+                defaultBerryCount: 1,
+                specialty: 'スキルとくい',
+                type: 'ゴースト',
+                mainSkill: 'stockpile',  // たくわえる
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'ワカクサコーン', count: 1, energy: 140 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'ワカクサコーン', count: 2, energy: 140 },
+                        { label: 'B', name: 'ピュアなオイル', count: 3, energy: 121 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'ワカクサコーン', count: 4, energy: 140 },
+                        { label: 'B', name: 'ピュアなオイル', count: 4, energy: 121 },
+                        { label: 'C', name: 'ほっこりポテト', count: 4, energy: 124 }
+                    ]
+                }
+            },
+            darkrai: {
+                name: 'ダークライ',
+                rawBaseSpeed: 2900,
+                lv60RawSpeed: 992,
+                berryName: 'ウイのみ',
+                berryBaseEnergy: 31,
+                foodProb: 0.192,
+                skillProb: 0.023,
+                skillCeiling: 49,
+                baseCapacity: 28,
+                maxSkillRights: 2,
+                defaultBerryCount: 2,
+                specialty: 'オール',
+                type: 'あく',
+                mainSkill: 'nightmare',
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 2, energy: 90 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 5, energy: 90 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 7, energy: 90 }
+                    ]
+                }
             }
         };
         
@@ -10505,6 +10989,16 @@
                     katakana: 'ピクシー',
                     hiragana: 'ぴくしー',
                     romaji: 'pixie pikushi'
+                },
+                'fuwaride': {
+                    katakana: 'フワライド',
+                    hiragana: 'ふわらいど',
+                    romaji: 'fuwaride fuwraido'
+                },
+                'darkrai': {
+                    katakana: 'ダークライ',
+                    hiragana: 'だーくらい',
+                    romaji: 'darkrai daakurai'
                 }
             };
             
@@ -11103,6 +11597,30 @@
             if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
         }
         
+        // ダークライ（ナイトメア）のモード切替初期化
+        const darkraiNightmareRadios = document.querySelectorAll('input[name="darkraiNightmareMode"]');
+        if (darkraiNightmareRadios.length > 0) {
+            darkraiNightmareRadios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updateDarkraiNightmareInputDisplay();
+                });
+            });
+            updateDarkraiNightmareInputDisplay();
+        }
+        
+        /**
+         * ダークライの入力フィールドの表示/非表示を更新
+         */
+        function updateDarkraiNightmareInputDisplay() {
+            const mode = document.querySelector('input[name="darkraiNightmareMode"]:checked')?.value || 'multiplier';
+            
+            const multiplierInput = document.getElementById('darkraiNightmareMultiplierInput');
+            const directInput = document.getElementById('darkraiNightmareDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
         /**
          * 全ての入替候補ポケモンの食材ラベルを初期化
          */
@@ -11571,7 +12089,9 @@
                 'replacementPokemonMode_blaziken',
                 'replacementPokemonMode_altaria',
                 'replacementPokemonMode_kyukon',
-                'replacementPokemonMode_pixie'
+                'replacementPokemonMode_pixie',
+                'replacementPokemonMode_fuwaride',
+                'replacementPokemonMode_darkrai'
             ];
             
             pokemonModes.forEach(modeId => {
@@ -11740,6 +12260,72 @@
          */
         function calculateReplacementPokemonEnergy(pokemonType) {
             const pokemon = POKEMON_STATS[pokemonType];
+            
+            // ダークライ専用：食材スロットを動的に構築
+            if (pokemonType === 'darkrai') {
+                const foodMapping = {
+                    'apple': { name: 'とくせんリンゴ', energy: 90 },
+                    'herb': { name: 'げきからハーブ', energy: 130 },
+                    'meat': { name: 'マメミート', energy: 103 },
+                    'milk': { name: 'モーモーミルク', energy: 98 },
+                    'honey': { name: 'あまいミツ', energy: 101 },
+                    'soybean': { name: 'ワカクサ大豆', energy: 100 },
+                    'corn': { name: 'ワカクサコーン', energy: 140 },
+                    'coffee': { name: 'ネムリコーヒー', energy: 151 }
+                };
+                
+                const countMapping = {
+                    lv1: 2,
+                    lv30: { apple: 5, herb: 3, meat: 4, milk: 4, honey: 4, soybean: 4, corn: 3, coffee: 3 },
+                    lv60: { apple: 7, herb: 5, meat: 6, milk: 6, honey: 6, soybean: 6, corn: 4, coffee: 4 }
+                };
+                
+                // Lv1は全8種類固定（×2）
+                pokemon.foodSlots.lv1 = Object.keys(foodMapping).map((key, index) => ({
+                    label: String.fromCharCode(65 + index), // A, B, C, ...
+                    name: foodMapping[key].name,
+                    count: countMapping.lv1,
+                    energy: foodMapping[key].energy
+                }));
+                
+                // Lv30: ユーザー選択に基づいて構築
+                const lv30Selected = document.querySelector('input[name="darkraiFoodLv30"]:checked')?.value;
+                pokemon.foodSlots.lv30 = [];
+                if (lv30Selected && lv30Selected !== 'none') {
+                    const food = foodMapping[lv30Selected];
+                    pokemon.foodSlots.lv30.push({
+                        label: 'B',
+                        name: food.name,
+                        count: countMapping.lv30[lv30Selected],
+                        energy: food.energy
+                    });
+                }
+                
+                // Lv60: ユーザー選択に基づいて構築
+                const lv60Selected = document.querySelector('input[name="darkraiFoodLv60"]:checked')?.value;
+                pokemon.foodSlots.lv60 = [];
+                if (lv60Selected && lv60Selected !== 'none') {
+                    const food = foodMapping[lv60Selected];
+                    pokemon.foodSlots.lv60.push({
+                        label: 'C',
+                        name: food.name,
+                        count: countMapping.lv60[lv60Selected],
+                        energy: food.energy
+                    });
+                }
+                
+                // Lv1の全8スロットを常に含める
+                pokemon.foodSlots.lv30 = [...pokemon.foodSlots.lv1, ...pokemon.foodSlots.lv30];
+                pokemon.foodSlots.lv60 = [...pokemon.foodSlots.lv1, ...pokemon.foodSlots.lv30.slice(pokemon.foodSlots.lv1.length), ...pokemon.foodSlots.lv60];
+                
+                console.log('[darkrai 食材スロット動的構築]', {
+                    lv1Count: pokemon.foodSlots.lv1.length,
+                    lv30Count: pokemon.foodSlots.lv30.length,
+                    lv60Count: pokemon.foodSlots.lv60.length,
+                    lv30Selected: lv30Selected,
+                    lv60Selected: lv60Selected
+                });
+            }
             const mainSkill = pokemon.mainSkill;
             const level = parseInt(document.getElementById(`${pokemonType}Level`)?.value) || 60;
             
@@ -12380,11 +12966,11 @@
                 } else if (boostMode === 'multiplier') {
                     // モード2：エナジーチャージM倍率モード
                     const multiplierValue = parseFloat(document.getElementById(`${pokemonType}OtetsudaiBoostMultiplierValue`)?.value) || 1.0;
-                    // スキルとくい用のエナジーチャージM（Lv6まで）
+                    // エナジーチャージMの効果量（Lv6まで）
                     const ENERGY_CHARGE_M = {
-                        1: 626, 2: 890, 3: 1266, 4: 1701, 5: 2351, 6: 3248
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546
                     };
-                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 3248;
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
                     energyPerSkill = baseEnergy * multiplierValue;
                     
                     console.log('[otetsudaiBoost エナジーチャージM倍率モード] 計算:', {
@@ -12416,11 +13002,11 @@
                 if (yumeKakeraMode === 'multiplier') {
                     // モード1：エナジーチャージM倍率モード
                     const multiplierValue = parseFloat(document.getElementById(`${pokemonType}YumeKakeraMultiplierValue`)?.value) || 1.0;
-                    // きのみとくい用のエナジーチャージM（Lv7まで）
-                    const ENERGY_CHARGE_M_BERRY = {
-                        1: 880, 2: 1252, 3: 1782, 4: 2396, 5: 3311, 6: 4576, 7: 6409, 8: 6409
+                    // エナジーチャージMの効果量（Lv7まで）
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
                     };
-                    const baseEnergy = ENERGY_CHARGE_M_BERRY[skillLevel] || 6409;
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
                     energyPerSkill = baseEnergy * multiplierValue;
                     
                     console.log('[yumeKakeraGetS 倍率モード] 計算:', {
@@ -12551,6 +13137,93 @@
                     console.log('[metronome 直接入力モード] 計算:', {
                         energyPerSkill: Math.round(energyPerSkill)
                     });
+                }
+            } else if (mainSkill === 'stockpile') {
+                // たくわえる（マルコフチェーン解析計算）
+                console.log('[stockpile] 計算開始:', {
+                    pokemonType: pokemonType,
+                    skillLevel: skillLevel
+                });
+                
+                // たくわえる回数ごとのエナジーテーブル [Lv1〜7][たくわえる回数0〜10]
+                const STOCKPILE_ENERGY = {
+                    1: [600, 1020, 1500, 2040, 2640, 3300, 4020, 4920, 6480, 8880, 12120],
+                    2: [853, 1450, 2132, 2900, 3753, 4691, 5715, 6995, 9213, 12625, 17231],
+                    3: [1177, 2001, 2943, 4002, 5179, 6474, 7886, 9652, 12712, 17420, 23776],
+                    4: [1625, 2763, 4063, 5526, 7151, 8939, 10889, 13327, 17552, 24052, 32827],
+                    5: [2243, 3813, 5607, 7626, 9869, 12336, 15028, 18393, 24225, 33197, 45309],
+                    6: [3099, 5268, 7747, 10536, 13635, 17044, 20763, 25412, 33469, 45865, 62600],
+                    7: [4502, 7653, 11255, 15307, 19809, 24761, 30163, 36916, 48621, 66629, 90940]
+                };
+                
+                const energyTable = STOCKPILE_ENERGY[skillLevel] || STOCKPILE_ENERGY[7];
+                
+                // マルコフチェーン計算
+                const P_BAKIDASU = 0.265;  // はきだす確率
+                const P_TAKUWAE = 0.735;   // たくわえる確率
+                
+                // 期待発動回数（分母、定数）
+                let expectedActivations = 0;
+                for (let k = 0; k < 10; k++) {
+                    expectedActivations += (k + 1) * Math.pow(P_TAKUWAE, k) * P_BAKIDASU;
+                }
+                expectedActivations += 11 * Math.pow(P_TAKUWAE, 10);  // k=10の強制はきだす
+                
+                // 期待エナジー（分子）
+                let expectedEnergy = 0;
+                for (let k = 0; k < 10; k++) {
+                    expectedEnergy += energyTable[k] * Math.pow(P_TAKUWAE, k) * P_BAKIDASU;
+                }
+                expectedEnergy += energyTable[10] * Math.pow(P_TAKUWAE, 10);  // k=10の強制はきだす
+                
+                energyPerSkill = expectedEnergy / expectedActivations;
+                
+                console.log('[stockpile マルコフチェーン計算] 結果:', {
+                    skillLevel: skillLevel,
+                    expectedActivations: expectedActivations.toFixed(4),
+                    expectedEnergy: Math.round(expectedEnergy),
+                    energyPerSkill: Math.round(energyPerSkill)
+                });
+            } else if (mainSkill === 'nightmare') {
+                // ナイトメア（固有の効果量）
+                console.log('[nightmare] 計算開始:', {
+                    pokemonType: pokemonType,
+                    skillLevel: skillLevel
+                });
+                
+                const nightmareMode = document.querySelector(`input[name="${pokemonType}NightmareMode"]:checked`)?.value || 'multiplier';
+                
+                console.log('[nightmare] モード:', nightmareMode);
+                
+                if (nightmareMode === 'multiplier') {
+                    const multiplierValue = parseFloat(document.getElementById(`${pokemonType}NightmareMultiplierValue`)?.value) || 1.0;
+                    // エナジーチャージMの効果量を基準に倍率計算
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                    };
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
+                    energyPerSkill = baseEnergy * multiplierValue;
+                    
+                    console.log('[nightmare 倍率モード] 計算:', {
+                        skillLevel: skillLevel,
+                        baseEnergy: baseEnergy,
+                        multiplierValue: multiplierValue,
+                        energyPerSkill: Math.round(energyPerSkill)
+                    });
+                } else if (nightmareMode === 'direct') {
+                    energyPerSkill = parseFloat(document.getElementById(`${pokemonType}NightmareDirectValue`)?.value) || 0;
+                    
+                    console.log('[nightmare 直接入力モード] 計算:', {
+                        energyPerSkill: Math.round(energyPerSkill)
+                    });
+                } else if (nightmareMode === 'ignore') {
+                    // げんき減少を度外視（ナイトメア固有の効果量を使用）
+                    const NIGHTMARE_ENERGY = {
+                        1: 2640, 2: 3753, 3: 5178, 4: 7149, 5: 9870, 6: 13638, 7: 17304
+                    };
+                    energyPerSkill = NIGHTMARE_ENERGY[skillLevel] || 17304;
+                    
+                    console.log('[nightmare げんき減少度外視モード] スキルエナジー = ナイトメア効果量 Lv' + skillLevel);
                 }
             }
             
@@ -12701,11 +13374,11 @@
                     skillEffectFormula = `おてつだいブースト (自分基準) Lv${skillLevel}${typeBonus}: 5匹×${boostCountPerPokemon}回=${totalBoostCount}回分 → きのみ${Math.round(berryEnergyPerHelp)} × ${berryHelpCount.toFixed(2)}回 + 食材${Math.round(foodEnergyPerHelp)} × ${foodHelpCount.toFixed(2)}回 = ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'multiplier') {
                     const multiplier = parseFloat(document.getElementById(`${pokemonType}OtetsudaiBoostMultiplierValue`)?.value) || 1.0;
-                    // スキルとくい用のエナジーチャージM（Lv6まで）
+                    // エナジーチャージMの効果量（Lv6まで）
                     const ENERGY_CHARGE_M = {
-                        1: 626, 2: 890, 3: 1266, 4: 1701, 5: 2351, 6: 3248
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546
                     };
-                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 3248;
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
                     const typeBonus = sameTypeCount > 0 ? ` (同タイプ${sameTypeCount}種類)` : '';
                     skillEffectFormula = `おてつだいブースト (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}${typeBonus}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'direct') {
@@ -12718,11 +13391,11 @@
                 
                 if (mode === 'multiplier') {
                     const multiplier = parseFloat(document.getElementById(`${pokemonType}YumeKakeraMultiplierValue`)?.value) || 1.0;
-                    // きのみとくい用のエナジーチャージM（Lv8まで）
-                    const ENERGY_CHARGE_M_BERRY = {
-                        1: 880, 2: 1252, 3: 1782, 4: 2396, 5: 3311, 6: 4576, 7: 6409, 8: 6409
+                    // エナジーチャージMの効果量（Lv7まで）
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
                     };
-                    const baseEnergy = ENERGY_CHARGE_M_BERRY[skillLevel] || 6409;
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
                     skillEffectFormula = `ゆめのかけらゲットS (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'direct') {
                     skillEffectFormula = `ゆめのかけらゲットS (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
@@ -12775,6 +13448,57 @@
                     skillEffectFormula = `ゆびをふる (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'direct') {
                     skillEffectFormula = `ゆびをふる (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
+                }
+            } else if (mainSkill === 'stockpile') {
+                // たくわえるの計算式表示
+                const STOCKPILE_ENERGY = {
+                    1: [600, 1020, 1500, 2040, 2640, 3300, 4020, 4920, 6480, 8880, 12120],
+                    2: [853, 1450, 2132, 2900, 3753, 4691, 5715, 6995, 9213, 12625, 17231],
+                    3: [1177, 2001, 2943, 4002, 5179, 6474, 7886, 9652, 12712, 17420, 23776],
+                    4: [1625, 2763, 4063, 5526, 7151, 8939, 10889, 13327, 17552, 24052, 32827],
+                    5: [2243, 3813, 5607, 7626, 9869, 12336, 15028, 18393, 24225, 33197, 45309],
+                    6: [3099, 5268, 7747, 10536, 13635, 17044, 20763, 25412, 33469, 45865, 62600],
+                    7: [4502, 7653, 11255, 15307, 19809, 24761, 30163, 36916, 48621, 66629, 90940]
+                };
+                
+                const energyTable = STOCKPILE_ENERGY[skillLevel] || STOCKPILE_ENERGY[7];
+                const P_BAKIDASU = 0.265;
+                const P_TAKUWAE = 0.735;
+                
+                // 期待発動回数
+                let expectedActivations = 0;
+                for (let k = 0; k < 10; k++) {
+                    expectedActivations += (k + 1) * Math.pow(P_TAKUWAE, k) * P_BAKIDASU;
+                }
+                expectedActivations += 11 * Math.pow(P_TAKUWAE, 10);
+                
+                // 期待エナジー
+                let expectedEnergy = 0;
+                for (let k = 0; k < 10; k++) {
+                    expectedEnergy += energyTable[k] * Math.pow(P_TAKUWAE, k) * P_BAKIDASU;
+                }
+                expectedEnergy += energyTable[10] * Math.pow(P_TAKUWAE, 10);
+                
+                skillEffectFormula = `たくわえる (マルコフ解析) Lv${skillLevel}: 期待エナジー ${Math.round(expectedEnergy).toLocaleString()} ÷ 期待発動回数 ${expectedActivations.toFixed(2)} = ${energyPerSkill.toLocaleString()}/発動`;
+            } else if (mainSkill === 'nightmare') {
+                // ナイトメアの計算式表示
+                const mode = document.querySelector(`input[name="${pokemonType}NightmareMode"]:checked`)?.value || 'multiplier';
+                
+                if (mode === 'multiplier') {
+                    const multiplier = parseFloat(document.getElementById(`${pokemonType}NightmareMultiplierValue`)?.value) || 1.0;
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                    };
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
+                    skillEffectFormula = `ナイトメア (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
+                } else if (mode === 'direct') {
+                    skillEffectFormula = `ナイトメア (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
+                } else if (mode === 'ignore') {
+                    const NIGHTMARE_ENERGY = {
+                        1: 2640, 2: 3753, 3: 5178, 4: 7149, 5: 9870, 6: 13638, 7: 17304
+                    };
+                    const baseEnergy = NIGHTMARE_ENERGY[skillLevel] || 17304;
+                    skillEffectFormula = `ナイトメア (げんき減少度外視) Lv${skillLevel}: ${baseEnergy.toLocaleString()}`;
                 }
             } else if (mainSkill === 'cookingPower_S') {
                 // 料理パワーアップSの計算式表示
@@ -13037,7 +13761,11 @@
                     'foodGet_S': '食材ゲットS',
                     'cookingPower_S': '料理パワーアップS',
                     'berryBurst': 'きのみバースト',
-                    'bakenokawa': 'ばけのかわ'
+                    'bakenokawa': 'ばけのかわ',
+                    'stockpile': 'たくわえる',
+                    'metronome': 'ゆびをふる',
+                    'energyYell_S': 'げんきエールS',
+                    'nightmare': 'ナイトメア'
                 };
                 const mainSkill = pokemon.mainSkill || '';
                 const skillName = skillNames[mainSkill] || 'スキル';
@@ -13050,6 +13778,38 @@
                 skillEffectFormulaElem.innerHTML = skillEffectFormula;
             } else if (skillEffectToggleBtn) {
                 skillEffectToggleBtn.style.display = 'none';
+            }
+            
+            // たくわえるスキルの場合、詳細に説明文を表示
+            const skillEffectExplanationElem = document.getElementById('replacementSkillEffectExplanation');
+            if (skillEffectExplanationElem) {
+                const mainSkill = pokemon.mainSkill || '';
+                if (mainSkill === 'stockpile') {
+                    skillEffectExplanationElem.innerHTML = `
+                        <strong>📝 たくわえるスキルの特徴：</strong><br>
+                        • 普通のスキルと違って2段階に分かれています<br>
+                        • <strong>「たくわえる」</strong>：スキル発動してもエナジーは0。カウンターが+1されるだけ<br>
+                        • <strong>「はきだす」</strong>：たくわえた回数×決まった値のエナジーをまとめて獲得<br>
+                        <br>
+                        <strong>🎲 ランダム性があります：</strong><br>
+                        • スキルが発動したとき、「はきだす(26.5%)」か「たくわえる(73.5%)」のどちらかが抽選されます<br>
+                        • ただし10回たくわえたら、次は必ず「はきだす」になります<br>
+                        • 例：たくわえる2回→はきだす（合計3回発動で1セット完了）<br>
+                        <br>
+                        <strong>💡 このツールの計算方法：</strong><br>
+                        • 「何回たくわえてからはきだすか」は毎回ランダムですが、確率がわかっているので<strong>平均</strong>を計算できます<br>
+                        • 1セット（たくわえる連続→はきだす1回）の平均発動回数：<strong>約3.65回</strong><br>
+                        • 1セットの平均獲得エナジー：スキルレベルによって変わります<br>
+                        • → <strong>発動1回あたりの平均エナジー</strong> = 平均獲得エナジー ÷ 平均発動回数<br>
+                        <br>
+                        <strong>📊 結果の見方：</strong><br>
+                        • 上に表示されている「スキル1回あたりの効果量」は、長期的な平均値です<br>
+                        • 実際のゲームでは運によって上下しますが、平均するとこの値に近づきます<br>
+                    `;
+                    skillEffectExplanationElem.style.display = 'block';
+                } else {
+                    skillEffectExplanationElem.style.display = 'none';
+                }
             }
             
             // 1日エナジー（内訳表示）
@@ -13759,6 +14519,16 @@
                     'ふといながねぎ': 12,
                     'あじわいキノコ': 5
                 }
+            },
+            honeychocowaffel: {
+                name: 'みつあつめチョコワッフル',
+                bonus: 1.78,
+                ingredients: {
+                    'あまいミツ': 38,
+                    'ワカクサコーン': 28,
+                    'ピュアなオイル': 28,
+                    'リラックスカカオ': 21
+                }
             }
         };
 
@@ -13778,7 +14548,7 @@
             'ふといながねぎ': 185, 'あじわいキノコ': 167, 'とくせんエッグ': 115, 'ほっこりポテト': 124,
             'とくせんリンゴ': 90, 'げきからハーブ': 130, 'マメミート': 103, 'モーモーミルク': 98,
             'あまいミツ': 101, 'ピュアなオイル': 121, 'あったかジンジャー': 109, 'あんみんトマト': 110,
-            'リラックスカカオ': 151, 'おいしいシッポ': 342, 'ワカクサ大豆': 100, 'ワカクサコーン': 140,
+            'リラックスカカオ': 151, 'ネムリコーヒー': 151, 'おいしいシッポ': 342, 'ワカクサ大豆': 100, 'ワカクサコーン': 140,
             'コーヒー': 153, 'カボチャ': 250, 'アボカド': 162
         };
 
