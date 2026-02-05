@@ -15561,6 +15561,16 @@
             
             // 食材エナジーモード
             const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
+            
+            // レシピが必要なモードでレシピ未選択の場合はエラー（計算の最初にチェック）
+            const recipeSelectValue = document.getElementById('recipeSelect').value;
+            if ((foodEnergyMode === 'surplus' || foodEnergyMode === 'recipe' || foodEnergyMode === 'hybrid') && !recipeSelectValue) {
+                alert('レシピを選択してください');
+                document.getElementById('errorContent').innerHTML = 'レシピを選択してから計算してください';
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('resultsSection').style.display = 'none';
+                return;
+            }
 
             // スキルレベル計算（基本値 + イベント補正 + メインきのみ補正、上限6）
             const skillLevel = Math.min(baseSkillLevel + eventSkillLevel + mainBerrySkillBonus, 6);
@@ -15997,6 +16007,16 @@
             // 5. スキル0-N回それぞれの複合期待値計算
             const skillEffectPercent = SKILL_EFFECTS[skillLevel] * 100;
             const maxActivations = Math.ceil(70 / skillEffectPercent);
+            
+            // レシピが必要なモードでレシピ未選択の場合はエラー（ループ前にチェック）
+            const recipeSelect = document.getElementById('recipeSelect').value;
+            if ((foodEnergyMode === 'surplus' || foodEnergyMode === 'recipe' || foodEnergyMode === 'hybrid') && !recipeSelect) {
+                alert('レシピを選択してください');
+                document.getElementById('errorContent').innerHTML = 'レシピを選択してから計算してください';
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('resultsSection').style.display = 'none';
+                return;
+            }
             
             // 期間内の実際の料理回数を計算（料理チャンスS詳細計算から取得 or 簡易計算）
             let mealsInPeriod = 3; // デフォルト（24時間=3回）
