@@ -499,6 +499,76 @@
                 right: -100%;
             }
         }
+
+        /* ポケモンボックス - モーダル用CSS */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pokemon-list-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pokemon-list-item:hover {
+            background: #e3f2fd;
+            border-color: #2196F3;
+        }
+
+        .pokemon-list-item-header {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .pokemon-list-item-details {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .pokemon-list-empty {
+            padding: 30px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -1251,6 +1321,16 @@
                     <option value="8">2,000時間（+8）</option>
                 </select>
             </div>
+            
+            <!-- ポケモンボックス操作ボタン -->
+            <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: center;">
+                <button type="button" id="saveCookingPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    💾 ボックスに保存
+                </button>
+                <button type="button" id="loadCookingPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    📂 ボックスから呼び出し
+                </button>
+            </div>
         </div>
 
         <div class="section" id="replacementSettings">
@@ -1382,6 +1462,16 @@
                     <input type="number" id="cookingPowerDirectValue" min="0" step="100" value="5000">
                     <small style="color: #666; margin-top: 5px; display: block;">※スキルレベルに関係なく固定値</small>
                 </div>
+            </div>
+            
+            <!-- ポケモンボックス操作ボタン -->
+            <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: center;">
+                <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    💾 ボックスに保存
+                </button>
+                <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    📂 ボックスから呼び出し
+                </button>
             </div>
             
             <!-- ライチュウ設定モード -->
@@ -10749,6 +10839,113 @@
                     </thead>
                     <tbody id="resultsTable"></tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ポケモンボックス - 保存モーダル -->
+    <div id="savePokemonModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 500px;">
+            <h2 style="margin-bottom: 20px; color: #333;">💾 ポケモンをボックスに保存</h2>
+            
+            <div class="input-group">
+                <label class="input-label" for="pokemonNickname">ニックネーム</label>
+                <input type="text" id="pokemonNickname" maxlength="30" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                <small style="color: #666; margin-top: 5px; display: block;">※未入力の場合はポケモンの種族名で保存されます</small>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e0e0e0;">
+                <div style="font-weight: bold; margin-bottom: 10px; color: #555;">保存内容の確認：</div>
+                <div id="savePreview" style="color: #666; font-size: 14px; line-height: 1.6;"></div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
+                <button type="button" id="cancelSaveBtn" style="padding: 10px 20px; background: #888; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                    キャンセル
+                </button>
+                <button type="button" id="confirmSaveBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                    保存する
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ポケモンボックス - 読み込みモーダル -->
+    <div id="loadPokemonModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 700px;">
+            <h2 style="margin-bottom: 20px; color: #333;">📂 ボックスからポケモンを呼び出し</h2>
+            
+            <div class="input-group">
+                <input type="text" id="pokemonSearchBox" placeholder="ニックネームやポケモン名で検索..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <h3 style="font-size: 16px; color: #555; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid #667eea;">料理チャンスポケモン</h3>
+                <div id="cookingPokemonList" style="max-height: 300px; overflow-y: auto;"></div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <h3 style="font-size: 16px; color: #555; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid #FF9800;">入替候補ポケモン</h3>
+                <div id="replacementPokemonList" style="max-height: 300px; overflow-y: auto;"></div>
+            </div>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+                <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" id="exportPokemonBoxBtn" style="padding: 10px 20px; background: #FF9800; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                            💾 エクスポート
+                        </button>
+                        <button type="button" id="importPokemonBoxBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                            📥 インポート
+                        </button>
+                        <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                    </div>
+                    <button type="button" id="closeLoadModalBtn" style="padding: 10px 20px; background: #888; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                        閉じる
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ポケモンボックス - 編集モーダル -->
+    <div id="editPokemonModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 500px;">
+            <h2 style="margin-bottom: 20px; color: #333;">✏️ ニックネームを編集</h2>
+            
+            <div class="input-group">
+                <label class="input-label" for="editPokemonNickname">ニックネーム</label>
+                <input type="text" id="editPokemonNickname" maxlength="30" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
+                <button type="button" id="cancelEditBtn" style="padding: 10px 20px; background: #888; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                    キャンセル
+                </button>
+                <button type="button" id="confirmEditBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                    保存
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ポケモンボックス - 削除確認ダイアログ -->
+    <div id="deletePokemonModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 400px;">
+            <h2 style="margin-bottom: 20px; color: #d32f2f;">⚠️ 確認</h2>
+            
+            <div style="margin-bottom: 20px; color: #555; font-size: 14px; line-height: 1.6;">
+                <span id="deleteConfirmText"></span>を削除しますか？<br>
+                この操作は取り消せません。
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
+                <button type="button" id="cancelDeleteBtn" style="padding: 10px 20px; background: #888; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                    キャンセル
+                </button>
+                <button type="button" id="confirmDeleteBtn" style="padding: 10px 20px; background: #d32f2f; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                    削除する
+                </button>
             </div>
         </div>
     </div>
@@ -20318,6 +20515,1485 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         if (defaultMode === 'surplus' || defaultMode === 'recipe' || defaultMode === 'hybrid') {
             potCapacitySettings.classList.add('active');
         }
+
+        // ===================================================================
+        // ポケモンボックス機能
+        // ===================================================================
+
+        // UUID生成関数
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // localStorageからデータ取得
+        function getPokemonBoxData() {
+            try {
+                const dataStr = localStorage.getItem('pokemonBoxData_v1');
+                if (!dataStr) {
+                    return { cookingChancePokemon: [], replacementPokemon: [] };
+                }
+                return JSON.parse(dataStr);
+            } catch (e) {
+                console.error('ポケモンボックスデータの読み込みに失敗しました:', e);
+                return { cookingChancePokemon: [], replacementPokemon: [] };
+            }
+        }
+
+        // localStorageにデータ保存
+        function savePokemonBoxData(data) {
+            try {
+                localStorage.setItem('pokemonBoxData_v1', JSON.stringify(data));
+                return true;
+            } catch (e) {
+                console.error('ポケモンボックスデータの保存に失敗しました:', e);
+                alert('⚠️ エラー\nポケモンボックスのデータを保存できませんでした。\nブラウザの設定を確認してください。');
+                return false;
+            }
+        }
+
+        // 料理チャンスポケモンの現在の設定を取得
+        function getCurrentCookingPokemonSettings() {
+            const pokemonId = document.querySelector('input[name="pokemon"]:checked')?.value || 'swampert';
+            const level = parseInt(document.getElementById('level').value) || 60;
+            const foodLv30 = document.querySelector('input[name="foodLv30"]:checked')?.value || 'A';
+            const foodLv60 = document.querySelector('input[name="foodLv60"]:checked')?.value || 'A';
+            const skillLevel = parseInt(document.getElementById('skillLevel').value) || 6;
+            
+            const subskills = {
+                speedM: document.getElementById('speedM').checked,
+                speedS: document.getElementById('speedS').checked,
+                skillM: document.getElementById('skillM').checked,
+                skillS: document.getElementById('skillS').checked,
+                foodM: document.getElementById('foodM').checked,
+                foodS: document.getElementById('foodS').checked,
+                berryS: document.getElementById('berryS').checked,
+                capacityL: document.getElementById('capacityL').checked,
+                capacityM: document.getElementById('capacityM').checked,
+                capacityS: document.getElementById('capacityS').checked
+            };
+            
+            const otebonus = parseInt(document.getElementById('otebonus').value) || 0;
+            
+            const nature = {
+                speed: parseFloat(document.querySelector('input[name="speedNature"]:checked')?.value || '1.0'),
+                skill: parseFloat(document.querySelector('input[name="skillNature"]:checked')?.value || '1.0'),
+                food: parseFloat(document.querySelector('input[name="foodNature"]:checked')?.value || '1.0')
+            };
+            
+            const sleepRibbon = parseInt(document.getElementById('sleepRibbon').value) || 0;
+            
+            return {
+                pokemonId,
+                level,
+                foodSlotLv30: foodLv30,
+                foodSlotLv60: foodLv60,
+                skillLevel,
+                subskills,
+                otebonus,
+                nature,
+                sleepRibbon
+            };
+        }
+
+        // 料理チャンスポケモンの設定を反映
+        function loadCookingPokemonSettings(data) {
+            // ポケモン選択
+            const pokemonRadio = document.querySelector(`input[name="pokemon"][value="${data.pokemonId}"]`);
+            if (pokemonRadio) {
+                pokemonRadio.checked = true;
+                // onchangeイベントを発火して食材スロットのラベル更新
+                pokemonRadio.dispatchEvent(new Event('change'));
+            }
+            
+            // レベル
+            document.getElementById('level').value = data.level;
+            
+            // 食材スロット
+            const foodLv30Radio = document.querySelector(`input[name="foodLv30"][value="${data.foodSlotLv30}"]`);
+            if (foodLv30Radio) foodLv30Radio.checked = true;
+            
+            const foodLv60Radio = document.querySelector(`input[name="foodLv60"][value="${data.foodSlotLv60}"]`);
+            if (foodLv60Radio) foodLv60Radio.checked = true;
+            
+            // スキルレベル
+            document.getElementById('skillLevel').value = data.skillLevel;
+            
+            // サブスキル
+            document.getElementById('speedM').checked = data.subskills.speedM;
+            document.getElementById('speedS').checked = data.subskills.speedS;
+            document.getElementById('skillM').checked = data.subskills.skillM;
+            document.getElementById('skillS').checked = data.subskills.skillS;
+            document.getElementById('foodM').checked = data.subskills.foodM;
+            document.getElementById('foodS').checked = data.subskills.foodS;
+            document.getElementById('berryS').checked = data.subskills.berryS;
+            document.getElementById('capacityL').checked = data.subskills.capacityL;
+            document.getElementById('capacityM').checked = data.subskills.capacityM;
+            document.getElementById('capacityS').checked = data.subskills.capacityS;
+            
+            // おてつだいボーナス
+            document.getElementById('otebonus').value = data.otebonus;
+            
+            // 性格
+            const speedNatureRadio = document.querySelector(`input[name="speedNature"][value="${data.nature.speed}"]`);
+            if (speedNatureRadio) speedNatureRadio.checked = true;
+            
+            const skillNatureRadio = document.querySelector(`input[name="skillNature"][value="${data.nature.skill}"]`);
+            if (skillNatureRadio) skillNatureRadio.checked = true;
+            
+            const foodNatureRadio = document.querySelector(`input[name="foodNature"][value="${data.nature.food}"]`);
+            if (foodNatureRadio) foodNatureRadio.checked = true;
+            
+            // おやすみリボン
+            document.getElementById('sleepRibbon').value = data.sleepRibbon;
+            
+            // 食材スロットのラベルを更新
+            updateMainPokemonFoodSlotLabels();
+        }
+
+        // 入替候補ポケモンの現在の設定を取得
+        function getCurrentReplacementPokemonSettings() {
+            const pokemonId = document.getElementById('replacementPokemonValue').value;
+            
+            // 手動入力モードの場合は保存しない
+            if (pokemonId === 'none') {
+                return null;
+            }
+            
+            // 各ポケモンの設定モードが表示されていない場合は保存しない
+            const modeElement = document.getElementById(`replacementPokemonMode_${pokemonId}`);
+            if (!modeElement || modeElement.style.display === 'none') {
+                return null;
+            }
+            
+            // 各項目のIDは「pokemonId + 項目名」のパターン
+            const level = parseInt(document.getElementById(`${pokemonId}Level`)?.value || 60);
+            const foodLv30 = document.querySelector(`input[name="${pokemonId}FoodLv30"]:checked`)?.value || 'A';
+            const foodLv60 = document.querySelector(`input[name="${pokemonId}FoodLv60"]:checked`)?.value || 'A';
+            
+            // スキルレベルの取得（ポケモンによって異なる可能性があるため安全に取得）
+            let skillLevel = 6;
+            const skillLevelElement = document.getElementById(`${pokemonId}SkillLevel`);
+            if (skillLevelElement) {
+                skillLevel = parseInt(skillLevelElement.value);
+            }
+            
+            // サブスキル
+            const subskills = {
+                speedM: document.getElementById(`${pokemonId}SpeedM`)?.checked || false,
+                speedS: document.getElementById(`${pokemonId}SpeedS`)?.checked || false,
+                skillM: document.getElementById(`${pokemonId}SkillM`)?.checked || false,
+                skillS: document.getElementById(`${pokemonId}SkillS`)?.checked || false,
+                foodM: document.getElementById(`${pokemonId}FoodM`)?.checked || false,
+                foodS: document.getElementById(`${pokemonId}FoodS`)?.checked || false,
+                berryS: document.getElementById(`${pokemonId}BerryS`)?.checked || false,
+                capacityL: document.getElementById(`${pokemonId}CapacityL`)?.checked || false,
+                capacityM: document.getElementById(`${pokemonId}CapacityM`)?.checked || false,
+                capacityS: document.getElementById(`${pokemonId}CapacityS`)?.checked || false
+            };
+            
+            // おてつだいボーナス
+            const otebonus = parseInt(document.getElementById(`${pokemonId}Otebonus`)?.value || 0);
+            
+            // 性格
+            const nature = {
+                speed: parseFloat(document.querySelector(`input[name="${pokemonId}SpeedNature"]:checked`)?.value || '1.0'),
+                skill: parseFloat(document.querySelector(`input[name="${pokemonId}SkillNature"]:checked`)?.value || '1.0'),
+                food: parseFloat(document.querySelector(`input[name="${pokemonId}FoodNature"]:checked`)?.value || '1.0')
+            };
+            
+            // おやすみリボン
+            const sleepRibbon = parseInt(document.getElementById(`${pokemonId}SleepRibbon`)?.value || 0);
+            
+            return {
+                pokemonId,
+                level,
+                foodSlotLv30: foodLv30,
+                foodSlotLv60: foodLv60,
+                skillLevel,
+                subskills,
+                otebonus,
+                nature,
+                sleepRibbon
+            };
+        }
+
+        // 入替候補ポケモンの設定を反映
+        function loadReplacementPokemonSettings(data) {
+            // ポケモン選択（ドロップダウン操作）
+            document.getElementById('replacementPokemonValue').value = data.pokemonId;
+            document.getElementById('replacementPokemonSearch').value = getReplacementPokemonDisplayName(data.pokemonId);
+            
+            // ポケモンモードを表示（既存のロジックをトリガー）
+            const modeElement = document.getElementById(`replacementPokemonMode_${data.pokemonId}`);
+            if (modeElement) {
+                // 全てのポケモンモードを非表示
+                document.querySelectorAll('[id^="replacementPokemonMode_"]').forEach(el => {
+                    el.style.display = 'none';
+                });
+                
+                // 該当ポケモンのモードを表示
+                modeElement.style.display = 'block';
+                
+                // 設定値を反映
+                const pokemonId = data.pokemonId;
+                
+                // レベル
+                const levelElement = document.getElementById(`${pokemonId}Level`);
+                if (levelElement) levelElement.value = data.level;
+                
+                // 食材スロット
+                const foodLv30Radio = document.querySelector(`input[name="${pokemonId}FoodLv30"][value="${data.foodSlotLv30}"]`);
+                if (foodLv30Radio) foodLv30Radio.checked = true;
+                
+                const foodLv60Radio = document.querySelector(`input[name="${pokemonId}FoodLv60"][value="${data.foodSlotLv60}"]`);
+                if (foodLv60Radio) foodLv60Radio.checked = true;
+                
+                // スキルレベル
+                const skillLevelElement = document.getElementById(`${pokemonId}SkillLevel`);
+                if (skillLevelElement) skillLevelElement.value = data.skillLevel;
+                
+                // サブスキル
+                const speedMElement = document.getElementById(`${pokemonId}SpeedM`);
+                if (speedMElement) speedMElement.checked = data.subskills.speedM;
+                
+                const speedSElement = document.getElementById(`${pokemonId}SpeedS`);
+                if (speedSElement) speedSElement.checked = data.subskills.speedS;
+                
+                const skillMElement = document.getElementById(`${pokemonId}SkillM`);
+                if (skillMElement) skillMElement.checked = data.subskills.skillM;
+                
+                const skillSElement = document.getElementById(`${pokemonId}SkillS`);
+                if (skillSElement) skillSElement.checked = data.subskills.skillS;
+                
+                const foodMElement = document.getElementById(`${pokemonId}FoodM`);
+                if (foodMElement) foodMElement.checked = data.subskills.foodM;
+                
+                const foodSElement = document.getElementById(`${pokemonId}FoodS`);
+                if (foodSElement) foodSElement.checked = data.subskills.foodS;
+                
+                const berrySElement = document.getElementById(`${pokemonId}BerryS`);
+                if (berrySElement) berrySElement.checked = data.subskills.berryS;
+                
+                const capacityLElement = document.getElementById(`${pokemonId}CapacityL`);
+                if (capacityLElement) capacityLElement.checked = data.subskills.capacityL;
+                
+                const capacityMElement = document.getElementById(`${pokemonId}CapacityM`);
+                if (capacityMElement) capacityMElement.checked = data.subskills.capacityM;
+                
+                const capacitySElement = document.getElementById(`${pokemonId}CapacityS`);
+                if (capacitySElement) capacitySElement.checked = data.subskills.capacityS;
+                
+                // おてつだいボーナス
+                const otebonusElement = document.getElementById(`${pokemonId}Otebonus`);
+                if (otebonusElement) otebonusElement.value = data.otebonus;
+                
+                // 性格
+                const speedNatureRadio = document.querySelector(`input[name="${pokemonId}SpeedNature"][value="${data.nature.speed}"]`);
+                if (speedNatureRadio) speedNatureRadio.checked = true;
+                
+                const skillNatureRadio = document.querySelector(`input[name="${pokemonId}SkillNature"][value="${data.nature.skill}"]`);
+                if (skillNatureRadio) skillNatureRadio.checked = true;
+                
+                const foodNatureRadio = document.querySelector(`input[name="${pokemonId}FoodNature"][value="${data.nature.food}"]`);
+                if (foodNatureRadio) foodNatureRadio.checked = true;
+                
+                // おやすみリボン
+                const sleepRibbonElement = document.getElementById(`${pokemonId}SleepRibbon`);
+                if (sleepRibbonElement) sleepRibbonElement.value = data.sleepRibbon;
+                
+                // 食材スロットのラベルを更新
+                updateFoodSlotLabels(pokemonId);
+            }
+        }
+
+        // ポケモン名の表示用変換
+        function getPokemonDisplayName(pokemonId) {
+            const names = {
+                'swampert': 'ラグラージ',
+                'weavile': 'マニューラ',
+                'dedenne': 'デデンネ',
+                'spheal_holiday': 'タマザラシ(ホリデーリース)'
+            };
+            return names[pokemonId] || pokemonId;
+        }
+
+        // 入替候補ポケモンの表示名を取得
+        function getReplacementPokemonDisplayName(pokemonId) {
+            const names = {
+                'butterfree': 'バタフリー',
+                'ratta': 'ラッタ',
+                'arbok': 'アーボック',
+                'raichu': 'ライチュウ',
+                'pixie': 'ピクシー',
+                'kyukon': 'キュウコン',
+                'vulpix_alola': 'キュウコン（アローラ）',
+                'golduck': 'ゴルダック',
+                'primeape': 'オコリザル',
+                'arcanine': 'ウインディ',
+                'dodrio': 'ドードリオ',
+                'onix': 'イワーク',
+                'marowak': 'ガラガラ',
+                'jolteon': 'サンダース',
+                'meganium': 'メガニウム',
+                'typhlosion': 'バクフーン',
+                'feraligatr': 'オーダイル',
+                'xatu': 'ネイティオ',
+                'ampharos': 'デンリュウ',
+                'sudowoodo': 'ウソッキー',
+                'espeon': 'エーフィ',
+                'steelix': 'ハガネール',
+                'houndoom': 'ヘルガー',
+                'raikou': 'ライコウ',
+                'entei': 'エンテイ',
+                'suicune': 'スイクン',
+                'sceptile': 'ジュカイン',
+                'blaziken': 'バシャーモ',
+                'vigoroth': 'ヤルキモノ',
+                'slaking': 'ケッキング',
+                'altaria': 'チルタリス',
+                'gengar': 'ジュペッタ',
+                'walrein': 'トドゼルガ',
+                'salamence': 'ボーマンダ',
+                'fuwaride': 'フワライド',
+                'gallade': 'エルレイド',
+                'cresselia': 'クレセリア',
+                'darkrai': 'ダークライ',
+                'musharna': 'ムシャーナ',
+                'braviary': 'ウォーグル',
+                'mimikyu': 'ミミッキュ'
+            };
+            return names[pokemonId] || pokemonId;
+        }
+
+        // 日時をフォーマット（ISO → YYYY-MM-DD HH:mm）
+        function formatDateTime(isoString) {
+            if (!isoString) return '';
+            const date = new Date(isoString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day} ${hours}:${minutes}`;
+        }
+
+        // ===== フォーム設定の自動保存・復元 =====
+        
+        // フォーム設定を保存
+        function saveFormSettings() {
+            const settings = {
+                // 料理チャンスポケモン
+                mainPokemon: document.getElementById('mainPokemon')?.value,
+                mainPokemonLevel: document.getElementById('mainPokemonLevel')?.value,
+                mainPokemonFoodLv30: document.querySelector('input[name="mainPokemonFoodLv30"]:checked')?.value,
+                mainPokemonFoodLv60: document.querySelector('input[name="mainPokemonFoodLv60"]:checked')?.value,
+                mainPokemonSkillLevel: document.getElementById('mainPokemonSkillLevel')?.value,
+                mainPokemonSpeedM: document.getElementById('mainPokemonSpeedM')?.checked,
+                mainPokemonSpeedS: document.getElementById('mainPokemonSpeedS')?.checked,
+                mainPokemonSkillM: document.getElementById('mainPokemonSkillM')?.checked,
+                mainPokemonSkillS: document.getElementById('mainPokemonSkillS')?.checked,
+                mainPokemonFoodM: document.getElementById('mainPokemonFoodM')?.checked,
+                mainPokemonFoodS: document.getElementById('mainPokemonFoodS')?.checked,
+                mainPokemonBerryS: document.getElementById('mainPokemonBerryS')?.checked,
+                mainPokemonCapacityL: document.getElementById('mainPokemonCapacityL')?.checked,
+                mainPokemonCapacityM: document.getElementById('mainPokemonCapacityM')?.checked,
+                mainPokemonCapacityS: document.getElementById('mainPokemonCapacityS')?.checked,
+                mainPokemonOtebonus: document.getElementById('mainPokemonOtebonus')?.value,
+                mainPokemonNatureSpeed: document.querySelector('input[name="mainPokemonNatureSpeed"]:checked')?.value,
+                mainPokemonNatureSkill: document.querySelector('input[name="mainPokemonNatureSkill"]:checked')?.value,
+                mainPokemonNatureFood: document.querySelector('input[name="mainPokemonNatureFood"]:checked')?.value,
+                mainPokemonCT: document.getElementById('mainPokemonCT')?.checked,
+                mainPokemonFavorite: document.getElementById('mainPokemonFavorite')?.checked,
+                mainPokemonSleepRibbon: document.querySelector('input[name="mainPokemonSleepRibbon"]:checked')?.value,
+                
+                // 入替候補ポケモン
+                replacementPokemonType: document.getElementById('replacementPokemonType')?.value,
+                replacementOperationMode: document.querySelector('input[name="replacementOperationMode"]:checked')?.value,
+                
+                // フィールド設定
+                field: document.getElementById('field')?.value,
+                wakaKusaFavoriteBerry: document.getElementById('wakaKusaFavoriteBerry')?.value,
+                
+                // EX補正
+                exSpeedBoost: document.querySelector('input[name="exSpeedBoost"]:checked')?.value,
+                exOtherBoost: document.querySelector('input[name="exOtherBoost"]:checked')?.value,
+                
+                // イベント補正
+                eventSpeedBoost: document.getElementById('eventSpeedBoost')?.value,
+                eventSkillBoost: document.getElementById('eventSkillBoost')?.value,
+                
+                // 料理エナジー
+                cookingEnergy: document.getElementById('cookingEnergy')?.value,
+                
+                savedAt: new Date().toISOString()
+            };
+            
+            // 入替候補ポケモンの設定（選択中のポケモン）
+            const currentReplacement = document.getElementById('replacementPokemonType')?.value;
+            if (currentReplacement && currentReplacement !== 'none') {
+                settings[`${currentReplacement}Level`] = document.getElementById(`${currentReplacement}Level`)?.value;
+                settings[`${currentReplacement}FoodLv30`] = document.querySelector(`input[name="${currentReplacement}FoodLv30"]:checked`)?.value;
+                settings[`${currentReplacement}FoodLv60`] = document.querySelector(`input[name="${currentReplacement}FoodLv60"]:checked`)?.value;
+                settings[`${currentReplacement}SkillLevel`] = document.getElementById(`${currentReplacement}SkillLevel`)?.value;
+                settings[`${currentReplacement}SpeedM`] = document.getElementById(`${currentReplacement}SpeedM`)?.checked;
+                settings[`${currentReplacement}SpeedS`] = document.getElementById(`${currentReplacement}SpeedS`)?.checked;
+                settings[`${currentReplacement}SkillM`] = document.getElementById(`${currentReplacement}SkillM`)?.checked;
+                settings[`${currentReplacement}SkillS`] = document.getElementById(`${currentReplacement}SkillS`)?.checked;
+                settings[`${currentReplacement}FoodM`] = document.getElementById(`${currentReplacement}FoodM`)?.checked;
+                settings[`${currentReplacement}FoodS`] = document.getElementById(`${currentReplacement}FoodS`)?.checked;
+                settings[`${currentReplacement}BerryS`] = document.getElementById(`${currentReplacement}BerryS`)?.checked;
+                settings[`${currentReplacement}CapacityL`] = document.getElementById(`${currentReplacement}CapacityL`)?.checked;
+                settings[`${currentReplacement}CapacityM`] = document.getElementById(`${currentReplacement}CapacityM`)?.checked;
+                settings[`${currentReplacement}CapacityS`] = document.getElementById(`${currentReplacement}CapacityS`)?.checked;
+                settings[`${currentReplacement}Otebonus`] = document.getElementById(`${currentReplacement}Otebonus`)?.value;
+                settings[`${currentReplacement}NatureSpeed`] = document.querySelector(`input[name="${currentReplacement}NatureSpeed"]:checked`)?.value;
+                settings[`${currentReplacement}NatureSkill`] = document.querySelector(`input[name="${currentReplacement}NatureSkill"]:checked`)?.value;
+                settings[`${currentReplacement}NatureFood`] = document.querySelector(`input[name="${currentReplacement}NatureFood"]:checked`)?.value;
+                settings[`${currentReplacement}CT`] = document.getElementById(`${currentReplacement}CT`)?.checked;
+                settings[`${currentReplacement}Favorite`] = document.getElementById(`${currentReplacement}Favorite`)?.checked;
+                settings[`${currentReplacement}SleepRibbon`] = document.querySelector(`input[name="${currentReplacement}SleepRibbon"]:checked`)?.value;
+            }
+            
+            localStorage.setItem('formSettings_v1', JSON.stringify(settings));
+        }
+        
+        // フォーム設定を復元
+        function loadFormSettings() {
+            const savedSettings = localStorage.getItem('formSettings_v1');
+            if (!savedSettings) return;
+            
+            try {
+                const settings = JSON.parse(savedSettings);
+                
+                // 料理チャンスポケモン
+                if (settings.mainPokemon) document.getElementById('mainPokemon').value = settings.mainPokemon;
+                if (settings.mainPokemonLevel) document.getElementById('mainPokemonLevel').value = settings.mainPokemonLevel;
+                if (settings.mainPokemonFoodLv30) {
+                    const radio = document.querySelector(`input[name="mainPokemonFoodLv30"][value="${settings.mainPokemonFoodLv30}"]`);
+                    if (radio) radio.checked = true;
+                }
+                if (settings.mainPokemonFoodLv60) {
+                    const radio = document.querySelector(`input[name="mainPokemonFoodLv60"][value="${settings.mainPokemonFoodLv60}"]`);
+                    if (radio) radio.checked = true;
+                }
+                if (settings.mainPokemonSkillLevel) document.getElementById('mainPokemonSkillLevel').value = settings.mainPokemonSkillLevel;
+                if (settings.mainPokemonSpeedM !== undefined) document.getElementById('mainPokemonSpeedM').checked = settings.mainPokemonSpeedM;
+                if (settings.mainPokemonSpeedS !== undefined) document.getElementById('mainPokemonSpeedS').checked = settings.mainPokemonSpeedS;
+                if (settings.mainPokemonSkillM !== undefined) document.getElementById('mainPokemonSkillM').checked = settings.mainPokemonSkillM;
+                if (settings.mainPokemonSkillS !== undefined) document.getElementById('mainPokemonSkillS').checked = settings.mainPokemonSkillS;
+                if (settings.mainPokemonFoodM !== undefined) document.getElementById('mainPokemonFoodM').checked = settings.mainPokemonFoodM;
+                if (settings.mainPokemonFoodS !== undefined) document.getElementById('mainPokemonFoodS').checked = settings.mainPokemonFoodS;
+                if (settings.mainPokemonBerryS !== undefined) document.getElementById('mainPokemonBerryS').checked = settings.mainPokemonBerryS;
+                if (settings.mainPokemonCapacityL !== undefined) document.getElementById('mainPokemonCapacityL').checked = settings.mainPokemonCapacityL;
+                if (settings.mainPokemonCapacityM !== undefined) document.getElementById('mainPokemonCapacityM').checked = settings.mainPokemonCapacityM;
+                if (settings.mainPokemonCapacityS !== undefined) document.getElementById('mainPokemonCapacityS').checked = settings.mainPokemonCapacityS;
+                if (settings.mainPokemonOtebonus) document.getElementById('mainPokemonOtebonus').value = settings.mainPokemonOtebonus;
+                if (settings.mainPokemonNatureSpeed) {
+                    const radio = document.querySelector(`input[name="mainPokemonNatureSpeed"][value="${settings.mainPokemonNatureSpeed}"]`);
+                    if (radio) radio.checked = true;
+                }
+                if (settings.mainPokemonNatureSkill) {
+                    const radio = document.querySelector(`input[name="mainPokemonNatureSkill"][value="${settings.mainPokemonNatureSkill}"]`);
+                    if (radio) radio.checked = true;
+                }
+                if (settings.mainPokemonNatureFood) {
+                    const radio = document.querySelector(`input[name="mainPokemonNatureFood"][value="${settings.mainPokemonNatureFood}"]`);
+                    if (radio) radio.checked = true;
+                }
+                if (settings.mainPokemonCT !== undefined) document.getElementById('mainPokemonCT').checked = settings.mainPokemonCT;
+                if (settings.mainPokemonFavorite !== undefined) document.getElementById('mainPokemonFavorite').checked = settings.mainPokemonFavorite;
+                if (settings.mainPokemonSleepRibbon) {
+                    const radio = document.querySelector(`input[name="mainPokemonSleepRibbon"][value="${settings.mainPokemonSleepRibbon}"]`);
+                    if (radio) radio.checked = true;
+                }
+                
+                // 入替候補ポケモン
+                if (settings.replacementPokemonType) {
+                    document.getElementById('replacementPokemonType').value = settings.replacementPokemonType;
+                    // ポケモン変更イベントをトリガー
+                    const event = new Event('change');
+                    document.getElementById('replacementPokemonType').dispatchEvent(event);
+                }
+                if (settings.replacementOperationMode) {
+                    const radio = document.querySelector(`input[name="replacementOperationMode"][value="${settings.replacementOperationMode}"]`);
+                    if (radio) radio.checked = true;
+                }
+                
+                // 入替候補ポケモンの詳細設定を復元
+                const currentReplacement = settings.replacementPokemonType;
+                if (currentReplacement && currentReplacement !== 'none') {
+                    setTimeout(() => {
+                        if (settings[`${currentReplacement}Level`]) document.getElementById(`${currentReplacement}Level`).value = settings[`${currentReplacement}Level`];
+                        if (settings[`${currentReplacement}FoodLv30`]) {
+                            const radio = document.querySelector(`input[name="${currentReplacement}FoodLv30"][value="${settings[`${currentReplacement}FoodLv30`]}"]`);
+                            if (radio) radio.checked = true;
+                        }
+                        if (settings[`${currentReplacement}FoodLv60`]) {
+                            const radio = document.querySelector(`input[name="${currentReplacement}FoodLv60"][value="${settings[`${currentReplacement}FoodLv60`]}"]`);
+                            if (radio) radio.checked = true;
+                        }
+                        if (settings[`${currentReplacement}SkillLevel`]) document.getElementById(`${currentReplacement}SkillLevel`).value = settings[`${currentReplacement}SkillLevel`];
+                        if (settings[`${currentReplacement}SpeedM`] !== undefined) document.getElementById(`${currentReplacement}SpeedM`).checked = settings[`${currentReplacement}SpeedM`];
+                        if (settings[`${currentReplacement}SpeedS`] !== undefined) document.getElementById(`${currentReplacement}SpeedS`).checked = settings[`${currentReplacement}SpeedS`];
+                        if (settings[`${currentReplacement}SkillM`] !== undefined) document.getElementById(`${currentReplacement}SkillM`).checked = settings[`${currentReplacement}SkillM`];
+                        if (settings[`${currentReplacement}SkillS`] !== undefined) document.getElementById(`${currentReplacement}SkillS`).checked = settings[`${currentReplacement}SkillS`];
+                        if (settings[`${currentReplacement}FoodM`] !== undefined) document.getElementById(`${currentReplacement}FoodM`).checked = settings[`${currentReplacement}FoodM`];
+                        if (settings[`${currentReplacement}FoodS`] !== undefined) document.getElementById(`${currentReplacement}FoodS`).checked = settings[`${currentReplacement}FoodS`];
+                        if (settings[`${currentReplacement}BerryS`] !== undefined) document.getElementById(`${currentReplacement}BerryS`).checked = settings[`${currentReplacement}BerryS`];
+                        if (settings[`${currentReplacement}CapacityL`] !== undefined) document.getElementById(`${currentReplacement}CapacityL`).checked = settings[`${currentReplacement}CapacityL`];
+                        if (settings[`${currentReplacement}CapacityM`] !== undefined) document.getElementById(`${currentReplacement}CapacityM`).checked = settings[`${currentReplacement}CapacityM`];
+                        if (settings[`${currentReplacement}CapacityS`] !== undefined) document.getElementById(`${currentReplacement}CapacityS`).checked = settings[`${currentReplacement}CapacityS`];
+                        if (settings[`${currentReplacement}Otebonus`]) document.getElementById(`${currentReplacement}Otebonus`).value = settings[`${currentReplacement}Otebonus`];
+                        if (settings[`${currentReplacement}NatureSpeed`]) {
+                            const radio = document.querySelector(`input[name="${currentReplacement}NatureSpeed"][value="${settings[`${currentReplacement}NatureSpeed`]}"]`);
+                            if (radio) radio.checked = true;
+                        }
+                        if (settings[`${currentReplacement}NatureSkill`]) {
+                            const radio = document.querySelector(`input[name="${currentReplacement}NatureSkill"][value="${settings[`${currentReplacement}NatureSkill`]}"]`);
+                            if (radio) radio.checked = true;
+                        }
+                        if (settings[`${currentReplacement}NatureFood`]) {
+                            const radio = document.querySelector(`input[name="${currentReplacement}NatureFood"][value="${settings[`${currentReplacement}NatureFood`]}"]`);
+                            if (radio) radio.checked = true;
+                        }
+                        if (settings[`${currentReplacement}CT`] !== undefined) document.getElementById(`${currentReplacement}CT`).checked = settings[`${currentReplacement}CT`];
+                        if (settings[`${currentReplacement}Favorite`] !== undefined) document.getElementById(`${currentReplacement}Favorite`).checked = settings[`${currentReplacement}Favorite`];
+                        if (settings[`${currentReplacement}SleepRibbon`]) {
+                            const radio = document.querySelector(`input[name="${currentReplacement}SleepRibbon"][value="${settings[`${currentReplacement}SleepRibbon`]}"]`);
+                            if (radio) radio.checked = true;
+                        }
+                    }, 100);
+                }
+                
+                // フィールド設定
+                if (settings.field) {
+                    document.getElementById('field').value = settings.field;
+                    // フィールド変更イベントをトリガー
+                    const event = new Event('change');
+                    document.getElementById('field').dispatchEvent(event);
+                }
+                if (settings.wakaKusaFavoriteBerry) {
+                    setTimeout(() => {
+                        const elem = document.getElementById('wakaKusaFavoriteBerry');
+                        if (elem) elem.value = settings.wakaKusaFavoriteBerry;
+                    }, 50);
+                }
+                
+                // EX補正
+                if (settings.exSpeedBoost) {
+                    const radio = document.querySelector(`input[name="exSpeedBoost"][value="${settings.exSpeedBoost}"]`);
+                    if (radio) radio.checked = true;
+                }
+                if (settings.exOtherBoost) {
+                    const radio = document.querySelector(`input[name="exOtherBoost"][value="${settings.exOtherBoost}"]`);
+                    if (radio) radio.checked = true;
+                }
+                
+                // イベント補正
+                if (settings.eventSpeedBoost) document.getElementById('eventSpeedBoost').value = settings.eventSpeedBoost;
+                if (settings.eventSkillBoost) document.getElementById('eventSkillBoost').value = settings.eventSkillBoost;
+                
+                // 料理エナジー
+                if (settings.cookingEnergy) document.getElementById('cookingEnergy').value = settings.cookingEnergy;
+                
+            } catch (e) {
+                console.error('設定の復元に失敗しました:', e);
+            }
+        }
+        
+        // 入力要素の変更を監視して自動保存
+        function setupAutoSave() {
+            const form = document.querySelector('form') || document.body;
+            
+            // すべてのinput, selectにイベントリスナーを追加
+            form.addEventListener('change', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+                    saveFormSettings();
+                }
+            });
+            
+            // 数値入力のinputイベント（リアルタイム保存）
+            form.addEventListener('input', function(e) {
+                if (e.target.type === 'number' || e.target.type === 'text') {
+                    // デバウンス処理（500ms後に保存）
+                    clearTimeout(window.autoSaveTimeout);
+                    window.autoSaveTimeout = setTimeout(saveFormSettings, 500);
+                }
+            });
+        }
+
+        // 設定内容のプレビュー生成
+        function generateSettingsPreview(settings) {
+            const pokemonName = getPokemonDisplayName(settings.pokemonId);
+            
+            const subskillsList = [];
+            if (settings.subskills.speedM) subskillsList.push('スピードM');
+            if (settings.subskills.speedS) subskillsList.push('スピードS');
+            if (settings.subskills.skillM) subskillsList.push('スキル確率M');
+            if (settings.subskills.skillS) subskillsList.push('スキル確率S');
+            if (settings.subskills.foodM) subskillsList.push('食材確率M');
+            if (settings.subskills.foodS) subskillsList.push('食材確率S');
+            if (settings.subskills.berryS) subskillsList.push('きのみの数S');
+            if (settings.subskills.capacityL) subskillsList.push('所持数L');
+            if (settings.subskills.capacityM) subskillsList.push('所持数M');
+            if (settings.subskills.capacityS) subskillsList.push('所持数S');
+            
+            let preview = `${pokemonName} Lv${settings.level}<br>`;
+            preview += `スキルLv${settings.skillLevel}<br>`;
+            preview += `食材スロット: Lv30=${settings.foodSlotLv30}, Lv60=${settings.foodSlotLv60}<br>`;
+            
+            if (subskillsList.length > 0) {
+                preview += `サブスキル: ${subskillsList.join(', ')}<br>`;
+            }
+            
+            if (settings.otebonus > 0) {
+                preview += `おてぼ${settings.otebonus}枚<br>`;
+            }
+            
+            const natureInfo = [];
+            if (settings.nature.speed !== 1.0) {
+                natureInfo.push(settings.nature.speed === 0.9 ? 'スピード△△' : 'スピード▽▽');
+            }
+            if (settings.nature.skill !== 1.0) {
+                natureInfo.push(settings.nature.skill === 1.2 ? 'スキル確率△△' : 'スキル確率▽▽');
+            }
+            if (settings.nature.food !== 1.0) {
+                natureInfo.push(settings.nature.food === 1.2 ? '食材確率△△' : '食材確率▽▽');
+            }
+            
+            if (natureInfo.length > 0) {
+                preview += `性格: ${natureInfo.join(', ')}<br>`;
+            }
+            
+            if (settings.sleepRibbon > 0) {
+                preview += `おやすみリボン: +${settings.sleepRibbon}`;
+            }
+            
+            return preview;
+        }
+
+        // 保存タイプ（'cooking' or 'replacement'）
+        let currentSaveType = 'cooking';
+
+        // 保存モーダルを開く
+        function openSaveModal() {
+            currentSaveType = 'cooking';
+            const modal = document.getElementById('savePokemonModal');
+            const nicknameInput = document.getElementById('pokemonNickname');
+            const preview = document.getElementById('savePreview');
+            
+            // 現在の設定を取得してプレビュー表示
+            const currentSettings = getCurrentCookingPokemonSettings();
+            preview.innerHTML = generateSettingsPreview(currentSettings);
+            
+            // ニックネーム入力をクリア
+            nicknameInput.value = '';
+            
+            modal.style.display = 'flex';
+        }
+
+        // 入替候補ポケモンの保存モーダルを開く
+        function openSaveModalForReplacement() {
+            currentSaveType = 'replacement';
+            const modal = document.getElementById('savePokemonModal');
+            const nicknameInput = document.getElementById('pokemonNickname');
+            const preview = document.getElementById('savePreview');
+            
+            // 現在の設定を取得
+            const currentSettings = getCurrentReplacementPokemonSettings();
+            
+            if (!currentSettings) {
+                alert('⚠️ ポケモンを選択してください\n（手動入力モードでは保存できません）');
+                return;
+            }
+            
+            // プレビュー表示
+            const pokemonName = getReplacementPokemonDisplayName(currentSettings.pokemonId);
+            
+            // サブスキルを全て表示
+            const subskillsList = [];
+            if (currentSettings.subskills.speedM) subskillsList.push('スピードM');
+            if (currentSettings.subskills.speedS) subskillsList.push('スピードS');
+            if (currentSettings.subskills.skillM) subskillsList.push('スキル確率M');
+            if (currentSettings.subskills.skillS) subskillsList.push('スキル確率S');
+            if (currentSettings.subskills.foodM) subskillsList.push('食材確率M');
+            if (currentSettings.subskills.foodS) subskillsList.push('食材確率S');
+            if (currentSettings.subskills.berryS) subskillsList.push('きのみの数S');
+            if (currentSettings.subskills.capacityL) subskillsList.push('所持数L');
+            if (currentSettings.subskills.capacityM) subskillsList.push('所持数M');
+            if (currentSettings.subskills.capacityS) subskillsList.push('所持数S');
+            if (currentSettings.otebonus > 0) subskillsList.push(`おてぼ${currentSettings.otebonus}枚`);
+            
+            let previewText = `${pokemonName} Lv${currentSettings.level}<br>`;
+            previewText += `スキルLv${currentSettings.skillLevel}<br>`;
+            previewText += `食材スロット: Lv30=${currentSettings.foodSlotLv30}, Lv60=${currentSettings.foodSlotLv60}<br>`;
+            if (subskillsList.length > 0) {
+                previewText += `サブスキル: ${subskillsList.join(', ')}<br>`;
+            }
+            if (currentSettings.sleepRibbon > 0) {
+                previewText += `おやすみリボン: +${currentSettings.sleepRibbon}`;
+            }
+            
+            preview.innerHTML = previewText;
+            
+            // ニックネーム入力をクリア
+            nicknameInput.value = '';
+            
+            modal.style.display = 'flex';
+        }
+
+        // 保存モーダルを開く
+        function openSaveModal() {
+            currentSaveType = 'cooking';
+            const modal = document.getElementById('savePokemonModal');
+            const nicknameInput = document.getElementById('pokemonNickname');
+            const preview = document.getElementById('savePreview');
+            
+            // 現在の設定を取得してプレビュー表示
+            const currentSettings = getCurrentCookingPokemonSettings();
+            preview.innerHTML = generateSettingsPreview(currentSettings);
+            
+            // ニックネーム入力をクリア
+            nicknameInput.value = '';
+            
+            modal.style.display = 'flex';
+        }
+
+        // 保存モーダルを閉じる
+        function closeSaveModal() {
+            document.getElementById('savePokemonModal').style.display = 'none';
+        }
+
+        // 保存実行
+        function savePokemon() {
+            let nickname = document.getElementById('pokemonNickname').value.trim();
+            
+            // ニックネームが空の場合、ポケモンの種族名を使用
+            if (!nickname) {
+                if (currentSaveType === 'cooking') {
+                    const currentSettings = getCurrentCookingPokemonSettings();
+                    nickname = getPokemonDisplayName(currentSettings.pokemonId);
+                } else {
+                    const currentSettings = getCurrentReplacementPokemonSettings();
+                    if (!currentSettings) {
+                        alert('⚠️ ポケモンの設定を取得できませんでした');
+                        return;
+                    }
+                    nickname = getReplacementPokemonDisplayName(currentSettings.pokemonId);
+                }
+            }
+            
+            const boxData = getPokemonBoxData();
+            
+            if (currentSaveType === 'cooking') {
+                // 料理チャンスポケモンの保存
+                const currentSettings = getCurrentCookingPokemonSettings();
+                
+                boxData.cookingChancePokemon.push({
+                    id: generateUUID(),
+                    nickname: nickname,
+                    ...currentSettings,
+                    savedAt: new Date().toISOString()
+                });
+            } else {
+                // 入替候補ポケモンの保存
+                const currentSettings = getCurrentReplacementPokemonSettings();
+                
+                if (!currentSettings) {
+                    alert('⚠️ ポケモンの設定を取得できませんでした');
+                    return;
+                }
+                
+                boxData.replacementPokemon.push({
+                    id: generateUUID(),
+                    nickname: nickname,
+                    ...currentSettings,
+                    savedAt: new Date().toISOString()
+                });
+            }
+            
+            if (savePokemonBoxData(boxData)) {
+                closeSaveModal();
+                alert('✅ 保存しました！');
+            }
+        }
+
+        // 読み込みモーダルを開く
+        function openLoadModal() {
+            const modal = document.getElementById('loadPokemonModal');
+            const searchBox = document.getElementById('pokemonSearchBox');
+            
+            searchBox.value = '';
+            renderPokemonList();
+            renderReplacementPokemonList();
+            
+            modal.style.display = 'flex';
+        }
+
+        // 読み込みモーダルを閉じる
+        function closeLoadModal() {
+            document.getElementById('loadPokemonModal').style.display = 'none';
+        }
+
+        // ポケモン一覧を表示
+        function renderPokemonList(searchQuery = '') {
+            const boxData = getPokemonBoxData();
+            const listContainer = document.getElementById('cookingPokemonList');
+            
+            let pokemonList = boxData.cookingChancePokemon;
+            
+            // 検索フィルター
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                pokemonList = pokemonList.filter(p => {
+                    const pokemonName = getPokemonDisplayName(p.pokemonId).toLowerCase();
+                    const nickname = p.nickname.toLowerCase();
+                    return pokemonName.includes(query) || nickname.includes(query);
+                });
+            }
+            
+            if (pokemonList.length === 0) {
+                listContainer.innerHTML = '<div class="pokemon-list-empty">保存されたポケモンがありません</div>';
+                return;
+            }
+            
+            listContainer.innerHTML = pokemonList.map(pokemon => {
+                const pokemonName = getPokemonDisplayName(pokemon.pokemonId);
+                
+                // サブスキルを全て表示
+                const subskills = [];
+                if (pokemon.subskills.speedM) subskills.push('スピードM');
+                if (pokemon.subskills.speedS) subskills.push('スピードS');
+                if (pokemon.subskills.skillM) subskills.push('スキル確率M');
+                if (pokemon.subskills.skillS) subskills.push('スキル確率S');
+                if (pokemon.subskills.foodM) subskills.push('食材確率M');
+                if (pokemon.subskills.foodS) subskills.push('食材確率S');
+                if (pokemon.subskills.berryS) subskills.push('きのみの数S');
+                if (pokemon.subskills.capacityL) subskills.push('所持数L');
+                if (pokemon.subskills.capacityM) subskills.push('所持数M');
+                if (pokemon.subskills.capacityS) subskills.push('所持数S');
+                if (pokemon.otebonus > 0) subskills.push(`おてぼ${pokemon.otebonus}枚`);
+                if (pokemon.sleepRibbon > 0) subskills.push(`リボン+${pokemon.sleepRibbon}`);
+                
+                // 食材スロット情報
+                const foodSlots = `食材: Lv30=${pokemon.foodSlotLv30}, Lv60=${pokemon.foodSlotLv60}`;
+                
+                // 保存日時
+                const savedDate = formatDateTime(pokemon.savedAt);
+                
+                return `
+                    <div class="pokemon-list-item" onclick="loadPokemonFromBox('${pokemon.id}')">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div style="flex: 1;">
+                                <div class="pokemon-list-item-header">${pokemon.nickname}</div>
+                                <div class="pokemon-list-item-details">
+                                    ${pokemonName} / Lv${pokemon.level} / スキルLv${pokemon.skillLevel} / ${foodSlots}${savedDate ? ` / ${savedDate}` : ''}${subskills.length > 0 ? `<br>${subskills.join(', ')}` : ''}
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 5px; margin-left: 10px;">
+                                <button onclick="event.stopPropagation(); openEditModal('${pokemon.id}');" style="padding: 5px 10px; background: #FFA726; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                                    編集
+                                </button>
+                                <button onclick="event.stopPropagation(); openDeleteModal('${pokemon.id}');" style="padding: 5px 10px; background: #EF5350; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                                    削除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 入替候補ポケモン一覧を表示
+        function renderReplacementPokemonList(searchQuery = '') {
+            const boxData = getPokemonBoxData();
+            const listContainer = document.getElementById('replacementPokemonList');
+            
+            let pokemonList = boxData.replacementPokemon;
+            
+            // 検索フィルター
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                pokemonList = pokemonList.filter(p => {
+                    const pokemonName = getReplacementPokemonDisplayName(p.pokemonId).toLowerCase();
+                    const nickname = p.nickname.toLowerCase();
+                    return pokemonName.includes(query) || nickname.includes(query);
+                });
+            }
+            
+            if (pokemonList.length === 0) {
+                listContainer.innerHTML = '<div class="pokemon-list-empty">保存されたポケモンがありません</div>';
+                return;
+            }
+            
+            listContainer.innerHTML = pokemonList.map(pokemon => {
+                const pokemonName = getReplacementPokemonDisplayName(pokemon.pokemonId);
+                
+                // サブスキルを全て表示
+                const subskills = [];
+                if (pokemon.subskills.speedM) subskills.push('スピードM');
+                if (pokemon.subskills.speedS) subskills.push('スピードS');
+                if (pokemon.subskills.skillM) subskills.push('スキル確率M');
+                if (pokemon.subskills.skillS) subskills.push('スキル確率S');
+                if (pokemon.subskills.foodM) subskills.push('食材確率M');
+                if (pokemon.subskills.foodS) subskills.push('食材確率S');
+                if (pokemon.subskills.berryS) subskills.push('きのみの数S');
+                if (pokemon.subskills.capacityL) subskills.push('所持数L');
+                if (pokemon.subskills.capacityM) subskills.push('所持数M');
+                if (pokemon.subskills.capacityS) subskills.push('所持数S');
+                if (pokemon.otebonus > 0) subskills.push(`おてぼ${pokemon.otebonus}枚`);
+                if (pokemon.sleepRibbon > 0) subskills.push(`リボン+${pokemon.sleepRibbon}`);
+                
+                // 食材スロット情報
+                const foodSlots = `食材: Lv30=${pokemon.foodSlotLv30}, Lv60=${pokemon.foodSlotLv60}`;
+                
+                // 保存日時
+                const savedDate = formatDateTime(pokemon.savedAt);
+                
+                return `
+                    <div class="pokemon-list-item" onclick="loadReplacementPokemonFromBox('${pokemon.id}')">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div style="flex: 1;">
+                                <div class="pokemon-list-item-header">${pokemon.nickname}</div>
+                                <div class="pokemon-list-item-details">
+                                    ${pokemonName} / Lv${pokemon.level} / スキルLv${pokemon.skillLevel} / ${foodSlots}${savedDate ? ` / ${savedDate}` : ''}${subskills.length > 0 ? `<br>${subskills.join(', ')}` : ''}
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 5px; margin-left: 10px;">
+                                <button onclick="event.stopPropagation(); openEditModalForReplacement('${pokemon.id}');" style="padding: 5px 10px; background: #FFA726; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                                    編集
+                                </button>
+                                <button onclick="event.stopPropagation(); openDeleteModalForReplacement('${pokemon.id}');" style="padding: 5px 10px; background: #EF5350; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                                    削除
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ポケモンをボックスから読み込み
+        function loadPokemonFromBox(pokemonId) {
+            const boxData = getPokemonBoxData();
+            const pokemon = boxData.cookingChancePokemon.find(p => p.id === pokemonId);
+            
+            if (!pokemon) {
+                alert('⚠️ ポケモンが見つかりませんでした');
+                return;
+            }
+            
+            loadCookingPokemonSettings(pokemon);
+            closeLoadModal();
+            
+            // 成功メッセージ
+            const pokemonName = getPokemonDisplayName(pokemon.pokemonId);
+            alert(`✅ 「${pokemon.nickname}」(${pokemonName})を読み込みました！`);
+        }
+
+        // 入替候補ポケモンをボックスから読み込み
+        function loadReplacementPokemonFromBox(pokemonId) {
+            const boxData = getPokemonBoxData();
+            const pokemon = boxData.replacementPokemon.find(p => p.id === pokemonId);
+            
+            if (!pokemon) {
+                alert('⚠️ ポケモンが見つかりませんでした');
+                return;
+            }
+            
+            loadReplacementPokemonSettings(pokemon);
+            closeLoadModal();
+            
+            // 成功メッセージ
+            const pokemonName = getReplacementPokemonDisplayName(pokemon.pokemonId);
+            alert(`✅ 「${pokemon.nickname}」(${pokemonName})を読み込みました！`);
+        }
+
+        // 編集モーダルを開く
+        let currentEditingPokemonId = null;
+        
+        function openEditModal(pokemonId) {
+            const boxData = getPokemonBoxData();
+            const pokemon = boxData.cookingChancePokemon.find(p => p.id === pokemonId);
+            
+            if (!pokemon) {
+                alert('⚠️ ポケモンが見つかりませんでした');
+                return;
+            }
+            
+            currentEditingPokemonId = pokemonId;
+            document.getElementById('editPokemonNickname').value = pokemon.nickname;
+            document.getElementById('editPokemonModal').style.display = 'flex';
+        }
+
+        // 編集モーダルを閉じる
+        function closeEditModal() {
+            currentEditingPokemonId = null;
+            currentEditingReplacementPokemonId = null;
+            document.getElementById('editPokemonModal').style.display = 'none';
+        }
+
+        // 編集を保存
+        function saveEdit() {
+            if (!currentEditingPokemonId) return;
+            
+            const newNickname = document.getElementById('editPokemonNickname').value.trim();
+            
+            if (!newNickname) {
+                alert('⚠️ ニックネームを入力してください');
+                return;
+            }
+            
+            const boxData = getPokemonBoxData();
+            const pokemonIndex = boxData.cookingChancePokemon.findIndex(p => p.id === currentEditingPokemonId);
+            
+            if (pokemonIndex === -1) {
+                alert('⚠️ ポケモンが見つかりませんでした');
+                return;
+            }
+            
+            // ニックネーム重複チェック（自分以外）
+            const duplicateExists = boxData.cookingChancePokemon.some(
+                p => p.id !== currentEditingPokemonId && p.nickname === newNickname
+            );
+            
+            if (duplicateExists) {
+                alert('⚠️ 既に同じニックネームが存在します');
+                return;
+            }
+            
+            boxData.cookingChancePokemon[pokemonIndex].nickname = newNickname;
+            
+            if (savePokemonBoxData(boxData)) {
+                alert('✅ ニックネームを変更しました！');
+                closeEditModal();
+                renderPokemonList(document.getElementById('pokemonSearchBox').value);
+            }
+        }
+
+        // 削除確認モーダルを開く
+        let currentDeletingPokemonId = null;
+        
+        function openDeleteModal(pokemonId) {
+            const boxData = getPokemonBoxData();
+            const pokemon = boxData.cookingChancePokemon.find(p => p.id === pokemonId);
+            
+            if (!pokemon) {
+                alert('⚠️ ポケモンが見つかりませんでした');
+                return;
+            }
+            
+            currentDeletingPokemonId = pokemonId;
+            document.getElementById('deleteConfirmText').textContent = `「${pokemon.nickname}」`;
+            document.getElementById('deletePokemonModal').style.display = 'flex';
+        }
+
+        // 削除確認モーダルを閉じる
+        function closeDeleteModal() {
+            currentDeletingPokemonId = null;
+            currentDeletingReplacementPokemonId = null;
+            document.getElementById('deletePokemonModal').style.display = 'none';
+        }
+
+        // 削除を実行
+        function confirmDelete() {
+            if (!currentDeletingPokemonId) return;
+            
+            const boxData = getPokemonBoxData();
+            const pokemonIndex = boxData.cookingChancePokemon.findIndex(p => p.id === currentDeletingPokemonId);
+            
+            if (pokemonIndex === -1) {
+                alert('⚠️ ポケモンが見つかりませんでした');
+                return;
+            }
+            
+            const pokemonName = boxData.cookingChancePokemon[pokemonIndex].nickname;
+            boxData.cookingChancePokemon.splice(pokemonIndex, 1);
+            
+            if (savePokemonBoxData(boxData)) {
+                alert(`✅ 「${pokemonName}」を削除しました`);
+                closeDeleteModal();
+                renderPokemonList(document.getElementById('pokemonSearchBox').value);
+            }
+        }
+
+        // 入替候補ポケモンの編集モーダルを開く
+        let currentEditingReplacementPokemonId = null;
+        
+        function openEditModalForReplacement(pokemonId) {
+            const boxData = getPokemonBoxData();
+            const pokemon = boxData.replacementPokemon.find(p => p.id === pokemonId);
+            
+            if (!pokemon) {
+                alert('⚠️ ポケモンが見つかりませんでした');
+                return;
+            }
+            
+            currentEditingReplacementPokemonId = pokemonId;
+            document.getElementById('editPokemonNickname').value = pokemon.nickname;
+            document.getElementById('editPokemonModal').style.display = 'flex';
+        }
+
+        // 入替候補ポケモンの編集を保存
+        function saveEditForReplacement() {
+            if (!currentEditingReplacementPokemonId) return;
+            
+            const newNickname = document.getElementById('editPokemonNickname').value.trim();
+            
+            if (!newNickname) {
+                alert('⚠️ ニックネームを入力してください');
+                return;
+            }
+            
+            const boxData = getPokemonBoxData();
+            const pokemonIndex = boxData.replacementPokemon.findIndex(p => p.id === currentEditingReplacementPokemonId);
+            
+            if (pokemonIndex === -1) {
+                alert('⚠️ ポケモンが見つかりませんでした');
+                return;
+            }
+            
+            const duplicateExists = boxData.replacementPokemon.some(
+                p => p.id !== currentEditingReplacementPokemonId && p.nickname === newNickname
+            );
+            
+            if (duplicateExists) {
+                alert('⚠️ 既に同じニックネームが存在します');
+                return;
+            }
+            
+            boxData.replacementPokemon[pokemonIndex].nickname = newNickname;
+            
+            if (savePokemonBoxData(boxData)) {
+                alert('✅ ニックネームを変更しました！');
+                closeEditModal();
+                currentEditingReplacementPokemonId = null;
+                renderReplacementPokemonList(document.getElementById('pokemonSearchBox').value);
+            }
+        }
+
+        // 入替候補ポケモンの削除確認モーダルを開く
+        let currentDeletingReplacementPokemonId = null;
+        
+        function openDeleteModalForReplacement(pokemonId) {
+            const boxData = getPokemonBoxData();
+            const pokemon = boxData.replacementPokemon.find(p => p.id === pokemonId);
+            
+            if (!pokemon) {
+                alert('⚠️ ポケモンが見つかりませんでした');
+                return;
+            }
+            
+            currentDeletingReplacementPokemonId = pokemonId;
+            document.getElementById('deleteConfirmText').textContent = `「${pokemon.nickname}」`;
+            document.getElementById('deletePokemonModal').style.display = 'flex';
+        }
+
+        // 入替候補ポケモンの削除を実行
+        function confirmDeleteForReplacement() {
+            if (!currentDeletingReplacementPokemonId) return;
+            
+            const boxData = getPokemonBoxData();
+            const pokemonIndex = boxData.replacementPokemon.findIndex(p => p.id === currentDeletingReplacementPokemonId);
+            
+            if (pokemonIndex === -1) {
+                alert('⚠️ ポケモンが見つかりませんでした');
+                return;
+            }
+            
+            const pokemonName = boxData.replacementPokemon[pokemonIndex].nickname;
+            boxData.replacementPokemon.splice(pokemonIndex, 1);
+            
+            if (savePokemonBoxData(boxData)) {
+                alert(`✅ 「${pokemonName}」を削除しました`);
+                closeDeleteModal();
+                currentDeletingReplacementPokemonId = null;
+                renderReplacementPokemonList(document.getElementById('pokemonSearchBox').value);
+            }
+        }
+
+        // エクスポート機能
+        function exportPokemonBox() {
+            const boxData = getPokemonBoxData();
+            const dataStr = JSON.stringify(boxData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            // ファイル名を生成（YYYYMMDD形式）
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const filename = `pokemon_box_backup_${year}${month}${day}.json`;
+            
+            // ダウンロード
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('✅ エクスポートしました！');
+        }
+
+        // インポート機能
+        function importPokemonBox(file) {
+            if (!file) return;
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // データのバリデーション
+                    if (!importedData.cookingChancePokemon || !importedData.replacementPokemon) {
+                        alert('⚠️ 無効なファイル形式です');
+                        return;
+                    }
+                    
+                    if (!Array.isArray(importedData.cookingChancePokemon) || !Array.isArray(importedData.replacementPokemon)) {
+                        alert('⚠️ 無効なデータ形式です');
+                        return;
+                    }
+                    
+                    // 既存データとマージ
+                    const existingData = getPokemonBoxData();
+                    
+                    // 重複チェック（ニックネームベース）
+                    let addedCount = 0;
+                    let skippedCount = 0;
+                    
+                    // 料理チャンスポケモンのマージ
+                    importedData.cookingChancePokemon.forEach(importedPokemon => {
+                        const exists = existingData.cookingChancePokemon.some(
+                            p => p.nickname === importedPokemon.nickname
+                        );
+                        
+                        if (!exists) {
+                            // 新しいIDを生成
+                            existingData.cookingChancePokemon.push({
+                                ...importedPokemon,
+                                id: generateUUID(),
+                                savedAt: new Date().toISOString()
+                            });
+                            addedCount++;
+                        } else {
+                            skippedCount++;
+                        }
+                    });
+                    
+                    // 入替候補ポケモンのマージ
+                    importedData.replacementPokemon.forEach(importedPokemon => {
+                        const exists = existingData.replacementPokemon.some(
+                            p => p.nickname === importedPokemon.nickname
+                        );
+                        
+                        if (!exists) {
+                            existingData.replacementPokemon.push({
+                                ...importedPokemon,
+                                id: generateUUID(),
+                                savedAt: new Date().toISOString()
+                            });
+                            addedCount++;
+                        } else {
+                            skippedCount++;
+                        }
+                    });
+                    
+                    // 保存
+                    if (savePokemonBoxData(existingData)) {
+                        let message = `✅ インポート完了！\n`;
+                        message += `追加: ${addedCount}件`;
+                        if (skippedCount > 0) {
+                            message += `\nスキップ（重複）: ${skippedCount}件`;
+                        }
+                        alert(message);
+                        
+                        // リストを更新
+                        renderPokemonList();
+                        renderReplacementPokemonList();
+                    }
+                } catch (error) {
+                    console.error('インポートエラー:', error);
+                    alert('⚠️ ファイルの読み込みに失敗しました\nJSON形式が正しいか確認してください');
+                }
+            };
+            
+            reader.onerror = function() {
+                alert('⚠️ ファイルの読み込みに失敗しました');
+            };
+            
+            reader.readAsText(file);
+        }
+
+        // イベントリスナー設定
+        document.addEventListener('DOMContentLoaded', function() {
+            // 保存ボタン
+            const saveCookingBtn = document.getElementById('saveCookingPokemonBtn');
+            if (saveCookingBtn) {
+                saveCookingBtn.addEventListener('click', openSaveModal);
+            }
+            
+            // 読み込みボタン
+            const loadCookingBtn = document.getElementById('loadCookingPokemonBtn');
+            if (loadCookingBtn) {
+                loadCookingBtn.addEventListener('click', openLoadModal);
+            }
+            
+            // 入替候補ポケモン - 保存ボタン
+            const saveReplacementBtn = document.getElementById('saveReplacementPokemonBtn');
+            if (saveReplacementBtn) {
+                saveReplacementBtn.addEventListener('click', openSaveModalForReplacement);
+            }
+            
+            // 入替候補ポケモン - 読み込みボタン
+            const loadReplacementBtn = document.getElementById('loadReplacementPokemonBtn');
+            if (loadReplacementBtn) {
+                loadReplacementBtn.addEventListener('click', openLoadModal);
+            }
+            
+            // 保存モーダル - キャンセルボタン
+            const cancelSaveBtn = document.getElementById('cancelSaveBtn');
+            if (cancelSaveBtn) {
+                cancelSaveBtn.addEventListener('click', closeSaveModal);
+            }
+            
+            // 保存モーダル - 保存ボタン
+            const confirmSaveBtn = document.getElementById('confirmSaveBtn');
+            if (confirmSaveBtn) {
+                confirmSaveBtn.addEventListener('click', savePokemon);
+            }
+            
+            // 読み込みモーダル - 閉じるボタン
+            const closeLoadModalBtn = document.getElementById('closeLoadModalBtn');
+            if (closeLoadModalBtn) {
+                closeLoadModalBtn.addEventListener('click', closeLoadModal);
+            }
+            
+            // 読み込みモーダル - 検索ボックス
+            const pokemonSearchBox = document.getElementById('pokemonSearchBox');
+            if (pokemonSearchBox) {
+                pokemonSearchBox.addEventListener('input', function(e) {
+                    renderPokemonList(e.target.value);
+                    renderReplacementPokemonList(e.target.value);
+                });
+            }
+            
+            // モーダルの外側クリックで閉じる
+            const savePokemonModal = document.getElementById('savePokemonModal');
+            if (savePokemonModal) {
+                savePokemonModal.addEventListener('click', function(e) {
+                    if (e.target === savePokemonModal) {
+                        closeSaveModal();
+                    }
+                });
+            }
+            
+            const loadPokemonModal = document.getElementById('loadPokemonModal');
+            if (loadPokemonModal) {
+                loadPokemonModal.addEventListener('click', function(e) {
+                    if (e.target === loadPokemonModal) {
+                        closeLoadModal();
+                    }
+                });
+            }
+            
+            // 編集モーダル - キャンセルボタン
+            const cancelEditBtn = document.getElementById('cancelEditBtn');
+            if (cancelEditBtn) {
+                cancelEditBtn.addEventListener('click', closeEditModal);
+            }
+            
+            // 編集モーダル - 保存ボタン
+            const confirmEditBtn = document.getElementById('confirmEditBtn');
+            if (confirmEditBtn) {
+                confirmEditBtn.addEventListener('click', function() {
+                    // 料理チャンスポケモンと入替候補ポケモンを判定
+                    if (currentEditingPokemonId) {
+                        saveEdit();
+                    } else if (currentEditingReplacementPokemonId) {
+                        saveEditForReplacement();
+                    }
+                });
+            }
+            
+            // 削除モーダル - キャンセルボタン
+            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+            if (cancelDeleteBtn) {
+                cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+            }
+            
+            // 削除モーダル - 削除ボタン
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+            if (confirmDeleteBtn) {
+                confirmDeleteBtn.addEventListener('click', function() {
+                    // 料理チャンスポケモンと入替候補ポケモンを判定
+                    if (currentDeletingPokemonId) {
+                        confirmDelete();
+                    } else if (currentDeletingReplacementPokemonId) {
+                        confirmDeleteForReplacement();
+                    }
+                });
+            }
+            
+            // 編集モーダル - 外側クリックで閉じる
+            const editPokemonModal = document.getElementById('editPokemonModal');
+            if (editPokemonModal) {
+                editPokemonModal.addEventListener('click', function(e) {
+                    if (e.target === editPokemonModal) {
+                        closeEditModal();
+                    }
+                });
+            }
+            
+            // 削除モーダル - 外側クリックで閉じる
+            const deletePokemonModal = document.getElementById('deletePokemonModal');
+            if (deletePokemonModal) {
+                deletePokemonModal.addEventListener('click', function(e) {
+                    if (e.target === deletePokemonModal) {
+                        closeDeleteModal();
+                    }
+                });
+            }
+            
+            // エクスポートボタン
+            const exportPokemonBoxBtn = document.getElementById('exportPokemonBoxBtn');
+            if (exportPokemonBoxBtn) {
+                exportPokemonBoxBtn.addEventListener('click', exportPokemonBox);
+            }
+            
+            // インポートボタン
+            const importPokemonBoxBtn = document.getElementById('importPokemonBoxBtn');
+            const importFileInput = document.getElementById('importFileInput');
+            
+            if (importPokemonBoxBtn && importFileInput) {
+                importPokemonBoxBtn.addEventListener('click', function() {
+                    importFileInput.click();
+                });
+                
+                importFileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        importPokemonBox(file);
+                        // ファイル選択をリセット（同じファイルを再度選択できるように）
+                        e.target.value = '';
+                    }
+                });
+            }
+            
+            // フォーム設定の復元
+            loadFormSettings();
+            
+            // 自動保存の設定
+            setupAutoSave();
+        });
     </script>
 
     <!-- クレジット -->
