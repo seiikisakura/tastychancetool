@@ -1125,6 +1125,16 @@
         <div class="section">
             <div class="section-title">料理チャンスポケモン登録</div>
             
+            <!-- ポケモンボックス操作ボタン -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
+                <button type="button" id="saveCookingPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    💾 ボックスに保存
+                </button>
+                <button type="button" id="loadCookingPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    📂 ボックスから呼び出し
+                </button>
+            </div>
+            
             <!-- 1. ポケモン選択 -->
             <div class="input-group">
                 <label class="input-label">ポケモン選択</label>
@@ -1321,20 +1331,20 @@
                     <option value="8">2,000時間（+8）</option>
                 </select>
             </div>
-            
-            <!-- ポケモンボックス操作ボタン -->
-            <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: center;">
-                <button type="button" id="saveCookingPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                    💾 ボックスに保存
-                </button>
-                <button type="button" id="loadCookingPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                    📂 ボックスから呼び出し
-                </button>
-            </div>
         </div>
 
         <div class="section" id="replacementSettings">
             <div class="section-title">入替候補ポケモン設定</div>
+            
+            <!-- ポケモンボックス操作ボタン -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
+                <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    💾 ボックスに保存
+                </button>
+                <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    📂 ボックスから呼び出し
+                </button>
+            </div>
             
             <!-- ポケモン選択 -->
             <div class="input-group">
@@ -1462,16 +1472,6 @@
                     <input type="number" id="cookingPowerDirectValue" min="0" step="100" value="5000">
                     <small style="color: #666; margin-top: 5px; display: block;">※スキルレベルに関係なく固定値</small>
                 </div>
-            </div>
-            
-            <!-- ポケモンボックス操作ボタン -->
-            <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: center;">
-                <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                    💾 ボックスに保存
-                </button>
-                <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                    📂 ボックスから呼び出し
-                </button>
             </div>
             
             <!-- ライチュウ設定モード -->
@@ -13921,14 +13921,30 @@
             const pokemon = POKEMON_STATS[pokemonType];
             const baseCapacity = pokemon.baseCapacity || 18;
             
+            // 料理チャンスポケモンか入替候補ポケモンかを判定
+            const isMainPokemon = ['swampert', 'weavile', 'dedenne', 'spheal_holiday'].includes(pokemonType);
+            
             // サブスキル補正
             let subskillBonus = 0;
-            if (document.getElementById('capacityS').checked) subskillBonus += 6;
-            if (document.getElementById('capacityM').checked) subskillBonus += 12;
-            if (document.getElementById('capacityL').checked) subskillBonus += 18;
+            if (isMainPokemon) {
+                // 料理チャンスポケモンの場合
+                if (document.getElementById('capacityS')?.checked) subskillBonus += 6;
+                if (document.getElementById('capacityM')?.checked) subskillBonus += 12;
+                if (document.getElementById('capacityL')?.checked) subskillBonus += 18;
+            } else {
+                // 入替候補ポケモンの場合
+                if (document.getElementById(`${pokemonType}CapacityS`)?.checked) subskillBonus += 6;
+                if (document.getElementById(`${pokemonType}CapacityM`)?.checked) subskillBonus += 12;
+                if (document.getElementById(`${pokemonType}CapacityL`)?.checked) subskillBonus += 18;
+            }
             
             // おやすみリボン補正
-            const ribbonBonus = parseInt(document.getElementById('sleepRibbon').value) || 0;
+            let ribbonBonus = 0;
+            if (isMainPokemon) {
+                ribbonBonus = parseInt(document.getElementById('sleepRibbon')?.value) || 0;
+            } else {
+                ribbonBonus = parseInt(document.querySelector(`input[name="${pokemonType}SleepRibbon"]:checked`)?.value) || 0;
+            }
             
             // CT補正前の所持数
             const preCtCapacity = baseCapacity + subskillBonus + ribbonBonus;
@@ -13957,6 +13973,267 @@
                 seconds: tFill,
                 hours: tFillHours
             };
+        }
+        
+        /**
+         * 入替候補ポケモン専用の24時間所持数シミュレーション
+         * 料理計算なし、シンプルな3時間帯（睡眠/集中作業/リラックス）のみ
+         */
+        function simulateReplacementPokemon24Hours({
+            maxCapacity,
+            finalSpeed,
+            berryProb,
+            foodProb,
+            skillProb,
+            berryEnergyPerBerry,
+            berryPerCount,
+            avgFoodEnergy,
+            avgFoodCount,
+            cookEnergyPerSkill,
+            fbMultiplier,
+            favoriteBerry,
+            exOther,
+            scheduleData
+        }) {
+            const { sleepDuration, workDuration, workTapInterval, relaxDuration, relaxTapInterval } = scheduleData;
+            
+            console.log('[入替候補所持数計算] シミュレーション開始', {
+                maxCapacity,
+                finalSpeed: finalSpeed.toFixed(2),
+                sleepDuration: sleepDuration.toFixed(2) + 'h',
+                workDuration: workDuration.toFixed(2) + 'h',
+                relaxDuration: relaxDuration.toFixed(2) + 'h'
+            });
+            
+            let totalBerryEnergy = 0;
+            let totalFoodEnergy = 0;
+            let totalSkillEnergy = 0;
+            let totalOverflow = 0; // あふれた個数
+            
+            // ===== 1. 睡眠時間のシミュレーション =====
+            if (sleepDuration > 0) {
+                const sleepSeconds = sleepDuration * 3600;
+                const sleepHelpCount = sleepSeconds / finalSpeed;
+                
+                // いつの間に育成：きのみ100%、食材0%、スキル0%
+                const sleepBerryProb = 1.0;
+                const sleepAverageIncrease = sleepBerryProb * berryPerCount;
+                
+                // T_fill計算
+                const sleepTfill = calculateTfill(maxCapacity, sleepAverageIncrease, finalSpeed);
+                
+                let sleepBerryCount;
+                if (sleepTfill.hours >= sleepDuration) {
+                    // 飽和しない：全てのお手伝いが有効
+                    sleepBerryCount = sleepHelpCount * sleepBerryProb;
+                } else {
+                    // 飽和する：飽和までのお手伝いのみ有効
+                    const effectiveHelpCount = sleepTfill.hours * 3600 / finalSpeed;
+                    sleepBerryCount = effectiveHelpCount * sleepBerryProb;
+                    const overflowHelpCount = sleepHelpCount - effectiveHelpCount;
+                    totalOverflow += overflowHelpCount * sleepAverageIncrease;
+                }
+                
+                // 好物きのみ補正
+                const berryFavoriteMultiplier = favoriteBerry ? (exOther === 'berry' ? 2.4 : 2) : 1;
+                const sleepBerryEnergy = sleepBerryCount * berryEnergyPerBerry * berryPerCount * berryFavoriteMultiplier;
+                totalBerryEnergy += sleepBerryEnergy;
+                
+                console.log('[睡眠時間]', {
+                    duration: sleepDuration.toFixed(2) + 'h',
+                    helpCount: sleepHelpCount.toFixed(2),
+                    tFill: sleepTfill.hours.toFixed(2) + 'h',
+                    berryEnergy: Math.round(sleepBerryEnergy)
+                });
+            }
+            
+            // ===== 2. 集中作業時間のシミュレーション（タップ間隔あり）=====
+            if (workDuration > 0 && workTapInterval > 0) {
+                const workResult = simulateTimeSlotWithTapping({
+                    duration: workDuration,
+                    tapInterval: workTapInterval,
+                    finalSpeed,
+                    maxCapacity,
+                    berryProb,
+                    foodProb,
+                    skillProb,
+                    berryPerCount,
+                    avgFoodCount,
+                    berryEnergyPerBerry,
+                    avgFoodEnergy,
+                    cookEnergyPerSkill,
+                    favoriteBerry,
+                    exOther,
+                    fbMultiplier
+                });
+                
+                totalBerryEnergy += workResult.berryEnergy;
+                totalFoodEnergy += workResult.foodEnergy;
+                totalSkillEnergy += workResult.skillEnergy;
+                totalOverflow += workResult.overflow;
+                
+                console.log('[集中作業]', {
+                    duration: workDuration.toFixed(2) + 'h',
+                    tapInterval: workTapInterval.toFixed(2) + 'h',
+                    berryEnergy: Math.round(workResult.berryEnergy),
+                    foodEnergy: Math.round(workResult.foodEnergy),
+                    skillEnergy: Math.round(workResult.skillEnergy)
+                });
+            }
+            
+            // ===== 3. リラックス時間のシミュレーション（タップ間隔あり）=====
+            if (relaxDuration > 0 && relaxTapInterval > 0) {
+                const relaxResult = simulateTimeSlotWithTapping({
+                    duration: relaxDuration,
+                    tapInterval: relaxTapInterval,
+                    finalSpeed,
+                    maxCapacity,
+                    berryProb,
+                    foodProb,
+                    skillProb,
+                    berryPerCount,
+                    avgFoodCount,
+                    berryEnergyPerBerry,
+                    avgFoodEnergy,
+                    cookEnergyPerSkill,
+                    favoriteBerry,
+                    exOther,
+                    fbMultiplier
+                });
+                
+                totalBerryEnergy += relaxResult.berryEnergy;
+                totalFoodEnergy += relaxResult.foodEnergy;
+                totalSkillEnergy += relaxResult.skillEnergy;
+                totalOverflow += relaxResult.overflow;
+                
+                console.log('[リラックス]', {
+                    duration: relaxDuration.toFixed(2) + 'h',
+                    tapInterval: relaxTapInterval.toFixed(2) + 'h',
+                    berryEnergy: Math.round(relaxResult.berryEnergy),
+                    foodEnergy: Math.round(relaxResult.foodEnergy),
+                    skillEnergy: Math.round(relaxResult.skillEnergy)
+                });
+            }
+            
+            const totalEnergy = totalBerryEnergy + totalFoodEnergy + totalSkillEnergy;
+            
+            // T_fill情報（参考値）
+            const averageIncrease = berryProb * berryPerCount + foodProb * avgFoodCount;
+            const tFill = calculateTfill(maxCapacity, averageIncrease, finalSpeed);
+            
+            console.log('[入替候補所持数計算] シミュレーション完了', {
+                totalEnergy: Math.round(totalEnergy),
+                berryEnergy: Math.round(totalBerryEnergy),
+                foodEnergy: Math.round(totalFoodEnergy),
+                skillEnergy: Math.round(totalSkillEnergy),
+                overflow: totalOverflow.toFixed(2)
+            });
+            
+            return {
+                totalEnergy,
+                berryEnergy: totalBerryEnergy,
+                foodEnergy: totalFoodEnergy,
+                skillEnergy: totalSkillEnergy,
+                overflow: totalOverflow,
+                tFill: tFill
+            };
+        }
+        
+        /**
+         * タップ間隔ありの時間帯をシミュレート
+         */
+        function simulateTimeSlotWithTapping({
+            duration,
+            tapInterval,
+            finalSpeed,
+            maxCapacity,
+            berryProb,
+            foodProb,
+            skillProb,
+            berryPerCount,
+            avgFoodCount,
+            berryEnergyPerBerry,
+            avgFoodEnergy,
+            cookEnergyPerSkill,
+            favoriteBerry,
+            exOther,
+            fbMultiplier
+        }) {
+            let berryEnergy = 0;
+            let foodEnergy = 0;
+            let skillEnergy = 0;
+            let overflow = 0;
+            
+            // タップ回数
+            const tapCount = Math.floor(duration / tapInterval);
+            
+            // 平均増加量
+            const averageIncrease = berryProb * berryPerCount + foodProb * avgFoodCount;
+            
+            // T_fill計算
+            const tFill = calculateTfill(maxCapacity, averageIncrease, finalSpeed);
+            
+            // 好物きのみ補正
+            const berryFavoriteMultiplier = favoriteBerry ? (exOther === 'berry' ? 2.4 : 2) : 1;
+            
+            for (let i = 0; i < tapCount; i++) {
+                // 各タップ間隔の時間
+                const intervalDuration = tapInterval; // 時間
+                const intervalSeconds = intervalDuration * 3600;
+                const intervalHelpCount = intervalSeconds / finalSpeed;
+                
+                let effectiveBerryCount, effectiveFoodCount, effectiveSkillCount;
+                
+                if (tFill.hours >= intervalDuration) {
+                    // 飽和しない：全てのお手伝いが有効
+                    effectiveBerryCount = intervalHelpCount * berryProb;
+                    effectiveFoodCount = intervalHelpCount * foodProb;
+                    effectiveSkillCount = intervalHelpCount * skillProb;
+                } else {
+                    // 飽和する：飽和までのお手伝いのみ有効
+                    const effectiveHelpCount = tFill.hours * 3600 / finalSpeed;
+                    effectiveBerryCount = effectiveHelpCount * berryProb;
+                    effectiveFoodCount = effectiveHelpCount * foodProb;
+                    effectiveSkillCount = effectiveHelpCount * skillProb;
+                    
+                    const overflowHelpCount = intervalHelpCount - effectiveHelpCount;
+                    overflow += overflowHelpCount * averageIncrease;
+                }
+                
+                // エナジー計算
+                berryEnergy += effectiveBerryCount * berryEnergyPerBerry * berryPerCount * berryFavoriteMultiplier;
+                foodEnergy += effectiveFoodCount * avgFoodCount * avgFoodEnergy * fbMultiplier;
+                skillEnergy += effectiveSkillCount * cookEnergyPerSkill;
+            }
+            
+            // 最後の端数時間（タップ間隔で割り切れない残り）
+            const remainingTime = duration - (tapCount * tapInterval);
+            if (remainingTime > 0) {
+                const remainingSeconds = remainingTime * 3600;
+                const remainingHelpCount = remainingSeconds / finalSpeed;
+                
+                let effectiveBerryCount, effectiveFoodCount, effectiveSkillCount;
+                
+                if (tFill.hours >= remainingTime) {
+                    effectiveBerryCount = remainingHelpCount * berryProb;
+                    effectiveFoodCount = remainingHelpCount * foodProb;
+                    effectiveSkillCount = remainingHelpCount * skillProb;
+                } else {
+                    const effectiveHelpCount = tFill.hours * 3600 / finalSpeed;
+                    effectiveBerryCount = effectiveHelpCount * berryProb;
+                    effectiveFoodCount = effectiveHelpCount * foodProb;
+                    effectiveSkillCount = effectiveHelpCount * skillProb;
+                    
+                    const overflowHelpCount = remainingHelpCount - effectiveHelpCount;
+                    overflow += overflowHelpCount * averageIncrease;
+                }
+                
+                berryEnergy += effectiveBerryCount * berryEnergyPerBerry * berryPerCount * berryFavoriteMultiplier;
+                foodEnergy += effectiveFoodCount * avgFoodCount * avgFoodEnergy * fbMultiplier;
+                skillEnergy += effectiveSkillCount * cookEnergyPerSkill;
+            }
+            
+            return { berryEnergy, foodEnergy, skillEnergy, overflow };
         }
 
         // ===== ライチュウ計算関数 =====
@@ -14184,8 +14461,189 @@
         /**
          * 入替候補ポケモンの1日エナジーを計算（汎用版）
          */
+        /**
+         * 入替候補ポケモンのエナジー計算（所持数・スケジュール計算モード）
+         */
+        function calculateReplacementWithCapacity(pokemonType) {
+            const pokemon = POKEMON_STATS[pokemonType];
+            const level = parseInt(document.getElementById(`${pokemonType}Level`)?.value) || 60;
+            
+            // 運用モードを取得
+            const operationMode = document.querySelector('input[name="replacementOperationMode"]:checked')?.value || 'active';
+            const isIdleMode = operationMode === 'idle';
+            
+            console.log(`[${pokemon.name}] 運用モード:`, operationMode, 'いつ育:', isIdleMode);
+            
+            // スケジュール情報を取得
+            const sleepStart = parseTime(document.getElementById('sleepStart').value);
+            const sleepEnd = parseTime(document.getElementById('sleepEnd').value);
+            const workDuration = parseFloat(document.getElementById('workDuration').value);
+            const workTapInterval = parseFloat(document.getElementById('workTapInterval').value);
+            const relaxTapInterval = parseFloat(document.getElementById('relaxTapInterval').value);
+            
+            let sleepDuration = sleepEnd >= sleepStart 
+                ? sleepEnd - sleepStart 
+                : (24 - sleepStart) + sleepEnd;
+            const relaxDuration = 24 - sleepDuration - workDuration;
+            
+            // おてスピ計算
+            const speedInfo = getReplacementPokemonSpeed(pokemonType);
+            const finalSpeed = speedInfo.final;
+            
+            // 確率計算
+            const baseFoodProb = pokemon.foodProb;
+            const foodM = document.getElementById(`${pokemonType}FoodM`)?.checked || false;
+            const foodS = document.getElementById(`${pokemonType}FoodS`)?.checked || false;
+            const foodNature = parseFloat(document.querySelector(`input[name="${pokemonType}FoodNature"]:checked`)?.value) || 1.0;
+            
+            let foodProb;
+            if (isIdleMode) {
+                foodProb = 0; // いつの間に育成
+            } else {
+                foodProb = baseFoodProb;
+                if (foodM) foodProb *= 1.36;
+                if (foodS) foodProb *= 1.18;
+                foodProb *= foodNature;
+            }
+            const berryProb = 1 - foodProb;
+            
+            // スキル確率
+            let skillProb = getReplacementPokemonSkillProb(pokemonType);
+            if (isIdleMode) {
+                skillProb = 0; // いつの間に育成
+            }
+            
+            // きのみエナジー
+            const berryBaseEnergy = pokemon.berryBaseEnergy;
+            const berryEnergyPerBerry = calculateBerryEnergy(berryBaseEnergy, level);
+            const berryS = document.getElementById(`${pokemonType}BerryS`)?.checked || false;
+            const berryPerCount = berryS ? 3 : (pokemon.defaultBerryCount || 2);
+            
+            // 好物きのみ
+            const favoriteBerry = isFavoriteBerry(pokemon.berryName);
+            const exOther = document.querySelector('input[name="exOther"]:checked')?.value || 'none';
+            
+            // 食材エナジー計算
+            const foodSlots = pokemon.foodSlots;
+            let selectedFoodSlots = [];
+            
+            if (level >= 60 && foodSlots.lv60) {
+                const lv30Choice = document.querySelector(`input[name="${pokemonType}FoodLv30"]:checked`)?.value || 'A';
+                const lv60Choice = document.querySelector(`input[name="${pokemonType}FoodLv60"]:checked`)?.value || 'A';
+                selectedFoodSlots.push(foodSlots.lv1[0]);
+                const lv30Slot = foodSlots.lv30.find(s => s.label === lv30Choice);
+                if (lv30Slot) selectedFoodSlots.push(lv30Slot);
+                const lv60Slot = foodSlots.lv60.find(s => s.label === lv60Choice);
+                if (lv60Slot) selectedFoodSlots.push(lv60Slot);
+            } else if (level >= 30 && foodSlots.lv30) {
+                const lv30Choice = document.querySelector(`input[name="${pokemonType}FoodLv30"]:checked`)?.value || 'A';
+                selectedFoodSlots.push(foodSlots.lv1[0]);
+                const lv30Slot = foodSlots.lv30.find(s => s.label === lv30Choice);
+                if (lv30Slot) selectedFoodSlots.push(lv30Slot);
+            } else if (foodSlots.lv1) {
+                selectedFoodSlots.push(foodSlots.lv1[0]);
+            }
+            
+            // 食材個数の計算
+            let totalCount = 0;
+            let totalEnergy = 0;
+            const exFoodBonus = (exOther === 'food') ? 1 : 0;
+            const eventFoodCount = getEventFoodCountValue();
+            
+            selectedFoodSlots.forEach(slot => {
+                const count = slot.count + exFoodBonus + eventFoodCount;
+                totalCount += count;
+                const slotEnergy = count * slot.energy;
+                totalEnergy += slotEnergy;
+            });
+            
+            const avgFoodCount = totalCount / selectedFoodSlots.length;
+            const avgFoodEnergy = totalEnergy / totalCount;
+            
+            // ===== 通常計算を実行してスキル効果量を取得 =====
+            // 無限ループを防ぐため、一時的に所持数チェックをオフにする
+            const useCapacityCheckbox = document.getElementById('useCapacityCalculation');
+            const originalChecked = useCapacityCheckbox.checked;
+            useCapacityCheckbox.checked = false;
+            
+            console.log(`[${pokemon.name}] 通常計算を実行してスキル効果量を取得...`);
+            calculateReplacementPokemonEnergy(pokemonType);
+            
+            // チェック状態を戻す
+            useCapacityCheckbox.checked = originalChecked;
+            
+            // グローバル変数から取得
+            const cookEnergyPerSkill = window.lastReplacementEnergyPerSkill || 0;
+            console.log(`[${pokemon.name}] 取得したスキル効果量:`, cookEnergyPerSkill);
+            
+            // フィールドボーナス
+            const fieldBonus = parseFloat(document.getElementById('fieldBonus').value) || 0;
+            const fbMultiplier = 1 + (fieldBonus / 100);
+            
+            // いいキャンプチケット
+            const campTicket = document.getElementById(`${pokemonType}CT`)?.checked || false;
+            
+            // 最大所持数計算
+            const maxCapacity = calculateMaxCapacity(pokemonType, campTicket);
+            
+            // 平均増加量計算
+            const averageIncrease = calculateAverageIncrease(berryProb, foodProb, berryPerCount, avgFoodCount);
+            
+            // スケジュールデータ
+            const scheduleData = {
+                sleepDuration: sleepDuration,
+                workDuration: workDuration,
+                workTapInterval: workTapInterval,
+                relaxDuration: relaxDuration,
+                relaxTapInterval: relaxTapInterval
+            };
+            
+            // 24時間シミュレーション実行（入替候補ポケモン専用）
+            const simulation = simulateReplacementPokemon24Hours({
+                maxCapacity: maxCapacity,
+                finalSpeed: finalSpeed,
+                berryProb: berryProb,
+                foodProb: foodProb,
+                skillProb: skillProb,
+                berryEnergyPerBerry: berryEnergyPerBerry,
+                berryPerCount: berryPerCount,
+                avgFoodEnergy: avgFoodEnergy,
+                avgFoodCount: avgFoodCount,
+                cookEnergyPerSkill: cookEnergyPerSkill,
+                fbMultiplier: fbMultiplier,
+                favoriteBerry: favoriteBerry,
+                exOther: exOther,
+                scheduleData: scheduleData
+            });
+            
+            console.log(`[${pokemon.name}] 所持数計算完了:`, {
+                finalSpeed: finalSpeed.toFixed(2),
+                maxCapacity: maxCapacity,
+                averageIncrease: averageIncrease.toFixed(2),
+                tFill: simulation.tFill.hours.toFixed(2) + 'h',
+                totalEnergy: Math.round(simulation.totalEnergy)
+            });
+            
+            return simulation.totalEnergy;
+        }
+        
+        /**
+         * 入替候補ポケモンのエナジー計算（通常モード：24時間固定）
+         */
         function calculateReplacementPokemonEnergy(pokemonType) {
             const pokemon = POKEMON_STATS[pokemonType];
+            
+            // ===== 所持数・スケジュール計算モードの判定 =====
+            const useCapacityCalc = document.getElementById('useCapacityCalculation')?.checked || false;
+            
+            if (useCapacityCalc) {
+                // 所持数・スケジュール計算モードの場合
+                console.log(`[${pokemon.name}] 所持数・スケジュール計算モードで計算開始`);
+                return calculateReplacementWithCapacity(pokemonType);
+            }
+            
+            // ===== 通常モード（24時間固定計算）=====
+            console.log(`[${pokemon.name}] 通常モード（24時間固定）で計算開始`);
             
             // 運用モードを取得
             const operationMode = document.querySelector('input[name="replacementOperationMode"]:checked')?.value || 'active';
@@ -15202,6 +15660,10 @@
                 'effectiveSkillCount=' + effectiveSkillCount,
                 'energyPerSkill=' + energyPerSkill
             );
+            
+            // グローバル変数に保存（所持数計算で使用）
+            window.lastReplacementEnergyPerSkill = energyPerSkill;
+            
             const skillEnergy = effectiveSkillCount * energyPerSkill;
             console.log('[DEBUG] skillEnergy=' + skillEnergy);
             
@@ -18400,7 +18862,6 @@
                 currentSpeed = currentSpeed * speedNature;
                 currentSpeed = currentSpeed / (campTicket ? 1.2 : 1.0);
                 currentSpeed = currentSpeed * exSpeed;
-                currentSpeed = currentSpeed * (1 - eventSpeed);
                 
                 const finalSpeed = currentSpeed;
                 
@@ -20923,11 +21384,18 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 exOtherBoost: document.querySelector('input[name="exOtherBoost"]:checked')?.value,
                 
                 // イベント補正
-                eventSpeedBoost: document.getElementById('eventSpeedBoost')?.value,
                 eventSkillBoost: document.getElementById('eventSkillBoost')?.value,
                 
                 // 料理エナジー
                 cookingEnergy: document.getElementById('cookingEnergy')?.value,
+                
+                // 所持数・スケジュール計算
+                useCapacityCalculation: document.getElementById('useCapacityCalculation')?.checked,
+                sleepStart: document.getElementById('sleepStart')?.value,
+                sleepEnd: document.getElementById('sleepEnd')?.value,
+                workDuration: document.getElementById('workDuration')?.value,
+                workTapInterval: document.getElementById('workTapInterval')?.value,
+                relaxTapInterval: document.getElementById('relaxTapInterval')?.value,
                 
                 savedAt: new Date().toISOString()
             };
@@ -21094,7 +21562,6 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 }
                 
                 // イベント補正
-                if (settings.eventSpeedBoost) document.getElementById('eventSpeedBoost').value = settings.eventSpeedBoost;
                 if (settings.eventSkillBoost) document.getElementById('eventSkillBoost').value = settings.eventSkillBoost;
                 
                 // 料理エナジー
