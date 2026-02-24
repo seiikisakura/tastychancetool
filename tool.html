@@ -489,8 +489,15 @@
             display: block;
         }
         
-        /* 入替候補ポケモンのタブパネル */
-        [id^="replacementPokemonMode_"] .tab-panel {
+        /* 入替候補ポケモンの個別設定セクションはネスト内なのでpaddingをリセット */
+        #replacementSettings [id^="replacementPokemonMode_"].section {
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            margin-bottom: 0;
+        }
+
+
             border-top: 2px solid #e8eaf6;
             margin: 0 -20px;
             padding: 20px 20px;
@@ -1136,7 +1143,7 @@
     </style>
 </head>
 <body>
-    <div style="position: fixed; top: 0; right: 0; background: #673AB7; color: white; padding: 4px 8px; font-size: 11px; z-index: 9999; border-radius: 0 0 0 4px;">v2.46-METRONOME</div>
+
     <!-- 詳細設定ボタン -->
     <button class="settings-button" onclick="toggleSettings()">⚙️</button>
 
@@ -10754,8 +10761,10 @@
             </div>
         </div>
 
-        <button onclick="calculate()">計算する</button>
-        <button id="screenshotBtn" onclick="generateShareImage()" disabled style="margin-left: 10px; background: #5c6bc0; color: white; border: none; border-radius: 8px; padding: 12px 20px; font-size: 16px; cursor: pointer; opacity: 0.5;">📸 共有画像を生成</button>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button onclick="calculate()">計算する</button>
+            <button id="screenshotBtn" onclick="generateShareImage()" disabled style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; padding: 15px 20px; font-size: 18px; font-weight: bold; cursor: pointer; opacity: 0.5; box-shadow: 0 4px 15px rgba(102,126,234,0.4);">📸 共有画像を生成</button>
+        </div>
 
         <!-- 結果表示 -->
         <div class="results" id="resultsSection" style="display: none;">
@@ -11154,12 +11163,67 @@
 
     <!-- ポケモンボックス - 編集モーダル -->
     <div id="editPokemonModal" class="modal-overlay" style="display: none;">
-        <div class="modal-content" style="max-width: 500px;">
-            <h2 style="margin-bottom: 20px; color: #333;">✏️ ニックネームを編集</h2>
+        <div class="modal-content" style="max-width: 520px; max-height: 90vh; overflow-y: auto;">
+            <h2 style="margin-bottom: 20px; color: #333;">✏️ ポケモンを編集</h2>
             
             <div class="input-group">
                 <label class="input-label" for="editPokemonNickname">ニックネーム</label>
-                <input type="text" id="editPokemonNickname" maxlength="30" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                <input type="text" id="editPokemonNickname" maxlength="30" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                <div class="input-group" style="margin-bottom: 0;">
+                    <label class="input-label" for="editPokemonLevel">レベル（1-100）</label>
+                    <input type="number" id="editPokemonLevel" min="1" max="100" value="60" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
+                </div>
+                <div class="input-group" style="margin-bottom: 0;">
+                    <label class="input-label" for="editPokemonSkillLevel">スキルレベル</label>
+                    <select id="editPokemonSkillLevel" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box;">
+                        <option value="1">Lv1</option>
+                        <option value="2">Lv2</option>
+                        <option value="3">Lv3</option>
+                        <option value="4">Lv4</option>
+                        <option value="5">Lv5</option>
+                        <option value="6" selected>Lv6</option>
+                        <option value="7">Lv7</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">サブスキル</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px;">
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="editSubSpeedM"> おてスピM
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="editSubSpeedS"> おてスピS
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="editSubSkillM"> スキル確率M
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="editSubSkillS"> スキル確率S
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="editSubFoodM"> 食材確率M
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="editSubFoodS"> 食材確率S
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="editSubBerryS"> きのみの数S
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="editSubCapacityL"> 最大所持数L
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="editSubCapacityM"> 最大所持数M
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="editSubCapacityS"> 最大所持数S
+                    </label>
+                </div>
             </div>
             
             <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
@@ -23819,6 +23883,45 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         }
 
         // 編集モーダルを開く
+        // 編集モーダルにポケモンデータを読み込む共通処理
+        function populateEditModal(pokemon) {
+            document.getElementById('editPokemonNickname').value = pokemon.nickname;
+            document.getElementById('editPokemonLevel').value = pokemon.level || 60;
+            document.getElementById('editPokemonSkillLevel').value = pokemon.skillLevel || 6;
+            const s = pokemon.subskills || {};
+            document.getElementById('editSubSpeedM').checked = !!s.speedM;
+            document.getElementById('editSubSpeedS').checked = !!s.speedS;
+            document.getElementById('editSubSkillM').checked = !!s.skillM;
+            document.getElementById('editSubSkillS').checked = !!s.skillS;
+            document.getElementById('editSubFoodM').checked  = !!s.foodM;
+            document.getElementById('editSubFoodS').checked  = !!s.foodS;
+            document.getElementById('editSubBerryS').checked = !!s.berryS;
+            document.getElementById('editSubCapacityL').checked = !!s.capacityL;
+            document.getElementById('editSubCapacityM').checked = !!s.capacityM;
+            document.getElementById('editSubCapacityS').checked = !!s.capacityS;
+        }
+
+        // 編集モーダルから変更データを取得する共通処理
+        function getEditModalChanges() {
+            return {
+                nickname: document.getElementById('editPokemonNickname').value.trim(),
+                level: parseInt(document.getElementById('editPokemonLevel').value) || 60,
+                skillLevel: parseInt(document.getElementById('editPokemonSkillLevel').value) || 6,
+                subskills: {
+                    speedM: document.getElementById('editSubSpeedM').checked,
+                    speedS: document.getElementById('editSubSpeedS').checked,
+                    skillM: document.getElementById('editSubSkillM').checked,
+                    skillS: document.getElementById('editSubSkillS').checked,
+                    foodM:  document.getElementById('editSubFoodM').checked,
+                    foodS:  document.getElementById('editSubFoodS').checked,
+                    berryS: document.getElementById('editSubBerryS').checked,
+                    capacityL: document.getElementById('editSubCapacityL').checked,
+                    capacityM: document.getElementById('editSubCapacityM').checked,
+                    capacityS: document.getElementById('editSubCapacityS').checked,
+                }
+            };
+        }
+
         let currentEditingPokemonId = null;
         
         function openEditModal(pokemonId) {
@@ -23831,7 +23934,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             }
             
             currentEditingPokemonId = pokemonId;
-            document.getElementById('editPokemonNickname').value = pokemon.nickname;
+            populateEditModal(pokemon);
             document.getElementById('editPokemonModal').style.display = 'flex';
         }
 
@@ -23846,9 +23949,9 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         function saveEdit() {
             if (!currentEditingPokemonId) return;
             
-            const newNickname = document.getElementById('editPokemonNickname').value.trim();
+            const changes = getEditModalChanges();
             
-            if (!newNickname) {
+            if (!changes.nickname) {
                 alert('⚠️ ニックネームを入力してください');
                 return;
             }
@@ -23861,9 +23964,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 return;
             }
             
-            // ニックネーム重複チェック（自分以外）
             const duplicateExists = boxData.cookingChancePokemon.some(
-                p => p.id !== currentEditingPokemonId && p.nickname === newNickname
+                p => p.id !== currentEditingPokemonId && p.nickname === changes.nickname
             );
             
             if (duplicateExists) {
@@ -23871,10 +23973,10 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 return;
             }
             
-            boxData.cookingChancePokemon[pokemonIndex].nickname = newNickname;
+            Object.assign(boxData.cookingChancePokemon[pokemonIndex], changes);
             
             if (savePokemonBoxData(boxData)) {
-                alert('✅ ニックネームを変更しました！');
+                alert('✅ 変更を保存しました！');
                 closeEditModal();
                 renderPokemonList(document.getElementById('pokemonSearchBox').value);
             }
@@ -23939,7 +24041,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             }
             
             currentEditingReplacementPokemonId = pokemonId;
-            document.getElementById('editPokemonNickname').value = pokemon.nickname;
+            populateEditModal(pokemon);
             document.getElementById('editPokemonModal').style.display = 'flex';
         }
 
@@ -23947,9 +24049,9 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         function saveEditForReplacement() {
             if (!currentEditingReplacementPokemonId) return;
             
-            const newNickname = document.getElementById('editPokemonNickname').value.trim();
+            const changes = getEditModalChanges();
             
-            if (!newNickname) {
+            if (!changes.nickname) {
                 alert('⚠️ ニックネームを入力してください');
                 return;
             }
@@ -23963,7 +24065,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             }
             
             const duplicateExists = boxData.replacementPokemon.some(
-                p => p.id !== currentEditingReplacementPokemonId && p.nickname === newNickname
+                p => p.id !== currentEditingReplacementPokemonId && p.nickname === changes.nickname
             );
             
             if (duplicateExists) {
@@ -23971,10 +24073,10 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 return;
             }
             
-            boxData.replacementPokemon[pokemonIndex].nickname = newNickname;
+            Object.assign(boxData.replacementPokemon[pokemonIndex], changes);
             
             if (savePokemonBoxData(boxData)) {
-                alert('✅ ニックネームを変更しました！');
+                alert('✅ 変更を保存しました！');
                 closeEditModal();
                 currentEditingReplacementPokemonId = null;
                 renderReplacementPokemonList(document.getElementById('pokemonSearchBox').value);
@@ -24524,7 +24626,34 @@ function collectReplacementData() {
   const skillEnergyDay = Math.round(skillEffectAmount * skillCount);
   const dailyEnergy = document.getElementById('replacementDailyEnergyValue')?.textContent || '--';
 
-  return { name, level, berryEnergyDay, skillEnergyDay, dailyEnergy };
+  // サブスキル収集
+  const pokemonId = document.getElementById('replacementPokemonValue')?.value || 'none';
+  const subskills = [];
+  if (pokemonId !== 'none') {
+    const subskillMap = [
+      { id: `${pokemonId}SpeedM`,    label: 'おてスピM' },
+      { id: `${pokemonId}SpeedS`,    label: 'おてスピS' },
+      { id: `${pokemonId}SkillM`,    label: 'スキル確率M' },
+      { id: `${pokemonId}SkillS`,    label: 'スキル確率S' },
+      { id: `${pokemonId}FoodM`,     label: '食材確率M' },
+      { id: `${pokemonId}FoodS`,     label: '食材確率S' },
+      { id: `${pokemonId}BerryS`,    label: 'きのみS' },
+      { id: `${pokemonId}CapacityL`, label: '所持数L' },
+      { id: `${pokemonId}CapacityM`, label: '所持数M' },
+      { id: `${pokemonId}CapacityS`, label: '所持数S' },
+    ];
+    subskillMap.forEach(({ id, label }) => {
+      if (document.getElementById(id)?.checked) subskills.push(label);
+    });
+    // おてぼ枚数
+    const otebonusVal = parseInt(document.getElementById(`${pokemonId}Otebonus`)?.value || 0);
+    if (otebonusVal > 0) subskills.push(`おてぼ×${otebonusVal}`);
+  }
+
+  // スキルレベル
+  const skillLevelText = document.getElementById('replacementSkillLevelValue')?.textContent || '--';
+
+  return { name, level, berryEnergyDay, skillEnergyDay, dailyEnergy, subskills, skillLevelText };
 }
 
 function collectResultsTableData() {
@@ -24724,8 +24853,13 @@ function drawLeftColumn(ctx, data, colX, colW, startY, maxH) {
   ctx.font = `bold 16px "Hiragino Sans", sans-serif`;
   ctx.fillStyle = '#222';
   ctx.textBaseline = 'top';
-  ctx.fillText(`${r.name}  Lv${r.level}`, colX + PAD, y);
+  ctx.fillText(`${r.name}  Lv${r.level}  スキルLv${r.skillLevelText}`, colX + PAD, y);
   y += 22;
+  if (r.subskills && r.subskills.length > 0) {
+    y = drawLine(ctx, r.subskills.join(' / '), colX + PAD, y, 12, '#666');
+  } else {
+    y = drawLine(ctx, 'サブスキルなし', colX + PAD, y, 12, '#888');
+  }
   ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(colX + PAD, y + 2); ctx.lineTo(colX + colW - PAD, y + 2); ctx.stroke();
   y += 8;
