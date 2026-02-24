@@ -86,6 +86,12 @@
             margin-top: 10px;
             display: none;
         }
+
+        .countdown {
+            color: #888;
+            font-size: 13px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -101,14 +107,26 @@
         >
         <button class="auth-btn" onclick="verifyAccess()">アクセス</button>
         <div class="auth-error" id="authError">パスワードが正しくありません</div>
+        <div class="countdown" id="countdown"></div>
     </div>
 
+    <!-- GoatCounter -->
+    <script data-goatcounter="https://seiikisakura.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
     <script>
+        // 公開日時：2026/02/27 12:00 JST = 2026/02/27 03:00 UTC
+        const RELEASE_TIME = new Date('2026-02-27T03:00:00Z');
+
         const _0x4a2b = {
-            s: 'pks2025_salt_v1',  // ソルト
-            i: 10000,              // イテレーション回数
-            h: '3ef28f6b244ef9bbfd23f7379c9226668bc18ba049e03e7660676a2777169c5e'  // 正しいハッシュ値
+            s: 'pks2025_salt_v1',
+            i: 10000,
+            h: '3ef28f6b244ef9bbfd23f7379c9226668bc18ba049e03e7660676a2777169c5e'
         };
+
+        // 公開済みかチェック
+        function isReleased() {
+            return new Date() >= RELEASE_TIME;
+        }
 
         // SHA-256ハッシュ関数
         async function _0x7c3d(input) {
@@ -130,9 +148,15 @@
 
         // アクセス検証
         async function verifyAccess() {
+            // 公開済みなら即リダイレクト
+            if (isReleased()) {
+                window.location.href = 'tool.html';
+                return;
+            }
+
             const input = document.getElementById('authInput').value;
             const error = document.getElementById('authError');
-            
+
             if (!input) {
                 error.style.display = 'block';
                 error.textContent = 'パスワードを入力してください';
@@ -140,13 +164,11 @@
             }
 
             const hash = await _0x9f1e(input);
-            
+
             if (hash === _0x4a2b.h) {
-                // 認証成功 - sessionStorageに保存してtool.htmlへリダイレクト
                 sessionStorage.setItem('_auth', '1');
                 window.location.href = 'tool.html';
             } else {
-                // 認証失敗
                 error.style.display = 'block';
                 error.textContent = 'パスワードが正しくありません';
                 document.getElementById('authInput').value = '';
@@ -154,22 +176,48 @@
             }
         }
 
-        // Enterキーでも認証
-        document.addEventListener('DOMContentLoaded', function() {
-            const authInput = document.getElementById('authInput');
-            authInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    verifyAccess();
-                }
-            });
-
-            // 既に認証済みの場合は直接tool.htmlへ
-            if (sessionStorage.getItem('_auth') === '1') {
+        // カウントダウン表示
+        function updateCountdown() {
+            const now = new Date();
+            const diff = RELEASE_TIME - now;
+            if (diff <= 0) {
+                // 公開時刻を過ぎたら自動リダイレクト
                 window.location.href = 'tool.html';
+                return;
+            }
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            const parts = [];
+            if (d > 0) parts.push(`${d}日`);
+            parts.push(`${h}時間`, `${m}分`, `${s}秒`);
+            document.getElementById('countdown').textContent =
+                `正式公開まで：${parts.join(' ')}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 公開済みなら即リダイレクト
+            if (isReleased()) {
+                window.location.href = 'tool.html';
+                return;
             }
 
-            // フォーカス
-            authInput.focus();
+            // 既に認証済みの場合も即リダイレクト
+            if (sessionStorage.getItem('_auth') === '1') {
+                window.location.href = 'tool.html';
+                return;
+            }
+
+            // カウントダウン開始
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            document.getElementById('authInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') verifyAccess();
+            });
+
+            document.getElementById('authInput').focus();
         });
     </script>
 </body>
