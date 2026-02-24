@@ -1706,6 +1706,31 @@
             </div>
         </div>
 
+        <!-- お知らせ -->
+        <div style="margin: 0 0 25px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background: white;">
+            <!-- 常時表示バー -->
+            <div id="noticeBar" onclick="toggleNoticePanel()" style="display: flex; align-items: center; gap: 12px; padding: 12px 18px; cursor: pointer; user-select: none; background: white;">
+                <span style="background: #667eea; color: white; border: none; border-radius: 20px; padding: 6px 14px; font-size: 14px; font-weight: bold; white-space: nowrap;">🔔 お知らせ</span>
+                <span id="latestNoticeText" style="font-size: 13px; color: #444; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+                <span id="noticeToggleIcon" style="color: #999; font-size: 12px;">▼</span>
+            </div>
+
+            <!-- 展開パネル -->
+            <div id="noticePanel" style="display: none; border-top: 1px solid #eee;">
+                <!-- タグフィルター -->
+                <div style="display: flex; gap: 8px; padding: 12px 18px; flex-wrap: wrap; border-bottom: 1px solid #eee; background: #fafafa;">
+                    <button onclick="filterNotice('all')" class="notice-filter-btn active" data-tag="all" style="padding: 4px 12px; border-radius: 20px; border: 1px solid #ccc; background: #667eea; color: white; font-size: 12px; cursor: pointer;">すべて</button>
+                    <button onclick="filterNotice('update')" class="notice-filter-btn" data-tag="update" style="padding: 4px 12px; border-radius: 20px; border: 1px solid #ccc; background: white; color: #555; font-size: 12px; cursor: pointer;">📢 アップデート</button>
+                    <button onclick="filterNotice('bug')" class="notice-filter-btn" data-tag="bug" style="padding: 4px 12px; border-radius: 20px; border: 1px solid #ccc; background: white; color: #555; font-size: 12px; cursor: pointer;">⚠️ 不具合</button>
+                    <button onclick="filterNotice('plan')" class="notice-filter-btn" data-tag="plan" style="padding: 4px 12px; border-radius: 20px; border: 1px solid #ccc; background: white; color: #555; font-size: 12px; cursor: pointer;">📅 今後の予定</button>
+                    <button onclick="filterNotice('diary')" class="notice-filter-btn" data-tag="diary" style="padding: 4px 12px; border-radius: 20px; border: 1px solid #ccc; background: white; color: #555; font-size: 12px; cursor: pointer;">📝 日記</button>
+                </div>
+
+                <!-- お知らせ一覧 -->
+                <div id="noticeList" style="padding: 8px 0; max-height: 300px; overflow-y: auto;"></div>
+            </div>
+        </div>
+
         <!-- 料理チャンスポケモン登録 -->
         <div class="section">
             <div class="section-title">料理チャンスポケモン登録</div>
@@ -1739,6 +1764,10 @@
                     <div class="radio-item">
                         <input type="radio" id="pokemon_spheal_holiday" name="pokemon" value="spheal_holiday" onchange="updateMainPokemonFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();">
                         <label for="pokemon_spheal_holiday">タマザラシ(ホリデーリース)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="pokemon_heracross" name="pokemon" value="heracross" onchange="updateMainPokemonFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();">
+                        <label for="pokemon_heracross">ヘラクロス</label>
                     </div>
                 </div>
             </div>
@@ -1791,6 +1820,7 @@
                     <option value="4">Lv4</option>
                     <option value="5">Lv5</option>
                     <option value="6" selected>Lv6</option>
+                    <option value="7">Lv7</option>
                 </select>
             </div>
 
@@ -1920,6 +1950,16 @@
 
         <div class="section" id="replacementSettings">
             <div class="section-title">入替候補ポケモン設定</div>
+            
+            <!-- ポケモンボックス操作ボタン -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
+                <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    💾 ボックスに保存
+                </button>
+                <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    📂 ボックスから呼び出し
+                </button>
+            </div>
             
             <!-- ポケモン選択 -->
             <div class="input-group">
@@ -2072,16 +2112,6 @@
 
             <!-- ライチュウ設定モード -->
             <div class="section" id="replacementPokemonMode_raichu" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
-                
                 <div class="input-group">
                     <label class="input-label" for="raichuLevel">レベル（1-100）</label>
                     <input type="number" id="raichuLevel" min="1" max="100" value="60">
@@ -2259,15 +2289,6 @@
 
             <!-- ゴルダック設定モード -->
             <div class="section" id="replacementPokemonMode_golduck" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="golduckLevel">レベル（1-100）</label>
@@ -2446,15 +2467,6 @@
 
             <!-- オコリザル設定モード -->
             <div class="section" id="replacementPokemonMode_primeape" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="primeapeLevel">レベル（1-100）</label>
@@ -2633,15 +2645,6 @@
 
             <!-- メガニウム設定モード -->
             <div class="section" id="replacementPokemonMode_meganium" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="meganiumLevel">レベル（1-100）</label>
@@ -2820,15 +2823,6 @@
 
             <!-- バクフーン設定モード -->
             <div class="section" id="replacementPokemonMode_typhlosion" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="typhlosionLevel">レベル（1-100）</label>
@@ -3007,15 +3001,6 @@
 
             <!-- オーダイル設定モード -->
             <div class="section" id="replacementPokemonMode_feraligatr" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="feraligatrLevel">レベル（1-100）</label>
@@ -3190,15 +3175,6 @@
 
             <!-- ジュペッタ設定モード -->
             <div class="section" id="replacementPokemonMode_gengar" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="gengarLevel">レベル（1-100）</label>
@@ -3376,15 +3352,6 @@
             </div>
 
             <div class="section" id="replacementPokemonMode_sudowoodo" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="sudowoodoLevel">レベル（1-100）</label>
@@ -3562,15 +3529,6 @@
             </div>
         
             <div class="section" id="replacementPokemonMode_steelix" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="steelixLevel">レベル（1-100）</label>
@@ -3748,15 +3706,6 @@
             </div>
         
             <div class="section" id="replacementPokemonMode_ampharos" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="ampharosLevel">レベル（1-100）</label>
@@ -3934,15 +3883,6 @@
             </div>
 
             <div class="section" id="replacementPokemonMode_espeon" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="espeonLevel">レベル（1-100）</label>
@@ -4120,15 +4060,6 @@
             </div>
 
             <div class="section" id="replacementPokemonMode_houndoom" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="houndoomLevel">レベル（1-100）</label>
@@ -4306,15 +4237,6 @@
             </div>
 
             <div class="section" id="replacementPokemonMode_salamence" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="salamenceLevel">レベル（1-100）</label>
@@ -4492,15 +4414,6 @@
             </div>
 
             <div class="section" id="replacementPokemonMode_sceptile" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="sceptileLevel">レベル（1-100）</label>
@@ -4771,15 +4684,6 @@
                 
             </div>
             <div class="section" id="replacementPokemonMode_braviary" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="braviaryLevel">レベル（1-100）</label>
@@ -5050,15 +4954,6 @@
                 
             </div>
             <div class="section" id="replacementPokemonMode_mimikyu" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="mimikyuLevel">レベル（1-100）</label>
@@ -5329,15 +5224,6 @@
                 
             </div>
             <div class="section" id="replacementPokemonMode_cresselia" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="cresseliaLevel">レベル（1-100）</label>
@@ -5695,15 +5581,6 @@
             
             <!-- キュウコン（アローラのすがた）設定モード -->
             <div class="section" id="replacementPokemonMode_vulpix_alola" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="vulpix_alolaLevel">レベル（1-100）</label>
@@ -5891,15 +5768,6 @@
             
             <!-- ウインディ設定モード -->
             <div class="section" id="replacementPokemonMode_arcanine" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="arcanineLevel">レベル（1-100）</label>
@@ -6087,15 +5955,6 @@
             
             <!-- サンダース設定モード -->
             <div class="section" id="replacementPokemonMode_jolteon" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="jolteonLevel">レベル（1-100）</label>
@@ -6283,15 +6142,6 @@
             
             <!-- エルレイド設定モード -->
             <div class="section" id="replacementPokemonMode_gallade" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="galladeLevel">レベル（1-100）</label>
@@ -6479,15 +6329,6 @@
 
             <!-- ライコウ設定モード -->
             <div class="section" id="replacementPokemonMode_raikou" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="raikouLevel">レベル（1-100）</label>
@@ -6694,15 +6535,6 @@
 
             <!-- エンテイ設定モード -->
             <div class="section" id="replacementPokemonMode_entei" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="enteiLevel">レベル（1-100）</label>
@@ -6909,15 +6741,6 @@
 
             <!-- スイクン設定モード -->
             <div class="section" id="replacementPokemonMode_suicune" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="suicuneLevel">レベル（1-100）</label>
@@ -7124,15 +6947,6 @@
 
             <!-- ムシャーナ設定モード -->
             <div class="section" id="replacementPokemonMode_musharna" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="musharnaLevel">レベル（1-100）</label>
@@ -7321,15 +7135,6 @@
 
             <!-- ドードリオ設定モード -->
             <div class="section" id="replacementPokemonMode_dodrio" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="dodrioLevel">レベル（1-100）</label>
@@ -7518,15 +7323,6 @@
 
             <!-- ラッタ設定モード -->
             <div class="section" id="replacementPokemonMode_ratta" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="rattaLevel">レベル（1-100）</label>
@@ -7715,15 +7511,6 @@
 
             <!-- アーボック設定モード -->
             <div class="section" id="replacementPokemonMode_arbok" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="arbokLevel">レベル（1-100）</label>
@@ -7912,15 +7699,6 @@
 
             <!-- ガラガラ設定モード -->
             <div class="section" id="replacementPokemonMode_marowak" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="marowakLevel">レベル（1-100）</label>
@@ -8106,15 +7884,6 @@
 
             <!-- バシャーモ設定モード -->
             <div class="section" id="replacementPokemonMode_blaziken" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="blazikenLevel">レベル（1-100）</label>
@@ -8303,15 +8072,6 @@
 
             <!-- チルタリス設定モード -->
             <div class="section" id="replacementPokemonMode_altaria" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="altariaLevel">レベル（1-100）</label>
@@ -8500,15 +8260,6 @@
 
             <!-- キュウコン設定モード -->
             <div class="section" id="replacementPokemonMode_kyukon" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="kyukonLevel">レベル（1-100）</label>
@@ -8697,15 +8448,6 @@
 
             <!-- ピクシー設定モード -->
             <div class="section" id="replacementPokemonMode_pixie" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="pixieLevel">レベル（1-100）</label>
@@ -8890,15 +8632,6 @@
 
             <!-- フワライド設定モード -->
             <div class="section" id="replacementPokemonMode_fuwaride" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="fuwarideLevel">レベル（1-100）</label>
@@ -9049,15 +8782,6 @@
 
             <!-- ダークライ設定モード -->
             <div class="section" id="replacementPokemonMode_darkrai" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="darkraiLevel">レベル（1-100）</label>
@@ -9302,15 +9026,6 @@
 
             <!-- バタフリー設定モード -->
             <div class="section" id="replacementPokemonMode_butterfree" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="butterfreeLevel">レベル（1-100）</label>
@@ -9489,15 +9204,6 @@
 
             <!-- イワーク設定モード -->
             <div class="section" id="replacementPokemonMode_onix" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="onixLevel">レベル（1-100）</label>
@@ -9676,15 +9382,6 @@
 
             <!-- ネイティオ設定モード -->
             <div class="section" id="replacementPokemonMode_xatu" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="xatuLevel">レベル（1-100）</label>
@@ -9863,15 +9560,6 @@
 
             <!-- ヤルキモノ設定モード -->
             <div class="section" id="replacementPokemonMode_vigoroth" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="vigorothLevel">レベル（1-100）</label>
@@ -10050,15 +9738,6 @@
 
             <!-- ケッキング設定モード -->
             <div class="section" id="replacementPokemonMode_slaking" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="slakingLevel">レベル（1-100）</label>
@@ -10237,15 +9916,6 @@
 
             <!-- トドゼルガ設定モード -->
             <div class="section" id="replacementPokemonMode_walrein" style="display: none;">
-                <!-- ポケモンボックス操作ボタン -->
-                <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
-                    <button type="button" id="saveReplacementPokemonBtn" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        💾 ボックスに保存
-                    </button>
-                    <button type="button" id="loadReplacementPokemonBtn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                        📂 ボックスから呼び出し
-                    </button>
-                </div>
 
                 <div class="input-group">
                     <label class="input-label" for="walreinLevel">レベル（1-100）</label>
@@ -11085,6 +10755,7 @@
         </div>
 
         <button onclick="calculate()">計算する</button>
+        <button id="screenshotBtn" onclick="generateShareImage()" disabled style="margin-left: 10px; background: #5c6bc0; color: white; border: none; border-radius: 8px; padding: 12px 20px; font-size: 16px; cursor: pointer; opacity: 0.5;">📸 共有画像を生成</button>
 
         <!-- 結果表示 -->
         <div class="results" id="resultsSection" style="display: none;">
@@ -11177,6 +10848,11 @@
                             </div>
                             <div style="font-size: 12px; color: #2e7d32;">
                                 スキルエナジー（1日あたり）: <strong><span id="detailedSkillEnergyPerDay">--</span></strong>
+                            </div>
+                            <div id="cookingAssistBreakdown" style="display: none; margin-top: 6px; padding: 6px 10px; background: #f1f8e9; border-radius: 6px; border-left: 3px solid #81c784;">
+                                <div style="font-size: 11px; color: #388e3c;">内訳（1回あたり）</div>
+                                <div style="font-size: 12px; color: #2e7d32;">　料理チャンス部分: <strong><span id="assistCookingChanceEnergy">--</span></strong></div>
+                                <div style="font-size: 12px; color: #2e7d32;">　食材ゲット部分: <strong><span id="assistFoodGetEnergy">--</span></strong></div>
                             </div>
                             <details style="margin-top: 10px;">
                                 <summary style="cursor: pointer; font-size: 11px; color: #1976d2; user-select: none;">
@@ -11806,6 +11482,34 @@
                         { label: 'A', name: 'ピュアなオイル', count: 4, energy: 121 },
                         { label: 'B', name: 'マメミート', count: 4, energy: 103 },
                         { label: 'C', name: 'あったかジンジャー', count: 4, energy: 109 }
+                    ]
+                }
+            },
+            heracross: {
+                name: 'ヘラクロス',
+                rawBaseSpeed: 2300,  // 基礎おてスピ
+                lv60RawSpeed: 2300,  // Lv60、元気上限での結果
+                berryName: 'ラムのみ',
+                berryBaseEnergy: 24,  // 基礎エナジー
+                foodProb: 0.158,      // 15.8%
+                skillProb: 0.047,     // 4.7%
+                skillCeiling: 62,     // スキル天井
+                baseCapacity: 20,     // 基礎所持数（スキル得意）
+                maxSkillRights: 2,    // スキル発動権上限（スキル得意）
+                defaultBerryCount: 1, // デフォルトきのみ個数（スキル得意）
+                mainSkill: 'cookingAssist',  // 料理アシスト
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'あまいミツ', count: 1, energy: 100 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'あまいミツ', count: 2, energy: 100 },
+                        { label: 'B', name: 'あじわいキノコ', count: 1, energy: 167 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'あまいミツ', count: 4, energy: 100 },
+                        { label: 'B', name: 'あじわいキノコ', count: 2, energy: 167 },
+                        { label: 'C', name: 'まめミート', count: 4, energy: 103 }
                     ]
                 }
             },
@@ -14419,7 +14123,20 @@
             3: 0.06,
             4: 0.07,
             5: 0.08,
-            6: 0.10
+            6: 0.10,
+            7: 0.10  // 既存料理チャンスポケモンはLv6まで
+        };
+
+        // 料理アシスト（ヘラクロス）の料理チャンス部分効果量
+        const COOKING_ASSIST_EFFECTS = {
+            1: 0.01, 2: 0.02, 3: 0.02,
+            4: 0.03, 5: 0.03, 6: 0.04, 7: 0.05
+        };
+
+        // 料理アシスト（ヘラクロス）の食材ゲット個数
+        const COOKING_ASSIST_FOOD_TABLE = {
+            1: 6, 2: 8, 3: 11,
+            4: 14, 5: 17, 6: 21, 7: 24
         };
 
         // 時刻をパース（HH:MM → 小数点時間）
@@ -15455,21 +15172,21 @@
                 // エナジーチャージS固定
                 const ENERGY_CHARGE_FIXED = {
                     1: 400, 2: 569, 3: 785, 4: 1083,
-                    5: 1496, 6: 2066, 7: 3002
+                    5: 1496, 6: 2066, 7: 3121
                 };
                 energyPerSkill = ENERGY_CHARGE_FIXED[skillLevel] || 2066;
             } else if (mainSkill === 'energyCharge_variable') {
                 // エナジーチャージS変動（平均値）
                 const ENERGY_CHARGE_VARIABLE = {
                     1: 500, 2: 711.5, 3: 981.5, 4: 1354,
-                    5: 1835, 6: 2582.5, 7: 3752.5
+                    5: 1835, 6: 2582.5, 7: 4015
                 };
                 energyPerSkill = ENERGY_CHARGE_VARIABLE[skillLevel] || 2582.5;
             } else if (mainSkill === 'energyCharge_M') {
                 // エナジーチャージM
                 const ENERGY_CHARGE_M = {
                     1: 880, 2: 1251, 3: 1726, 4: 2383,
-                    5: 3290, 6: 4546, 7: 6409
+                    5: 3290, 6: 4546, 7: 6858
                 };
                 energyPerSkill = ENERGY_CHARGE_M[skillLevel] || 4546;
             } else if (mainSkill === 'foodGet_S') {
@@ -15546,6 +15263,61 @@
                         energyPerSkill: energyPerSkill.toFixed(1)
                     });
                 }
+            } else if (mainSkill === 'cookingAssist') {
+                // 料理アシスト（ヘラクロス）：食材ゲット + 料理チャンスの複合スキル
+                const selectedFoods = getSelectedFoods();
+
+                // ---- 食材ゲット部分（食材ゲットSと同じロジック） ----
+                let foodGetEnergy = 0;
+                if (selectedFoods.length > 0) {
+                    const recipeSelect = document.getElementById('recipeSelect')?.value;
+                    const recipeLevel = parseInt(document.getElementById('recipeLevel')?.value) || 1;
+                    const eventCookEnergy = getEventCookEnergyValue();
+                    const baseCookSuccessMultiplier = 1.1;
+
+                    let recipeData = null;
+                    let recipeLevelBonus = 1.0;
+                    let cookEventMultiplier = eventCookEnergy;
+
+                    if (recipeSelect && recipeSelect !== '') {
+                        recipeData = recipeSelect === 'custom' ? getCustomRecipeData() : RECIPES[recipeSelect];
+                        recipeLevelBonus = RECIPE_LEVEL_BONUS[recipeLevel - 1] || 1.0;
+                    }
+
+                    let totalWeightedEnergy = 0;
+                    selectedFoods.forEach(food => {
+                        let foodEnergy = food.energy;
+                        if (recipeData && recipeData.ingredients && recipeData.ingredients[food.name]) {
+                            foodEnergy = food.energy * recipeData.bonus * recipeLevelBonus * cookEventMultiplier * baseCookSuccessMultiplier;
+                        } else {
+                            foodEnergy = food.energy * baseCookSuccessMultiplier;
+                        }
+                        totalWeightedEnergy += foodEnergy;
+                    });
+
+                    const avgFoodEnergy = totalWeightedEnergy / selectedFoods.length;
+                    const fieldBonus = parseFloat(document.getElementById('fieldBonus')?.value) || 0;
+                    const fbMultiplier = 1 + (fieldBonus / 100);
+                    const avgFoodEnergyWithFB = avgFoodEnergy * fbMultiplier;
+
+                    const foodCountPerSkill = COOKING_ASSIST_FOOD_TABLE[skillLevel] || 21;
+                    const eventFoodGetS = getEventFoodGetSValue();
+                    foodGetEnergy = avgFoodEnergyWithFB * foodCountPerSkill * eventFoodGetS;
+                }
+
+                // ---- 料理チャンス部分（料理チャンスSと同じロジック） ----
+                const cookingAssistEffect = COOKING_ASSIST_EFFECTS[skillLevel] || 0.04;
+                const cookingChanceEnergy = cookEnergy * cookingAssistEffect * getEventCookEnergyValue();
+
+                energyPerSkill = foodGetEnergy + cookingChanceEnergy;
+
+                console.log('料理アシスト計算:', {
+                    skillLevel,
+                    foodGetEnergy: foodGetEnergy.toFixed(1),
+                    cookingChanceEffect: (cookingAssistEffect * 100).toFixed(0) + '%',
+                    cookingChanceEnergy: cookingChanceEnergy.toFixed(1),
+                    energyPerSkill: energyPerSkill.toFixed(1)
+                });
             } else if (mainSkill === 'cookingPower_S') {
                 // 料理パワーアップS
                 const mode = document.querySelector('input[name="cookingPowerMode"]:checked')?.value || 'multiplier';
@@ -15555,7 +15327,7 @@
                     const multiplier = parseFloat(document.getElementById('cookingPowerMultiplierValue')?.value) || 1.0;
                     const ENERGY_CHARGE_M = {
                         1: 880, 2: 1251, 3: 1726, 4: 2383,
-                        5: 3290, 6: 4546, 7: 6409
+                        5: 3290, 6: 4546, 7: 6858
                     };
                     const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
                     energyPerSkill = baseEnergy * multiplier;
@@ -15796,7 +15568,7 @@
                     const multiplierValue = parseFloat(document.getElementById(`${pokemonType}MoonlightMultiplierValue`)?.value) || 1.0;
                     // エナジーチャージM（全ポケモン共通、Lv7まで）
                     const ENERGY_CHARGE_M = {
-                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6858
                     };
                     const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
                     energyPerSkill = baseEnergy * multiplierValue;
@@ -15872,7 +15644,7 @@
                     const multiplierValue = parseFloat(document.getElementById(`${pokemonType}HelpSupportMultiplierValue`)?.value) || 1.0;
                     // きのみ・食材得意用のエナジーチャージM（Lv7まで）
                     const ENERGY_CHARGE_M = {
-                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6858
                     };
                     const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
                     energyPerSkill = baseEnergy * multiplierValue;
@@ -15992,9 +15764,9 @@
                     const multiplierValue = parseFloat(document.getElementById(`${pokemonType}YumeKakeraMultiplierValue`)?.value) || 1.0;
                     // エナジーチャージMの効果量（Lv7まで）
                     const ENERGY_CHARGE_M = {
-                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6858
                     };
-                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6858;
                     energyPerSkill = baseEnergy * multiplierValue;
                     
                     console.log('[yumeKakeraGetS 倍率モード] 計算:', {
@@ -16108,9 +15880,9 @@
                     const multiplierValue = parseFloat(document.getElementById(`${pokemonType}MetronomeMultiplierValue`)?.value) || 1.0;
                     // きのみとくい用のエナジーチャージM（Lv7まで、Lv7は外挿値）
                     const ENERGY_CHARGE_M = {
-                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6858
                     };
-                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6858;
                     energyPerSkill = baseEnergy * multiplierValue;
                     
                     console.log('[metronome 倍率モード] 計算:', {
@@ -16187,9 +15959,9 @@
                     const multiplierValue = parseFloat(document.getElementById(`${pokemonType}NightmareMultiplierValue`)?.value) || 1.0;
                     // エナジーチャージMの効果量を基準に倍率計算
                     const ENERGY_CHARGE_M = {
-                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6858
                     };
-                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6858;
                     energyPerSkill = baseEnergy * multiplierValue;
                     
                     console.log('[nightmare 倍率モード] 計算:', {
@@ -16207,9 +15979,9 @@
                 } else if (nightmareMode === 'ignore') {
                     // げんき減少を度外視（ナイトメア固有の効果量を使用）
                     const NIGHTMARE_ENERGY = {
-                        1: 2640, 2: 3753, 3: 5178, 4: 7149, 5: 9870, 6: 13638, 7: 17304
+                        1: 2640, 2: 3753, 3: 5178, 4: 7149, 5: 9870, 6: 13638, 7: 18515
                     };
-                    energyPerSkill = NIGHTMARE_ENERGY[skillLevel] || 17304;
+                    energyPerSkill = NIGHTMARE_ENERGY[skillLevel] || 18515;
                     
                     console.log('[nightmare げんき減少度外視モード] スキルエナジー = ナイトメア効果量 Lv' + skillLevel);
                 }
@@ -16351,7 +16123,7 @@
                     const multiplier = parseFloat(document.getElementById(`${pokemonType}HelpSupportMultiplierValue`)?.value) || 1.0;
                     // きのみ・食材得意用のエナジーチャージM（Lv7まで）
                     const ENERGY_CHARGE_M = {
-                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6858
                     };
                     const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
                     skillEffectFormula = `おてつだいサポートS (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
@@ -16397,9 +16169,9 @@
                     const multiplier = parseFloat(document.getElementById(`${pokemonType}YumeKakeraMultiplierValue`)?.value) || 1.0;
                     // エナジーチャージMの効果量（Lv7まで）
                     const ENERGY_CHARGE_M = {
-                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6858
                     };
-                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6858;
                     skillEffectFormula = `ゆめのかけらゲットS (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'direct') {
                     skillEffectFormula = `ゆめのかけらゲットS (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
@@ -16446,9 +16218,9 @@
                 if (mode === 'multiplier') {
                     const multiplier = parseFloat(document.getElementById(`${pokemonType}MetronomeMultiplierValue`)?.value) || 1.0;
                     const ENERGY_CHARGE_M = {
-                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6858
                     };
-                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6858;
                     skillEffectFormula = `ゆびをふる (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'direct') {
                     skillEffectFormula = `ゆびをふる (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
@@ -16491,19 +16263,24 @@
                 if (mode === 'multiplier') {
                     const multiplier = parseFloat(document.getElementById(`${pokemonType}NightmareMultiplierValue`)?.value) || 1.0;
                     const ENERGY_CHARGE_M = {
-                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6409
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6858
                     };
-                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6409;
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 6858;
                     skillEffectFormula = `ナイトメア (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'direct') {
                     skillEffectFormula = `ナイトメア (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'ignore') {
                     const NIGHTMARE_ENERGY = {
-                        1: 2640, 2: 3753, 3: 5178, 4: 7149, 5: 9870, 6: 13638, 7: 17304
+                        1: 2640, 2: 3753, 3: 5178, 4: 7149, 5: 9870, 6: 13638, 7: 18515
                     };
-                    const baseEnergy = NIGHTMARE_ENERGY[skillLevel] || 17304;
+                    const baseEnergy = NIGHTMARE_ENERGY[skillLevel] || 18515;
                     skillEffectFormula = `ナイトメア (げんき減少度外視) Lv${skillLevel}: ${baseEnergy.toLocaleString()}`;
                 }
+            } else if (mainSkill === 'cookingAssist') {
+                // 料理アシストの計算式表示
+                const assistEffect = COOKING_ASSIST_EFFECTS[skillLevel] || 0.04;
+                const assistFoodCount = COOKING_ASSIST_FOOD_TABLE[skillLevel] || 21;
+                skillEffectFormula = `料理アシスト Lv${skillLevel}: 食材ゲット${assistFoodCount}個 + 料理チャンス+${(assistEffect*100).toFixed(0)}% (スキルエナジー: ${Math.round(energyPerSkill).toLocaleString()})`;
             } else if (mainSkill === 'cookingPower_S') {
                 // 料理パワーアップSの計算式表示
                 const mode = document.querySelector('input[name="cookingPowerMode"]:checked')?.value || 'multiplier';
@@ -16512,7 +16289,7 @@
                     const multiplier = parseFloat(document.getElementById('cookingPowerMultiplierValue')?.value) || 1.0;
                     const ENERGY_CHARGE_M = {
                         1: 880, 2: 1251, 3: 1726, 4: 2383,
-                        5: 3290, 6: 4546, 7: 6409
+                        5: 3290, 6: 4546, 7: 6858
                     };
                     const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
                     skillEffectFormula = `料理パワーアップS (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
@@ -16787,7 +16564,8 @@
                     'stockpile': 'たくわえる',
                     'metronome': 'ゆびをふる',
                     'energyYell_S': 'げんきエールS',
-                    'nightmare': 'ナイトメア'
+                    'nightmare': 'ナイトメア',
+                    'cookingAssist': '料理アシスト'
                 };
                 const mainSkill = pokemon.mainSkill || '';
                 const skillName = skillNames[mainSkill] || 'スキル';
@@ -17683,7 +17461,7 @@
 
         // 食材スロットラベルの更新
         function updateMainPokemonFoodSlotLabels() {
-            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
             const pokemon = POKEMON_STATS[pokemonType];
             const slots = pokemon.foodSlots;
             
@@ -17744,7 +17522,7 @@
         // フィールド選択に応じて好物きのみを自動判定
         function updateFavoriteBerry() {
             const fieldSelect = document.getElementById('fieldSelect').value;
-            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
             const pokemon = POKEMON_STATS[pokemonType];
             const pokemonBerry = pokemon.berryName;
             
@@ -17816,7 +17594,7 @@
             }
             
             // ワカクサ本島EXの場合、メイン/サブきのみを判定
-            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
             const pokemon = POKEMON_STATS[pokemonType];
             const pokemonBerry = pokemon.berryName;
             
@@ -17883,7 +17661,7 @@
             }
             
             // ワカクサ本島EXの場合、メインきのみを判定
-            const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
             const pokemon = POKEMON_STATS[pokemonType];
             const pokemonBerry = pokemon.berryName;
             
@@ -18489,7 +18267,7 @@
             try {
                 // 従来の計算モード（以下は既存のコードをそのまま継続）
                 // ポケモン選択
-                const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+                const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
                 const pokemon = POKEMON_STATS[pokemonType];
             
             // 入力値の取得
@@ -18505,9 +18283,9 @@
             const berryS = document.getElementById('berryS').checked;
             const otebonus = parseInt(document.getElementById('otebonus').value);
             
-            const speedNature = parseFloat(document.querySelector('input[name="speedNature"]:checked').value);
-            const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked').value);
-            const foodNature = parseFloat(document.querySelector('input[name="foodNature"]:checked').value);
+            const speedNature = parseFloat(document.querySelector('input[name="speedNature"]:checked')?.value ?? '1.0');
+            const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked')?.value ?? '1.0');
+            const foodNature = parseFloat(document.querySelector('input[name="foodNature"]:checked')?.value ?? '1.0');
             
             console.log('入力値取得完了、バリデーション開始...');
             // バリデーション
@@ -18555,7 +18333,7 @@
             
             // ワカクサ本島EXの場合は自動計算、それ以外は補正なし
             const exSpeed = getExSpeedMultiplier();
-            const exOther = document.querySelector('input[name="exOther"]:checked').value;
+            const exOther = document.querySelector('input[name="exOther"]:checked')?.value ?? 'none';
             
             // ワカクサ本島EXのメインきのみスキルレベル補正
             const mainBerrySkillBonus = getMainBerrySkillLevelBonus();
@@ -18588,7 +18366,7 @@
             const considerSkillCeiling = document.getElementById('considerSkillCeiling').checked;
             
             // 食材エナジーモード
-            const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
+            const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked')?.value ?? 'hybrid';
 
             // スキルレベル計算（基本値 + イベント補正 + メインきのみ補正、上限6）
             const skillLevel = Math.min(baseSkillLevel + eventSkillLevel + mainBerrySkillBonus, 6);
@@ -18778,8 +18556,46 @@
             const cookSuccessIncreaseMultiplier = simpleWeekendBonus ? 2 : 1;
             
             // スキル1回あたりの効果量（表示用・計算用共通）= 大成功で増えるエナジー × スキル効果量 × イベント倍率
-            const cookEnergyBase = cookEnergy * cookSuccessIncreaseMultiplier * SKILL_EFFECTS[skillLevel] * eventCookEnergy;
-            const cookEnergyPerSkill = cookEnergyBase;
+            // 料理アシスト（ヘラクロス）は専用の効果量テーブルを使用
+            const cookingEffectRate = (pokemon.mainSkill === 'cookingAssist')
+                ? (COOKING_ASSIST_EFFECTS[skillLevel] || 0.04)
+                : (SKILL_EFFECTS[skillLevel] || 0.10);
+            const cookEnergyBase = cookEnergy * cookSuccessIncreaseMultiplier * cookingEffectRate * eventCookEnergy;
+
+            // 料理アシストの場合は食材ゲット部分を加算
+            let foodAssistEnergy = 0;
+            if (pokemon.mainSkill === 'cookingAssist') {
+                const selectedFoods = getSelectedFoods();
+                if (selectedFoods.length > 0) {
+                    const recipeSelect = document.getElementById('recipeSelect')?.value;
+                    const recipeLevel = parseInt(document.getElementById('recipeLevel')?.value) || 1;
+                    const eventCookEnergy2 = getEventCookEnergyValue();
+                    const baseCookSuccessMultiplier = 1.1;
+                    let recipeData = null;
+                    let recipeLevelBonus = 1.0;
+                    if (recipeSelect && recipeSelect !== '') {
+                        recipeData = recipeSelect === 'custom' ? getCustomRecipeData() : RECIPES[recipeSelect];
+                        recipeLevelBonus = RECIPE_LEVEL_BONUS[recipeLevel - 1] || 1.0;
+                    }
+                    let totalWeightedEnergy = 0;
+                    selectedFoods.forEach(food => {
+                        let fe = food.energy;
+                        if (recipeData && recipeData.ingredients && recipeData.ingredients[food.name]) {
+                            fe = food.energy * recipeData.bonus * recipeLevelBonus * eventCookEnergy2 * baseCookSuccessMultiplier;
+                        } else {
+                            fe = food.energy * baseCookSuccessMultiplier;
+                        }
+                        totalWeightedEnergy += fe;
+                    });
+                    const avgFoodEnergyAssist = totalWeightedEnergy / selectedFoods.length;
+                    const fbMultiplierAssist = 1 + ((parseFloat(document.getElementById('fieldBonus')?.value) || 0) / 100);
+                    const foodCountAssist = COOKING_ASSIST_FOOD_TABLE[skillLevel] || 21;
+                    const eventFoodGetSAssist = getEventFoodGetSValue();
+                    foodAssistEnergy = avgFoodEnergyAssist * fbMultiplierAssist * foodCountAssist * eventFoodGetSAssist;
+                }
+            }
+
+            const cookEnergyPerSkill = cookEnergyBase + foodAssistEnergy;
 
             // スペック表示
             document.getElementById('pokemonName').textContent = pokemon.name;
@@ -18851,6 +18667,18 @@
                 // 詳細計算結果を専用エリアに表示
                 document.getElementById('detailedSkillEnergyPerSkill').textContent = Math.round(window.detailedSkillEnergyPerActivation).toLocaleString();
                 document.getElementById('detailedSkillEnergyPerDay').textContent = Math.round(window.detailedSkillEnergyPerDay).toLocaleString();
+
+                // 料理アシスト内訳表示
+                const breakdownDiv = document.getElementById('cookingAssistBreakdown');
+                if (breakdownDiv) {
+                    if (window.isCookingAssist) {
+                        breakdownDiv.style.display = 'block';
+                        document.getElementById('assistCookingChanceEnergy').textContent = Math.round(window.cookingAssistCookingChanceEnergy).toLocaleString();
+                        document.getElementById('assistFoodGetEnergy').textContent = Math.round(window.cookingAssistFoodGetEnergy).toLocaleString();
+                    } else {
+                        breakdownDiv.style.display = 'none';
+                    }
+                }
                 
                 // 計算過程の詳細を表示
                 if (window.detailedSkillCalcProcessHTML) {
@@ -19210,6 +19038,13 @@
             // 結果セクションを表示
             document.getElementById('resultsSection').style.display = 'block';
             console.log('結果セクションを表示しました');
+            // スマホモード時、計算結果セクションが折りたたまれていたら強制展開
+            const _resultSection = document.getElementById('resultsSection')?.querySelector('.section.accordion-mode');
+            if (_resultSection && _resultSection.classList.contains('collapsed')) {
+                _resultSection.classList.remove('collapsed');
+            }
+            const _sBtn1 = document.getElementById('screenshotBtn');
+            if (_sBtn1) { _sBtn1.disabled = false; _sBtn1.style.opacity = '1'; }
             
             } catch (error) {
                 console.error('=== 通常計算モードでエラー発生 ===');
@@ -19362,7 +19197,7 @@
                 const relaxDuration = 24 - sleepDuration - workDuration;
                 
                 // 基本パラメータの取得
-                const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+                const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
                 const pokemon = POKEMON_STATS[pokemonType];
                 const level = parseInt(document.getElementById('level').value);
                 
@@ -19376,9 +19211,9 @@
                 const berryS = document.getElementById('berryS').checked;
                 const otebonus = parseInt(document.getElementById('otebonus').value);
                 
-                const speedNature = parseFloat(document.querySelector('input[name="speedNature"]:checked').value);
-                const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked').value);
-                const foodNature = parseFloat(document.querySelector('input[name="foodNature"]:checked').value);
+                const speedNature = parseFloat(document.querySelector('input[name="speedNature"]:checked')?.value ?? '1.0');
+                const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked')?.value ?? '1.0');
+                const foodNature = parseFloat(document.querySelector('input[name="foodNature"]:checked')?.value ?? '1.0');
                 
                 // バリデーション
                 const validationError = validateInputs(level, speedNature, skillNature, foodNature, 
@@ -19398,7 +19233,7 @@
                 const baseSkillLevel = parseInt(document.getElementById('skillLevel').value);
                 // ワカクサ本島EXの場合は自動計算、それ以外は補正なし
                 const exSpeed = getExSpeedMultiplier();
-                const exOther = document.querySelector('input[name="exOther"]:checked').value;
+                const exOther = document.querySelector('input[name="exOther"]:checked')?.value ?? 'none';
                 
                 // ワカクサ本島EXのメインきのみスキルレベル補正
                 const mainBerrySkillBonus = getMainBerrySkillLevelBonus();
@@ -19413,7 +19248,7 @@
                 const considerSkillCeiling = document.getElementById('considerSkillCeiling').checked;
                 
                 // 食材エナジーモード
-                const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
+                const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked')?.value ?? 'hybrid';
                 
                 const skillLevel = Math.min(baseSkillLevel + eventSkillLevel + mainBerrySkillBonus, 6);
                 
@@ -19593,8 +19428,46 @@
                 const cookSuccessIncreaseMultiplier = simpleWeekendBonus ? 2 : 1;
                 
                 // スキル1回あたりの効果量（表示用・計算用共通）= 大成功で増えるエナジー × スキル効果量 × イベント倍率
-                const cookEnergyBase = cookEnergy * cookSuccessIncreaseMultiplier * SKILL_EFFECTS[skillLevel] * eventCookEnergy;
-                const cookEnergyPerSkill = cookEnergyBase;
+                // 料理アシスト（ヘラクロス）は専用の効果量テーブルを使用
+                const cookingEffectRateCap = (pokemon.mainSkill === 'cookingAssist')
+                    ? (COOKING_ASSIST_EFFECTS[skillLevel] || 0.04)
+                    : (SKILL_EFFECTS[skillLevel] || 0.10);
+                const cookEnergyBase = cookEnergy * cookSuccessIncreaseMultiplier * cookingEffectRateCap * eventCookEnergy;
+
+                // 料理アシストの場合は食材ゲット部分を加算
+                let foodAssistEnergyCap = 0;
+                if (pokemon.mainSkill === 'cookingAssist') {
+                    const selectedFoodsCap = getSelectedFoods();
+                    if (selectedFoodsCap.length > 0) {
+                        const recipeSelectCap = document.getElementById('recipeSelect')?.value;
+                        const recipeLevelCap = parseInt(document.getElementById('recipeLevel')?.value) || 1;
+                        const eventCookEnergy2Cap = getEventCookEnergyValue();
+                        const baseCookSuccessCap = 1.1;
+                        let recipeDataCap = null;
+                        let recipeLevelBonusCap = 1.0;
+                        if (recipeSelectCap && recipeSelectCap !== '') {
+                            recipeDataCap = recipeSelectCap === 'custom' ? getCustomRecipeData() : RECIPES[recipeSelectCap];
+                            recipeLevelBonusCap = RECIPE_LEVEL_BONUS[recipeLevelCap - 1] || 1.0;
+                        }
+                        let totalWeightedEnergyCap = 0;
+                        selectedFoodsCap.forEach(food => {
+                            let fe = food.energy;
+                            if (recipeDataCap && recipeDataCap.ingredients && recipeDataCap.ingredients[food.name]) {
+                                fe = food.energy * recipeDataCap.bonus * recipeLevelBonusCap * eventCookEnergy2Cap * baseCookSuccessCap;
+                            } else {
+                                fe = food.energy * baseCookSuccessCap;
+                            }
+                            totalWeightedEnergyCap += fe;
+                        });
+                        const avgFoodEnergyCap = totalWeightedEnergyCap / selectedFoodsCap.length;
+                        const fbMultiplierCap = 1 + ((parseFloat(document.getElementById('fieldBonus')?.value) || 0) / 100);
+                        const foodCountCap = COOKING_ASSIST_FOOD_TABLE[skillLevel] || 21;
+                        const eventFoodGetSCap = getEventFoodGetSValue();
+                        foodAssistEnergyCap = avgFoodEnergyCap * fbMultiplierCap * foodCountCap * eventFoodGetSCap;
+                    }
+                }
+
+                const cookEnergyPerSkill = cookEnergyBase + foodAssistEnergyCap;
                 
                 // 最大所持数計算
                 const maxCapacity = calculateMaxCapacity(pokemonType, campTicket);
@@ -19701,6 +19574,18 @@
                     // 詳細計算結果を専用エリアに表示
                     document.getElementById('detailedSkillEnergyPerSkill').textContent = Math.round(window.detailedSkillEnergyPerActivation).toLocaleString();
                     document.getElementById('detailedSkillEnergyPerDay').textContent = Math.round(window.detailedSkillEnergyPerDay).toLocaleString();
+                    
+                    // 料理アシスト内訳表示
+                    const breakdownDiv2 = document.getElementById('cookingAssistBreakdown');
+                    if (breakdownDiv2) {
+                        if (window.isCookingAssist) {
+                            breakdownDiv2.style.display = 'block';
+                            document.getElementById('assistCookingChanceEnergy').textContent = Math.round(window.cookingAssistCookingChanceEnergy).toLocaleString();
+                            document.getElementById('assistFoodGetEnergy').textContent = Math.round(window.cookingAssistFoodGetEnergy).toLocaleString();
+                        } else {
+                            breakdownDiv2.style.display = 'none';
+                        }
+                    }
                     
                     // 計算過程の詳細を表示
                     if (window.detailedSkillCalcProcessHTML) {
@@ -20042,6 +19927,13 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 
                 // 結果セクションを表示
                 document.getElementById('resultsSection').style.display = 'block';
+                // スマホモード時、計算結果セクションが折りたたまれていたら強制展開
+                const _resultSection2 = document.getElementById('resultsSection')?.querySelector('.section.accordion-mode');
+                if (_resultSection2 && _resultSection2.classList.contains('collapsed')) {
+                    _resultSection2.classList.remove('collapsed');
+                }
+                const _sBtn2 = document.getElementById('screenshotBtn');
+                if (_sBtn2) { _sBtn2.disabled = false; _sBtn2.style.opacity = '1'; }
                 
             } catch (error) {
                 alert('エラーが発生しました: ' + error.message);
@@ -20856,7 +20748,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             try {
                 // ===== ステップ1: 既存のポケモンスペックを取得 =====
                 console.log('ステップ1: ポケモンスペック取得');
-                const pokemonType = document.querySelector('input[name="pokemon"]:checked').value;
+                const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
                 const pokemon = POKEMON_STATS[pokemonType];
                 const level = parseInt(document.getElementById('level').value);
                 console.log('ポケモン:', pokemonType, 'レベル:', level);
@@ -20867,13 +20759,13 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 const skillS = document.getElementById('skillS').checked;
                 const otebonus = parseInt(document.getElementById('otebonus').value);
                 
-                const speedNature = parseFloat(document.querySelector('input[name="speedNature"]:checked').value);
-                const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked').value);
+                const speedNature = parseFloat(document.querySelector('input[name="speedNature"]:checked')?.value ?? '1.0');
+                const skillNature = parseFloat(document.querySelector('input[name="skillNature"]:checked')?.value ?? '1.0');
                 const campTicket = document.getElementById('campTicket').checked;
                 
                 // ワカクサ本島EXの場合は自動計算、それ以外は補正なし
                 const exSpeed = getExSpeedMultiplier();
-                const exOther = document.querySelector('input[name="exOther"]:checked').value;
+                const exOther = document.querySelector('input[name="exOther"]:checked')?.value ?? 'none';
                 
                 // イベント補正のタイプととくいなものチェック
                 const eventTypeMatch = checkEventTypeMatch();
@@ -21196,9 +21088,46 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 // ===== ステップ5: グローバル変数に保存 & 計算過程HTMLを生成 =====
                 console.log('ステップ5: グローバル変数に保存 & 計算過程HTML生成');
                 // グローバル変数に保存（calculate関数で使用）
-                window.detailedSkillEnergyPerDay = skillEnergyPerDay;
-                window.detailedSkillEnergyPerActivation = skillEnergyPerActivation;
+                // 料理アシスト（ヘラクロス）の場合は食材ゲット部分を加算
+                let foodAssistEnergyPerActivation = 0;
+                if (pokemon.mainSkill === 'cookingAssist') {
+                    const selectedFoodsDetail = getSelectedFoods();
+                    if (selectedFoodsDetail.length > 0) {
+                        const recipeSelectDetail = document.getElementById('recipeSelect')?.value;
+                        const recipeLevelDetail = parseInt(document.getElementById('recipeLevel')?.value) || 1;
+                        const baseCookSuccessDetail = 1.1;
+                        let recipeDataDetail = null;
+                        let recipeLevelBonusDetail = 1.0;
+                        if (recipeSelectDetail && recipeSelectDetail !== '') {
+                            recipeDataDetail = recipeSelectDetail === 'custom' ? getCustomRecipeData() : RECIPES[recipeSelectDetail];
+                            recipeLevelBonusDetail = RECIPE_LEVEL_BONUS[recipeLevelDetail - 1] || 1.0;
+                        }
+                        let totalWeightedEnergyDetail = 0;
+                        selectedFoodsDetail.forEach(food => {
+                            let fe = food.energy;
+                            if (recipeDataDetail && recipeDataDetail.ingredients && recipeDataDetail.ingredients[food.name]) {
+                                fe = food.energy * recipeDataDetail.bonus * recipeLevelBonusDetail * eventCookEnergyForDetail * baseCookSuccessDetail;
+                            } else {
+                                fe = food.energy * baseCookSuccessDetail;
+                            }
+                            totalWeightedEnergyDetail += fe;
+                        });
+                        const avgFoodEnergyDetail = totalWeightedEnergyDetail / selectedFoodsDetail.length;
+                        const fieldBonusDetail = parseFloat(document.getElementById('fieldBonus')?.value) || 0;
+                        const fbMultiplierDetail = 1 + (fieldBonusDetail / 100);
+                        const foodCountDetail = COOKING_ASSIST_FOOD_TABLE[skillLevel] || 21;
+                        const eventFoodGetSDetail = getEventFoodGetSValue();
+                        foodAssistEnergyPerActivation = avgFoodEnergyDetail * fbMultiplierDetail * foodCountDetail * eventFoodGetSDetail;
+                        console.log('料理アシスト：食材ゲット部分 per activation:', Math.round(foodAssistEnergyPerActivation));
+                    }
+                }
+                window.detailedSkillEnergyPerDay = (skillEnergyPerActivation + foodAssistEnergyPerActivation) * skillCountPerDay;
+                window.detailedSkillEnergyPerActivation = skillEnergyPerActivation + foodAssistEnergyPerActivation;
                 window.detailedSkillCalcMeals = selectedMeals;  // 料理スケジュールも保存
+                // 料理アシスト内訳（ヘラクロス用）
+                window.cookingAssistCookingChanceEnergy = skillEnergyPerActivation;
+                window.cookingAssistFoodGetEnergy = foodAssistEnergyPerActivation;
+                window.isCookingAssist = (pokemon.mainSkill === 'cookingAssist');
                 console.log('グローバル変数に保存:', {
                     skillEnergyPerActivation: Math.round(skillEnergyPerActivation),
                     skillEnergyPerDay: Math.round(skillEnergyPerDay),
@@ -21429,7 +21358,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         
         // ポケモンのタイプ情報を更新して表示
         function updatePokemonTypeInfo() {
-            const pokemon = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemon = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
             const types = POKEMON_TYPES[pokemon];
             const infoDiv = document.getElementById('pokemonTypeInfo');
             
@@ -21445,7 +21374,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         
         // ポケモンのとくいなもの情報を更新して表示
         function updatePokemonSpecialtyInfo() {
-            const pokemon = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemon = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
             const specialty = POKEMON_SPECIALTIES[pokemon];
             const infoDiv = document.getElementById('pokemonSpecialtyInfo');
             
@@ -21470,7 +21399,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             }
             
             // 選択されたポケモンの情報を取得
-            const pokemon = document.querySelector('input[name="pokemon"]:checked').value;
+            const pokemon = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
             const pokemonTypes = POKEMON_TYPES[pokemon];
             const pokemonSpecialty = POKEMON_SPECIALTIES[pokemon];
             
@@ -21542,7 +21471,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         updateMealPreview();    // 食事プレビューを初期化
         
         // デフォルトの食材エナジーモードに応じて鍋容量設定を表示
-        const defaultMode = document.querySelector('input[name="foodEnergyMode"]:checked').value;
+        const defaultMode = document.querySelector('input[name="foodEnergyMode"]:checked')?.value ?? 'hybrid';
         const potCapacitySettings = document.getElementById('potCapacitySettings');
         if (defaultMode === 'surplus' || defaultMode === 'recipe' || defaultMode === 'hybrid') {
             potCapacitySettings.classList.add('active');
@@ -24375,6 +24304,19 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         });
     </script>
 
+    <!-- 注意事項 -->
+    <div style="max-width: 900px; margin: 40px auto 0; padding: 20px; background: #f0f0f0; border-radius: 8px; border: 1px solid #ccc;">
+        <div style="font-size: 14px; color: #555; font-weight: bold; margin-bottom: 12px;">⚠️ 注意事項</div>
+        <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: #666; line-height: 2;">
+            <li>計算結果などは、実際のゲーム内挙動と異なる可能性があります</li>
+            <li>計算式や各種確率などはコミュニティ調査ベースのため、公式に発表された情報ではありません</li>
+            <li>ゲームのアップデートにより数値や仕様が変わる場合があります</li>
+            <li>ツールへの反映が遅れることがあります</li>
+            <li>計算結果に基づく判断は自己責任でお願いします</li>
+            <li>2026/2/20のお知らせで存在が公表された「スキル発動回数に応じたスキル発動確率の変動仕様」は詳細が未解明のため未反映です</li>
+        </ul>
+    </div>
+
     <!-- クレジット -->
     <div style="max-width: 900px; margin: 40px auto 20px; padding: 20px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e0e0e0;">
         <div style="font-size: 14px; color: #666; text-align: center; margin-bottom: 15px; font-weight: bold;">
@@ -24401,114 +24343,664 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             </div>
             <div style="padding: 8px; background: white; border-radius: 4px;">
                 <a href="https://nitoyon.github.io/pokesleep-tool/iv/index.ja.html" target="_blank" rel="noopener noreferrer" style="color: #2196F3; text-decoration: none;">
-                    🔗 nitoyon ポケモンスリープツール
+                    🔗 個体値計算機 for ポケモンスリープ
                 </a>
                 <span style="color: #888; margin-left: 8px;">- 期待値計算の計算式の確認の際に参照</span>
             </div>
+            <div style="padding: 8px; background: #f0f4ff; border-radius: 4px; border-left: 3px solid #667eea;">
+                <span style="color: #555;">🤖 Claude AI (Anthropic) を用いてバイブコーディングで開発</span>
+            </div>
         </div>
     </div>
-    <!-- デバッグボタン（開発用） -->
-    <div style="position: fixed; bottom: 10px; right: 10px; z-index: 10000;">
-        <button id="debugSubskillBtn" style="background: #ff6600; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.3); cursor: pointer;">
-            サブスキル確認
-        </button>
+
+<!-- ========== 共有画像モーダル ========== -->
+<div id="shareImageModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:10000; overflow-y:auto; padding:20px;">
+  <div style="background:white; border-radius:12px; max-width:960px; margin:0 auto; padding:25px; position:relative;">
+    <h3 style="margin:0 0 15px; font-size:18px; color:#333;">📸 共有画像</h3>
+    <img id="shareImagePreview" style="max-width:100%; border:1px solid #ddd; border-radius:6px; display:block;">
+    <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
+      <button onclick="downloadShareImage()" style="padding:10px 18px; background:#43a047; color:white; border:none; border-radius:6px; cursor:pointer; font-size:14px;">💾 画像を保存</button>
+      <button onclick="closeShareModal()" style="padding:10px 18px; background:#e53935; color:white; border:none; border-radius:6px; cursor:pointer; font-size:14px;">✕ 閉じる</button>
     </div>
-    
-    <script>
-        document.getElementById('debugSubskillBtn').addEventListener('click', function() {
-            console.log('=== タブ幅比較デバッグ開始 ===');
-            
-            // 【1】料理チャンスポケモンのサブスキルタブ
-            console.log('\n【料理チャンスポケモン】');
-            // セクションタイトルで検索
-            const cookingSection = Array.from(document.querySelectorAll('.section')).find(section => {
-                const title = section.querySelector('.section-title');
-                return title && title.textContent.includes('料理チャンスポケモン登録');
-            });
-            if (cookingSection) {
-                const cookingTabButtons = cookingSection.querySelectorAll('.tab-button');
-                if (cookingTabButtons[1]) {
-                    cookingTabButtons[1].click(); // サブスキルタブをクリック
-                }
-                
-                // セクション全体の幅
-                const sectionStyle = window.getComputedStyle(cookingSection);
-                console.log('📦 .section 全体:');
-                console.log('  offsetWidth:', cookingSection.offsetWidth + 'px');
-                console.log('  padding:', sectionStyle.padding);
-                console.log('  max-width:', sectionStyle.maxWidth);
-                
-                const cookingTabContent = cookingSection.querySelector('.tab-content');
-                if (cookingTabContent) {
-                    const tabContentStyle = window.getComputedStyle(cookingTabContent);
-                    console.log('📄 .tab-content:');
-                    console.log('  offsetWidth:', cookingTabContent.offsetWidth + 'px');
-                    console.log('  padding:', tabContentStyle.padding);
-                    console.log('  box-sizing:', tabContentStyle.boxSizing);
-                }
-                
-                const cookingSubskill = cookingSection.querySelector('.subskill-three-columns');
-                if (cookingSubskill) {
-                    const subskillStyle = window.getComputedStyle(cookingSubskill);
-                    console.log('📊 .subskill-three-columns:');
-                    console.log('  クラス:', cookingSubskill.className);
-                    console.log('  offsetWidth:', cookingSubskill.offsetWidth + 'px');
-                    console.log('  clientWidth:', cookingSubskill.clientWidth + 'px');
-                    console.log('  grid-template-columns:', subskillStyle.gridTemplateColumns);
-                    console.log('  display:', subskillStyle.display);
-                    console.log('  gap:', subskillStyle.gap);
-                } else {
-                    console.log('エラー: subskill-three-columnsが見つかりません');
-                }
-            } else {
-                console.log('エラー: 料理チャンスポケモンが見つかりません');
-            }
-            
-            // 【2】入替候補ポケモン（バタフリー）のサブスキルタブ
-            console.log('\n【入替候補ポケモン - バタフリー】');
-            const butterfree = document.getElementById('replacementPokemonMode_butterfree');
-            if (butterfree) {
-                const butterfreeTabButtons = butterfree.querySelectorAll('.tab-button');
-                if (butterfreeTabButtons[1]) {
-                    butterfreeTabButtons[1].click(); // サブスキルタブをクリック
-                }
-                
-                // セクション全体の幅
-                const sectionStyle = window.getComputedStyle(butterfree);
-                console.log('📦 セクション全体:');
-                console.log('  offsetWidth:', butterfree.offsetWidth + 'px');
-                console.log('  padding:', sectionStyle.padding);
-                console.log('  max-width:', sectionStyle.maxWidth);
-                
-                const butterfreeTabContent = butterfree.querySelector('.tab-content');
-                if (butterfreeTabContent) {
-                    const tabContentStyle = window.getComputedStyle(butterfreeTabContent);
-                    console.log('📄 .tab-content:');
-                    console.log('  offsetWidth:', butterfreeTabContent.offsetWidth + 'px');
-                    console.log('  padding:', tabContentStyle.padding);
-                    console.log('  box-sizing:', tabContentStyle.boxSizing);
-                }
-                
-                const butterfreeSubskill = butterfree.querySelector('.subskill-three-columns');
-                if (butterfreeSubskill) {
-                    const subskillStyle = window.getComputedStyle(butterfreeSubskill);
-                    console.log('📊 .subskill-three-columns:');
-                    console.log('  クラス:', butterfreeSubskill.className);
-                    console.log('  offsetWidth:', butterfreeSubskill.offsetWidth + 'px');
-                    console.log('  clientWidth:', butterfreeSubskill.clientWidth + 'px');
-                    console.log('  grid-template-columns:', subskillStyle.gridTemplateColumns);
-                    console.log('  display:', subskillStyle.display);
-                    console.log('  gap:', subskillStyle.gap);
-                } else {
-                    console.log('エラー: subskill-three-columnsが見つかりません');
-                }
-            } else {
-                console.log('エラー: バタフリーが見つかりません');
-            }
-            
-            console.log('\n=== デバッグ完了 ===');
-            alert('タブ幅比較情報をConsole Messagesに出力しました！');
-        });
-    </script>
+  </div>
+</div>
+
+<script>
+// ===== お知らせ機能 =====
+
+const NOTICES = [
+    {
+        date: '2026/02/22',
+        tag: 'update',
+        tagLabel: '📢 アップデート',
+        text: '料理チャンス運用効率化ツールを正式に公開しました',
+        detail: '料理チャンスポケモンの運用効率を最大化するための複合期待値計算ツールです。ラグラージなど料理チャンス持ちのポケモンについて、他きのみ得意との最適な切り替えタイミングを計算します。\n\n参照元ツールである「デデンネ効率化ツール」のおが様、および「個体値計算機 for ポケモンスリープ」のnitoyon様、pks.raenonx.ccの運営チームの皆様に感謝申し上げます。\n\nなお、本ツールはプログラミング未経験者がClaude AI（Anthropic）とのバイブコーディングで開発しています。技術上の欠陥などお気づきの点はぜひご連絡ください。\n\nフィードバックは<a href="https://x.com/seiiki_sakura" target="_blank" style="color:#667eea;">X（@seiiki_sakura）</a>またはDiscordにてお気軽にどうぞ！'
+    },
+    {
+        date: '2026/02/22',
+        tag: 'plan',
+        tagLabel: '📅 今後の予定',
+        text: '実装予定の機能をお知らせします',
+        detail: '以下の機能を順次実装予定です。\n\n・料理チャンス複数編成での計算\n・料理チャンス同士での比較表示\n・料理チャンスポケモンとしてウッウの追加\n・入れ替え候補ポケモンとして一部の食材とくいポケモンの追加'
+    },
+    {
+        date: '2026/02/22',
+        tag: 'diary',
+        tagLabel: '📝 日記',
+        text: '自己紹介',
+        detail: 'こんにちは！聖域桜ヶ丘と申します！\nポケスリはほぼ初期勢、月平均5000円強くらいの課金勢です。\n\nきのみ得意はHBS、スキ得はスキMスキ補正、食得はAAA食Mを最低基準に厳選していることが多いです。食得は軽めに、きのみは重めに厳選した方が良いって、ばっちゃが言ってた。\n\n普段はDiscordサーバーPokemon Sleep JPに生息しております、気軽に話しかけてね🫶\n\nプログラミングに関しては、全くの素人です。このツールもほとんどclaudeくんに作ってもらいました。こんなんで開発者名乗るのは憚られる程度には任せきり。大体2ヶ月くらい毎日ちょろちょろと作業して完成しました。何かを修正すれば何かが壊れちゃうことが多々あるので、不具合等発見されましたら、遠慮なくお知らせください！'
+    },
+];
+
+const TAG_COLORS = {
+    update: { bg: '#e8f4fd', border: '#90caf9', text: '#1565c0' },
+    bug:    { bg: '#fff8e1', border: '#ffe082', text: '#e65100' },
+    plan:   { bg: '#f3e5f5', border: '#ce93d8', text: '#6a1b9a' },
+    diary:  { bg: '#f1f8e9', border: '#aed581', text: '#33691e' },
+};
+
+let currentFilter = 'all';
+
+function renderNotices() {
+    const list = document.getElementById('noticeList');
+    if (!list) return;
+
+    const filtered = currentFilter === 'all'
+        ? NOTICES
+        : NOTICES.filter(n => n.tag === currentFilter);
+
+    if (filtered.length === 0) {
+        list.innerHTML = '<div style="padding: 16px 18px; color: #999; font-size: 13px;">該当するお知らせはありません</div>';
+        return;
+    }
+
+    list.innerHTML = filtered.map((n, i) => {
+        const c = TAG_COLORS[n.tag] || { bg: '#f5f5f5', border: '#ddd', text: '#555' };
+        const hasDetail = n.detail && n.detail.trim() !== '';
+        return `
+        <div class="notice-item" data-tag="${n.tag}" style="border-bottom: 1px solid #f0f0f0;">
+            <div onclick="${hasDetail ? `toggleNoticeDetail(${i})` : ''}" style="padding: 12px 18px; display: flex; gap: 12px; align-items: flex-start; ${hasDetail ? 'cursor: pointer;' : ''}">
+                <span style="font-size: 11px; color: #999; white-space: nowrap; margin-top: 2px;">${n.date}</span>
+                <span style="font-size: 11px; padding: 2px 8px; border-radius: 10px; background: ${c.bg}; border: 1px solid ${c.border}; color: ${c.text}; white-space: nowrap;">${n.tagLabel}</span>
+                <span style="font-size: 13px; color: #333; line-height: 1.6; flex: 1;">${n.text}</span>
+                ${hasDetail ? `<span id="notice-icon-${i}" style="color: #999; font-size: 11px; white-space: nowrap; margin-top: 2px;">▼ 詳細</span>` : ''}
+            </div>
+            ${hasDetail ? `<div id="notice-detail-${i}" style="display: none; padding: 0 18px 14px 18px; margin-left: 42px;">
+                <div style="font-size: 13px; color: #555; line-height: 1.8; padding: 10px 14px; background: #fafafa; border-radius: 6px; border-left: 3px solid #ddd; white-space: pre-line;">${n.detail}</div>
+            </div>` : ''}
+        </div>`;
+    }).join('');
+}
+
+function toggleNoticeDetail(index) {
+    const detail = document.getElementById(`notice-detail-${index}`);
+    const icon = document.getElementById(`notice-icon-${index}`);
+    if (!detail) return;
+    const isOpen = detail.style.display !== 'none';
+    detail.style.display = isOpen ? 'none' : 'block';
+    if (icon) icon.textContent = isOpen ? '▼ 詳細' : '▲ 閉じる';
+}
+
+function filterNotice(tag) {
+    currentFilter = tag;
+    document.querySelectorAll('.notice-filter-btn').forEach(btn => {
+        const isActive = btn.getAttribute('data-tag') === tag;
+        btn.style.background = isActive ? '#667eea' : 'white';
+        btn.style.color = isActive ? 'white' : '#555';
+    });
+    renderNotices();
+}
+
+function toggleNoticePanel() {
+    const panel = document.getElementById('noticePanel');
+    const icon = document.getElementById('noticeToggleIcon');
+    const isOpen = panel.style.display !== 'none';
+    panel.style.display = isOpen ? 'none' : 'block';
+    icon.textContent = isOpen ? '▼' : '▲';
+}
+
+// 最新1件をバーに表示 & 初期描画
+(function initNotices() {
+    if (NOTICES.length > 0) {
+        const latest = NOTICES[0];
+        const el = document.getElementById('latestNoticeText');
+        if (el) el.textContent = `${latest.date}　${latest.tagLabel}　${latest.text}`;
+    }
+    renderNotices();
+})();
+
+
+
+let shareCanvas = null;
+
+// --- データ収集 ---
+
+function collectCookingData() {
+  const name = document.getElementById('pokemonName')?.textContent || '--';
+  const level = document.getElementById('displayLevel')?.textContent || '--';
+  const berryEnergy = parseFloat(document.getElementById('berryEnergy')?.textContent?.replace(/,/g, '')) || 0;
+  const berryHelpCount = parseFloat(document.getElementById('berryHelpCount')?.textContent) || 0;
+  const berryEnergyDay = Math.round(berryEnergy * berryHelpCount);
+  const skillEffectAmount = parseFloat(document.getElementById('skillEffectAmount')?.textContent?.replace(/,/g, '').split(' ')[0]) || 0;
+  const skillCount = parseFloat(document.getElementById('skillCount')?.textContent) || 0;
+  const skillEnergyDay = Math.round(skillEffectAmount * skillCount);
+
+  // サブスキル
+  const subskills = [];
+  if (document.getElementById('speedM')?.checked) subskills.push('スピM');
+  if (document.getElementById('speedS')?.checked) subskills.push('スピS');
+  const otebonusVal = parseInt(document.getElementById('otebonus')?.value || '0');
+  if (otebonusVal > 0) subskills.push(`おてぼ${otebonusVal}枚`);
+  if (document.getElementById('skillM')?.checked) subskills.push('スキルM');
+  if (document.getElementById('skillS')?.checked) subskills.push('スキルS');
+  if (document.getElementById('foodM')?.checked) subskills.push('食材M');
+  if (document.getElementById('foodS')?.checked) subskills.push('食材S');
+  if (document.getElementById('berryS')?.checked) subskills.push('きのみS');
+
+  // 性格
+  const natures = [];
+  const speedNature = document.querySelector('input[name="speedNature"]:checked')?.value;
+  if (speedNature === '0.9') natures.push('おてスピ△△');
+  else if (speedNature === '1.075') natures.push('おてスピ▽▽');
+  const skillNature = document.querySelector('input[name="skillNature"]:checked')?.value;
+  if (skillNature === '1.2') natures.push('スキル△△');
+  else if (skillNature === '0.8') natures.push('スキル▽▽');
+  const foodNature = document.querySelector('input[name="foodNature"]:checked')?.value;
+  if (foodNature === '1.2') natures.push('食材△△');
+  else if (foodNature === '0.8') natures.push('食材▽▽');
+
+  return { name, level, berryEnergyDay, skillEnergyDay, subskills, natures };
+}
+
+function collectReplacementData() {
+  const name = document.getElementById('replacementPokemonNameDisplay')?.textContent || '--';
+  const level = document.getElementById('replacementPokemonLevelDisplay')?.textContent || '--';
+  const berryEnergyPerHelp = parseFloat(document.getElementById('replacementBerryEnergyPerHelp')?.textContent?.replace(/,/g, '')) || 0;
+  const berryCount = parseFloat(document.getElementById('replacementBerryCountValue')?.textContent) || 0;
+  const berryEnergyDay = Math.round(berryEnergyPerHelp * berryCount);
+  const skillEffectText = document.getElementById('replacementSkillEffectAmount')?.textContent || '';
+  const skillEffectAmount = parseFloat(skillEffectText.replace(/,/g, '').split(' ')[0]) || 0;
+  const skillCount = parseFloat(document.getElementById('replacementSkillCountValue')?.textContent) || 0;
+  const skillEnergyDay = Math.round(skillEffectAmount * skillCount);
+  const dailyEnergy = document.getElementById('replacementDailyEnergyValue')?.textContent || '--';
+
+  return { name, level, berryEnergyDay, skillEnergyDay, dailyEnergy };
+}
+
+function collectResultsTableData() {
+  const rows = document.querySelectorAll('#resultsTable tr');
+  const data = [];
+  let maxExpected = -Infinity;
+  rows.forEach(tr => {
+    const cells = tr.querySelectorAll('td');
+    if (cells.length >= 4) {
+      const val = parseFloat((cells[3]?.textContent || '').replace(/,/g, '').replace(/[^0-9\-\.]/g, ''));
+      if (!isNaN(val) && val > maxExpected) maxExpected = val;
+    }
+  });
+  rows.forEach(tr => {
+    const cells = tr.querySelectorAll('td');
+    if (cells.length >= 4) {
+      const val = parseFloat((cells[3]?.textContent || '').replace(/,/g, '').replace(/[^0-9\-\.]/g, ''));
+      data.push({
+        count: cells[0]?.textContent?.trim() || '',
+        needed: cells[1]?.textContent?.trim() || '',
+        ratio: cells[2]?.textContent?.trim() || '',
+        expected: cells[3]?.textContent?.trim() || '',
+        isMax: (!isNaN(val) && val === maxExpected)
+      });
+    }
+  });
+  return data;
+}
+
+function collectSettingsData() {
+  const field = document.getElementById('fieldSelect');
+  const fieldName = field?.options[field?.selectedIndex]?.text || '未選択';
+  const fieldBonus = document.getElementById('fieldBonus')?.value || '0';
+
+  const exOther = document.querySelector('input[name="exOther"]:checked')?.value || 'none';
+  const exOtherLabels = { none: 'なし', berry: 'きのみ2.4倍', food: '食材+1個', skill: 'スキル1.25倍' };
+
+  const wakakusaVisible = document.getElementById('wakakusaBerrySelection')?.style.display !== 'none';
+  let wakakusaBerries = [];
+  if (wakakusaVisible) {
+    ['wakakusaBerry1','wakakusaBerry2','wakakusaBerry3'].forEach(id => {
+      const v = document.getElementById(id)?.value;
+      if (v) wakakusaBerries.push(v);
+    });
+  }
+
+  const recipe = document.getElementById('recipeSelect');
+  const recipeName = recipe?.options[recipe?.selectedIndex]?.text || '未選択';
+  const skipWeekend = document.getElementById('skipSkillOnWeekend')?.checked;
+
+  const foodModeVal = document.querySelector('input[name="foodEnergyMode"]:checked')?.value || 'hybrid';
+  const foodModeLabels = {
+    ignore: '食材度外視', unlimited: '無限ごちゃまぜ',
+    surplus: '食材余剰', recipe: 'レシピ補正', hybrid: 'ハイブリッド（推奨）'
+  };
+
+  const skillModeVal = document.querySelector('input[name="skillEnergyMode"]:checked')?.value || 'detailed';
+  const skillCeiling = document.getElementById('considerSkillCeiling')?.checked;
+  const campTicket = document.getElementById('campTicket')?.checked;
+  const useCapacity = document.getElementById('useCapacityCalculation')?.checked;
+
+  let schedule = null;
+  if (useCapacity) {
+    schedule = {
+      sleepStart: document.getElementById('sleepStart')?.value || '',
+      sleepEnd: document.getElementById('sleepEnd')?.value || '',
+      workDuration: document.getElementById('workDuration')?.value || '',
+      workTapInterval: document.getElementById('workTapInterval')?.value || '',
+      relaxTapInterval: document.getElementById('relaxTapInterval')?.value || '',
+    };
+  }
+
+  const eventTypeRestriction = document.getElementById('eventTypeRestriction')?.checked;
+  const eventTypes = eventTypeRestriction
+    ? Array.from(document.querySelectorAll('.event-type-check:checked')).map(el => el.value)
+    : [];
+  const eventSpecialtyRestriction = document.getElementById('eventSpecialtyRestriction')?.checked || false;
+  const eventSpecialties = eventSpecialtyRestriction
+    ? Array.from(document.querySelectorAll('.event-specialty-check:checked')).map(el => el.value)
+    : [];
+
+  const eventSkillMode = document.querySelector('input[name="eventSkillMode"]:checked')?.value || '1.0';
+  const eventSkillCustom = document.getElementById('eventSkillCustomValue')?.value || '1.0';
+  const eventSkillLevel = document.querySelector('input[name="eventSkillLevelMode"]:checked')?.value || '0';
+  const eventSkillLevelCustom = document.getElementById('eventSkillLevelCustomValue')?.value || '0';
+  const eventBerryCount = document.querySelector('input[name="eventBerryCountMode"]:checked')?.value || '0';
+  const eventFoodCount = document.querySelector('input[name="eventFoodCountMode"]:checked')?.value || '0';
+  const eventCookEnergy = document.querySelector('input[name="eventCookEnergyMode"]:checked')?.value || '1.0';
+  const eventCookCustom = document.getElementById('eventCookEnergyCustomValue')?.value || '1.0';
+  const eventFoodGetS = document.querySelector('input[name="eventFoodGetSMode"]:checked')?.value || '1.0';
+  const eventFoodGetSCustom = document.getElementById('eventFoodGetSCustomValue')?.value || '1.0';
+  const eventBerryBurst = document.querySelector('input[name="eventBerryBurstMode"]:checked')?.value || '1.0';
+  const eventBerryBurstCustom = document.getElementById('eventBerryBurstCustomValue')?.value || '1.0';
+
+  return {
+    field: { name: fieldName, bonus: fieldBonus, exOther: exOtherLabels[exOther] || 'なし', wakakusaBerries },
+    recipe: { name: recipeName, skipWeekend },
+    foodMode: foodModeLabels[foodModeVal] || foodModeVal,
+    skillMode: skillModeVal === 'detailed' ? '詳細計算' : '簡易計算',
+    skillCeiling,
+    campTicket,
+    useCapacity,
+    schedule,
+    event: {
+      typeRestriction: eventTypeRestriction, types: eventTypes,
+      specialtyRestriction: eventSpecialtyRestriction, specialties: eventSpecialties,
+      skillMode: eventSkillMode, skillCustom: eventSkillCustom,
+      skillLevel: eventSkillLevel, skillLevelCustom: eventSkillLevelCustom,
+      berryCount: eventBerryCount, foodCount: eventFoodCount,
+      cookEnergy: eventCookEnergy, cookCustom: eventCookCustom,
+      foodGetS: eventFoodGetS, foodGetSCustom: eventFoodGetSCustom,
+      berryBurst: eventBerryBurst, berryBurstCustom: eventBerryBurstCustom,
+    }
+  };
+}
+
+function collectShareData() {
+  return {
+    cooking: collectCookingData(),
+    replacement: collectReplacementData(),
+    results: collectResultsTableData(),
+    settings: collectSettingsData()
+  };
+}
+
+// --- Canvas描画ユーティリティ ---
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+  const chars = text.split('');
+  let line = '';
+  let currentY = y;
+  chars.forEach(char => {
+    const testLine = line + char;
+    if (ctx.measureText(testLine).width > maxWidth && line !== '') {
+      ctx.fillText(line, x, currentY);
+      line = char;
+      currentY += lineHeight;
+    } else {
+      line = testLine;
+    }
+  });
+  if (line) ctx.fillText(line, x, currentY);
+  return currentY + lineHeight;
+}
+
+function drawSectionHeader(ctx, x, y, w, text, fontSize) {
+  ctx.fillStyle = '#e8eaf6';
+  ctx.fillRect(x, y, w, fontSize + 10);
+  ctx.fillStyle = '#333';
+  ctx.font = `bold ${fontSize}px "Hiragino Sans", sans-serif`;
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x + 8, y + (fontSize + 10) / 2);
+  return y + fontSize + 10 + 4;
+}
+
+function drawLine(ctx, text, x, y, fontSize, color, bold) {
+  ctx.fillStyle = color || '#333';
+  ctx.font = `${bold ? 'bold ' : ''}${fontSize}px "Hiragino Sans", sans-serif`;
+  ctx.textBaseline = 'top';
+  ctx.fillText(text, x, y);
+  return y + fontSize + 4;
+}
+
+// --- 左カラム描画 ---
+
+function drawLeftColumn(ctx, data, colX, colW, startY, maxH) {
+  const PAD = 12;
+  let y = startY;
+
+  // ① 料理チャンスポケモン
+  y = drawSectionHeader(ctx, colX, y, colW, '■ 料理チャンスポケモン', 14);
+  const c = data.cooking;
+  ctx.font = `bold 18px "Hiragino Sans", sans-serif`;
+  ctx.fillStyle = '#222';
+  ctx.textBaseline = 'top';
+  ctx.fillText(`${c.name}  Lv${c.level}`, colX + PAD, y);
+  y += 24;
+  if (c.subskills.length > 0) {
+    y = drawLine(ctx, c.subskills.join(' / '), colX + PAD, y, 12, '#666');
+  } else {
+    y = drawLine(ctx, 'サブスキルなし', colX + PAD, y, 12, '#888');
+  }
+  if (c.natures.length > 0) {
+    y = drawLine(ctx, c.natures.join(' / '), colX + PAD, y, 12, '#555');
+  }
+  // 区切り線
+  ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(colX + PAD, y + 4); ctx.lineTo(colX + colW - PAD, y + 4); ctx.stroke();
+  y += 10;
+  y = drawLine(ctx, `きのみエナジー：${c.berryEnergyDay.toLocaleString('ja-JP')} / 日`, colX + PAD, y, 13, '#333');
+  y = drawLine(ctx, `料理チャンス：${c.skillEnergyDay.toLocaleString('ja-JP')} / 日`, colX + PAD, y, 13, '#333');
+  y += 10;
+
+  // ② 入替候補ポケモン
+  y = drawSectionHeader(ctx, colX, y, colW, '■ 入替候補ポケモン', 14);
+  const r = data.replacement;
+  ctx.font = `bold 16px "Hiragino Sans", sans-serif`;
+  ctx.fillStyle = '#222';
+  ctx.textBaseline = 'top';
+  ctx.fillText(`${r.name}  Lv${r.level}`, colX + PAD, y);
+  y += 22;
+  ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(colX + PAD, y + 2); ctx.lineTo(colX + colW - PAD, y + 2); ctx.stroke();
+  y += 8;
+  y = drawLine(ctx, `きのみエナジー：${r.berryEnergyDay.toLocaleString('ja-JP')} / 日`, colX + PAD, y, 13, '#333');
+  y = drawLine(ctx, `スキルエナジー：${r.skillEnergyDay.toLocaleString('ja-JP')} / 日`, colX + PAD, y, 13, '#333');
+  y = drawLine(ctx, `1日合計：${String(r.dailyEnergy)} エナジー`, colX + PAD, y, 13, '#1565c0', true);
+  y += 10;
+
+  // ③ 複合期待値テーブル
+  y = drawSectionHeader(ctx, colX, y, colW, '■ 複合期待値（料理チャンス + いつ育/入替候補）', 14);
+  const tableX = colX + 4;
+  const tableW = colW - 8;
+  const cols = [50, 130, 110, 120, 110]; // 発動 | 必要 | 比率 | 期待値
+  const headers = ['発動回数', '必要発動数', '料理チャンス比率', '期待値'];
+  let tx = tableX;
+
+  // テーブルヘッダー
+  ctx.fillStyle = '#667eea';
+  ctx.fillRect(tableX, y, tableW, 24);
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 12px "Hiragino Sans", sans-serif';
+  ctx.textBaseline = 'middle';
+  let hx = tableX + 4;
+  headers.forEach((h, i) => {
+    ctx.fillText(h, hx, y + 12);
+    hx += cols[i + 1] || 110;
+  });
+  y += 24;
+
+  // データ行
+  data.results.forEach((row, idx) => {
+    const rowH = 22;
+    if (row.isMax) {
+      ctx.fillStyle = '#fff9c4';
+    } else {
+      ctx.fillStyle = idx % 2 === 0 ? '#f5f5f5' : 'white';
+    }
+    ctx.fillRect(tableX, y, tableW, rowH);
+
+    ctx.fillStyle = row.isMax ? '#333' : '#444';
+    ctx.font = row.isMax ? `bold 12px "Hiragino Sans", sans-serif` : `12px "Hiragino Sans", sans-serif`;
+    ctx.textBaseline = 'middle';
+
+    let rx = tableX + 4;
+    const vals = [row.count, row.needed, row.ratio, (row.isMax ? '★ ' : '') + row.expected];
+    vals.forEach((v, i) => {
+      ctx.fillText(v, rx, y + rowH / 2);
+      rx += cols[i + 1] || 110;
+    });
+
+    // 罫線
+    ctx.strokeStyle = '#ddd'; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.moveTo(tableX, y + rowH); ctx.lineTo(tableX + tableW, y + rowH); ctx.stroke();
+    y += rowH;
+  });
+
+  return y;
+}
+
+// --- 右カラム描画 ---
+
+function drawRightColumn(ctx, data, colX, colW, startY, maxH) {
+  const PAD = 10;
+  let y = startY;
+  const s = data.settings;
+  const ev = s.event;
+
+  function label(text, value, isDefault) {
+    const lColor = '#555';
+    const vColor = isDefault ? '#aaa' : '#222';
+    ctx.font = `12px "Hiragino Sans", sans-serif`;
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = lColor;
+    ctx.fillText(text + '：', colX + PAD, y);
+    ctx.fillStyle = vColor;
+    const lw = ctx.measureText(text + '：').width;
+    const maxVal = colW - PAD - lw - 4;
+    return wrapText(ctx, value, colX + PAD + lw, y, maxVal, 16);
+  }
+
+  // ① フィールド設定
+  y = drawSectionHeader(ctx, colX, y, colW, '① フィールド設定', 13);
+  y = label('フィールド', s.field.name, false);
+  y = label('フィールドボーナス', s.field.bonus + '%', s.field.bonus === '0');
+  y = label('EXフィールド効果', s.field.exOther, s.field.exOther === 'なし');
+  if (s.field.wakakusaBerries.length > 0) y = label('好きなきのみ', s.field.wakakusaBerries.join(' / '), false);
+  y += 6;
+
+  // ② 料理・レシピ設定
+  y = drawSectionHeader(ctx, colX, y, colW, '② 料理・レシピ設定', 13);
+  y = label('レシピ', s.recipe.name, false);
+  y = label('日曜スキル拡張', s.recipe.skipWeekend ? 'スキップ' : '適用', false);
+  y += 6;
+
+  // ③ 食材エナジー計算モード
+  y = drawSectionHeader(ctx, colX, y, colW, '③ 食材エナジー計算モード', 13);
+  y = label('モード', s.foodMode, false);
+  y += 6;
+
+  // ④ スキルエナジー計算
+  y = drawSectionHeader(ctx, colX, y, colW, '④ スキルエナジー計算', 13);
+  y = label('計算方式', s.skillMode, false);
+  y += 6;
+
+  // ⑤ スキル天井
+  y = drawSectionHeader(ctx, colX, y, colW, '⑤ スキル天井考慮', 13);
+  y = label('スキル天井', s.skillCeiling ? 'ON' : 'OFF', !s.skillCeiling);
+  y += 6;
+
+  // ⑥ いいキャンプチケット
+  y = drawSectionHeader(ctx, colX, y, colW, '⑥ いいキャンプチケット', 13);
+  y = label('CT', s.campTicket ? 'あり' : 'なし', !s.campTicket);
+  y += 6;
+
+  // ⑦ 所持数・スケジュール
+  y = drawSectionHeader(ctx, colX, y, colW, '⑦ 所持数・スケジュール計算', 13);
+  if (!s.useCapacity) {
+    y = label('', '使用しない', true);
+  } else if (s.schedule) {
+    const sc = s.schedule;
+    y = label('睡眠', `${sc.sleepStart} ～ ${sc.sleepEnd}`, false);
+    y = label('集中作業', `${sc.workDuration}h / ${sc.workTapInterval}hごとタップ`, false);
+    y = label('リラックス', `${sc.relaxTapInterval}hごとタップ`, false);
+  }
+  y += 6;
+
+  // ⑧ イベント補正
+  y = drawSectionHeader(ctx, colX, y, colW, '⑧ イベント補正', 13);
+
+  function isDefEv(key) {
+    const defaults = { skillMode:'1.0', skillLevel:'0', berryCount:'0', foodCount:'0', cookEnergy:'1.0', foodGetS:'1.0', berryBurst:'1.0' };
+    return ev[key] === defaults[key];
+  }
+
+  const typeStr = ev.typeRestriction && ev.types.length > 0 ? ev.types.join(' / ') : 'なし';
+  y = label('タイプ指定', typeStr, typeStr === 'なし');
+  const specialtyStr = ev.specialtyRestriction && ev.specialties.length > 0 ? ev.specialties.join(' / ') : 'なし';
+  y = label('とくい指定', specialtyStr, specialtyStr === 'なし');
+
+  const skillModeStr = ev.skillMode === 'custom' ? `カスタム(${ev.skillCustom}倍)` : `${ev.skillMode}倍`;
+  y = label('スキル確率', skillModeStr, isDefEv('skillMode'));
+  const skillLvStr = ev.skillLevel === 'custom' ? `カスタム(+${ev.skillLevelCustom})` : `+${ev.skillLevel}`;
+  y = label('スキルレベル', skillLvStr, isDefEv('skillLevel'));
+  y = label('きのみ個数', ev.berryCount === '0' ? '通常' : `+${ev.berryCount}`, isDefEv('berryCount'));
+  y = label('食材個数', ev.foodCount === '0' ? '通常' : `+${ev.foodCount}`, isDefEv('foodCount'));
+  const cookStr = ev.cookEnergy === 'custom' ? `カスタム(${ev.cookCustom}倍)` : `${ev.cookEnergy}倍`;
+  y = label('料理エナジー', cookStr, isDefEv('cookEnergy'));
+  const foodGetSStr = ev.foodGetS === 'custom' ? `カスタム(${ev.foodGetSCustom}倍)` : `${ev.foodGetS}倍`;
+  y = label('食材ゲットS', foodGetSStr, isDefEv('foodGetS'));
+  const berryBurstStr = ev.berryBurst === 'custom' ? `カスタム(${ev.berryBurstCustom}倍)` : `${ev.berryBurst}倍`;
+  y = label('きのみバースト', berryBurstStr, isDefEv('berryBurst'));
+
+  return y;
+}
+
+// --- メイン生成関数 ---
+
+async function generateShareImage() {
+  const data = collectShareData();
+
+  const W = 1920, H = 1080;
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  shareCanvas = canvas;
+  const ctx = canvas.getContext('2d');
+
+  // 背景
+  ctx.fillStyle = '#f8f9fa';
+  ctx.fillRect(0, 0, W, H);
+
+  // 右カラム背景
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(960, 0, 960, H);
+
+  // ヘッダー
+  ctx.fillStyle = '#667eea';
+  ctx.fillRect(0, 0, W, 70);
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 28px "Hiragino Sans", sans-serif';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('🍳 料理チャンス運用効率化ツール', 30, 35);
+  const dateStr = new Date().toLocaleString('ja-JP');
+  ctx.font = '14px "Hiragino Sans", sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText(dateStr, W - 20, 35);
+  ctx.textAlign = 'left';
+
+  // カラム区切り線
+  ctx.strokeStyle = '#ddd';
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(960, 70); ctx.lineTo(960, 1050); ctx.stroke();
+
+  // 左カラム
+  drawLeftColumn(ctx, data, 0, 960, 78, 972);
+
+  // 右カラム
+  drawRightColumn(ctx, data, 962, 956, 78, 972);
+
+  // フッター（2行）
+  const TOOL_URL = 'tastychancetool.pages.dev';  // ← 正式URL確定後ここを変更
+  ctx.fillStyle = '#667eea';
+  ctx.fillRect(0, 1040, W, 40);
+  ctx.fillStyle = 'white';
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+  ctx.font = '11px "Hiragino Sans", sans-serif';
+  ctx.fillText(
+    '参考：pks.raenonx.cc / デデンネ効率化ツール(pokesuri.ogagawa.com) / ポケモンスリープ攻略Wiki / 個体値計算機 for ポケモンスリープ(nitoyon)',
+    W / 2, 1050
+  );
+  ctx.font = '11px "Hiragino Sans", sans-serif';
+  ctx.fillText(
+    `ツールURL: ${TOOL_URL}  ※このツールはファンメイドです。ポケモンスリープ・ポケモン関連の著作物は任天堂・ゲームフリーク・The Pokémon Companyに帰属します。`,
+    W / 2, 1068
+  );
+  ctx.textAlign = 'left';
+
+  // モーダル表示
+  const imgEl = document.getElementById('shareImagePreview');
+  imgEl.src = canvas.toDataURL('image/png');
+  document.getElementById('shareImageModal').style.display = 'block';
+}
+
+async function copyShareImage() {
+  if (!shareCanvas) { alert('画像がまだ生成されていません'); return; }
+
+  // ClipboardItem非対応 or ローカルファイル環境 → 新タブで開く
+  const isLocalFile = location.protocol === 'file:';
+  if (!window.ClipboardItem || isLocalFile) {
+    openImageInNewTab();
+    return;
+  }
+
+  try {
+    const blobPromise = new Promise(resolve => shareCanvas.toBlob(resolve, 'image/png'));
+    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blobPromise })]);
+    alert('クリップボードにコピーしました！');
+  } catch (e) {
+    // 失敗した場合も新タブで開く
+    openImageInNewTab();
+  }
+}
+
+function openImageInNewTab() {
+  shareCanvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const win = window.open(url, '_blank');
+    if (win) {
+      win.onload = () => setTimeout(() => URL.revokeObjectURL(url), 5000);
+      alert('新しいタブで画像を開きました。\n右クリック →「画像をコピー」または「名前を付けて画像を保存」でご利用ください。');
+    } else {
+      alert('ポップアップがブロックされました。「画像を保存」ボタンをご利用ください。');
+      URL.revokeObjectURL(url);
+    }
+  }, 'image/png');
+}
+
+function downloadShareImage() {
+  if (!shareCanvas) return;
+  shareCanvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = 'pokemon-sleep-result-' + Date.now() + '.png';
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }, 'image/png');
+}
+
+function closeShareModal() {
+  document.getElementById('shareImageModal').style.display = 'none';
+}
+</script>
 </body>
 </html>
