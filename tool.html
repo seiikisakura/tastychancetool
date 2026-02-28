@@ -419,18 +419,17 @@
             -webkit-overflow-scrolling: touch;
         }
         
-        /* 入替候補ポケモンの共通タブナビゲーション（一番上に固定されるもの） */
+        /* 入替候補ポケモンの共通タブナビゲーション（料理チャンスポケモンと統一） */
         #replacementSharedTabNav {
-            background: #667eea;
+            background: #e8eaf6;
             border-radius: 0;
-            border-bottom: 3px solid #5568d3;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #667eea;
+            box-shadow: none;
         }
         
         #replacementSharedTabNav .tab-button {
-            color: white;
-            font-weight: 600;
-            border-bottom: 3px solid transparent;
+            color: #666;
+            font-weight: 500;
         }
         
         #replacementSharedTabNav .tab-button.active {
@@ -441,8 +440,8 @@
         }
         
         #replacementSharedTabNav .tab-button:not(.active):hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
         }
         
         /* 入替候補ポケモンのタブナビゲーション */
@@ -10768,6 +10767,12 @@
             <button id="screenshotBtn" onclick="generateShareImage()" disabled style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; padding: 15px 20px; font-size: 18px; font-weight: bold; cursor: pointer; opacity: 0.5; box-shadow: 0 4px 15px rgba(102,126,234,0.4);">📸 共有画像を生成</button>
         </div>
 
+        <!-- 計算結果付近のインラインエラー表示 -->
+        <div id="inlineErrorMessage" class="error-box" style="display: none; margin-top: 16px;">
+            <div class="error-title">❌ エラー</div>
+            <div class="error-content" id="inlineErrorContent"></div>
+        </div>
+
         <!-- 結果表示 -->
         <div class="results" id="resultsSection" style="display: none;">
 
@@ -11082,18 +11087,20 @@
 
                 <!-- 複合期待値テーブル -->
                 <h3 style="margin-top: 30px; margin-bottom: 15px;">複合期待値（料理チャンス + いつ育/入替候補）</h3>
-                <table>
+                <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                <table style="min-width: 420px;">
                     <thead>
                         <tr>
-                            <th>発動回数</th>
-                            <th>1日（3食分）あたりの<br>必要発動数</th>
-                            <th>料理チャンス比率</th>
-                            <th>期待値</th>
-                            <th style="width: 80px;">詳細</th>
+                            <th style="min-width: 60px;">発動<br>回数</th>
+                            <th style="min-width: 90px;">必要発動数<br><span style="font-size:11px; font-weight:normal;">（1日3食分）</span></th>
+                            <th style="min-width: 90px;">料理チャンス<br>比率</th>
+                            <th style="min-width: 90px;">期待値</th>
+                            <th style="min-width: 60px;">詳細</th>
                         </tr>
                     </thead>
                     <tbody id="resultsTable"></tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
@@ -17525,23 +17532,63 @@
             // 何もしない
         }
 
+        // スマホモードではラジオボタンがセレクトボックスに変換されるため両方に対応するヘルパー関数
+        function getSelectedPokemon() {
+            const select = document.getElementById('pokemon');
+            if (select && select.tagName === 'SELECT') {
+                return select.value || 'swampert';
+            }
+            return document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+        }
+
         // 食材スロットラベルの更新
         function updateMainPokemonFoodSlotLabels() {
-            const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+            const pokemonType = getSelectedPokemon();
             const pokemon = POKEMON_STATS[pokemonType];
             const slots = pokemon.foodSlots;
             
             // lv30スロットのラベル更新
-            slots.lv30.forEach(slot => {
-                const label = document.getElementById(`foodLv30Label${slot.label}`);
-                label.textContent = `${slot.name}${slot.count}`;
-            });
+            // スマホモード（セレクトボックス）とPCモード（ラジオボタンのラベル）両対応
+            const lv30Select = document.getElementById('foodLv30');
+            if (lv30Select && lv30Select.tagName === 'SELECT') {
+                // セレクトボックスのオプション一覧を更新
+                const currentVal = lv30Select.value;
+                lv30Select.innerHTML = '';
+                slots.lv30.forEach(slot => {
+                    const option = document.createElement('option');
+                    option.value = slot.label;
+                    option.textContent = `${slot.name}${slot.count}`;
+                    lv30Select.appendChild(option);
+                });
+                // 選択値を維持（存在しない場合は最初のオプション）
+                lv30Select.value = currentVal;
+                if (!lv30Select.value) lv30Select.selectedIndex = 0;
+            } else {
+                slots.lv30.forEach(slot => {
+                    const label = document.getElementById(`foodLv30Label${slot.label}`);
+                    if (label) label.textContent = `${slot.name}${slot.count}`;
+                });
+            }
             
             // lv60スロットのラベル更新
-            slots.lv60.forEach(slot => {
-                const label = document.getElementById(`foodLv60Label${slot.label}`);
-                label.textContent = `${slot.name}${slot.count}`;
-            });
+            const lv60Select = document.getElementById('foodLv60');
+            if (lv60Select && lv60Select.tagName === 'SELECT') {
+                const currentVal = lv60Select.value;
+                lv60Select.innerHTML = '';
+                slots.lv60.forEach(slot => {
+                    const option = document.createElement('option');
+                    option.value = slot.label;
+                    option.textContent = `${slot.name}${slot.count}`;
+                    lv60Select.appendChild(option);
+                });
+                lv60Select.value = currentVal;
+                if (!lv60Select.value) lv60Select.selectedIndex = 0;
+            } else {
+                slots.lv60.forEach(slot => {
+                    const label = document.getElementById(`foodLv60Label${slot.label}`);
+                    if (label) label.textContent = `${slot.name}${slot.count}`;
+                });
+            }
             
             // ポケモン変更時に好物きのみも再判定
             updateFavoriteBerry();
@@ -17588,7 +17635,7 @@
         // フィールド選択に応じて好物きのみを自動判定
         function updateFavoriteBerry() {
             const fieldSelect = document.getElementById('fieldSelect').value;
-            const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+            const pokemonType = getSelectedPokemon();
             const pokemon = POKEMON_STATS[pokemonType];
             const pokemonBerry = pokemon.berryName;
             
@@ -17660,7 +17707,7 @@
             }
             
             // ワカクサ本島EXの場合、メイン/サブきのみを判定
-            const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+            const pokemonType = getSelectedPokemon();
             const pokemon = POKEMON_STATS[pokemonType];
             const pokemonBerry = pokemon.berryName;
             
@@ -17727,7 +17774,7 @@
             }
             
             // ワカクサ本島EXの場合、メインきのみを判定
-            const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+            const pokemonType = getSelectedPokemon();
             const pokemon = POKEMON_STATS[pokemonType];
             const pokemonBerry = pokemon.berryName;
             
@@ -18316,6 +18363,7 @@
             
             // エラーメッセージをクリア
             document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('inlineErrorMessage').style.display = 'none';
             
             // 所持数計算モードの判定
             const useCapacityCalc = document.getElementById('useCapacityCalculation').checked;
@@ -18333,7 +18381,7 @@
             try {
                 // 従来の計算モード（以下は既存のコードをそのまま継続）
                 // ポケモン選択
-                const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+                const pokemonType = getSelectedPokemon();
                 const pokemon = POKEMON_STATS[pokemonType];
             
             // 入力値の取得
@@ -18361,7 +18409,11 @@
                 console.error('バリデーションエラー:', validationError);
                 document.getElementById('errorContent').innerHTML = validationError;
                 document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('inlineErrorContent').innerHTML = validationError;
+                document.getElementById('inlineErrorMessage').style.display = 'block';
                 document.getElementById('resultsSection').style.display = 'none';
+                // スマホモードで上にスクロールしないと気づかない問題を解消
+                document.getElementById('errorMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return; // 計算を中断
             }
             console.log('バリデーション成功');
@@ -19263,7 +19315,7 @@
                 const relaxDuration = 24 - sleepDuration - workDuration;
                 
                 // 基本パラメータの取得
-                const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+                const pokemonType = getSelectedPokemon();
                 const pokemon = POKEMON_STATS[pokemonType];
                 const level = parseInt(document.getElementById('level').value);
                 
@@ -19287,7 +19339,10 @@
                 if (validationError) {
                     document.getElementById('errorContent').innerHTML = validationError;
                     document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('inlineErrorContent').innerHTML = validationError;
+                    document.getElementById('inlineErrorMessage').style.display = 'block';
                     document.getElementById('resultsSection').style.display = 'none';
+                    document.getElementById('errorMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
                     return;
                 }
                 
@@ -20814,7 +20869,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             try {
                 // ===== ステップ1: 既存のポケモンスペックを取得 =====
                 console.log('ステップ1: ポケモンスペック取得');
-                const pokemonType = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+                const pokemonType = getSelectedPokemon();
                 const pokemon = POKEMON_STATS[pokemonType];
                 const level = parseInt(document.getElementById('level').value);
                 console.log('ポケモン:', pokemonType, 'レベル:', level);
@@ -21424,7 +21479,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         
         // ポケモンのタイプ情報を更新して表示
         function updatePokemonTypeInfo() {
-            const pokemon = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+            const pokemon = getSelectedPokemon();
             const types = POKEMON_TYPES[pokemon];
             const infoDiv = document.getElementById('pokemonTypeInfo');
             
@@ -21440,7 +21495,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         
         // ポケモンのとくいなもの情報を更新して表示
         function updatePokemonSpecialtyInfo() {
-            const pokemon = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+            const pokemon = getSelectedPokemon();
             const specialty = POKEMON_SPECIALTIES[pokemon];
             const infoDiv = document.getElementById('pokemonSpecialtyInfo');
             
@@ -21465,7 +21520,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             }
             
             // 選択されたポケモンの情報を取得
-            const pokemon = document.querySelector('input[name="pokemon"]:checked')?.value ?? 'swampert';
+            const pokemon = getSelectedPokemon();
             const pokemonTypes = POKEMON_TYPES[pokemon];
             const pokemonSpecialty = POKEMON_SPECIALTIES[pokemon];
             
@@ -21584,7 +21639,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 
         // 料理チャンスポケモンの現在の設定を取得
         function getCurrentCookingPokemonSettings() {
-            const pokemonId = document.querySelector('input[name="pokemon"]:checked')?.value || 'swampert';
+            const pokemonId = getSelectedPokemon();
             const level = parseInt(document.getElementById('level').value) || 60;
             const foodLv30 = document.querySelector('input[name="foodLv30"]:checked')?.value || 'A';
             const foodLv60 = document.querySelector('input[name="foodLv60"]:checked')?.value || 'A';
@@ -21628,12 +21683,17 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 
         // 料理チャンスポケモンの設定を反映
         function loadCookingPokemonSettings(data) {
-            // ポケモン選択
-            const pokemonRadio = document.querySelector(`input[name="pokemon"][value="${data.pokemonId}"]`);
-            if (pokemonRadio) {
-                pokemonRadio.checked = true;
-                // onchangeイベントを発火して食材スロットのラベル更新
-                pokemonRadio.dispatchEvent(new Event('change'));
+            // ポケモン選択（スマホモードはセレクトボックス、PCモードはラジオボタン）
+            const pokemonSelect = document.getElementById('pokemon');
+            if (pokemonSelect && pokemonSelect.tagName === 'SELECT') {
+                pokemonSelect.value = data.pokemonId;
+                pokemonSelect.dispatchEvent(new Event('change'));
+            } else {
+                const pokemonRadio = document.querySelector(`input[name="pokemon"][value="${data.pokemonId}"]`);
+                if (pokemonRadio) {
+                    pokemonRadio.checked = true;
+                    pokemonRadio.dispatchEvent(new Event('change'));
+                }
             }
             
             // レベル
@@ -22316,11 +22376,124 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     }
                 });
                 
+                // セレクトボックスをラジオボタンに復元（料理チャンスポケモン選択など）
+                revertCookingPokemonSelects();
+                
+                // ドロップダウンを元のボタンに復元
+                revertDropdownButtons();
+                
+                // 入替候補のポケモン選択・運用モードをセクション直下に戻す
+                revertReplacementSelectionControls();
+                
                 // サブスキルラベルをフルネームに復元
                 restoreSubskillLabels();
             }
         }
         
+        /**
+         * PCモードに戻す際、セレクトボックスをラジオボタングループに復元
+         */
+        function revertCookingPokemonSelects() {
+            // 現在選択中のポケモンを保持
+            const currentPokemon = getSelectedPokemon();
+            
+            // pokemon セレクト → ラジオボタン復元
+            const pokemonSelect = document.getElementById('pokemon');
+            if (pokemonSelect && pokemonSelect.tagName === 'SELECT') {
+                const inputGroup = pokemonSelect.closest('.input-group');
+                const savedHTML = inputGroup ? inputGroup.getAttribute('data-original-pokemon-group') : null;
+                if (savedHTML) {
+                    const temp = document.createElement('div');
+                    temp.innerHTML = savedHTML;
+                    const radioGroup = temp.firstChild;
+                    // 選択状態を復元
+                    const radio = radioGroup.querySelector(`input[value="${currentPokemon}"]`);
+                    if (radio) radio.checked = true;
+                    pokemonSelect.replaceWith(radioGroup);
+                }
+            }
+            
+            // foodLv30 セレクト → ラジオボタン復元
+            const lv30Select = document.getElementById('foodLv30');
+            if (lv30Select && lv30Select.tagName === 'SELECT') {
+                const currentVal = lv30Select.value;
+                const inputGroup = lv30Select.closest('.input-group');
+                const savedHTML = inputGroup ? inputGroup.getAttribute('data-original-lv30-group') : null;
+                if (savedHTML) {
+                    const temp = document.createElement('div');
+                    temp.innerHTML = savedHTML;
+                    const radioGroup = temp.firstChild;
+                    const radio = radioGroup.querySelector(`input[value="${currentVal}"]`);
+                    if (radio) radio.checked = true;
+                    lv30Select.replaceWith(radioGroup);
+                }
+            }
+            
+            // foodLv60 セレクト → ラジオボタン復元
+            const lv60Select = document.getElementById('foodLv60');
+            if (lv60Select && lv60Select.tagName === 'SELECT') {
+                const currentVal = lv60Select.value;
+                const inputGroup = lv60Select.closest('.input-group');
+                const savedHTML = inputGroup ? inputGroup.getAttribute('data-original-lv60-group') : null;
+                if (savedHTML) {
+                    const temp = document.createElement('div');
+                    temp.innerHTML = savedHTML;
+                    const radioGroup = temp.firstChild;
+                    const radio = radioGroup.querySelector(`input[value="${currentVal}"]`);
+                    if (radio) radio.checked = true;
+                    lv60Select.replaceWith(radioGroup);
+                }
+            }
+            
+            // 食材スロットラベルを更新
+            updateMainPokemonFoodSlotLabels();
+        }
+
+        /**
+         * PCモードに戻す際、ドロップダウンボタンを元のボタンコンテナに復元
+         */
+        function revertDropdownButtons() {
+            const dropdowns = document.querySelectorAll('.dropdown-button-container');
+            dropdowns.forEach(dropdown => {
+                const savedHTML = dropdown.getAttribute('data-original-buttons-html');
+                if (savedHTML) {
+                    const temp = document.createElement('div');
+                    temp.innerHTML = savedHTML;
+                    const buttonContainer = temp.firstChild;
+                    dropdown.replaceWith(buttonContainer);
+                    console.log('[ドロップダウン復元] 完了');
+                }
+            });
+        }
+
+        /**
+         * PCモードに戻す際、入替候補のポケモン選択・運用モードをセクション直下に戻す
+         */
+        function revertReplacementSelectionControls() {
+            const replacementSection = document.getElementById('replacementSettings');
+            if (!replacementSection) return;
+            
+            const pokemonSelection = document.getElementById('replacementPokemonSelection');
+            const operationMode = document.getElementById('replacementOperationMode');
+            
+            // どちらかがmodeDiv内に入っていたら取り出す
+            if (pokemonSelection && !replacementSection.contains(pokemonSelection)) return;
+            if (pokemonSelection && pokemonSelection.closest('[id^="replacementPokemonMode_"]')) {
+                replacementSection.appendChild(pokemonSelection);
+                pokemonSelection.removeAttribute('id');
+            }
+            if (operationMode && operationMode.closest('[id^="replacementPokemonMode_"]')) {
+                replacementSection.appendChild(operationMode);
+                operationMode.removeAttribute('id');
+            }
+            
+            // スタイルのリセット
+            replacementSection.style.paddingTop = '';
+            replacementSection.style.borderRadius = '';
+            
+            console.log('[入替候補復元] ポケモン選択・運用モードをセクション直下に戻しました');
+        }
+
         /**
          * サブスキルラベルを省略形に変更（スマホモード用）
          */
@@ -22675,7 +22848,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             dropdownContainer.appendChild(toggleBtn);
             dropdownContainer.appendChild(menu);
             
-            // 元のボタンコンテナを置き換え
+            // 元のボタンコンテナを置き換え（PCモード復元用に保存）
+            dropdownContainer.setAttribute('data-original-buttons-html', buttonContainer.outerHTML);
             buttonContainer.replaceWith(dropdownContainer);
             
             console.log(`  → ドロップダウン変換完了`);
@@ -22801,6 +22975,18 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     label.setAttribute('for', select.id);
                 }
                 
+                // onchangeイベントハンドラを追加（食材スロットラベル更新など）
+                select.addEventListener('change', function() {
+                    updateMainPokemonFoodSlotLabels();
+                    if (document.getElementById('eventTypeRestriction')?.checked) updatePokemonTypeInfo();
+                    if (document.getElementById('eventSpecialtyRestriction')?.checked) updatePokemonSpecialtyInfo();
+                });
+                
+                // 元のHTMLをinput-groupに保存（PCモード戻し時の復元用）
+                if (inputGroup) {
+                    inputGroup.setAttribute('data-original-pokemon-group', pokemonGroup.outerHTML);
+                }
+                
                 // 置き換え
                 pokemonGroup.replaceWith(select);
                 console.log('  → ポケモン選択変換完了');
@@ -22835,6 +23021,11 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     label.setAttribute('for', select.id);
                 }
                 
+                // 元のHTMLをinput-groupに保存
+                if (inputGroup) {
+                    inputGroup.setAttribute('data-original-lv30-group', lv30Group.outerHTML);
+                }
+                
                 // 置き換え
                 lv30Group.replaceWith(select);
                 console.log('  → Lv30スロット変換完了');
@@ -22867,6 +23058,11 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 // ラベルのfor属性を更新
                 if (label) {
                     label.setAttribute('for', select.id);
+                }
+                
+                // 元のHTMLをinput-groupに保存
+                if (inputGroup) {
+                    inputGroup.setAttribute('data-original-lv60-group', lv60Group.outerHTML);
                 }
                 
                 // 置き換え
@@ -24461,9 +24657,13 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 <div id="shareImageModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:10000; overflow-y:auto; padding:20px;">
   <div style="background:white; border-radius:12px; max-width:960px; margin:0 auto; padding:25px; position:relative;">
     <h3 style="margin:0 0 15px; font-size:18px; color:#333;">📸 共有画像</h3>
+    <!-- iOS向け：長押し保存の案内 -->
+    <div id="iosSaveHint" style="display:none; background:#e8f5e9; border:1px solid #a5d6a7; border-radius:8px; padding:12px 15px; margin-bottom:12px; font-size:14px; color:#2e7d32;">
+      📱 <strong>画像を長押し</strong>して「写真に追加」を選ぶと写真アプリに保存できます
+    </div>
     <img id="shareImagePreview" style="max-width:100%; border:1px solid #ddd; border-radius:6px; display:block;">
     <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
-      <button onclick="downloadShareImage()" style="padding:10px 18px; background:#43a047; color:white; border:none; border-radius:6px; cursor:pointer; font-size:14px;">💾 画像を保存</button>
+      <button id="saveImageBtn" onclick="downloadShareImage()" style="padding:10px 18px; background:#43a047; color:white; border:none; border-radius:6px; cursor:pointer; font-size:14px;">💾 画像を保存</button>
       <button onclick="closeShareModal()" style="padding:10px 18px; background:#e53935; color:white; border:none; border-radius:6px; cursor:pointer; font-size:14px;">✕ 閉じる</button>
     </div>
   </div>
@@ -24477,8 +24677,17 @@ const NOTICES = [
         date: '2026/02/28',
         tag: 'update',
         tagLabel: '📢 アップデート',
+        text: '各種不具合を修正しました',
+        detail: '以下の不具合を修正しました。\n\n・スマホモードで料理チャンスポケモンの種族を変更できない不具合\n・計算ボタン押下時のエラーがスマホで気づきにくい問題（計算結果付近にもエラーを表示するよう改善）\n・スマホモードでポケモン変更時に食材スロット名が更新されない不具合',
+        pinned: true
+    },
+    {
+        date: '2026/02/28',
+        tag: 'update',
+        tagLabel: '📢 アップデート',
         text: '料理チャンス運用効率化ツールを正式に公開しました',
-        detail: '料理チャンスポケモンの運用効率を最大化するための複合期待値計算ツールです。ラグラージなど料理チャンス持ちのポケモンについて、他きのみ得意との最適な切り替えタイミングを計算します。\n\n参照元ツールである「デデンネ効率化ツール」のおが様、および「個体値計算機 for ポケモンスリープ」のnitoyon様、pks.raenonx.ccの運営チームの皆様に感謝申し上げます。\n\nなお、本ツールはプログラミング未経験者がClaude AI（Anthropic）とのバイブコーディングで開発しています。技術上の欠陥などお気づきの点はぜひご連絡ください。\n\nフィードバックは<a href="https://x.com/seiiki_sakura" target="_blank" style="color:#667eea;">X（@seiiki_sakura）</a>またはDiscordにてお気軽にどうぞ！'
+        detail: '料理チャンスポケモンの運用効率を最大化するための複合期待値計算ツールです。ラグラージなど料理チャンス持ちのポケモンについて、他きのみ得意との最適な切り替えタイミングを計算します。\n\n参照元ツールである「デデンネ効率化ツール」のおが様、および「個体値計算機 for ポケモンスリープ」のnitoyon様、pks.raenonx.ccの運営チームの皆様に感謝申し上げます。\n\nなお、本ツールはプログラミング未経験者がClaude AI（Anthropic）とのバイブコーディングで開発しています。技術上の欠陥などお気づきの点はぜひご連絡ください。\n\nフィードバックは<a href="https://x.com/seiiki_sakura" target="_blank" style="color:#667eea;">X（@seiiki_sakura）</a>またはDiscordにてお気軽にどうぞ！',
+        featured: true
     },
     {
         date: '2026/02/28',
@@ -24566,9 +24775,9 @@ function toggleNoticePanel() {
 // 最新1件をバーに表示 & 初期描画
 (function initNotices() {
     if (NOTICES.length > 0) {
-        const latest = NOTICES[0];
+        const featured = NOTICES.find(n => n.featured) || NOTICES[0];
         const el = document.getElementById('latestNoticeText');
-        if (el) el.textContent = `${latest.date}　${latest.tagLabel}　${latest.text}`;
+        if (el) el.textContent = `${featured.date}　${featured.tagLabel}　${featured.text}`;
     }
     renderNotices();
 })();
@@ -25084,6 +25293,18 @@ async function generateShareImage() {
   const imgEl = document.getElementById('shareImagePreview');
   imgEl.src = canvas.toDataURL('image/png');
   document.getElementById('shareImageModal').style.display = 'block';
+  
+  // iOS検出：長押し案内を表示、保存ボタンを非表示
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const iosHint = document.getElementById('iosSaveHint');
+  const saveBtn = document.getElementById('saveImageBtn');
+  if (isIOS) {
+    if (iosHint) iosHint.style.display = 'block';
+    if (saveBtn) saveBtn.style.display = 'none';
+  } else {
+    if (iosHint) iosHint.style.display = 'none';
+    if (saveBtn) saveBtn.style.display = '';
+  }
 }
 
 async function copyShareImage() {
