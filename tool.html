@@ -19117,7 +19117,11 @@
                     idleEnergy: fullIdleEnergyWithFB,  // FB適用後の100%いつ育
                     idleRatio: idleRatio,
                     skillCountPerDay: skillCountPerDay,
-                    fullActiveTotal: fullActiveTotal  // 24時間分の100%毎分タップ
+                    fullActiveTotal: fullActiveTotal,  // 24時間分の100%毎分タップ
+                    // 詳細表示用：各エナジー内訳
+                    activeBerryFoodEnergy: (activeBerryEnergy + activeFoodEnergyBeforeFB) * fbMultiplier,
+                    activeSkillEnergy: activeSkillEnergy * fbMultiplier,
+                    skillEnergyPerActivation: skillEnergyPerActivation
                 });
 
                 if (totalExpected > maxExpected) {
@@ -19285,8 +19289,10 @@
                     ・いつ育比率 = ${(result.idleRatio * 100).toFixed(1)}%<br>
                     <br>
                     <strong>ステップ4：複合期待値</strong><br>
-                    ・${Math.round(fullActiveEnergy).toLocaleString()} × ${(result.activeRatio * 100).toFixed(1)}% + ${Math.round(result.idleEnergy).toLocaleString()} × ${(result.idleRatio * 100).toFixed(1)}%<br>
-                    = ${Math.round(fullActiveEnergy * result.activeRatio).toLocaleString()} + ${Math.round(result.idleEnergy * result.idleRatio).toLocaleString()}<br>
+                    ・きのみ・食材：${Math.round(result.activeBerryFoodEnergy / result.activeRatio).toLocaleString()} × ${(result.activeRatio * 100).toFixed(1)}% = ${Math.round(result.activeBerryFoodEnergy).toLocaleString()}<br>
+                    ・スキル：${Math.round(result.skillEnergyPerActivation).toLocaleString()} × ${result.n}回 = ${Math.round(result.activeSkillEnergy).toLocaleString()}<br>
+                    ・いつ育：${Math.round(result.idleEnergy).toLocaleString()} × ${(result.idleRatio * 100).toFixed(1)}% = ${Math.round(result.idleEnergy * result.idleRatio).toLocaleString()}<br>
+                    = ${Math.round(result.activeBerryFoodEnergy).toLocaleString()} + ${Math.round(result.activeSkillEnergy).toLocaleString()} + ${Math.round(result.idleEnergy * result.idleRatio).toLocaleString()}<br>
                     = <strong>${Math.round(result.totalExpected).toLocaleString()}</strong>
                 `;
             }
@@ -22491,6 +22497,19 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             replacementSection.style.paddingTop = '';
             replacementSection.style.borderRadius = '';
             
+            // JS追加した矢印を削除
+            const arrow = document.getElementById('replacementTitleArrow');
+            if (arrow) arrow.remove();
+            
+            // タイトルのcursorをリセット
+            const sectionTitle = replacementSection.closest('div')?.querySelector('.section-title');
+            // 親要素からタイトルを探す（外に出ているため）
+            const allTitles = document.querySelectorAll('.section-title[data-accordion-listener]');
+            allTitles.forEach(t => {
+                t.style.cursor = '';
+                t.removeAttribute('data-accordion-listener');
+            });
+            
             console.log('[入替候補復元] ポケモン選択・運用モードをセクション直下に戻しました');
         }
 
@@ -23300,6 +23319,46 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 // タイトルを.sectionの前（外）に配置
                 parentElement.insertBefore(sectionTitle, section);
                 console.log('[入替候補ポケモン] タイトルを.sectionの外に配置');
+                
+                // 外に出たタイトルでもセクションの折りたたみができるようクリックハンドラを追加
+                if (!sectionTitle.hasAttribute('data-accordion-listener')) {
+                    sectionTitle.setAttribute('data-accordion-listener', 'true');
+                    sectionTitle.style.cursor = 'pointer';
+                    
+                    // ▼ 矢印をJSで追加（CSSのsection内セレクタが効かないため）
+                    const arrow = document.createElement('span');
+                    arrow.id = 'replacementTitleArrow';
+                    arrow.textContent = '▼';
+                    arrow.style.cssText = 'margin-left: 10px; font-size: 16px; color: #667eea; font-weight: bold; display: inline-block; transition: transform 0.3s ease;';
+                    sectionTitle.appendChild(arrow);
+                    
+                    function applyReplacementCollapse(isCollapsed) {
+                        const nav = document.getElementById('replacementSharedTabNav');
+                        const boxDropdown = document.getElementById('replacementBoxOperationDropdown');
+                        if (nav) nav.style.display = isCollapsed ? 'none' : '';
+                        if (boxDropdown) boxDropdown.style.display = isCollapsed ? 'none' : '';
+                        if (arrow) arrow.style.transform = isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)';
+                    }
+                    
+                    sectionTitle.addEventListener('click', function() {
+                        section.classList.toggle('collapsed');
+                        const isCollapsed = section.classList.contains('collapsed');
+                        applyReplacementCollapse(isCollapsed);
+                        
+                        // 開閉状態を保存
+                        const sectionStates = JSON.parse(localStorage.getItem('sectionStates') || '{}');
+                        sectionStates['replacement'] = isCollapsed;
+                        localStorage.setItem('sectionStates', JSON.stringify(sectionStates));
+                    });
+                    
+                    // 保存された開閉状態を復元
+                    const sectionStates = JSON.parse(localStorage.getItem('sectionStates') || '{}');
+                    if (sectionStates['replacement']) {
+                        section.classList.add('collapsed');
+                        // DOM生成後に実行（boxDropdownはまだない可能性があるので遅延）
+                        setTimeout(() => applyReplacementCollapse(true), 0);
+                    }
+                }
             }
             
             // 共通のタブナビゲーションを1つだけ作成
@@ -23648,13 +23707,14 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
          */
         function createSimpleAccordion(section) {
             const title = section.querySelector('.section-title');
-            if (!title) return;
+            // titleが外に出ていてもsection-contentは作成する
+            // titleがある場合はtitle以外、ない場合は全要素をラップ
             
             const content = document.createElement('div');
             content.className = 'section-content';
             
-            // title以外の全要素を移動
             const elementsToWrap = Array.from(section.children).filter(el => el !== title);
+            if (elementsToWrap.length === 0) return;
             elementsToWrap.forEach(el => content.appendChild(el));
             
             section.appendChild(content);
@@ -24657,9 +24717,9 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 <div id="shareImageModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:10000; overflow-y:auto; padding:20px;">
   <div style="background:white; border-radius:12px; max-width:960px; margin:0 auto; padding:25px; position:relative;">
     <h3 style="margin:0 0 15px; font-size:18px; color:#333;">📸 共有画像</h3>
-    <!-- iOS向け：長押し保存の案内 -->
+    <!-- 保存方法の案内 -->
     <div id="iosSaveHint" style="display:none; background:#e8f5e9; border:1px solid #a5d6a7; border-radius:8px; padding:12px 15px; margin-bottom:12px; font-size:14px; color:#2e7d32;">
-      📱 <strong>画像を長押し</strong>して「写真に追加」を選ぶと写真アプリに保存できます
+      💡 画像を<strong>長押し・または右クリック</strong>で、画像の保存・コピーなどができます
     </div>
     <img id="shareImagePreview" style="max-width:100%; border:1px solid #ddd; border-radius:6px; display:block;">
     <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
@@ -24678,7 +24738,7 @@ const NOTICES = [
         tag: 'update',
         tagLabel: '📢 アップデート',
         text: '各種不具合を修正しました',
-        detail: '以下の不具合を修正しました。\n\n・スマホモードで料理チャンスポケモンの種族を変更できない不具合\n・計算ボタン押下時のエラーがスマホで気づきにくい問題（計算結果付近にもエラーを表示するよう改善）\n・スマホモードでポケモン変更時に食材スロット名が更新されない不具合',
+        detail: '以下の不具合を修正しました。\n\n・スマホモードで料理チャンスポケモンの種族を変更できない不具合\n・計算ボタン押下時のエラーがスマホで気づきにくい問題（計算結果付近にもエラーを表示するよう改善）\n・スマホモードでポケモン変更時に食材スロット名が更新されない不具合\n・スマホモードでのせいかくの表示がわかりにくい問題\n・複合期待値での計算過程が実際の計算結果を求めるものと異なる不具合',
         pinned: true
     },
     {
@@ -25296,17 +25356,12 @@ async function generateShareImage() {
   imgEl.src = canvas.toDataURL('image/png');
   document.getElementById('shareImageModal').style.display = 'block';
   
-  // iOS検出：長押し案内を表示、保存ボタンを非表示
+  // 保存案内を常に表示、iOSのみ保存ボタンを非表示
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   const iosHint = document.getElementById('iosSaveHint');
   const saveBtn = document.getElementById('saveImageBtn');
-  if (isIOS) {
-    if (iosHint) iosHint.style.display = 'block';
-    if (saveBtn) saveBtn.style.display = 'none';
-  } else {
-    if (iosHint) iosHint.style.display = 'none';
-    if (saveBtn) saveBtn.style.display = '';
-  }
+  if (iosHint) iosHint.style.display = 'block';
+  if (saveBtn) saveBtn.style.display = isIOS ? 'none' : '';
 }
 
 async function copyShareImage() {
