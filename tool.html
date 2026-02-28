@@ -24732,14 +24732,16 @@ function renderNotices() {
         const hasDetail = n.detail && n.detail.trim() !== '';
         return `
         <div class="notice-item" data-tag="${n.tag}" style="border-bottom: 1px solid #f0f0f0;">
-            <div onclick="${hasDetail ? `toggleNoticeDetail(${i})` : ''}" style="padding: 12px 18px; display: flex; gap: 12px; align-items: flex-start; ${hasDetail ? 'cursor: pointer;' : ''}">
-                <span style="font-size: 11px; color: #999; white-space: nowrap; margin-top: 2px;">${n.date}</span>
-                <span style="font-size: 11px; padding: 2px 8px; border-radius: 10px; background: ${c.bg}; border: 1px solid ${c.border}; color: ${c.text}; white-space: nowrap;">${n.tagLabel}</span>
-                <span style="font-size: 13px; color: #333; line-height: 1.6; flex: 1;">${n.text}</span>
-                ${hasDetail ? `<span id="notice-icon-${i}" style="color: #999; font-size: 11px; white-space: nowrap; margin-top: 2px;">▼ 詳細</span>` : ''}
+            <div onclick="${hasDetail ? `toggleNoticeDetail(${i})` : ''}" style="padding: 12px 18px; ${hasDetail ? 'cursor: pointer;' : ''}">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap;">
+                    <span style="font-size: 11px; color: #999; white-space: nowrap;">${n.date}</span>
+                    <span style="font-size: 11px; padding: 2px 8px; border-radius: 10px; background: ${c.bg}; border: 1px solid ${c.border}; color: ${c.text}; white-space: nowrap;">${n.tagLabel}</span>
+                    ${hasDetail ? `<span id="notice-icon-${i}" style="margin-left: auto; color: #999; font-size: 11px; white-space: nowrap;">▼ 詳細</span>` : ''}
+                </div>
+                <div style="font-size: 13px; color: #333; line-height: 1.6; word-break: break-word;">${n.text}</div>
             </div>
-            ${hasDetail ? `<div id="notice-detail-${i}" style="display: none; padding: 0 18px 14px 18px; margin-left: 42px;">
-                <div style="font-size: 13px; color: #555; line-height: 1.8; padding: 10px 14px; background: #fafafa; border-radius: 6px; border-left: 3px solid #ddd; white-space: pre-line;">${n.detail}</div>
+            ${hasDetail ? `<div id="notice-detail-${i}" style="display: none; padding: 0 18px 14px 18px;">
+                <div style="font-size: 13px; color: #555; line-height: 1.8; padding: 10px 14px; background: #fafafa; border-radius: 6px; border-left: 3px solid #ddd; white-space: pre-line; word-break: break-word;">${n.detail}</div>
             </div>` : ''}
         </div>`;
     }).join('');
