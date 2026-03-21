@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>料理チャンス運用効率化ツール(所持数対応版)v2.46-METRONOME</title>
+<title>料理チャンス運用効率化ツール(所持数対応版)</title>
 <style>
         * {
             margin: 0;
@@ -1437,6 +1437,23 @@
 <div id="eventBerryBurstCustomInput" style="display: none; margin-top: 10px; margin-left: 20px;">
 <input id="eventBerryBurstCustomValue" min="0" step="0.1" style="width: 100px;" type="number" value="1.0"/>
 <span style="margin-left: 5px; color: #666; font-size: 13px;">倍</span>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">最大所持数ボーナス</label>
+<div class="radio-group" style="margin-top: 10px;">
+<div class="radio-item">
+<input checked="" id="eventCapacity_0" name="eventCapacityMode" type="radio" value="0"/>
+<label for="eventCapacity_0">通常</label>
+</div>
+<div class="radio-item">
+<input id="eventCapacity_8" name="eventCapacityMode" type="radio" value="8"/>
+<label for="eventCapacity_8">+8個</label>
+</div>
+<div class="radio-item">
+<input id="eventCapacity_15" name="eventCapacityMode" type="radio" value="15"/>
+<label for="eventCapacity_15">+15個</label>
+</div>
 </div>
 </div>
 </div>
@@ -13678,8 +13695,11 @@
                 ribbonBonus = parseInt(document.querySelector(`input[name="${pokemonType}SleepRibbon"]:checked`)?.value) || 0;
             }
             
+            // イベント補正（最大所持数ボーナス）
+            const eventCapacityBonus = parseInt(document.querySelector('input[name="eventCapacityMode"]:checked')?.value) || 0;
+
             // CT補正前の所持数
-            const preCtCapacity = baseCapacity + subskillBonus + ribbonBonus;
+            const preCtCapacity = baseCapacity + subskillBonus + ribbonBonus + eventCapacityBonus;
             
             // CT補正（1.2倍、切り上げ）
             const finalCapacity = campTicket ? Math.ceil(preCtCapacity * 1.2) : preCtCapacity;
@@ -14217,6 +14237,9 @@
             const pokemon = POKEMON_STATS[pokemonType];
             const level = parseInt(document.getElementById(`${pokemonType}Level`)?.value) || 60;
             
+            // イベント補正マッチ判定
+            const replacementEventMatch = checkEventTypeMatch(pokemonType);
+            
             // 運用モードを取得
             const operationMode = document.querySelector('input[name="replacementOperationMode"]:checked')?.value || 'active';
             const isIdleMode = operationMode === 'idle';
@@ -14258,6 +14281,10 @@
             
             // スキル確率
             let skillProb = getReplacementPokemonSkillProb(pokemonType);
+            if (replacementEventMatch) {
+                const eventSkillMult = getEventSkillValue();
+                if (eventSkillMult !== 1.0) skillProb *= eventSkillMult;
+            }
             if (isIdleMode) {
                 skillProb = 0; // いつの間に育成
             }
@@ -14266,7 +14293,8 @@
             const berryBaseEnergy = pokemon.berryBaseEnergy;
             const berryEnergyPerBerry = calculateBerryEnergy(berryBaseEnergy, level);
             const berryS = document.getElementById(`${pokemonType}BerryS`)?.checked || false;
-            const berryPerCount = berryS ? 3 : (pokemon.defaultBerryCount || 2);
+            const eventBerryCountCap = replacementEventMatch ? getEventBerryCountValue() : 0;
+            const berryPerCount = (berryS ? 3 : (pokemon.defaultBerryCount || 2)) + eventBerryCountCap;
             
             // 好物きのみ
             const favoriteBerry = isFavoriteBerry(pokemon.berryName);
@@ -14297,7 +14325,7 @@
             let totalCount = 0;
             let totalEnergy = 0;
             const exFoodBonus = (exOther === 'food') ? 1 : 0;
-            const eventFoodCount = getEventFoodCountValue();
+            const eventFoodCount = replacementEventMatch ? getEventFoodCountValue() : 0;
             
             selectedFoodSlots.forEach(slot => {
                 const count = slot.count + exFoodBonus + eventFoodCount;
@@ -14310,16 +14338,9 @@
             const avgFoodEnergy = totalEnergy / totalCount;
             
             // ===== 通常計算を実行してスキル効果量を取得 =====
-            // 無限ループを防ぐため、一時的に所持数チェックをオフにする
-            const useCapacityCheckbox = document.getElementById('useCapacityCalculation');
-            const originalChecked = useCapacityCheckbox.checked;
-            useCapacityCheckbox.checked = false;
-            
+            // skipCapacityMode=true で無限ループを防ぐ（チェックボックスを触らない）
             console.log(`[${pokemon.name}] 通常計算を実行してスキル効果量を取得...`);
-            calculateReplacementPokemonEnergy(pokemonType);
-            
-            // チェック状態を戻す
-            useCapacityCheckbox.checked = originalChecked;
+            calculateReplacementPokemonEnergy(pokemonType, true);
             
             // グローバル変数から取得
             const cookEnergyPerSkill = window.lastReplacementEnergyPerSkill || 0;
@@ -14379,12 +14400,15 @@
         /**
          * 入替候補ポケモンのエナジー計算（通常モード：24時間固定）
          */
-        function calculateReplacementPokemonEnergy(pokemonType) {
+        function calculateReplacementPokemonEnergy(pokemonType, skipCapacityMode = false) {
             const pokemon = POKEMON_STATS[pokemonType];
-            
+
+            // ===== イベント補正マッチ判定（入替候補ポケモンのtype/specialtyで判定）=====
+            const replacementEventMatch = checkEventTypeMatch(pokemonType);
+
             // ===== 所持数・スケジュール計算モードの判定 =====
-            const useCapacityCalc = document.getElementById('useCapacityCalculation')?.checked || false;
-            
+            const useCapacityCalc = !skipCapacityMode && (document.getElementById('useCapacityCalculation')?.checked || false);
+
             if (useCapacityCalc) {
                 // 所持数・スケジュール計算モードの場合
                 console.log(`[${pokemon.name}] 所持数・スケジュール計算モードで計算開始`);
@@ -14433,7 +14457,7 @@
                 if (lv30Selected && lv30Selected !== 'none') {
                     const food = foodMapping[lv30Selected];
                     pokemon.foodSlots.lv30.push({
-                        label: 'B',
+                        label: lv30Selected,  // 'apple', 'herb' など（検索キーと一致させる）
                         name: food.name,
                         count: countMapping.lv30[lv30Selected],
                         energy: food.energy
@@ -14446,16 +14470,12 @@
                 if (lv60Selected && lv60Selected !== 'none') {
                     const food = foodMapping[lv60Selected];
                     pokemon.foodSlots.lv60.push({
-                        label: 'C',
+                        label: lv60Selected,  // 'apple', 'corn' など（検索キーと一致させる）
                         name: food.name,
                         count: countMapping.lv60[lv60Selected],
                         energy: food.energy
                     });
                 }
-                
-                // Lv1の全8スロットを常に含める
-                pokemon.foodSlots.lv30 = [...pokemon.foodSlots.lv1, ...pokemon.foodSlots.lv30];
-                pokemon.foodSlots.lv60 = [...pokemon.foodSlots.lv1, ...pokemon.foodSlots.lv30.slice(pokemon.foodSlots.lv1.length), ...pokemon.foodSlots.lv60];
                 
                 console.log('[darkrai 食材スロット動的構築]', {
                     lv1Count: pokemon.foodSlots.lv1.length,
@@ -14490,7 +14510,8 @@
             
             // きのみの数S
             const berryS = document.getElementById(`${pokemonType}BerryS`)?.checked || false;
-            const berryPerCount = berryS ? 3 : (pokemon.defaultBerryCount || 2);
+            const eventBerryCount = replacementEventMatch ? getEventBerryCountValue() : 0;
+            const berryPerCount = (berryS ? 3 : (pokemon.defaultBerryCount || 2)) + eventBerryCount;
             
             console.log('[DEBUG] berryPerCount計算:',
                 'berryS=' + berryS,
@@ -14595,16 +14616,16 @@
                 selectedFoodSlots.push(foodSlots.lv1[0]);
             }
             
-            // 平均食材エナジーを計算（個数×単価の平均）
+            // イベント補正（食材個数）
+            const eventFoodCountVal = replacementEventMatch ? getEventFoodCountValue() : 0;
+            const exFoodBonusVal = (exOther === 'food') ? 1 : 0;
+            
+            // 平均食材エナジーを計算（個数×単価の平均、EX補正・イベント補正込み）
             const avgFoodEnergy = selectedFoodSlots.length > 0
-                ? selectedFoodSlots.reduce((sum, slot) => sum + (slot.count * slot.energy), 0) / selectedFoodSlots.length
+                ? selectedFoodSlots.reduce((sum, slot) => sum + ((slot.count + exFoodBonusVal + eventFoodCountVal) * slot.energy), 0) / selectedFoodSlots.length
                 : 0;
             
-            // EX補正（食材+1個）
             let finalAvgFoodEnergy = avgFoodEnergy;
-            if (exOther === 'food') {
-                finalAvgFoodEnergy *= 2; // 食材個数が2倍になる = エナジーも2倍
-            }
             
             const foodEnergy = foodCount * finalAvgFoodEnergy;
             
@@ -14614,6 +14635,15 @@
             
             console.log('[DEBUG] スキル確率取得（補正前）: skillProb=' + skillProb);
             
+            // イベント補正（スキル確率）
+            if (replacementEventMatch) {
+                const eventSkillMult = getEventSkillValue();
+                if (eventSkillMult !== 1.0) {
+                    skillProb *= eventSkillMult;
+                    console.log('[DEBUG] イベント補正（スキル確率）適用: ×' + eventSkillMult + ' → ' + skillProb);
+                }
+            }
+            
             // いつの間に育成の場合はスキル確率0%
             if (isIdleMode) {
                 skillProb = 0;
@@ -14622,9 +14652,11 @@
             
             console.log('[DEBUG] スキル確率（最終）: skillProb=' + skillProb);
             
-            // スキルレベル
+            // スキルレベル（イベント補正あり）
             const skillLevelElement = document.getElementById(`${pokemonType}SkillLevel`);
-            const skillLevel = skillLevelElement ? parseInt(skillLevelElement.value) : 6;
+            const baseSkillLevelReplacement = skillLevelElement ? parseInt(skillLevelElement.value) : 6;
+            const eventSkillLevelReplacement = replacementEventMatch ? getEventSkillLevelValue() : 0;
+            const skillLevel = Math.min(baseSkillLevelReplacement + eventSkillLevelReplacement, 6);
             
             // スキルタイプに応じた効果量テーブル
             let energyPerSkill;
@@ -14662,7 +14694,7 @@
                     // レシピ情報を取得
                     const recipeSelect = document.getElementById('recipeSelect')?.value;
                     const recipeLevel = parseInt(document.getElementById('recipeLevel')?.value) || 1;
-                    const eventCookEnergy = getEventCookEnergyValue();
+                    const eventCookEnergy = replacementEventMatch ? getEventCookEnergyValue() : 1.0;
                     
                     // 基本大成功倍率（平日想定：10%で2倍 → 0.9×1 + 0.1×2 = 1.1倍）
                     const baseCookSuccessMultiplier = 1.1;
@@ -14707,7 +14739,7 @@
                     const foodCountPerSkill = FOOD_GET_S_TABLE[skillLevel] || 17;
                     
                     // イベント補正（食材ゲットSの効果量）
-                    const eventFoodGetS = getEventFoodGetSValue();
+                    const eventFoodGetS = replacementEventMatch ? getEventFoodGetSValue() : 1.0;
                     
                     // 1回のスキルあたりのエナジー
                     energyPerSkill = avgFoodEnergyWithFB * foodCountPerSkill * eventFoodGetS;
@@ -14733,7 +14765,7 @@
                 if (selectedFoods.length > 0) {
                     const recipeSelect = document.getElementById('recipeSelect')?.value;
                     const recipeLevel = parseInt(document.getElementById('recipeLevel')?.value) || 1;
-                    const eventCookEnergy = getEventCookEnergyValue();
+                    const eventCookEnergy = replacementEventMatch ? getEventCookEnergyValue() : 1.0;
                     const baseCookSuccessMultiplier = 1.1;
 
                     let recipeData = null;
@@ -14762,13 +14794,13 @@
                     const avgFoodEnergyWithFB = avgFoodEnergy * fbMultiplier;
 
                     const foodCountPerSkill = COOKING_ASSIST_FOOD_TABLE[skillLevel] || 21;
-                    const eventFoodGetS = getEventFoodGetSValue();
+                    const eventFoodGetS = replacementEventMatch ? getEventFoodGetSValue() : 1.0;
                     foodGetEnergy = avgFoodEnergyWithFB * foodCountPerSkill * eventFoodGetS;
                 }
 
                 // ---- 料理チャンス部分（料理チャンスSと同じロジック） ----
                 const cookingAssistEffect = COOKING_ASSIST_EFFECTS[skillLevel] || 0.04;
-                const cookingChanceEnergy = cookEnergy * cookingAssistEffect * getEventCookEnergyValue();
+                const cookingChanceEnergy = cookEnergy * cookingAssistEffect * (replacementEventMatch ? getEventCookEnergyValue() : 1.0);
 
                 energyPerSkill = foodGetEnergy + cookingChanceEnergy;
 
@@ -14857,7 +14889,7 @@
                 }
                 
                 // イベント補正（きのみバーストの効果量）
-                const eventBerryBurst = getEventBerryBurstValue();
+                const eventBerryBurst = replacementEventMatch ? getEventBerryBurstValue() : 1.0;
                 totalBurstEnergy = totalBurstEnergy * eventBerryBurst;
                 
                 // ばけのかわの場合は期待値化（18.5%で3倍）
@@ -15484,10 +15516,10 @@
                 const selectedFoods = getSelectedFoods();
                 const recipeSelect = document.getElementById('recipeSelect')?.value;
                 const recipeLevel = parseInt(document.getElementById('recipeLevel')?.value) || 1;
-                const eventCookEnergy = getEventCookEnergyValue();
+                const eventCookEnergy = replacementEventMatch ? getEventCookEnergyValue() : 1.0;
                 const fieldBonus = parseFloat(document.getElementById('fieldBonus')?.value) || 0;
                 const foodCountPerSkill = FOOD_GET_S_TABLE[skillLevel] || 17;
-                const eventFoodGetS = getEventFoodGetSValue();
+                const eventFoodGetS = replacementEventMatch ? getEventFoodGetSValue() : 1.0;
                 
                 let formulaParts = [];
                 formulaParts.push(`<strong>食材ゲットS Lv${skillLevel}（${foodCountPerSkill}個獲得）</strong>`);
@@ -15776,7 +15808,7 @@
                 formulaParts.push(`<strong>${skillName} Lv${skillLevel}</strong>`);
                 
                 // イベント補正を取得
-                const eventBerryBurst = getEventBerryBurstValue();
+                const eventBerryBurst = replacementEventMatch ? getEventBerryBurstValue() : 1.0;
                 if (eventBerryBurst !== 1.0) {
                     formulaParts.push(`<strong>イベント補正（きのみバースト）:</strong> ${eventBerryBurst.toFixed(2)}倍`);
                 }
@@ -16319,6 +16351,7 @@
             let totalSkillEnergy = 0;
             let totalSkillTheory = 0;
             let totalSkillEffective = 0;
+            let totalActiveSkillCount = 0;  // 所持数考慮の実効スキル回数
             let totalFoodCount = 0;  // 食材個数の集計（Phase 1用）
             
             // スキル1回分の発動時間
@@ -16391,6 +16424,7 @@
                 totalSkillEnergy += activeSkillEnergy;
                 totalSkillTheory += skillTheory;
                 totalSkillEffective += skillEffective;
+                totalActiveSkillCount += activeSkillCount;  // 所持数考慮の実効スキル回数を累積
                 totalFoodCount += activeFoodCount;  // 食材個数を集計（Phase 1用）
             }
             
@@ -16412,6 +16446,7 @@
                 totalEnergy: totalEnergy,
                 skillTheory: totalSkillTheory,
                 skillEffective: totalSkillEffective,
+                activeSkillCount: totalActiveSkillCount,  // 所持数考慮の実効スキル回数
                 skillLoss: skillLoss,
                 foodCount: totalFoodCount  // 食材個数を返す（Phase 1用）
             };
@@ -17739,7 +17774,14 @@
             return null;
         }
 
+        let _calculateRunning = false;
         async function calculate() {
+            if (_calculateRunning) {
+                console.warn('calculate() 再入呼び出しを検出・無視しました');
+                return;
+            }
+            _calculateRunning = true;
+            try {
             console.log('=== calculate関数開始 ===');
             
             // 料理チャンスSスキルエナジー計算モードを確認
@@ -18086,7 +18128,7 @@
                 if (selectedFoods.length > 0) {
                     const recipeSelect = document.getElementById('recipeSelect')?.value;
                     const recipeLevel = parseInt(document.getElementById('recipeLevel')?.value) || 1;
-                    const eventCookEnergy2 = getEventCookEnergyValue();
+                    const eventCookEnergy2 = eventTypeMatch ? getEventCookEnergyValue() : 1.0;
                     const baseCookSuccessMultiplier = 1.1;
                     let recipeData = null;
                     let recipeLevelBonus = 1.0;
@@ -18107,7 +18149,7 @@
                     const avgFoodEnergyAssist = totalWeightedEnergy / selectedFoods.length;
                     const fbMultiplierAssist = 1 + ((parseFloat(document.getElementById('fieldBonus')?.value) || 0) / 100);
                     const foodCountAssist = COOKING_ASSIST_FOOD_TABLE[skillLevel] || 21;
-                    const eventFoodGetSAssist = getEventFoodGetSValue();
+                    const eventFoodGetSAssist = eventTypeMatch ? getEventFoodGetSValue() : 1.0;
                     foodAssistEnergy = avgFoodEnergyAssist * fbMultiplierAssist * foodCountAssist * eventFoodGetSAssist;
                 }
             }
@@ -18573,6 +18615,9 @@
                 console.error('スタックトレース:', error.stack);
                 alert('計算中にエラーが発生しました: ' + error.message);
             }
+            } finally {
+                _calculateRunning = false;
+            }
         }
 
         // 複合期待値の説明セクションの開閉
@@ -18764,11 +18809,12 @@
                 // ワカクサ本島EXのメインきのみスキルレベル補正
                 const mainBerrySkillBonus = getMainBerrySkillLevelBonus();
                 
-                const eventSkill = getEventSkillValue();
-                const eventBerryCount = getEventBerryCountValue();
-                const eventFoodCount = getEventFoodCountValue();
-                const eventSkillLevel = getEventSkillLevelValue();
-                const eventCookEnergy = getEventCookEnergyValue();
+                const eventTypeMatch = checkEventTypeMatch();
+                const eventSkill = eventTypeMatch ? getEventSkillValue() : 1.0;
+                const eventBerryCount = eventTypeMatch ? getEventBerryCountValue() : 0;
+                const eventFoodCount = eventTypeMatch ? getEventFoodCountValue() : 0;
+                const eventSkillLevel = eventTypeMatch ? getEventSkillLevelValue() : 0;
+                const eventCookEnergy = eventTypeMatch ? getEventCookEnergyValue() : 1.0;
                 
                 // スキル天井考慮フラグ
                 const considerSkillCeiling = document.getElementById('considerSkillCeiling').checked;
@@ -18967,7 +19013,7 @@
                     if (selectedFoodsCap.length > 0) {
                         const recipeSelectCap = document.getElementById('recipeSelect')?.value;
                         const recipeLevelCap = parseInt(document.getElementById('recipeLevel')?.value) || 1;
-                        const eventCookEnergy2Cap = getEventCookEnergyValue();
+                        const eventCookEnergy2Cap = eventTypeMatch ? getEventCookEnergyValue() : 1.0;
                         const baseCookSuccessCap = 1.1;
                         let recipeDataCap = null;
                         let recipeLevelBonusCap = 1.0;
@@ -18988,7 +19034,7 @@
                         const avgFoodEnergyCap = totalWeightedEnergyCap / selectedFoodsCap.length;
                         const fbMultiplierCap = 1 + ((parseFloat(document.getElementById('fieldBonus')?.value) || 0) / 100);
                         const foodCountCap = COOKING_ASSIST_FOOD_TABLE[skillLevel] || 21;
-                        const eventFoodGetSCap = getEventFoodGetSValue();
+                        const eventFoodGetSCap = eventTypeMatch ? getEventFoodGetSValue() : 1.0;
                         foodAssistEnergyCap = avgFoodEnergyCap * fbMultiplierCap * foodCountCap * eventFoodGetSCap;
                     }
                 }
@@ -19087,7 +19133,9 @@
                 document.getElementById('foodCountBreakdown').innerHTML = foodCountHTML;
                 
                 // スキル回数と効果
-                document.getElementById('skillCount').textContent = skillCountPerDay.toFixed(2);
+                // 所持数・スケジュール計算モードでは simulation の実効スキル回数を使用
+                const displaySkillCount = (simulation.work.activeSkillCount || 0) + (simulation.relax.activeSkillCount || 0);
+                document.getElementById('skillCount').textContent = displaySkillCount.toFixed(2);
                 document.getElementById('skillFormula').textContent = skillFormulaText;
                 
                 // 料理チャンスS詳細計算の結果を表示（常に適用）
@@ -19155,7 +19203,8 @@
                     }
                     const ribbonBonus = parseInt(document.getElementById('sleepRibbon').value) || 0;
                     const ribbonText = ribbonBonus > 0 ? `リボン(+${ribbonBonus})` : '';
-                    const preCtCapacity = baseCapacity + subskillBonus + ribbonBonus;
+                    const eventCapacityBonus = parseInt(document.querySelector('input[name="eventCapacityMode"]:checked')?.value) || 0;
+                    const preCtCapacity = baseCapacity + subskillBonus + ribbonBonus + eventCapacityBonus;
                     const ctMultiplier = campTicket ? 1.2 : 1.0;
                     
                     let capacityCalcText = `基礎${baseCapacity}`;
@@ -19163,7 +19212,10 @@
                         capacityCalcText += ` + ${subskillParts.join('+')} = ${baseCapacity + subskillBonus}`;
                     }
                     if (ribbonBonus > 0) {
-                        capacityCalcText += ` + ${ribbonText} = ${preCtCapacity}`;
+                        capacityCalcText += ` + ${ribbonText} = ${baseCapacity + subskillBonus + ribbonBonus}`;
+                    }
+                    if (eventCapacityBonus > 0) {
+                        capacityCalcText += ` + イベント(+${eventCapacityBonus}) = ${preCtCapacity}`;
                     }
                     if (campTicket) {
                         capacityCalcText += ` × 1.2(CT) = ${preCtCapacity * 1.2} → 切り上げ = ${simulation.maxCapacity}`;
@@ -20581,12 +20633,12 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 // ===== ステップ4: エナジー計算 =====
                 console.log('ステップ4: エナジー計算');
                 const baseSkillLevelDetail = parseInt(document.getElementById('skillLevel').value);
-                const eventSkillLevelDetail = getEventSkillLevelValue();
+                const eventSkillLevelDetail = eventTypeMatch ? getEventSkillLevelValue() : 0;
                 const mainBerrySkillBonusDetail = getMainBerrySkillLevelBonus();
                 const skillLevel = Math.min(baseSkillLevelDetail + eventSkillLevelDetail + mainBerrySkillBonusDetail, 6);
                 
                 const baseCookEnergy = parseFloat(document.getElementById('cookEnergy').value);
-                const eventCookEnergyForDetail = getEventCookEnergyValue();
+                const eventCookEnergyForDetail = eventTypeMatch ? getEventCookEnergyValue() : 1.0;
                 const initialCookBonus = parseFloat(document.getElementById('initialCookBonus').value) || 0;
                 console.log('スキルレベル（基礎）:', baseSkillLevelDetail, 'イベント補正:', eventSkillLevelDetail, 'メインきのみ補正:', mainBerrySkillBonusDetail, '最終スキルレベル:', skillLevel, '料理エナジー（基礎）:', baseCookEnergy, '料理エナジー補正:', eventCookEnergyForDetail, '開始時ボーナス:', initialCookBonus + '%');
                 
@@ -20642,7 +20694,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                         const fieldBonusDetail = parseFloat(document.getElementById('fieldBonus')?.value) || 0;
                         const fbMultiplierDetail = 1 + (fieldBonusDetail / 100);
                         const foodCountDetail = COOKING_ASSIST_FOOD_TABLE[skillLevel] || 21;
-                        const eventFoodGetSDetail = getEventFoodGetSValue();
+                        const eventFoodGetSDetail = eventTypeMatch ? getEventFoodGetSValue() : 1.0;
                         foodAssistEnergyPerActivation = avgFoodEnergyDetail * fbMultiplierDetail * foodCountDetail * eventFoodGetSDetail;
                         console.log('料理アシスト：食材ゲット部分 per activation:', Math.round(foodAssistEnergyPerActivation));
                     }
@@ -20915,7 +20967,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         }
         
         // イベント補正がポケモンに適用されるかをチェック（タイプととくいなものの統合チェック）
-        function checkEventTypeMatch() {
+        // overridePokemonType: 入替候補ポケモンなど、メイン以外を対象とする場合に指定
+        function checkEventTypeMatch(overridePokemonType = null) {
             const typeRestriction = document.getElementById('eventTypeRestriction').checked;
             const specialtyRestriction = document.getElementById('eventSpecialtyRestriction').checked;
             
@@ -20924,10 +20977,16 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 return true;
             }
             
-            // 選択されたポケモンの情報を取得
-            const pokemon = getSelectedPokemon();
-            const pokemonTypes = POKEMON_TYPES[pokemon];
-            const pokemonSpecialty = POKEMON_SPECIALTIES[pokemon];
+            // 対象ポケモンを決定（引数指定があればそちら、なければメインポケモン）
+            const pokemonKey = overridePokemonType || getSelectedPokemon();
+            
+            // POKEMON_STATSから直接type/specialtyを取得（全ポケモン対応）
+            const pokemonData = POKEMON_STATS[pokemonKey];
+            const pokemonTypeStr = pokemonData?.type || null;
+            const pokemonSpecialty = pokemonData?.specialty || POKEMON_SPECIALTIES[pokemonKey] || null;
+            
+            // タイプ情報はPOKEMON_TYPESにもフォールバック（メインポケモン用）
+            const pokemonTypesArr = pokemonTypeStr ? [pokemonTypeStr] : (POKEMON_TYPES[pokemonKey] || []);
             
             let typeMatch = true;
             let specialtyMatch = true;
@@ -20943,8 +21002,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 if (selectedTypes.length === 0) {
                     typeMatch = false;
                 } else {
-                    // ポケモンのタイプと対象タイプに一致があるかチェック
-                    typeMatch = pokemonTypes.some(type => selectedTypes.includes(type));
+                    typeMatch = pokemonTypesArr.some(type => selectedTypes.includes(type));
                 }
             }
             
@@ -20959,8 +21017,12 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 if (selectedSpecialties.length === 0) {
                     specialtyMatch = false;
                 } else {
-                    // ポケモンの得意なものと対象に一致があるかチェック
-                    specialtyMatch = selectedSpecialties.includes(pokemonSpecialty);
+                    // オールとくいのポケモンはいずれのとくいなもの指定にも該当する
+                    if (pokemonSpecialty === 'オール') {
+                        specialtyMatch = true;
+                    } else {
+                        specialtyMatch = selectedSpecialties.includes(pokemonSpecialty);
+                    }
                 }
             }
             
@@ -24129,6 +24191,15 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 
 const NOTICES = [
     {
+        date: '2026/03/21',
+        tag: 'update',
+        tagLabel: '📢 アップデート',
+        text: '各種不具合修正・イベント補正強化',
+        detail: '以下の修正・追加を行いました。\n\n【追加】\n・イベント補正に「最大所持数ボーナス（+8個 / +15個）」を追加\n\n【不具合修正】\n・とくいなもの「オール」のポケモン（ダークライなど）が、とくいなもの指定イベント時にスキル確率・きのみ個数・食材個数・スキルレベル等のイベント補正を受けられていなかった問題を修正\n・ダークライのLv30/Lv60食材スロットが正しく計算に反映されていなかった問題を修正',
+        pinned: true,
+        featured: true
+    },
+    {
         date: '2026/03/02',
         tag: 'update',
         tagLabel: '📢 アップデート',
@@ -24149,8 +24220,7 @@ const NOTICES = [
         tag: 'update',
         tagLabel: '📢 アップデート',
         text: '料理チャンス運用効率化ツールを正式に公開しました',
-        detail: '料理チャンスポケモンの運用効率を最大化するための複合期待値計算ツールです。ラグラージなど料理チャンス持ちのポケモンについて、他きのみ得意との最適な切り替えタイミングを計算します。\n\n参照元ツールである「デデンネ効率化ツール」のおが様、および「個体値計算機 for ポケモンスリープ」のnitoyon様、pks.raenonx.ccの運営チームの皆様に感謝申し上げます。\n\nなお、本ツールはプログラミング未経験者がClaude AI（Anthropic）とのバイブコーディングで開発しています。技術上の欠陥などお気づきの点はぜひご連絡ください。\n\nフィードバックは<a href="https://x.com/seiiki_sakura" target="_blank" style="color:#667eea;">X（@seiiki_sakura）</a>またはDiscordにてお気軽にどうぞ！',
-        featured: true
+        detail: '料理チャンスポケモンの運用効率を最大化するための複合期待値計算ツールです。ラグラージなど料理チャンス持ちのポケモンについて、他きのみ得意との最適な切り替えタイミングを計算します。\n\n参照元ツールである「デデンネ効率化ツール」のおが様、および「個体値計算機 for ポケモンスリープ」のnitoyon様、pks.raenonx.ccの運営チームの皆様に感謝申し上げます。\n\nなお、本ツールはプログラミング未経験者がClaude AI（Anthropic）とのバイブコーディングで開発しています。技術上の欠陥などお気づきの点はぜひご連絡ください。\n\nフィードバックは<a href="https://x.com/seiiki_sakura" target="_blank" style="color:#667eea;">X（@seiiki_sakura）</a>またはDiscordにてお気軽にどうぞ！'
     },
     {
         date: '2026/02/28',
