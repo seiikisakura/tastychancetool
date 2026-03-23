@@ -1986,6 +1986,7 @@
 <div class="pokemon-option" data-value="musharna" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ムシャーナ</div>
 <div class="pokemon-option" data-value="braviary" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ウォーグル</div>
 <div class="pokemon-option" data-value="mimikyu" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ミミッキュ</div>
+<div class="pokemon-option" data-value="noivern" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">オンバーン</div>
 </div>
 </div>
 <input id="replacementPokemonValue" type="hidden" value="none"/>
@@ -4978,6 +4979,171 @@
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="replacementPokemonMode_noivern" style="display: none;">
+<div class="input-group">
+<label class="input-label" for="noivernLevel">レベル（1-100）</label>
+<input id="noivernLevel" max="100" min="1" type="number" value="60"/>
+</div>
+<div class="input-group">
+<label class="input-label">Lv30で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="noivernFoodLv30_A" name="noivernFoodLv30" type="radio" value="A"/>
+<label for="noivernFoodLv30_A" id="noivernFoodLv30LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="noivernFoodLv30_B" name="noivernFoodLv30" type="radio" value="B"/>
+<label for="noivernFoodLv30_B" id="noivernFoodLv30LabelB">食材B</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv60で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="noivernFoodLv60_A" name="noivernFoodLv60" type="radio" value="A"/>
+<label for="noivernFoodLv60_A" id="noivernFoodLv60LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="noivernFoodLv60_B" name="noivernFoodLv60" type="radio" value="B"/>
+<label for="noivernFoodLv60_B" id="noivernFoodLv60LabelB">食材B</label>
+</div>
+<div class="radio-item">
+<input id="noivernFoodLv60_C" name="noivernFoodLv60" type="radio" value="C"/>
+<label for="noivernFoodLv60_C" id="noivernFoodLv60LabelC">食材C</label>
+</div>
+</div>
+</div><div class="input-group">
+<label class="input-label">メインスキルレベル</label>
+<select id="noivernSkillLevel">
+<option value="1">Lv1</option>
+<option value="2">Lv2</option>
+<option value="3">Lv3</option>
+<option value="4">Lv4</option>
+<option value="5">Lv5</option>
+<option selected="" value="6">Lv6</option>
+<option value="7">Lv7</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">サブスキル</label>
+<div class="checkbox-group">
+<div class="checkbox-item">
+<input id="noivernSpeedM" type="checkbox"/>
+<label for="noivernSpeedM">おてつだいスピードM</label>
+</div>
+<div class="checkbox-item">
+<input id="noivernSpeedS" type="checkbox"/>
+<label for="noivernSpeedS">おてつだいスピードS</label>
+</div>
+<div class="checkbox-item">
+<input id="noivernSkillM" type="checkbox"/>
+<label for="noivernSkillM">スキル確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="noivernSkillS" type="checkbox"/>
+<label for="noivernSkillS">スキル確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="noivernFoodM" type="checkbox"/>
+<label for="noivernFoodM">食材確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="noivernFoodS" type="checkbox"/>
+<label for="noivernFoodS">食材確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="noivernBerryS" type="checkbox"/>
+<label for="noivernBerryS">きのみの数S</label>
+</div>
+<div class="checkbox-item">
+<input id="noivernCapacityL" type="checkbox"/>
+<label for="noivernCapacityL">所持数アップL</label>
+</div>
+<div class="checkbox-item">
+<input id="noivernCapacityM" type="checkbox"/>
+<label for="noivernCapacityM">所持数アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="noivernCapacityS" type="checkbox"/>
+<label for="noivernCapacityS">所持数アップS</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="noivernOtebonus">おてつだいボーナス</label>
+<select id="noivernOtebonus">
+<option value="0">0枚</option>
+<option value="1">1枚</option>
+<option value="2">2枚</option>
+<option value="3">3枚</option>
+<option value="4">4枚</option>
+<option value="5">5枚</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">おてスピ補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="noivernSpeedNature_plus" name="noivernSpeedNature" type="radio" value="0.9"/>
+<label for="noivernSpeedNature_plus">おてスピ△△(-10%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="noivernSpeedNature_normal" name="noivernSpeedNature" type="radio" value="1.0"/>
+<label for="noivernSpeedNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="noivernSpeedNature_minus" name="noivernSpeedNature" type="radio" value="1.075"/>
+<label for="noivernSpeedNature_minus">おてスピ▽▽(+7.5%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">スキル確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="noivernSkillNature_plus" name="noivernSkillNature" type="radio" value="1.2"/>
+<label for="noivernSkillNature_plus">スキル確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="noivernSkillNature_normal" name="noivernSkillNature" type="radio" value="1.0"/>
+<label for="noivernSkillNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="noivernSkillNature_minus" name="noivernSkillNature" type="radio" value="0.8"/>
+<label for="noivernSkillNature_minus">スキル確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">食材確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="noivernFoodNature_plus" name="noivernFoodNature" type="radio" value="1.2"/>
+<label for="noivernFoodNature_plus">食材確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="noivernFoodNature_normal" name="noivernFoodNature" type="radio" value="1.0"/>
+<label for="noivernFoodNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="noivernFoodNature_minus" name="noivernFoodNature" type="radio" value="0.8"/>
+<label for="noivernFoodNature_minus">食材確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="noivernSleepRibbon">おやすみリボン</label>
+<select id="noivernSleepRibbon">
+<option value="0">なし</option>
+<option value="1">200時間（+1）</option>
+<option value="3">500時間（+3）</option>
+<option value="6">1,000時間（+6）</option>
+<option value="8">2,000時間（+8）</option>
+</select>
+</div>
+
 </div>
 <div class="section" id="replacementPokemonMode_cresselia" style="display: none;">
 <div class="input-group">
@@ -11635,6 +11801,36 @@
                     ]
                 }
             },
+            noivern: {
+                name: 'オンバーン',
+                dexNumber: 715,
+                rawBaseSpeed: 2700,  // Lv1基礎おてスピ
+                berryName: 'ヤチェのみ',
+                berryBaseEnergy: 35,  // きのみ基礎値
+                foodProb: 0.195,      // 19.5%（基本食材確率）
+                skillProb: 0.048,     // 4.8%（基本スキル確率）
+                skillCeiling: 53,     // スキル天井
+                baseCapacity: 18,     // 所持数
+                maxSkillRights: 2,    // スキル発動権上限（スキルとくい）
+                defaultBerryCount: 1, // デフォルトきのみ個数（スキルとくい）
+                specialty: 'スキルとくい',
+                type: 'ドラゴン',
+                mainSkill: 'energyCharge_M',  // エナジーチャージM
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 1, energy: 90 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 2, energy: 90 },
+                        { label: 'B', name: 'ふといながねぎ', count: 1, energy: 185 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'とくせんリンゴ', count: 4, energy: 90 },
+                        { label: 'B', name: 'ふといながねぎ', count: 2, energy: 185 },
+                        { label: 'C', name: 'まめミート', count: 3, energy: 103 }
+                    ]
+                }
+            },
             cresselia: {
                 name: 'クレセリア',
                 dexNumber: 488,
@@ -12361,6 +12557,11 @@
                     katakana: 'ウォーグル',
                     hiragana: 'うぉーぐる',
                     romaji: 'braviary wooguru woーguru'
+                },
+                'noivern': {
+                    katakana: 'オンバーン',
+                    hiragana: 'おんばーん',
+                    romaji: 'noivern onbaan onba-n'
                 },
                 'mimikyu': {
                     katakana: 'ミミッキュ',
@@ -14022,6 +14223,7 @@
                 'replacementPokemonMode_sceptile',
                 'replacementPokemonMode_braviary',
                 'replacementPokemonMode_mimikyu',
+                'replacementPokemonMode_noivern',
                 'replacementPokemonMode_cresselia',
                 'replacementPokemonMode_vulpix_alola',
                 'replacementPokemonMode_arcanine',
@@ -14656,7 +14858,7 @@
             const skillLevelElement = document.getElementById(`${pokemonType}SkillLevel`);
             const baseSkillLevelReplacement = skillLevelElement ? parseInt(skillLevelElement.value) : 6;
             const eventSkillLevelReplacement = replacementEventMatch ? getEventSkillLevelValue() : 0;
-            const skillLevel = Math.min(baseSkillLevelReplacement + eventSkillLevelReplacement, 6);
+            const skillLevel = Math.min(baseSkillLevelReplacement + eventSkillLevelReplacement, 7);
             
             // スキルタイプに応じた効果量テーブル
             let energyPerSkill;
@@ -17928,7 +18130,7 @@
             const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked')?.value ?? 'hybrid';
 
             // スキルレベル計算（基本値 + イベント補正 + メインきのみ補正、上限6）
-            const skillLevel = Math.min(baseSkillLevel + eventSkillLevel + mainBerrySkillBonus, 6);
+            const skillLevel = Math.min(baseSkillLevel + eventSkillLevel + mainBerrySkillBonus, 7);
 
             // 運用モードの判定
             const useReplacement = replacementEnergy > 0;
@@ -18822,7 +19024,7 @@
                 // 食材エナジーモード
                 const foodEnergyMode = document.querySelector('input[name="foodEnergyMode"]:checked')?.value ?? 'hybrid';
                 
-                const skillLevel = Math.min(baseSkillLevel + eventSkillLevel + mainBerrySkillBonus, 6);
+                const skillLevel = Math.min(baseSkillLevel + eventSkillLevel + mainBerrySkillBonus, 7);
                 
                 // おてスピ計算（既存と同じロジック）
                 const levelSpeedBonus = 1 - 0.002 * (level - 1);
@@ -20046,7 +20248,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             
             const SKILL_EFFECTS = {
                 1: 0.04, 2: 0.05, 3: 0.06,
-                4: 0.07, 5: 0.08, 6: 0.10
+                4: 0.07, 5: 0.08, 6: 0.10, 7: 0.10
             };
             const skillEffect = SKILL_EFFECTS[skillLevel];
             const MAX_BONUS = 0.70;
@@ -20635,7 +20837,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 const baseSkillLevelDetail = parseInt(document.getElementById('skillLevel').value);
                 const eventSkillLevelDetail = eventTypeMatch ? getEventSkillLevelValue() : 0;
                 const mainBerrySkillBonusDetail = getMainBerrySkillLevelBonus();
-                const skillLevel = Math.min(baseSkillLevelDetail + eventSkillLevelDetail + mainBerrySkillBonusDetail, 6);
+                const skillLevel = Math.min(baseSkillLevelDetail + eventSkillLevelDetail + mainBerrySkillBonusDetail, 7);
                 
                 const baseCookEnergy = parseFloat(document.getElementById('cookEnergy').value);
                 const eventCookEnergyForDetail = eventTypeMatch ? getEventCookEnergyValue() : 1.0;
@@ -20655,7 +20857,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     patternCount: Math.pow(2, selectedMeals.length),
                     baseline: result.baseline,
                     withSkill: result.withSkill,
-                    skillEffect: skillLevel === 6 ? 0.10 : (skillLevel === 5 ? 0.08 : (skillLevel === 4 ? 0.07 : (skillLevel === 3 ? 0.06 : (skillLevel === 2 ? 0.05 : 0.04))))
+                    skillEffect: skillLevel === 7 ? 0.10 : (skillLevel === 6 ? 0.10 : (skillLevel === 5 ? 0.08 : (skillLevel === 4 ? 0.07 : (skillLevel === 3 ? 0.06 : (skillLevel === 2 ? 0.05 : 0.04)))))
                 };
                 
                 // スキル効果のエナジーを計算（イベント補正を適用）
@@ -20757,7 +20959,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
         function calculateSkillEnergyExpectedValue(meals, skillPlacements, skillLevel, baseCookEnergy, initialBonus = 0) {
             const SKILL_EFFECTS = {
                 1: 0.04, 2: 0.05, 3: 0.06,
-                4: 0.07, 5: 0.08, 6: 0.10
+                4: 0.07, 5: 0.08, 6: 0.10, 7: 0.10
             };
             const skillEffect = SKILL_EFFECTS[skillLevel];
             const MAX_BONUS = 0.70;
@@ -21418,7 +21620,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 'darkrai': 'ダークライ',
                 'musharna': 'ムシャーナ',
                 'braviary': 'ウォーグル',
-                'mimikyu': 'ミミッキュ'
+                'mimikyu': 'ミミッキュ',
+                'noivern': 'オンバーン'
             };
             return names[pokemonId] || pokemonId;
         }
@@ -24190,6 +24393,15 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 // ===== お知らせ機能 =====
 
 const NOTICES = [
+    {
+        date: '2026/03/23',
+        tag: 'update',
+        tagLabel: '📢 アップデート',
+        text: 'オンバーンを入替候補に追加',
+        detail: '入替候補ポケモンに「オンバーン」を追加しました。',
+        pinned: true,
+        featured: true
+    },
     {
         date: '2026/03/21',
         tag: 'update',
