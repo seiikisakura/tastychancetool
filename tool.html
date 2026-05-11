@@ -1988,6 +1988,7 @@
 <div class="pokemon-option" data-value="mimikyu" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ミミッキュ</div>
 <div class="pokemon-option" data-value="noivern" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">オンバーン</div>
 <div class="pokemon-option" data-value="latias" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ラティアス</div>
+<div class="pokemon-option" data-value="tyrantrum" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ガチゴラス</div>
 </div>
 </div>
 <input id="replacementPokemonValue" type="hidden" value="none"/>
@@ -9939,6 +9940,171 @@
 </div>
 
 </div>
+<!-- ガチゴラス設定モード -->
+<div class="section" id="replacementPokemonMode_tyrantrum" style="display: none;">
+<div class="input-group">
+<label class="input-label" for="tyrantrumLevel">レベル（1-100）</label>
+<input id="tyrantrumLevel" max="100" min="1" type="number" value="60"/>
+</div>
+<div class="input-group">
+<label class="input-label">Lv30で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="tyrantrumFoodLv30_A" name="tyrantrumFoodLv30" type="radio" value="A"/>
+<label for="tyrantrumFoodLv30_A" id="tyrantrumFoodLv30LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="tyrantrumFoodLv30_B" name="tyrantrumFoodLv30" type="radio" value="B"/>
+<label for="tyrantrumFoodLv30_B" id="tyrantrumFoodLv30LabelB">食材B</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv60で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="tyrantrumFoodLv60_A" name="tyrantrumFoodLv60" type="radio" value="A"/>
+<label for="tyrantrumFoodLv60_A" id="tyrantrumFoodLv60LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="tyrantrumFoodLv60_B" name="tyrantrumFoodLv60" type="radio" value="B"/>
+<label for="tyrantrumFoodLv60_B" id="tyrantrumFoodLv60LabelB">食材B</label>
+</div>
+<div class="radio-item">
+<input id="tyrantrumFoodLv60_C" name="tyrantrumFoodLv60" type="radio" value="C"/>
+<label for="tyrantrumFoodLv60_C" id="tyrantrumFoodLv60LabelC">食材C</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">メインスキルレベル</label>
+<select id="tyrantrumSkillLevel">
+<option value="1">Lv1</option>
+<option value="2">Lv2</option>
+<option value="3">Lv3</option>
+<option value="4">Lv4</option>
+<option value="5">Lv5</option>
+<option selected="" value="6">Lv6</option>
+<option value="7">Lv7</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">サブスキル</label>
+<div class="checkbox-group">
+<div class="checkbox-item">
+<input id="tyrantrumSpeedM" type="checkbox"/>
+<label for="tyrantrumSpeedM">おてつだいスピードM</label>
+</div>
+<div class="checkbox-item">
+<input id="tyrantrumSpeedS" type="checkbox"/>
+<label for="tyrantrumSpeedS">おてつだいスピードS</label>
+</div>
+<div class="checkbox-item">
+<input id="tyrantrumSkillM" type="checkbox"/>
+<label for="tyrantrumSkillM">スキル確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="tyrantrumSkillS" type="checkbox"/>
+<label for="tyrantrumSkillS">スキル確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="tyrantrumFoodM" type="checkbox"/>
+<label for="tyrantrumFoodM">食材確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="tyrantrumFoodS" type="checkbox"/>
+<label for="tyrantrumFoodS">食材確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="tyrantrumBerryS" type="checkbox"/>
+<label for="tyrantrumBerryS">きのみの数S</label>
+</div>
+<div class="checkbox-item">
+<input id="tyrantrumCapacityL" type="checkbox"/>
+<label for="tyrantrumCapacityL">所持数アップL</label>
+</div>
+<div class="checkbox-item">
+<input id="tyrantrumCapacityM" type="checkbox"/>
+<label for="tyrantrumCapacityM">所持数アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="tyrantrumCapacityS" type="checkbox"/>
+<label for="tyrantrumCapacityS">所持数アップS</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="tyrantrumOtebonus">おてつだいボーナス</label>
+<select id="tyrantrumOtebonus">
+<option value="0">0枚</option>
+<option value="1">1枚</option>
+<option value="2">2枚</option>
+<option value="3">3枚</option>
+<option value="4">4枚</option>
+<option value="5">5枚</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">おてスピ補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="tyrantrumSpeedNature_plus" name="tyrantrumSpeedNature" type="radio" value="0.9"/>
+<label for="tyrantrumSpeedNature_plus">おてスピ△△(-10%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="tyrantrumSpeedNature_normal" name="tyrantrumSpeedNature" type="radio" value="1.0"/>
+<label for="tyrantrumSpeedNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="tyrantrumSpeedNature_minus" name="tyrantrumSpeedNature" type="radio" value="1.075"/>
+<label for="tyrantrumSpeedNature_minus">おてスピ▽▽(+7.5%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">スキル確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="tyrantrumSkillNature_plus" name="tyrantrumSkillNature" type="radio" value="1.2"/>
+<label for="tyrantrumSkillNature_plus">スキル確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="tyrantrumSkillNature_normal" name="tyrantrumSkillNature" type="radio" value="1.0"/>
+<label for="tyrantrumSkillNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="tyrantrumSkillNature_minus" name="tyrantrumSkillNature" type="radio" value="0.8"/>
+<label for="tyrantrumSkillNature_minus">スキル確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">食材確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="tyrantrumFoodNature_plus" name="tyrantrumFoodNature" type="radio" value="1.2"/>
+<label for="tyrantrumFoodNature_plus">食材確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="tyrantrumFoodNature_normal" name="tyrantrumFoodNature" type="radio" value="1.0"/>
+<label for="tyrantrumFoodNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="tyrantrumFoodNature_minus" name="tyrantrumFoodNature" type="radio" value="0.8"/>
+<label for="tyrantrumFoodNature_minus">食材確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="tyrantrumSleepRibbon">おやすみリボン</label>
+<select id="tyrantrumSleepRibbon">
+<option value="0">なし</option>
+<option value="1">200時間（+1）</option>
+<option value="3">500時間（+3）</option>
+<option value="6">1,000時間（+6）</option>
+<option value="8">2,000時間（+8）</option>
+</select>
+</div>
 </div>
 <!-- エラーメッセージ -->
 <div class="error-box" id="errorMessage" style="display: none;">
@@ -12502,6 +12668,36 @@
                     ]
                 }
             },
+            tyrantrum: {
+                name: 'ガチゴラス',
+                dexNumber: 697,
+                rawBaseSpeed: 2800,  // Lv1基礎おてスピ
+                berryName: 'オボンのみ',
+                berryBaseEnergy: 30,  // きのみ基礎値
+                foodProb: 0.178,      // 17.8%（基本食材確率）
+                skillProb: 0.029,     // 2.9%（基本スキル確率）
+                skillCeiling: 78,     // スキル天井
+                baseCapacity: 28,     // 所持数
+                maxSkillRights: 1,    // スキル発動権上限（きのみとくい）
+                defaultBerryCount: 2, // デフォルトきのみ個数（きのみとくい）
+                specialty: 'きのみとくい',
+                type: 'いわ',
+                mainSkill: 'cookingPower_S',  // 料理パワーアップS
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'マメミート', count: 1, energy: 103 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'マメミート', count: 2, energy: 103 },
+                        { label: 'B', name: 'とくせんリンゴ', count: 3, energy: 90 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'マメミート', count: 4, energy: 103 },
+                        { label: 'B', name: 'とくせんリンゴ', count: 4, energy: 90 },
+                        { label: 'C', name: 'ほっこりポテト', count: 3, energy: 124 }
+                    ]
+                }
+            },
             latias: {
                 name: 'ラティアス',
                 dexNumber: 380,
@@ -12943,6 +13139,11 @@
                     katakana: 'ラティアス',
                     hiragana: 'らてぃあす',
                     romaji: 'latias ratiasu'
+                },
+                'tyrantrum': {
+                    katakana: 'ガチゴラス',
+                    hiragana: 'がちごらす',
+                    romaji: 'tyrantrum gachigorasu'
                 }
             };
             
@@ -14530,7 +14731,8 @@
                 'replacementPokemonMode_vigoroth',
                 'replacementPokemonMode_slaking',
                 'replacementPokemonMode_walrein',
-                'replacementPokemonMode_latias'
+                'replacementPokemonMode_latias',
+                'replacementPokemonMode_tyrantrum'
             ];
             
             pokemonModes.forEach(modeId => {
@@ -14778,7 +14980,7 @@
             const berryEnergyPerBerry = calculateBerryEnergy(berryBaseEnergy, level);
             const berryS = document.getElementById(`${pokemonType}BerryS`)?.checked || false;
             const eventBerryCountCap = replacementEventMatch ? getEventBerryCountValue() : 0;
-            const berryPerCount = (berryS ? 3 : (pokemon.defaultBerryCount || 2)) + eventBerryCountCap;
+            const berryPerCount = ((pokemon.defaultBerryCount || 2) + (berryS ? 1 : 0)) + eventBerryCountCap;
             
             // 好物きのみ
             const favoriteBerry = isFavoriteBerry(pokemon.berryName);
@@ -14995,7 +15197,7 @@
             // きのみの数S
             const berryS = document.getElementById(`${pokemonType}BerryS`)?.checked || false;
             const eventBerryCount = replacementEventMatch ? getEventBerryCountValue() : 0;
-            const berryPerCount = (berryS ? 3 : (pokemon.defaultBerryCount || 2)) + eventBerryCount;
+            const berryPerCount = ((pokemon.defaultBerryCount || 2) + (berryS ? 1 : 0)) + eventBerryCount;
             
             console.log('[DEBUG] berryPerCount計算:',
                 'berryS=' + berryS,
@@ -21975,7 +22177,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 'braviary': 'ウォーグル',
                 'mimikyu': 'ミミッキュ',
                 'noivern': 'オンバーン',
-                'latias': 'ラティアス'
+                'latias': 'ラティアス',
+                'tyrantrum': 'ガチゴラス'
             };
             return names[pokemonId] || pokemonId;
         }
@@ -23448,6 +23651,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     const hasMoonlight = elementText.includes('みかづきのいのり計算モード') || elementText.includes('きのみバースト計算モード') || elementText.includes('みかづきのいのり');
                     const hasEnergyYell = elementText.includes('げんきエールS計算モード') || elementText.includes('げんきエールS');
                     const hasMetronome = elementText.includes('ゆびをふる計算モード') || elementText.includes('ゆびをふる');
+                    const hasHealingWave = elementText.includes('いやしのはどう') || 
+                                           (el.id && el.id.toLowerCase().includes('healingwave'));
                     const hasSameTypeBonus = elementText.includes('タイプ一致ボーナス') || labelText.includes('チーム内の同タイプポケモン数');
                     const isButton = el.tagName === 'DIV' && el.style.display !== 'none' && (elementText.includes('保存') || elementText.includes('読み込み'));
                     const hasNatureAttr = el.querySelector('input[name*="Nature"]') !== null;
@@ -23500,6 +23705,9 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     } else if (hasMetronome) {
                         panels[1].appendChild(el); // メインスキル（ゆびをふる設定）
                         console.log(`    → メインスキル: ゆびをふる設定`);
+                    } else if (hasHealingWave) {
+                        panels[1].appendChild(el); // メインスキル（いやしのはどう設定）
+                        console.log(`    → メインスキル: いやしのはどう設定`);
                     } else if (hasSameTypeBonus) {
                         panels[1].appendChild(el); // メインスキル（タイプ一致ボーナス）
                         console.log(`    → メインスキル: タイプ一致ボーナス`);
@@ -24747,6 +24955,15 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 // ===== お知らせ機能 =====
 
 const NOTICES = [
+    {
+        date: '2026/05/11',
+        tag: 'update',
+        tagLabel: '📢 アップデート',
+        text: 'ガチゴラス追加・不具合修正',
+        detail: '【追加】\n・入替候補ポケモンに「ガチゴラス」を追加しました。メインスキル「料理パワーアップS」持ちのきのみ得意ポケモンです。\n\n【不具合修正】\n・スマホモードでラティアスの「いやしのはどう」設定が「基本」タブに表示されていた問題を修正しました（正しくは「メインスキル」タブ）。\n・イベント補正で「得意なもの指定あり」＋「きのみ+1」を同時に設定すると、きのみSを持つスキル得意ポケモンのきのみ個数が過剰に計算される問題を修正しました。',
+        pinned: true,
+        featured: true
+    },
     {
         date: '2026/04/08',
         tag: 'update',
