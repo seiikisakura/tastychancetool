@@ -10688,6 +10688,7 @@
 <option value="coffeesalad">まけんきコーヒーサラダ</option>
 <option value="powerstew">めざめるパワーシチュー</option>
 <option value="sparkspice">スパークスパイスコーラ</option>
+<option value="gorogorosalad">ごろごろねっとうサラダ</option>
 </optgroup>
 <optgroup label="レシピボーナス +48%">
 <option value="pumpkinstew">なりきりバケッチャシチュー</option>
@@ -18110,6 +18111,16 @@
                     'あったかジンジャー': 20,
                     'ふといながねぎ': 20,
                     'めざましコーヒー': 12
+                }
+            },
+            gorogorosalad: {
+                name: 'ごろごろねっとうサラダ',
+                bonus: 1.61,
+                ingredients: {
+                    'ずっしりカボチャ': 20,
+                    'ほっこりポテト': 30,
+                    'ワカクサコーン': 18,
+                    'あじわいキノコ': 27
                 }
             },
             pumpkinstew: {
@@ -25575,6 +25586,15 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 // ===== お知らせ機能 =====
 
 const NOTICES = [
+    {
+        date: '2026/07/11',
+        tag: 'update',
+        tagLabel: '📢 アップデート',
+        text: 'レシピ「ごろごろねっとうサラダ」を追加',
+        detail: '料理・レシピ設定のレシピ選択に「ごろごろねっとうサラダ」（レシピボーナス+61%）を追加しました。\n食材：ずっしりカボチャ20、ほっこりポテト30、ワカクサコーン18、あじわいキノコ27。',
+        pinned: false,
+        featured: false
+    },
     {
         date: '2026/07/11',
         tag: 'update',
