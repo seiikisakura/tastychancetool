@@ -1988,6 +1988,7 @@
 <div class="pokemon-option" data-value="mimikyu" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ミミッキュ</div>
 <div class="pokemon-option" data-value="noivern" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">オンバーン</div>
 <div class="pokemon-option" data-value="latias" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ラティアス</div>
+<div class="pokemon-option" data-value="latios" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ラティオス</div>
 <div class="pokemon-option" data-value="tyrantrum" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ガチゴラス</div>
 </div>
 </div>
@@ -9940,6 +9941,340 @@
 </div>
 
 </div>
+<!-- ラティオス設定モード -->
+<div class="section" id="replacementPokemonMode_latios" style="display: none;">
+<div class="input-group">
+<label class="input-label" for="latiosLevel">レベル（1-100）</label>
+<input id="latiosLevel" max="100" min="1" type="number" value="60"/>
+</div>
+<div class="input-group">
+<label class="input-label">Lv30で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="latiosFoodLv30_A" name="latiosFoodLv30" type="radio" value="A"/>
+<label for="latiosFoodLv30_A" id="latiosFoodLv30LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="latiosFoodLv30_B" name="latiosFoodLv30" type="radio" value="B"/>
+<label for="latiosFoodLv30_B" id="latiosFoodLv30LabelB">食材B</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv60で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="latiosFoodLv60_A" name="latiosFoodLv60" type="radio" value="A"/>
+<label for="latiosFoodLv60_A" id="latiosFoodLv60LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="latiosFoodLv60_B" name="latiosFoodLv60" type="radio" value="B"/>
+<label for="latiosFoodLv60_B" id="latiosFoodLv60LabelB">食材B</label>
+</div>
+<div class="radio-item">
+<input id="latiosFoodLv60_C" name="latiosFoodLv60" type="radio" value="C"/>
+<label for="latiosFoodLv60_C" id="latiosFoodLv60LabelC">食材C</label>
+</div>
+</div>
+</div><div class="input-group">
+<label class="input-label">メインスキルレベル</label>
+<select id="latiosSkillLevel">
+<option value="1">Lv1</option>
+<option value="2">Lv2</option>
+<option value="3">Lv3</option>
+<option value="4">Lv4</option>
+<option value="5">Lv5</option>
+<option selected="" value="6">Lv6</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">サブスキル</label>
+<div class="checkbox-group">
+<div class="checkbox-item">
+<input id="latiosSpeedM" type="checkbox"/>
+<label for="latiosSpeedM">おてつだいスピードM</label>
+</div>
+<div class="checkbox-item">
+<input id="latiosSpeedS" type="checkbox"/>
+<label for="latiosSpeedS">おてつだいスピードS</label>
+</div>
+<div class="checkbox-item">
+<input id="latiosSkillM" type="checkbox"/>
+<label for="latiosSkillM">スキル確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="latiosSkillS" type="checkbox"/>
+<label for="latiosSkillS">スキル確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="latiosFoodM" type="checkbox"/>
+<label for="latiosFoodM">食材確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="latiosFoodS" type="checkbox"/>
+<label for="latiosFoodS">食材確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="latiosBerryS" type="checkbox"/>
+<label for="latiosBerryS">きのみの数S</label>
+</div>
+<div class="checkbox-item">
+<input id="latiosCapacityL" type="checkbox"/>
+<label for="latiosCapacityL">所持数アップL</label>
+</div>
+<div class="checkbox-item">
+<input id="latiosCapacityM" type="checkbox"/>
+<label for="latiosCapacityM">所持数アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="latiosCapacityS" type="checkbox"/>
+<label for="latiosCapacityS">所持数アップS</label>
+</div>
+</div>
+<div style="margin-top: 10px;">
+<label class="input-label" for="latiosOtebonus">おてつだいボーナス</label>
+<select id="latiosOtebonus">
+<option value="0">0枚</option>
+<option value="1">1枚</option>
+<option value="2">2枚</option>
+<option value="3">3枚</option>
+<option value="4">4枚</option>
+<option value="5">5枚</option>
+</select>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">性格</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="latiosSpeedFast" name="latiosSpeedNature" type="radio" value="0.9"/>
+<label for="latiosSpeedFast">おてスピ↑（-10%）</label>
+</div>
+<div class="radio-item">
+<input checked="" id="latiosSpeedNormal" name="latiosSpeedNature" type="radio" value="1.0"/>
+<label for="latiosSpeedNormal">通常</label>
+</div>
+<div class="radio-item">
+<input id="latiosSpeedSlow" name="latiosSpeedNature" type="radio" value="1.075"/>
+<label for="latiosSpeedSlow">おてスピ↓（+7.5%）</label>
+</div>
+</div>
+<div class="radio-group" style="margin-top: 10px;">
+<div class="radio-item">
+<input id="latiosSkillUp" name="latiosSkillNature" type="radio" value="1.2"/>
+<label for="latiosSkillUp">スキル確率↑（+20%）</label>
+</div>
+<div class="radio-item">
+<input checked="" id="latiosSkillNatureNormal" name="latiosSkillNature" type="radio" value="1.0"/>
+<label for="latiosSkillNatureNormal">通常</label>
+</div>
+<div class="radio-item">
+<input id="latiosSkillDown" name="latiosSkillNature" type="radio" value="0.8"/>
+<label for="latiosSkillDown">スキル確率↓（-20%）</label>
+</div>
+</div>
+<div class="radio-group" style="margin-top: 10px;">
+<div class="radio-item">
+<input id="latiosFoodUp" name="latiosFoodNature" type="radio" value="1.2"/>
+<label for="latiosFoodUp">食材確率↑（+20%）</label>
+</div>
+<div class="radio-item">
+<input checked="" id="latiosFoodNatureNormal" name="latiosFoodNature" type="radio" value="1.0"/>
+<label for="latiosFoodNatureNormal">通常</label>
+</div>
+<div class="radio-item">
+<input id="latiosFoodDown" name="latiosFoodNature" type="radio" value="0.8"/>
+<label for="latiosFoodDown">食材確率↓（-20%）</label>
+</div>
+</div>
+</div>
+
+<!-- りゅうせいぐん計算設定 -->
+<div class="skill-mode-section" style="background: #eef2ff; border-color: #6366f1; margin-top: 20px;">
+<div class="skill-mode-section-title" style="color: #4338ca;">
+                        🐉 りゅうせいぐん（きのみバースト）計算設定
+                    </div>
+<div class="detail-description">
+                        りゅうせいぐんはチーム内の「ドラゴンタイプ（同タイプ）」の数によって獲得きのみ数が変化します。<br/>
+<strong style="color: #4338ca;">※チームにラティアスがいる場合はさらに追加ボーナスが入ります（下記チェックボックス）</strong>
+                    </div>
+</div>
+
+<!-- ラティアスボーナス -->
+<div style="margin-top: 15px; padding: 15px; background: #fff0f5; border-radius: 8px; border: 2px solid #ff69b4;">
+<div class="checkbox-item">
+<input id="latiosHasLatias" type="checkbox"/>
+<label for="latiosHasLatias">チームにラティアスがいる（りゅうせいぐんの自身分が追加でアップ）</label>
+</div>
+</div>
+
+<!-- きのみバーストモード詳細設定 -->
+<div id="latiosBerryBurstSettings" style="display: block;">
+<!-- きのみバーストモード選択 -->
+<div class="skill-mode-section" style="background: #f0fff0; border-color: #90ee90; margin-top: 20px;">
+<div class="skill-mode-section-title" style="color: #2e7d32;">
+                            🌿 きのみバースト計算モード
+                        </div>
+<div class="radio-group radio-group-compact">
+<div class="radio-item">
+<input id="latiosBerryBurstSimple" name="latiosBerryBurstMode" type="radio" value="simple"/>
+<label for="latiosBerryBurstSimple">簡易モード</label>
+</div>
+<div class="radio-item">
+<input checked="" id="latiosBerryBurstDetailed" name="latiosBerryBurstMode" type="radio" value="detailed"/>
+<label for="latiosBerryBurstDetailed">詳細モード</label>
+</div>
+</div>
+<div class="detail-description">
+<strong>簡易モード：</strong>スキルで獲得する全てのきのみを自分のきのみとして計算します（チーム設定不要）<br/>
+<strong>詳細モード：</strong>チーム4匹のきのみとレベルを個別に設定して計算します（好きなきのみ判定あり）
+                        </div>
+</div>
+<!-- ドラゴンタイプ数選択（簡易モード用） -->
+<div id="latiosPsychicCountSimple" style="display: none; margin-top: 15px; padding: 15px; background: #f5e6ff; border-radius: 8px; border: 2px solid #9b59b6;">
+<div style="font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #6a1b9a;">
+                            🐉 チーム内のドラゴンタイプポケモン数
+                        </div>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="latiosPsychicCount1" name="latiosPsychicCountSimple" type="radio" value="1"/>
+<label for="latiosPsychicCount1">1匹（ラティオスのみ）</label>
+</div>
+<div class="radio-item">
+<input id="latiosPsychicCount2" name="latiosPsychicCountSimple" type="radio" value="2"/>
+<label for="latiosPsychicCount2">2匹</label>
+</div>
+<div class="radio-item">
+<input id="latiosPsychicCount3" name="latiosPsychicCountSimple" type="radio" value="3"/>
+<label for="latiosPsychicCount3">3匹</label>
+</div>
+<div class="radio-item">
+<input id="latiosPsychicCount4" name="latiosPsychicCountSimple" type="radio" value="4"/>
+<label for="latiosPsychicCount4">4匹</label>
+</div>
+<div class="radio-item">
+<input id="latiosPsychicCount5" name="latiosPsychicCountSimple" type="radio" value="5"/>
+<label for="latiosPsychicCount5">5匹（全員ドラゴン）</label>
+</div>
+</div>
+<div style="margin-top: 10px; color: #666; font-size: 12px;">
+                            ※りゅうせいぐんの効果量は、チーム内のドラゴンタイプポケモンの数によって変化します
+                        </div>
+</div>
+<!-- チーム構成（きのみバースト用・詳細モード） -->
+<div id="latiosTeamComposition" style="margin-top: 20px; padding: 15px; background: #f0fff0; border-radius: 8px; border: 2px solid #90ee90;">
+<div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #2e7d32;">
+                            🌿 チーム構成（詳細モード）
+                        </div>
+<div class="detail-description" style="margin-bottom: 15px;">
+                            きのみバーストは自分のきのみ + チーム4匹のきのみを獲得します。<br/>
+<strong style="color: #6a1b9a;">※ドラゴンタイプのきのみ（ヤチェのみ等）を設定すると、効果量が自動的にアップします</strong>
+</div>
+<div style="overflow-x: auto;">
+<table style="width: 100%; border-collapse: collapse; background: white;">
+<thead>
+<tr style="background: #e8f5e9; border-bottom: 2px solid #90ee90;">
+<th style="padding: 10px; text-align: left; font-size: 13px; color: #2e7d32; width: 140px;">ポケモン</th>
+<th style="padding: 10px; text-align: left; font-size: 13px; color: #2e7d32;">きのみの種類</th>
+<th style="padding: 10px; text-align: left; font-size: 13px; color: #2e7d32; width: 120px;">レベル</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-bottom: 1px solid #e0e0e0;">
+<td style="padding: 10px; font-size: 13px; color: #555; font-weight: 500;">チームポケモン1</td>
+<td style="padding: 10px;">
+<select id="latiosTeamBerry1" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</td>
+<td style="padding: 10px;">
+<input id="latiosTeamLevel1" max="100" min="1" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</td>
+</tr>
+<tr style="border-bottom: 1px solid #e0e0e0;">
+<td style="padding: 10px; font-size: 13px; color: #555; font-weight: 500;">チームポケモン2</td>
+<td style="padding: 10px;">
+<select id="latiosTeamBerry2" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</td>
+<td style="padding: 10px;">
+<input id="latiosTeamLevel2" max="100" min="1" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</td>
+</tr>
+<tr style="border-bottom: 1px solid #e0e0e0;">
+<td style="padding: 10px; font-size: 13px; color: #555; font-weight: 500;">チームポケモン3</td>
+<td style="padding: 10px;">
+<select id="latiosTeamBerry3" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</td>
+<td style="padding: 10px;">
+<input id="latiosTeamLevel3" max="100" min="1" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</td>
+</tr>
+<tr>
+<td style="padding: 10px; font-size: 13px; color: #555; font-weight: 500;">チームポケモン4</td>
+<td style="padding: 10px;">
+<select id="latiosTeamBerry4" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</td>
+<td style="padding: 10px;">
+<input id="latiosTeamLevel4" max="100" min="1" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- ドラゴンタイプ数設定（詳細モード） -->
+<div id="latiosPsychicCountDetailed" style="margin-top: 15px; padding: 15px; background: #f5e6ff; border-radius: 8px; border: 2px solid #9b59b6;">
+<div style="font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #6a1b9a;">
+                            🐉 ドラゴンタイプポケモン数
+                        </div>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="latiosPsychicAuto" name="latiosPsychicDetailed" type="radio" value="auto"/>
+<label for="latiosPsychicAuto">自動判定（チーム構成から）</label>
+</div>
+<div class="radio-item">
+<input id="latiosPsychicManual" name="latiosPsychicDetailed" type="radio" value="manual"/>
+<label for="latiosPsychicManual">手動指定</label>
+</div>
+</div>
+<div id="latiosPsychicManualInput" style="display: none; margin-top: 10px;">
+<label class="input-label" style="margin-bottom: 8px; display: block;">ドラゴンタイプ数を選択</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="latiosPsychicManual1" name="latiosPsychicManualValue" type="radio" value="1"/>
+<label for="latiosPsychicManual1">1匹</label>
+</div>
+<div class="radio-item">
+<input id="latiosPsychicManual2" name="latiosPsychicManualValue" type="radio" value="2"/>
+<label for="latiosPsychicManual2">2匹</label>
+</div>
+<div class="radio-item">
+<input id="latiosPsychicManual3" name="latiosPsychicManualValue" type="radio" value="3"/>
+<label for="latiosPsychicManual3">3匹</label>
+</div>
+<div class="radio-item">
+<input id="latiosPsychicManual4" name="latiosPsychicManualValue" type="radio" value="4"/>
+<label for="latiosPsychicManual4">4匹</label>
+</div>
+<div class="radio-item">
+<input id="latiosPsychicManual5" name="latiosPsychicManualValue" type="radio" value="5"/>
+<label for="latiosPsychicManual5">5匹</label>
+</div>
+</div>
+</div>
+<div style="margin-top: 10px; color: #666; font-size: 12px;">
+                            ※同一ポケモンを複数編成している場合は手動指定をご利用ください
+                        </div>
+</div>
+</div>
+
+</div>
 <!-- ガチゴラス設定モード -->
 <div class="section" id="replacementPokemonMode_tyrantrum" style="display: none;">
 <div class="input-group">
@@ -10525,8 +10860,8 @@
 </div>
 <!-- レシピレベルと料理イベントボーナス -->
 <div class="input-group" style="margin-top: 15px;">
-<label class="input-label" for="recipeLevel">レシピレベル（1-65）</label>
-<input id="recipeLevel" max="65" min="1" type="number" value="65"/>
+<label class="input-label" for="recipeLevel">レシピレベル（1-70）</label>
+<input id="recipeLevel" max="70" min="1" type="number" value="70"/>
 </div>
 <!-- 料理エナジー（自動計算結果） -->
 <div class="input-group" style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #ddd;">
@@ -10655,12 +10990,12 @@
 <div class="input-group">
 <label class="input-label" for="potBaseCapacity">基礎容量</label>
 <select id="potBaseCapacity">
-<option value="15">15</option>
-<option value="18">18</option>
 <option value="21">21</option>
-<option value="24">24</option>
+<option value="23">23</option>
+<option value="25">25</option>
 <option value="27">27</option>
-<option value="30">30</option>
+<option value="29">29</option>
+<option value="31">31</option>
 <option value="33">33</option>
 <option value="36">36</option>
 <option value="39">39</option>
@@ -11346,7 +11681,78 @@
                 5: { self: 32, team: 9 }   // エスパー5匹: 合計68
             }
         };
-        
+
+        // りゅうせいぐん（ラティオス・きのみバースト部分）のスキルレベル別・ドラゴンタイプ数別効果量
+        const LATIOS_BERRY_BURST_TABLE = {
+            1: {  // Lv1
+                1: { self: 12, team: 1 },
+                2: { self: 14, team: 1 },
+                3: { self: 18, team: 1 },
+                4: { self: 18, team: 2 },
+                5: { self: 20, team: 2 }
+            },
+            2: {  // Lv2
+                1: { self: 21, team: 1 },
+                2: { self: 24, team: 1 },
+                3: { self: 29, team: 1 },
+                4: { self: 30, team: 2 },
+                5: { self: 33, team: 2 }
+            },
+            3: {  // Lv3
+                1: { self: 29, team: 1 },
+                2: { self: 29, team: 2 },
+                3: { self: 35, team: 2 },
+                4: { self: 37, team: 3 },
+                5: { self: 41, team: 3 }
+            },
+            4: {  // Lv4
+                1: { self: 38, team: 1 },
+                2: { self: 39, team: 2 },
+                3: { self: 42, team: 3 },
+                4: { self: 45, team: 4 },
+                5: { self: 49, team: 4 }
+            },
+            5: {  // Lv5
+                1: { self: 43, team: 2 },
+                2: { self: 44, team: 3 },
+                3: { self: 48, team: 4 },
+                4: { self: 49, team: 5 },
+                5: { self: 53, team: 5 }
+            },
+            6: {  // Lv6
+                1: { self: 48, team: 3 },
+                2: { self: 50, team: 4 },
+                3: { self: 55, team: 4 },
+                4: { self: 55, team: 5 },
+                5: { self: 58, team: 5 }
+            }
+        };
+
+        // りゅうせいぐん（種族指定ボーナス）：チームにラティアスがいる場合の自身分追加獲得数（スキルレベル別）
+        const LATIOS_LATIAS_BONUS_TABLE = {
+            1: 2,
+            2: 4,
+            3: 6,
+            4: 8,
+            5: 9,
+            6: 10
+        };
+
+        // きのみバースト（種族数依存）系スキルの、ポケモンごとの判定タイプ・参照テーブル・ボーナス設定
+        // ※みかづきのいのり（クレセリア）とりゅうせいぐん（ラティオス）はロジックを共用し、ここで挙動を切り替える
+        const TYPE_COUNT_BERRY_BURST_CONFIG = {
+            cresselia: {
+                countType: 'エスパー',
+                table: MOONLIGHT_PRAYER_TABLE
+            },
+            latios: {
+                countType: 'ドラゴン',
+                table: LATIOS_BERRY_BURST_TABLE,
+                bonusCheckboxId: 'latiosHasLatias',   // チームにラティアスがいる場合のボーナス
+                bonusTable: LATIOS_LATIAS_BONUS_TABLE
+            }
+        };
+
         // 全きのみの基礎エナジー値
         const ALL_BERRIES = {
             'キーのみ': 28,
@@ -12728,6 +13134,36 @@
                     ]
                 }
             },
+            latios: {
+                name: 'ラティオス',
+                dexNumber: 381,
+                rawBaseSpeed: 2800,  // Lv1基礎おてスピ
+                berryName: 'ヤチェのみ',
+                berryBaseEnergy: 35,  // きのみ基礎値
+                foodProb: 0.198,      // 19.8%（基本食材確率）
+                skillProb: 0.030,     // 3.0%（基本スキル確率）
+                skillCeiling: 51,     // スキル天井
+                baseCapacity: 19,     // 所持数
+                maxSkillRights: 2,    // スキル発動権上限（スキルとくい）
+                defaultBerryCount: 1, // デフォルトきのみ個数（スキルとくい）
+                specialty: 'スキルとくい',
+                type: 'ドラゴン',
+                mainSkill: 'moonlightPrayer',  // りゅうせいぐん（きのみバースト・種族数依存＋ラティアスボーナス）。既存のみかづきのいのりロジックをTYPE_COUNT_BERRY_BURST_CONFIG経由で共用
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'あんみんトマト', count: 1, energy: 110 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'あんみんトマト', count: 2, energy: 110 },
+                        { label: 'B', name: 'とくせんエッグ', count: 2, energy: 115 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'あんみんトマト', count: 4, energy: 110 },
+                        { label: 'B', name: 'とくせんエッグ', count: 3, energy: 115 },
+                        { label: 'C', name: 'モーモーミルク', count: 4, energy: 98 }
+                    ]
+                }
+            },
             kyukon: {
                 name: 'キュウコン',
                 dexNumber: 38.1,
@@ -13140,6 +13576,11 @@
                     hiragana: 'らてぃあす',
                     romaji: 'latias ratiasu'
                 },
+                'latios': {
+                    katakana: 'ラティオス',
+                    hiragana: 'らてぃおす',
+                    romaji: 'latios ratiosu'
+                },
                 'tyrantrum': {
                     katakana: 'ガチゴラス',
                     hiragana: 'がちごらす',
@@ -13284,6 +13725,31 @@
             updateDisplay();
         }
         
+        /**
+         * ラティオスのドラゴンタイプ数設定（詳細モード）を初期化
+         */
+        function initializeLatiosDragonCount() {
+            const autoRadio = document.getElementById('latiosPsychicAuto');
+            const manualRadio = document.getElementById('latiosPsychicManual');
+            const manualInput = document.getElementById('latiosPsychicManualInput');
+
+            if (!autoRadio || !manualRadio || !manualInput) return;
+
+            const updateDisplay = () => {
+                if (manualRadio.checked) {
+                    manualInput.style.display = 'block';
+                } else {
+                    manualInput.style.display = 'none';
+                }
+            };
+
+            autoRadio.addEventListener('change', updateDisplay);
+            manualRadio.addEventListener('change', updateDisplay);
+
+            // 初期状態を設定
+            updateDisplay();
+        }
+
         /**
          * キュウコン（アローラのすがた）のおてつだいサポートSモード切り替えを初期化
          */
@@ -14071,7 +14537,7 @@
             }).filter(([berryName, energy]) => energy !== undefined);
             
             // きのみバースト/ばけのかわ持ちポケモンのリスト
-            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia'];  // 今後追加する場合はここに追加
+            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia', 'latios'];  // 今後追加する場合はここに追加
             
             berryBurstPokemon.forEach(pokemonType => {
                 // 各ポケモンの4匹分のドロップダウンを初期化
@@ -14097,18 +14563,18 @@
          */
         function initializeBerryBurstModeToggle() {
             // きのみバースト/ばけのかわ持ちポケモンのリスト
-            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia'];
-            
+            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia', 'latios'];
+
             berryBurstPokemon.forEach(pokemonType => {
                 const simpleRadio = document.getElementById(`${pokemonType}BerryBurstSimple`);
                 const detailedRadio = document.getElementById(`${pokemonType}BerryBurstDetailed`);
                 const teamComposition = document.getElementById(`${pokemonType}TeamComposition`);
-                
+
                 if (!simpleRadio || !detailedRadio || !teamComposition) return;
-                
-                // クレセリア用のエスパータイプ数UI
-                const psychicCountSimple = pokemonType === 'cresselia' ? document.getElementById('cresseliaPsychicCountSimple') : null;
-                const psychicCountDetailed = pokemonType === 'cresselia' ? document.getElementById('cresseliaPsychicCountDetailed') : null;
+
+                // クレセリア/ラティオス用のタイプ数UI（エスパー/ドラゴン）
+                const psychicCountSimple = (pokemonType === 'cresselia' || pokemonType === 'latios') ? document.getElementById(`${pokemonType}PsychicCountSimple`) : null;
+                const psychicCountDetailed = (pokemonType === 'cresselia' || pokemonType === 'latios') ? document.getElementById(`${pokemonType}PsychicCountDetailed`) : null;
                 
                 // モード切り替え関数
                 const toggleMode = () => {
@@ -14170,6 +14636,7 @@
             initializeBerryBurstModeToggle();
             initializeCresseliaMoonlightMode();
             initializeCresseliaPsychicCount();
+            initializeLatiosDragonCount();
             initializeVulpixAlolaHelpSupportMode();
             initializeArcanineHelpSupportMode();
             initializeJolteonHelpSupportMode();
@@ -14732,6 +15199,7 @@
                 'replacementPokemonMode_slaking',
                 'replacementPokemonMode_walrein',
                 'replacementPokemonMode_latias',
+                'replacementPokemonMode_latios',
                 'replacementPokemonMode_tyrantrum'
             ];
             
@@ -15541,36 +16009,32 @@
                     // チーム4匹のきのみエナジー
                     const teamCount = burstData.team;
                     let teamBerryEnergy = 0;
-                    
-                    // フィールド設定から好物きのみを取得
-                    const favoriteBerryElement = document.querySelector('input[name="favoriteBerry"]:checked');
-                    const favoriteBerryName = favoriteBerryElement ? favoriteBerryElement.value : '';
-                    
+
                     for (let i = 1; i <= 4; i++) {
                         // ポケモン固有のIDを使用
                         const teamBerrySelect = document.getElementById(`${pokemonType}TeamBerry${i}`);
                         const teamLevelInput = document.getElementById(`${pokemonType}TeamLevel${i}`);
-                        
+
                         if (!teamBerrySelect || !teamLevelInput) continue;
-                        
+
                         const teamBerryName = teamBerrySelect.value;
                         const teamLevel = parseInt(teamLevelInput.value) || 60;
-                        
+
                         if (!teamBerryName || teamBerryName === '') continue;
-                        
+
                         const teamBerryBase = ALL_BERRIES[teamBerryName];
                         if (!teamBerryBase) continue;
-                        
+
                         // チームポケモンのきのみエナジーを計算
                         const teamBerryEnergyValue = calculateBerryEnergy(teamBerryBase, teamLevel);
-                        
-                        // 好物判定
-                        const isTeamFavorite = (teamBerryName === favoriteBerryName);
-                        const teamFavoriteMultiplier = isTeamFavorite ? 2 : 1;
-                        
+
+                        // 好物判定（フィールドの好物きのみリストと照合。self側と同じisFavoriteBerry()を使用）
+                        const isTeamFavorite = isFavoriteBerry(teamBerryName);
+                        const teamFavoriteMultiplier = isTeamFavorite ? (exOther === 'berry' ? 2.4 : 2) : 1;
+
                         teamBerryEnergy += teamBerryEnergyValue * teamCount * teamFavoriteMultiplier;
                     }
-                    
+
                     totalBurstEnergy = selfBerryEnergy + teamBerryEnergy;
                 }
                 
@@ -15618,9 +16082,12 @@
                     // モード判定
                     const modeRadio = document.querySelector(`input[name="${pokemonType}BerryBurstMode"]:checked`);
                     const isSimpleMode = modeRadio ? (modeRadio.value === 'simple') : false;
-                    
-                    let psychicCount = 1;  // デフォルトは1匹（クレセリアのみ）
-                    
+
+                    // ポケモンごとの判定タイプ・参照テーブル・ボーナス設定を取得（クレセリア=エスパー / ラティオス=ドラゴン）
+                    const typeCountConfig = TYPE_COUNT_BERRY_BURST_CONFIG[pokemonType] || TYPE_COUNT_BERRY_BURST_CONFIG.cresselia;
+
+                    let psychicCount = 1;  // デフォルトは1匹（自分のみ）
+
                     if (isSimpleMode) {
                         // 簡易モード：エスパータイプ数を手動選択から取得
                         const psychicCountRadio = document.querySelector(`input[name="${pokemonType}PsychicCountSimple"]:checked`);
@@ -15646,24 +16113,33 @@
                                 if (!teamBerryName || teamBerryName === '') continue;
                                 
                                 const berryType = BERRY_TYPES[teamBerryName];
-                                if (berryType === 'エスパー') {
+                                if (berryType === typeCountConfig.countType) {
                                     psychicCount++;
                                 }
                             }
                         }
-                        
+
                         // 最大5匹に制限
                         psychicCount = Math.min(psychicCount, 5);
                     }
-                    
-                    // エスパータイプ数に応じた効果量を取得
-                    const moonlightData = MOONLIGHT_PRAYER_TABLE[skillLevel]?.[psychicCount] || { self: 25, team: 1 };
-                    
+
+                    // タイプ数に応じた効果量を取得
+                    const moonlightData = typeCountConfig.table[skillLevel]?.[psychicCount] || { self: 25, team: 1 };
+
+                    // 種族指定ボーナス（例：ラティオス側にチームにラティアスがいる場合の追加分）
+                    let speciesBonusAmount = 0;
+                    if (typeCountConfig.bonusCheckboxId) {
+                        const bonusCheckboxEl = document.getElementById(typeCountConfig.bonusCheckboxId);
+                        if (bonusCheckboxEl && bonusCheckboxEl.checked) {
+                            speciesBonusAmount = (typeCountConfig.bonusTable && typeCountConfig.bonusTable[skillLevel]) || 0;
+                        }
+                    }
+
                     let totalBurstEnergy = 0;
-                    
+
                     if (isSimpleMode) {
                         // 簡易モード：全てを自分のきのみとして計算
-                        const totalCount = moonlightData.self + moonlightData.team * 4;
+                        const totalCount = moonlightData.self + speciesBonusAmount + moonlightData.team * 4;
                         console.log('[DEBUG moonlightPrayer 簡易]',
                             'berryEnergyPerBerry=' + berryEnergyPerBerry,
                             'totalCount=' + totalCount,
@@ -15673,7 +16149,7 @@
                         console.log('[DEBUG moonlightPrayer 簡易] totalBurstEnergy=' + totalBurstEnergy);
                     } else {
                         // 詳細モード：自分のきのみ + チーム4匹のきのみ（個別設定）
-                        const selfCount = moonlightData.self;
+                        const selfCount = moonlightData.self + speciesBonusAmount;
                         const selfBerryEnergy = berryEnergyPerBerry * selfCount * berryFavoriteMultiplier;
                         
                         console.log('[DEBUG moonlightPrayer 詳細] selfBerryEnergy計算:',
@@ -15686,35 +16162,31 @@
                         // チーム4匹のきのみエナジー
                         const teamCount = moonlightData.team;
                         let teamBerryEnergy = 0;
-                        
-                        // フィールド設定から好物きのみを取得
-                        const favoriteBerryElement = document.querySelector('input[name="favoriteBerry"]:checked');
-                        const favoriteBerryName = favoriteBerryElement ? favoriteBerryElement.value : '';
-                        
+
                         for (let i = 1; i <= 4; i++) {
                             const teamBerrySelect = document.getElementById(`${pokemonType}TeamBerry${i}`);
                             const teamLevelInput = document.getElementById(`${pokemonType}TeamLevel${i}`);
-                            
+
                             if (!teamBerrySelect || !teamLevelInput) continue;
-                            
+
                             const teamBerryName = teamBerrySelect.value;
                             const teamLevel = parseInt(teamLevelInput.value) || 60;
-                            
+
                             if (!teamBerryName || teamBerryName === '') continue;
-                            
+
                             const teamBerryBase = ALL_BERRIES[teamBerryName];
                             if (!teamBerryBase) continue;
-                            
+
                             // チームポケモンのきのみエナジーを計算
                             const teamBerryEnergyValue = calculateBerryEnergy(teamBerryBase, teamLevel);
-                            
-                            // 好物判定
-                            const isTeamFavorite = (teamBerryName === favoriteBerryName);
-                            const teamFavoriteMultiplier = isTeamFavorite ? 2 : 1;
-                            
+
+                            // 好物判定（フィールドの好物きのみリストと照合。self側と同じisFavoriteBerry()を使用）
+                            const isTeamFavorite = isFavoriteBerry(teamBerryName);
+                            const teamFavoriteMultiplier = isTeamFavorite ? (exOther === 'berry' ? 2.4 : 2) : 1;
+
                             teamBerryEnergy += teamBerryEnergyValue * teamCount * teamFavoriteMultiplier;
                         }
-                        
+
                         console.log('[DEBUG moonlightPrayer 詳細] teamBerryEnergy=' + teamBerryEnergy);
                         
                         totalBurstEnergy = selfBerryEnergy + teamBerryEnergy;
@@ -16596,34 +17068,32 @@
                     // チーム4匹
                     formulaParts.push('');
                     formulaParts.push(`<strong>チーム (各${teamCount}個):</strong>`);
-                    
-                    const favoriteBerryElement = document.querySelector('input[name="favoriteBerry"]:checked');
-                    const favoriteBerryName = favoriteBerryElement ? favoriteBerryElement.value : '';
-                    
+
                     let teamBerryEnergy = 0;
                     for (let i = 1; i <= 4; i++) {
                         // ポケモン固有のIDを使用
                         const teamBerrySelect = document.getElementById(`${pokemonType}TeamBerry${i}`);
                         const teamLevelInput = document.getElementById(`${pokemonType}TeamLevel${i}`);
-                        
+
                         if (!teamBerrySelect || !teamLevelInput) continue;
-                        
+
                         const teamBerryName = teamBerrySelect.value;
                         const teamLevel = parseInt(teamLevelInput.value) || 60;
-                        
+
                         if (!teamBerryName || teamBerryName === '') {
                             formulaParts.push(`　ポケモン${i}: 未設定`);
                             continue;
                         }
-                        
+
                         const teamBerryBase = ALL_BERRIES[teamBerryName];
                         if (!teamBerryBase) continue;
-                        
+
                         const teamBerryEnergyValue = calculateBerryEnergy(teamBerryBase, teamLevel);
-                        const isTeamFavorite = (teamBerryName === favoriteBerryName);
-                        const teamFavoriteMultiplier = isTeamFavorite ? 2 : 1;
+                        // 好物判定（フィールドの好物きのみリストと照合。self側と同じisFavoriteBerry()を使用）
+                        const isTeamFavorite = isFavoriteBerry(teamBerryName);
+                        const teamFavoriteMultiplier = isTeamFavorite ? (exOther === 'berry' ? 2.4 : 2) : 1;
                         const teamTotal = teamBerryEnergyValue * teamCount * teamFavoriteMultiplier;
-                        
+
                         // きのみエナジー計算式を生成
                         const linear = teamBerryBase + (teamLevel - 1);
                         const exponential = Math.round(teamBerryBase * Math.pow(1.025, teamLevel - 1));
@@ -16651,10 +17121,148 @@
                         formulaParts.push(`<strong>期待値 (18.5%で3倍):</strong> ${Math.round(totalBurstEnergy).toLocaleString()} × ${(1 - BAKENOKAWA_SUCCESS_RATE + BAKENOKAWA_MULTIPLIER * BAKENOKAWA_SUCCESS_RATE).toFixed(2)} = ${Math.round(expectedEnergy).toLocaleString()}`);
                     }
                 }
-                
+
                 skillEffectFormula = formulaParts.join('<br>');
+            } else if (mainSkill === 'moonlightPrayer') {
+                // みかづきのいのり／りゅうせいぐん（きのみバースト部分）の計算式表示
+                // ※どのきのみを何個ずつ拾っているかを目視で確認できるようにする
+                const moonlightModeElement = document.querySelector(`input[name="${pokemonType}MoonlightMode"]:checked`);
+                const moonlightMode = moonlightModeElement ? moonlightModeElement.value : 'berry';
+
+                if (moonlightMode === 'berry') {
+                    // ポケモンごとの判定タイプ・参照テーブル・ボーナス設定（クレセリア=エスパー / ラティオス=ドラゴン）
+                    const typeCountConfig = TYPE_COUNT_BERRY_BURST_CONFIG[pokemonType] || TYPE_COUNT_BERRY_BURST_CONFIG.cresselia;
+
+                    // モード判定
+                    const modeRadio = document.querySelector(`input[name="${pokemonType}BerryBurstMode"]:checked`);
+                    const isSimpleMode = modeRadio ? (modeRadio.value === 'simple') : false;
+
+                    let psychicCount = 1;  // デフォルトは1匹（自分のみ）
+
+                    if (isSimpleMode) {
+                        const psychicCountRadio = document.querySelector(`input[name="${pokemonType}PsychicCountSimple"]:checked`);
+                        psychicCount = psychicCountRadio ? parseInt(psychicCountRadio.value) : 1;
+                    } else {
+                        const psychicModeRadio = document.querySelector(`input[name="${pokemonType}PsychicDetailed"]:checked`);
+                        const psychicMode = psychicModeRadio ? psychicModeRadio.value : 'auto';
+
+                        if (psychicMode === 'manual') {
+                            const manualRadio = document.querySelector(`input[name="${pokemonType}PsychicManualValue"]:checked`);
+                            psychicCount = manualRadio ? parseInt(manualRadio.value) : 1;
+                        } else {
+                            psychicCount = 1;
+                            for (let i = 1; i <= 4; i++) {
+                                const teamBerrySelect = document.getElementById(`${pokemonType}TeamBerry${i}`);
+                                if (!teamBerrySelect) continue;
+                                const teamBerryName = teamBerrySelect.value;
+                                if (!teamBerryName || teamBerryName === '') continue;
+                                const berryType = BERRY_TYPES[teamBerryName];
+                                if (berryType === typeCountConfig.countType) {
+                                    psychicCount++;
+                                }
+                            }
+                        }
+                        psychicCount = Math.min(psychicCount, 5);
+                    }
+
+                    // タイプ数に応じた効果量（拾うきのみの個数）を取得
+                    const moonlightData = typeCountConfig.table[skillLevel]?.[psychicCount] || { self: 25, team: 1 };
+
+                    // 種族指定ボーナス（例：ラティオス側でチームにラティアスがいる場合の追加分）
+                    let speciesBonusAmount = 0;
+                    let bonusApplied = false;
+                    if (typeCountConfig.bonusCheckboxId) {
+                        const bonusCheckboxEl = document.getElementById(typeCountConfig.bonusCheckboxId);
+                        if (bonusCheckboxEl && bonusCheckboxEl.checked) {
+                            speciesBonusAmount = (typeCountConfig.bonusTable && typeCountConfig.bonusTable[skillLevel]) || 0;
+                            bonusApplied = true;
+                        }
+                    }
+
+                    const selfCount = moonlightData.self + speciesBonusAmount;
+                    const teamCount = moonlightData.team;
+                    const selfBerryName = pokemon.berryName;
+
+                    let formulaParts = [];
+                    const skillLabel = pokemonType === 'latios' ? 'りゅうせいぐん（きのみバースト）' : 'みかづきのいのり（きのみバースト）';
+                    formulaParts.push(`<strong>${skillLabel} Lv${skillLevel}</strong>`);
+                    formulaParts.push(`${typeCountConfig.countType}タイプ数: ${psychicCount}匹 → 自分${moonlightData.self}個 / チーム各${teamCount}個`);
+                    if (bonusApplied) {
+                        formulaParts.push(`<strong>種族ボーナス適用:</strong> 自分 +${speciesBonusAmount}個 → 自分合計${selfCount}個`);
+                    }
+                    formulaParts.push('');
+
+                    // 自分のきのみ（何を何個拾うか）
+                    const selfBerryEnergyTotal = berryEnergyPerBerry * selfCount * berryFavoriteMultiplier;
+                    formulaParts.push(`<strong>自分:</strong> ${selfBerryName} ${berryEnergyPerBerry} × ${selfCount}個 ${berryFavoriteMultiplier > 1 ? `× ${berryFavoriteMultiplier}倍(好きなきのみ)` : ''} = ${Math.round(selfBerryEnergyTotal).toLocaleString()}`);
+
+                    if (isSimpleMode) {
+                        // 簡易モード：チーム分も自分のきのみとして計算
+                        const teamAsSelfCount = teamCount * 4;
+                        const teamAsSelfEnergy = berryEnergyPerBerry * teamAsSelfCount * berryFavoriteMultiplier;
+                        formulaParts.push(`<strong>簡易モード（チーム4匹分も${selfBerryName}として計算）:</strong> ${berryEnergyPerBerry} × ${teamAsSelfCount}個 ${berryFavoriteMultiplier > 1 ? `× ${berryFavoriteMultiplier}倍(好きなきのみ)` : ''} = ${Math.round(teamAsSelfEnergy).toLocaleString()}`);
+
+                        const totalBurstEnergy = selfBerryEnergyTotal + teamAsSelfEnergy;
+                        formulaParts.push('');
+                        formulaParts.push(`<strong>合計:</strong> ${Math.round(totalBurstEnergy).toLocaleString()}`);
+                    } else {
+                        // 詳細モード：チーム4匹それぞれが拾うきのみの種類と個数を表示
+                        formulaParts.push('');
+                        formulaParts.push(`<strong>チーム (各${teamCount}個):</strong>`);
+
+                        let teamBerryEnergy = 0;
+                        for (let i = 1; i <= 4; i++) {
+                            const teamBerrySelect = document.getElementById(`${pokemonType}TeamBerry${i}`);
+                            const teamLevelInput = document.getElementById(`${pokemonType}TeamLevel${i}`);
+
+                            if (!teamBerrySelect || !teamLevelInput) continue;
+
+                            const teamBerryName = teamBerrySelect.value;
+                            const teamLevel = parseInt(teamLevelInput.value) || 60;
+
+                            if (!teamBerryName || teamBerryName === '') {
+                                formulaParts.push(`　ポケモン${i}: 未設定`);
+                                continue;
+                            }
+
+                            const teamBerryBase = ALL_BERRIES[teamBerryName];
+                            if (!teamBerryBase) continue;
+
+                            const teamBerryEnergyValue = calculateBerryEnergy(teamBerryBase, teamLevel);
+                            // 好物判定（フィールドの好物きのみリストと照合。self側と同じisFavoriteBerry()を使用）
+                            const isTeamFavorite = isFavoriteBerry(teamBerryName);
+                            const teamFavoriteMultiplier = isTeamFavorite ? (exOther === 'berry' ? 2.4 : 2) : 1;
+                            const teamTotal = teamBerryEnergyValue * teamCount * teamFavoriteMultiplier;
+                            const teamBerryType = BERRY_TYPES[teamBerryName] || '?';
+
+                            const berryFormulaText = `max(${teamBerryBase}+${teamLevel-1}, ${teamBerryBase}×1.025^${teamLevel-1})`;
+
+                            formulaParts.push(`　ポケモン${i}: ${teamBerryName}(${teamBerryType}・Lv${teamLevel}) ${teamBerryEnergyValue} (${berryFormulaText}) × ${teamCount}個 ${teamFavoriteMultiplier > 1 ? `× ${teamFavoriteMultiplier}倍(好きなきのみ)` : ''} = ${Math.round(teamTotal).toLocaleString()}`);
+
+                            teamBerryEnergy += teamTotal;
+                        }
+
+                        formulaParts.push('');
+                        formulaParts.push(`<strong>チーム合計:</strong> ${Math.round(teamBerryEnergy).toLocaleString()}`);
+
+                        const totalBurstEnergy = selfBerryEnergyTotal + teamBerryEnergy;
+                        formulaParts.push(`<strong>合計:</strong> ${Math.round(totalBurstEnergy).toLocaleString()}`);
+                    }
+
+                    skillEffectFormula = formulaParts.join('<br>');
+                } else if (moonlightMode === 'multiplier') {
+                    const multiplierValue = parseFloat(document.getElementById(`${pokemonType}MoonlightMultiplierValue`)?.value) || 1.0;
+                    const ENERGY_CHARGE_M = {
+                        1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546, 7: 6858
+                    };
+                    const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
+                    skillEffectFormula = `エナジーチャージM倍率モード Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplierValue.toFixed(1)} = ${Math.round(baseEnergy * multiplierValue).toLocaleString()}`;
+                } else if (moonlightMode === 'direct') {
+                    const directValue = parseFloat(document.getElementById(`${pokemonType}MoonlightDirectValue`)?.value) || 10000;
+                    skillEffectFormula = `直接入力モード: ${directValue.toLocaleString()}`;
+                }
             }
-            
+
             // ===== 合計エナジー =====
             console.log('[DEBUG] エナジー内訳:', 
                 'berryEnergy=' + berryEnergy, 
@@ -17596,7 +18204,7 @@
             }
         };
 
-        // レシピレベルボーナステーブル
+        // レシピレベルボーナステーブル（Ver.3.6.0でレシピレベル上限が65→70に解放）
         const RECIPE_LEVEL_BONUS = [
             1.00, 1.02, 1.04, 1.06, 1.08, 1.09, 1.11, 1.13, 1.16, 1.18, // Lv1-10
             1.19, 1.21, 1.23, 1.24, 1.26, 1.28, 1.30, 1.31, 1.33, 1.35, // Lv11-20
@@ -17604,7 +18212,7 @@
             1.64, 1.67, 1.70, 1.74, 1.77, 1.81, 1.84, 1.88, 1.92, 1.96, // Lv31-40
             2.00, 2.04, 2.08, 2.13, 2.17, 2.22, 2.27, 2.32, 2.37, 2.42, // Lv41-50
             2.48, 2.53, 2.59, 2.65, 2.71, 2.77, 2.83, 2.90, 2.97, 3.03, // Lv51-60
-            3.09, 3.15, 3.21, 3.27, 3.34  // Lv61-65
+            3.09, 3.15, 3.21, 3.27, 3.34, 3.39, 3.43, 3.48, 3.52, 3.58  // Lv61-70
         ];
 
         // 食材基礎エナジー
@@ -22178,6 +22786,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 'mimikyu': 'ミミッキュ',
                 'noivern': 'オンバーン',
                 'latias': 'ラティアス',
+                'latios': 'ラティオス',
                 'tyrantrum': 'ガチゴラス'
             };
             return names[pokemonId] || pokemonId;
@@ -23651,8 +24260,13 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     const hasMoonlight = elementText.includes('みかづきのいのり計算モード') || elementText.includes('きのみバースト計算モード') || elementText.includes('みかづきのいのり');
                     const hasEnergyYell = elementText.includes('げんきエールS計算モード') || elementText.includes('げんきエールS');
                     const hasMetronome = elementText.includes('ゆびをふる計算モード') || elementText.includes('ゆびをふる');
-                    const hasHealingWave = elementText.includes('いやしのはどう') || 
+                    const hasHealingWave = elementText.includes('いやしのはどう') ||
                                            (el.id && el.id.toLowerCase().includes('healingwave'));
+                    const hasRyuuseigun = elementText.includes('りゅうせいぐん') ||
+                                           (el.id && el.id.toLowerCase().includes('latios'));
+                    // きのみバースト系（ジュカイン・ウォーグル・ミミッキュ等）のチーム構成ブロックは
+                    // モード選択の見出しと別要素として存在するため、id末尾"TeamComposition"で判定する
+                    const isTeamCompositionBlock = el.id && el.id.endsWith('TeamComposition');
                     const hasSameTypeBonus = elementText.includes('タイプ一致ボーナス') || labelText.includes('チーム内の同タイプポケモン数');
                     const isButton = el.tagName === 'DIV' && el.style.display !== 'none' && (elementText.includes('保存') || elementText.includes('読み込み'));
                     const hasNatureAttr = el.querySelector('input[name*="Nature"]') !== null;
@@ -23708,6 +24322,12 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     } else if (hasHealingWave) {
                         panels[1].appendChild(el); // メインスキル（いやしのはどう設定）
                         console.log(`    → メインスキル: いやしのはどう設定`);
+                    } else if (hasRyuuseigun) {
+                        panels[1].appendChild(el); // メインスキル（りゅうせいぐん設定・ラティアスボーナス含む）
+                        console.log(`    → メインスキル: りゅうせいぐん設定`);
+                    } else if (isTeamCompositionBlock) {
+                        panels[1].appendChild(el); // メインスキル（きのみバースト用チーム構成）
+                        console.log(`    → メインスキル: チーム構成`);
                     } else if (hasSameTypeBonus) {
                         panels[1].appendChild(el); // メインスキル（タイプ一致ボーナス）
                         console.log(`    → メインスキル: タイプ一致ボーナス`);
@@ -24955,6 +25575,24 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 // ===== お知らせ機能 =====
 
 const NOTICES = [
+    {
+        date: '2026/07/11',
+        tag: 'update',
+        tagLabel: '📢 アップデート',
+        text: 'Ver.3.6.0アプデ内容を反映（レシピレベル70・鍋容量変更）',
+        detail: 'ゲーム本編のVer.3.6.0アップデート内容をツールに反映しました。\n\n【レシピレベル上限拡張】\n・レシピレベルの上限を65→70に変更しました。\n・Lv66-70のレシピレベルボーナス係数を追加しました（3.39, 3.43, 3.48, 3.52, 3.58）。\n\n【鍋の基礎容量変更】\n・基礎容量の一部ランクが変更されました：15→21、18→23、21→25、24→27、27→29、30→31\n・33以上のランクは変更ありません。',
+        pinned: true,
+        featured: true
+    },
+    {
+        date: '2026/07/11',
+        tag: 'update',
+        tagLabel: '📢 アップデート',
+        text: 'ラティオスを入替候補に追加',
+        detail: '入替候補ポケモンに「ラティオス」を追加しました。\n\nラティオスのメインスキル「りゅうせいぐん（きのみバースト）」は、チーム内のドラゴンタイプポケモンの数によって獲得きのみ数が変化する新スキルです。\n・簡易モード：ドラゴンタイプ数を手動選択して計算\n・詳細モード：チーム構成から自動判定（手動指定も可）\nさらに、チームにラティアスがいる場合は追加ボーナスが入る仕様にも対応しています。',
+        pinned: false,
+        featured: false
+    },
     {
         date: '2026/05/11',
         tag: 'update',
