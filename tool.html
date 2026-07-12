@@ -1736,24 +1736,28 @@
 <label class="input-label">ポケモン選択</label>
 <div class="radio-group">
 <div class="radio-item">
-<input checked="" id="pokemon_swampert" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="swampert"/>
+<input checked="" id="pokemon_swampert" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); updateMainPokemonModeVisibility(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="swampert"/>
 <label for="pokemon_swampert">ラグラージ</label>
 </div>
 <div class="radio-item">
-<input id="pokemon_weavile" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="weavile"/>
+<input id="pokemon_weavile" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); updateMainPokemonModeVisibility(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="weavile"/>
 <label for="pokemon_weavile">マニューラ</label>
 </div>
 <div class="radio-item">
-<input id="pokemon_dedenne" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="dedenne"/>
+<input id="pokemon_dedenne" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); updateMainPokemonModeVisibility(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="dedenne"/>
 <label for="pokemon_dedenne">デデンネ</label>
 </div>
 <div class="radio-item">
-<input id="pokemon_spheal_holiday" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="spheal_holiday"/>
+<input id="pokemon_spheal_holiday" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); updateMainPokemonModeVisibility(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="spheal_holiday"/>
 <label for="pokemon_spheal_holiday">タマザラシ(ホリデーリース)</label>
 </div>
 <div class="radio-item">
-<input id="pokemon_heracross" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="heracross"/>
+<input id="pokemon_heracross" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); updateMainPokemonModeVisibility(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="heracross"/>
 <label for="pokemon_heracross">ヘラクロス</label>
+</div>
+<div class="radio-item">
+<input id="pokemon_mew" name="pokemon" onchange="updateMainPokemonFoodSlotLabels(); updateMainPokemonModeVisibility(); if(document.getElementById('eventTypeRestriction').checked) updatePokemonTypeInfo(); if(document.getElementById('eventSpecialtyRestriction').checked) updatePokemonSpecialtyInfo();" type="radio" value="mew"/>
+<label for="pokemon_mew">ミュウ</label>
 </div>
 </div>
 </div>
@@ -1762,7 +1766,8 @@
 <label class="input-label" for="level">レベル（1-100）</label>
 <input id="level" max="100" min="1" type="number" value="60"/>
 </div>
-<!-- 3. 食材スロット選択 -->
+<!-- 3. 食材スロット選択（ミュウ以外） -->
+<div id="mainGenericFoodSlotSection">
 <div class="input-group">
 <label class="input-label">Lv30で解放される食材スロット</label>
 <div class="radio-group">
@@ -1791,6 +1796,57 @@
 <input id="foodLv60_C" name="foodLv60" type="radio" value="C"/>
 <label for="foodLv60_C" id="foodLv60LabelC">食材C</label>
 </div>
+</div>
+</div>
+</div>
+<!-- 3'. ミュウ専用設定（主役スロット） -->
+<div id="mainMewSection" style="display: none;">
+<div class="input-group">
+<label class="input-label">Lv1で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item"><input checked="" id="mewMainFoodLv1_negi" name="mewMainFoodLv1" type="radio" value="A"/><label for="mewMainFoodLv1_negi">ふといながねぎ2</label></div>
+<div class="radio-item"><input id="mewMainFoodLv1_egg" name="mewMainFoodLv1" type="radio" value="B"/><label for="mewMainFoodLv1_egg">とくせんエッグ2</label></div>
+<div class="radio-item"><input id="mewMainFoodLv1_herb" name="mewMainFoodLv1" type="radio" value="C"/><label for="mewMainFoodLv1_herb">げきからハーブ2</label></div>
+<div class="radio-item"><input id="mewMainFoodLv1_meat" name="mewMainFoodLv1" type="radio" value="D"/><label for="mewMainFoodLv1_meat">マメミート2</label></div>
+<div class="radio-item"><input id="mewMainFoodLv1_oil" name="mewMainFoodLv1" type="radio" value="E"/><label for="mewMainFoodLv1_oil">ピュアなオイル2</label></div>
+<div class="radio-item"><input id="mewMainFoodLv1_soybean" name="mewMainFoodLv1" type="radio" value="F"/><label for="mewMainFoodLv1_soybean">ワカクサ大豆2</label></div>
+<div class="radio-item"><input id="mewMainFoodLv1_avocado" name="mewMainFoodLv1" type="radio" value="G"/><label for="mewMainFoodLv1_avocado">つやつやアボカド2</label></div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv30で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item"><input checked="" id="mewMainFoodLv30_negi" name="mewMainFoodLv30" type="radio" value="negi"/><label for="mewMainFoodLv30_negi">ふといながねぎ3</label></div>
+<div class="radio-item"><input id="mewMainFoodLv30_egg" name="mewMainFoodLv30" type="radio" value="egg"/><label for="mewMainFoodLv30_egg">とくせんエッグ4</label></div>
+<div class="radio-item"><input id="mewMainFoodLv30_herb" name="mewMainFoodLv30" type="radio" value="herb"/><label for="mewMainFoodLv30_herb">げきからハーブ4</label></div>
+<div class="radio-item"><input id="mewMainFoodLv30_meat" name="mewMainFoodLv30" type="radio" value="meat"/><label for="mewMainFoodLv30_meat">マメミート4</label></div>
+<div class="radio-item"><input id="mewMainFoodLv30_oil" name="mewMainFoodLv30" type="radio" value="oil"/><label for="mewMainFoodLv30_oil">ピュアなオイル4</label></div>
+<div class="radio-item"><input id="mewMainFoodLv30_soybean" name="mewMainFoodLv30" type="radio" value="soybean"/><label for="mewMainFoodLv30_soybean">ワカクサ大豆5</label></div>
+<div class="radio-item"><input id="mewMainFoodLv30_avocado" name="mewMainFoodLv30" type="radio" value="avocado"/><label for="mewMainFoodLv30_avocado">つやつやアボカド3</label></div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv60で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item"><input checked="" id="mewMainFoodLv60_negi" name="mewMainFoodLv60" type="radio" value="negi"/><label for="mewMainFoodLv60_negi">ふといながねぎ4</label></div>
+<div class="radio-item"><input id="mewMainFoodLv60_egg" name="mewMainFoodLv60" type="radio" value="egg"/><label for="mewMainFoodLv60_egg">とくせんエッグ6</label></div>
+<div class="radio-item"><input id="mewMainFoodLv60_herb" name="mewMainFoodLv60" type="radio" value="herb"/><label for="mewMainFoodLv60_herb">げきからハーブ5</label></div>
+<div class="radio-item"><input id="mewMainFoodLv60_meat" name="mewMainFoodLv60" type="radio" value="meat"/><label for="mewMainFoodLv60_meat">マメミート7</label></div>
+<div class="radio-item"><input id="mewMainFoodLv60_oil" name="mewMainFoodLv60" type="radio" value="oil"/><label for="mewMainFoodLv60_oil">ピュアなオイル6</label></div>
+<div class="radio-item"><input id="mewMainFoodLv60_tail" name="mewMainFoodLv60" type="radio" value="tail"/><label for="mewMainFoodLv60_tail">おいしいシッポ2</label></div>
+<div class="radio-item"><input id="mewMainFoodLv60_soybean" name="mewMainFoodLv60" type="radio" value="soybean"/><label for="mewMainFoodLv60_soybean">ワカクサ大豆7</label></div>
+<div class="radio-item"><input id="mewMainFoodLv60_avocado" name="mewMainFoodLv60" type="radio" value="avocado"/><label for="mewMainFoodLv60_avocado">つやつやアボカド4</label></div>
+<div class="radio-item"><input id="mewMainFoodLv60_none" name="mewMainFoodLv60" type="radio" value="none"/><label for="mewMainFoodLv60_none">食材なし</label></div>
+</div>
+</div>
+<div class="note" style="color: #888; font-size: 12px; margin-bottom: 8px;">ミュウの食材確率・スキル発動確率は未確定です。デフォルトの値はpks.raenonx.ccによる暫定値となります。</div>
+<div class="input-group">
+<label class="input-label">食材確率（%）</label>
+<input id="mewMainFoodProb" max="100" min="0" step="0.1" type="number" value="20.0"/>
+</div>
+<div class="input-group">
+<label class="input-label">スキル発動率・基礎（%）</label>
+<input id="mewMainSkillProb" max="100" min="0" step="0.1" type="number" value="4.0"/>
 </div>
 </div>
 <!-- 4. メインスキルレベル -->
@@ -1983,6 +2039,7 @@
 <div class="pokemon-option" data-value="gallade" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">エルレイド</div>
 <div class="pokemon-option" data-value="cresselia" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">クレセリア</div>
 <div class="pokemon-option" data-value="darkrai" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ダークライ</div>
+<div class="pokemon-option" data-value="mew" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ミュウ</div>
 <div class="pokemon-option" data-value="musharna" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ムシャーナ</div>
 <div class="pokemon-option" data-value="braviary" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ウォーグル</div>
 <div class="pokemon-option" data-value="mimikyu" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ミミッキュ</div>
@@ -8510,6 +8567,43 @@
 <input id="darkraiLevel" max="100" min="1" type="number" value="60"/>
 </div>
 <div class="input-group">
+<label class="input-label">Lv1で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="darkraiFoodLv1_apple" name="darkraiFoodLv1" type="radio" value="apple"/>
+<label for="darkraiFoodLv1_apple">りんご2</label>
+</div>
+<div class="radio-item">
+<input id="darkraiFoodLv1_herb" name="darkraiFoodLv1" type="radio" value="herb"/>
+<label for="darkraiFoodLv1_herb">ハーブ2</label>
+</div>
+<div class="radio-item">
+<input id="darkraiFoodLv1_meat" name="darkraiFoodLv1" type="radio" value="meat"/>
+<label for="darkraiFoodLv1_meat">ミート2</label>
+</div>
+<div class="radio-item">
+<input id="darkraiFoodLv1_milk" name="darkraiFoodLv1" type="radio" value="milk"/>
+<label for="darkraiFoodLv1_milk">ミルク2</label>
+</div>
+<div class="radio-item">
+<input id="darkraiFoodLv1_honey" name="darkraiFoodLv1" type="radio" value="honey"/>
+<label for="darkraiFoodLv1_honey">みつ2</label>
+</div>
+<div class="radio-item">
+<input id="darkraiFoodLv1_soybean" name="darkraiFoodLv1" type="radio" value="soybean"/>
+<label for="darkraiFoodLv1_soybean">大豆2</label>
+</div>
+<div class="radio-item">
+<input id="darkraiFoodLv1_corn" name="darkraiFoodLv1" type="radio" value="corn"/>
+<label for="darkraiFoodLv1_corn">コーン2</label>
+</div>
+<div class="radio-item">
+<input id="darkraiFoodLv1_coffee" name="darkraiFoodLv1" type="radio" value="coffee"/>
+<label for="darkraiFoodLv1_coffee">めざましコーヒー2</label>
+</div>
+</div>
+</div>
+<div class="input-group">
 <label class="input-label">Lv30で解放される食材スロット</label>
 <div class="radio-group">
 <div class="radio-item">
@@ -8732,6 +8826,439 @@
 <label class="input-label" for="darkraiNightmareDirectValue">スキル1回あたりエナジー（げんき減少含む）</label>
 <input id="darkraiNightmareDirectValue" min="0" step="100" type="number" value="0"/>
 <small style="color: #666; margin-top: 5px; display: block;">※げんき減少の効果を含めた総合的な価値をエナジーに換算した値を入力してください</small>
+</div>
+</div>
+<!-- ミュウ設定モード -->
+<div class="section" id="replacementPokemonMode_mew" style="display: none;">
+<div class="input-group">
+<label class="input-label" for="mewLevel">レベル（1-100）</label>
+<input id="mewLevel" max="100" min="1" type="number" value="60"/>
+</div>
+<div class="input-group">
+<label class="input-label">Lv1で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item"><input checked="" id="mewFoodLv1_negi" name="mewFoodLv1" type="radio" value="A"/><label for="mewFoodLv1_negi">ふといながねぎ2</label></div>
+<div class="radio-item"><input id="mewFoodLv1_egg" name="mewFoodLv1" type="radio" value="B"/><label for="mewFoodLv1_egg">とくせんエッグ2</label></div>
+<div class="radio-item"><input id="mewFoodLv1_herb" name="mewFoodLv1" type="radio" value="C"/><label for="mewFoodLv1_herb">げきからハーブ2</label></div>
+<div class="radio-item"><input id="mewFoodLv1_meat" name="mewFoodLv1" type="radio" value="D"/><label for="mewFoodLv1_meat">マメミート2</label></div>
+<div class="radio-item"><input id="mewFoodLv1_oil" name="mewFoodLv1" type="radio" value="E"/><label for="mewFoodLv1_oil">ピュアなオイル2</label></div>
+<div class="radio-item"><input id="mewFoodLv1_soybean" name="mewFoodLv1" type="radio" value="F"/><label for="mewFoodLv1_soybean">ワカクサ大豆2</label></div>
+<div class="radio-item"><input id="mewFoodLv1_avocado" name="mewFoodLv1" type="radio" value="G"/><label for="mewFoodLv1_avocado">つやつやアボカド2</label></div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv30で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item"><input checked="" id="mewFoodLv30_negi" name="mewFoodLv30" type="radio" value="negi"/><label for="mewFoodLv30_negi">ふといながねぎ3</label></div>
+<div class="radio-item"><input id="mewFoodLv30_egg" name="mewFoodLv30" type="radio" value="egg"/><label for="mewFoodLv30_egg">とくせんエッグ4</label></div>
+<div class="radio-item"><input id="mewFoodLv30_herb" name="mewFoodLv30" type="radio" value="herb"/><label for="mewFoodLv30_herb">げきからハーブ4</label></div>
+<div class="radio-item"><input id="mewFoodLv30_meat" name="mewFoodLv30" type="radio" value="meat"/><label for="mewFoodLv30_meat">マメミート4</label></div>
+<div class="radio-item"><input id="mewFoodLv30_oil" name="mewFoodLv30" type="radio" value="oil"/><label for="mewFoodLv30_oil">ピュアなオイル4</label></div>
+<div class="radio-item"><input id="mewFoodLv30_soybean" name="mewFoodLv30" type="radio" value="soybean"/><label for="mewFoodLv30_soybean">ワカクサ大豆5</label></div>
+<div class="radio-item"><input id="mewFoodLv30_avocado" name="mewFoodLv30" type="radio" value="avocado"/><label for="mewFoodLv30_avocado">つやつやアボカド3</label></div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv60で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item"><input checked="" id="mewFoodLv60_negi" name="mewFoodLv60" type="radio" value="negi"/><label for="mewFoodLv60_negi">ふといながねぎ4</label></div>
+<div class="radio-item"><input id="mewFoodLv60_egg" name="mewFoodLv60" type="radio" value="egg"/><label for="mewFoodLv60_egg">とくせんエッグ6</label></div>
+<div class="radio-item"><input id="mewFoodLv60_herb" name="mewFoodLv60" type="radio" value="herb"/><label for="mewFoodLv60_herb">げきからハーブ5</label></div>
+<div class="radio-item"><input id="mewFoodLv60_meat" name="mewFoodLv60" type="radio" value="meat"/><label for="mewFoodLv60_meat">マメミート7</label></div>
+<div class="radio-item"><input id="mewFoodLv60_oil" name="mewFoodLv60" type="radio" value="oil"/><label for="mewFoodLv60_oil">ピュアなオイル6</label></div>
+<div class="radio-item"><input id="mewFoodLv60_tail" name="mewFoodLv60" type="radio" value="tail"/><label for="mewFoodLv60_tail">おいしいシッポ2</label></div>
+<div class="radio-item"><input id="mewFoodLv60_soybean" name="mewFoodLv60" type="radio" value="soybean"/><label for="mewFoodLv60_soybean">ワカクサ大豆7</label></div>
+<div class="radio-item"><input id="mewFoodLv60_avocado" name="mewFoodLv60" type="radio" value="avocado"/><label for="mewFoodLv60_avocado">つやつやアボカド4</label></div>
+<div class="radio-item"><input id="mewFoodLv60_none" name="mewFoodLv60" type="radio" value="none"/><label for="mewFoodLv60_none">食材なし</label></div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">メインスキルレベル</label>
+<select id="mewSkillLevel">
+<option value="1">Lv1</option>
+<option value="2">Lv2</option>
+<option value="3">Lv3</option>
+<option value="4">Lv4</option>
+<option value="5">Lv5</option>
+<option selected="" value="6">Lv6</option>
+<option value="7">Lv7</option>
+<option value="8">Lv8</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">サブスキル</label>
+<div class="checkbox-group">
+<div class="checkbox-item">
+<input id="mewSpeedM" type="checkbox"/>
+<label for="mewSpeedM">おてつだいスピードM</label>
+</div>
+<div class="checkbox-item">
+<input id="mewSpeedS" type="checkbox"/>
+<label for="mewSpeedS">おてつだいスピードS</label>
+</div>
+<div class="checkbox-item">
+<input id="mewSkillM" type="checkbox"/>
+<label for="mewSkillM">スキル確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="mewSkillS" type="checkbox"/>
+<label for="mewSkillS">スキル確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="mewFoodM" type="checkbox"/>
+<label for="mewFoodM">食材確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="mewFoodS" type="checkbox"/>
+<label for="mewFoodS">食材確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="mewBerryS" type="checkbox"/>
+<label for="mewBerryS">きのみの数S</label>
+</div>
+</div>
+<div style="margin-top: 10px;">
+<label class="input-label" for="mewOtebonus">おてつだいボーナス</label>
+<select id="mewOtebonus">
+<option value="0">0枚</option>
+<option value="1">1枚</option>
+<option value="2">2枚</option>
+<option value="3">3枚</option>
+<option value="4">4枚</option>
+<option value="5">5枚</option>
+</select>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">性格</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="mewSpeedFast" name="mewSpeedNature" type="radio" value="0.9"/>
+<label for="mewSpeedFast">おてスピ補正（-10%）</label>
+</div>
+<div class="radio-item">
+<input checked="" id="mewSpeedNormal" name="mewSpeedNature" type="radio" value="1.0"/>
+<label for="mewSpeedNormal">通常</label>
+</div>
+<div class="radio-item">
+<input id="mewSpeedSlow" name="mewSpeedNature" type="radio" value="1.075"/>
+<label for="mewSpeedSlow">おてスピ補正（+7.5%）</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<div class="radio-group">
+<div class="radio-item">
+<input id="mewSkillDown" name="mewSkillNature" type="radio" value="0.8"/>
+<label for="mewSkillDown">スキル確率補正（-20%）</label>
+</div>
+<div class="radio-item">
+<input checked="" id="mewSkillNormal" name="mewSkillNature" type="radio" value="1.0"/>
+<label for="mewSkillNormal">通常</label>
+</div>
+<div class="radio-item">
+<input id="mewSkillUp" name="mewSkillNature" type="radio" value="1.2"/>
+<label for="mewSkillUp">スキル確率補正（+20%）</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<div class="radio-group">
+<div class="radio-item">
+<input id="mewFoodDown" name="mewFoodNature" type="radio" value="0.8"/>
+<label for="mewFoodDown">食材確率補正（-20%）</label>
+</div>
+<div class="radio-item">
+<input checked="" id="mewFoodNormal" name="mewFoodNature" type="radio" value="1.0"/>
+<label for="mewFoodNormal">通常</label>
+</div>
+<div class="radio-item">
+<input id="mewFoodUp" name="mewFoodNature" type="radio" value="1.2"/>
+<label for="mewFoodUp">食材確率補正（+20%）</label>
+</div>
+</div>
+</div>
+
+<!-- 食材確率・スキル確率（ミュウ専用：ユーザー入力） -->
+<div style="margin-top: 20px; padding: 15px; background: #fff8e1; border-radius: 8px; border: 2px solid #ffb300;">
+<div style="font-size: 12px; color: #666; margin-bottom: 10px;">
+                        ミュウの食材確率・スキル発動確率は未確定です。デフォルトの値はpks.raenonx.ccによる暫定値となります。
+                    </div>
+<div class="input-group">
+<label class="input-label" for="mewFoodProb">食材確率（%）</label>
+<input id="mewFoodProb" max="100" min="0" step="0.1" type="number" value="20.0"/>
+</div>
+<div class="input-group">
+<label class="input-label" for="mewSkillProb">スキル発動率・基礎（%）</label>
+<input id="mewSkillProb" max="100" min="0" step="0.1" type="number" value="4.0"/>
+</div>
+</div>
+
+<!-- メインスキル選択（ひらめきのたね） -->
+<div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #4682b4;">
+<div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #1e90ff;">
+                        🍡 ひらめきのたね：メインスキル選択
+                    </div>
+<div class="input-group">
+<label class="input-label" for="mewConfirmedSkill">メインスキル</label>
+<select id="mewConfirmedSkill" onchange="updateMewConfirmedSkillDisplay()">
+<option value="metronome">ゆびをふる</option>
+<option value="energyYell_All">げんきオールS</option>
+<option value="berryBurst">きのみバースト</option>
+<option value="energyCharge_M">エナジーチャージM</option>
+<option value="energyYell_S">げんきエールS</option>
+<option value="yumeKakeraGetS">ゆめのかけらゲットS</option>
+<option value="helpSupport_S">おてつだいサポートS</option>
+<option value="foodGet_S">食材ゲットS</option>
+<option value="cookingPower_S">料理パワーアップS</option>
+<option value="energyCharge_variable">エナジーチャージS</option>
+<option value="energyRecover_S">げんきチャージS</option>
+</select>
+</div>
+</div>
+
+<!-- ゆびをふる／げんきオールS／げんきエールS 計算モード（メインスキルに応じて表示） -->
+<div class="input-group" id="mewMetronomeModeSection" style="margin-top: 15px;">
+<label class="input-label">ゆびをふる計算モード</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="mewMetronomeMultiplier" name="mewMetronomeMode" type="radio" value="multiplier"/>
+<label for="mewMetronomeMultiplier">倍率モード</label>
+</div>
+<div class="radio-item">
+<input id="mewMetronomeDirect" name="mewMetronomeMode" type="radio" value="direct"/>
+<label for="mewMetronomeDirect">直接入力モード</label>
+</div>
+</div>
+<div class="input-group" id="mewMetronomeMultiplierInput" style="display: block; margin-top: 10px;">
+<label class="input-label" for="mewMetronomeMultiplierValue">効果量倍率</label>
+<input id="mewMetronomeMultiplierValue" max="10" min="0" step="0.1" type="number" value="1.0"/>
+</div>
+<div class="input-group" id="mewMetronomeDirectInput" style="display: none; margin-top: 10px;">
+<label class="input-label" for="mewMetronomeDirectValue">スキル1回あたりエナジー</label>
+<input id="mewMetronomeDirectValue" min="0" step="100" type="number" value="0"/>
+</div>
+</div>
+<div class="input-group" id="mewEnergyYellModeSection" style="display: none; margin-top: 15px;">
+<label class="input-label">げんきエールS／げんきオールS計算モード</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="mewEnergyYellMultiplier" name="mewEnergyYellMode" type="radio" value="multiplier"/>
+<label for="mewEnergyYellMultiplier">倍率モード</label>
+</div>
+<div class="radio-item">
+<input id="mewEnergyYellDirect" name="mewEnergyYellMode" type="radio" value="direct"/>
+<label for="mewEnergyYellDirect">直接入力モード</label>
+</div>
+<div class="radio-item">
+<input id="mewEnergyYellIgnore" name="mewEnergyYellMode" type="radio" value="ignore"/>
+<label for="mewEnergyYellIgnore">度外視モード</label>
+</div>
+</div>
+<div class="input-group" id="mewEnergyYellMultiplierInput" style="display: block; margin-top: 10px;">
+<label class="input-label" for="mewEnergyYellMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+<input id="mewEnergyYellMultiplierValue" max="10" min="0" step="0.1" type="number" value="0.5"/>
+<small style="color: #666; margin-top: 5px; display: block;">※げんきオールSは対象が「1体」か「全体」かの違いがありますが、エナジー換算では区別せずげんきエールSと同じ計算式を使います</small>
+</div>
+<div class="input-group" id="mewEnergyYellDirectInput" style="display: none; margin-top: 10px;">
+<label class="input-label" for="mewEnergyYellDirectValue">スキル1回あたりエナジー</label>
+<input id="mewEnergyYellDirectValue" min="0" step="100" type="number" value="0"/>
+</div>
+</div>
+<div class="input-group" id="mewCookingPowerModeSection" style="display: none; margin-top: 15px;">
+<label class="input-label">料理パワーアップS計算モード</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="mewCookingPowerMultiplier" name="mewCookingPowerMode" type="radio" value="multiplier"/>
+<label for="mewCookingPowerMultiplier">倍率モード</label>
+</div>
+<div class="radio-item">
+<input id="mewCookingPowerDirect" name="mewCookingPowerMode" type="radio" value="direct"/>
+<label for="mewCookingPowerDirect">直接入力モード</label>
+</div>
+<div class="radio-item">
+<input id="mewCookingPowerIgnore" name="mewCookingPowerMode" type="radio" value="ignore"/>
+<label for="mewCookingPowerIgnore">度外視モード</label>
+</div>
+</div>
+<div class="input-group" id="mewCookingPowerMultiplierInput" style="display: block; margin-top: 10px;">
+<label class="input-label" for="mewCookingPowerMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+<input id="mewCookingPowerMultiplierValue" max="10" min="0" step="0.1" type="number" value="1.0"/>
+</div>
+<div class="input-group" id="mewCookingPowerDirectInput" style="display: none; margin-top: 10px;">
+<label class="input-label" for="mewCookingPowerDirectValue">スキル1回あたりエナジー</label>
+<input id="mewCookingPowerDirectValue" min="0" step="100" type="number" value="0"/>
+</div>
+</div>
+
+<div class="input-group" id="mewBerryBurstModeSection" style="display: none; margin-top: 15px;">
+<label class="input-label">きのみバースト計算モード</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="mewBerryBurstSimple" name="mewBerryBurstMode" type="radio" value="simple"/>
+<label for="mewBerryBurstSimple">簡易モード（全てを自分のきのみとして計算）</label>
+</div>
+<div class="radio-item">
+<input checked="" id="mewBerryBurstDetailed" name="mewBerryBurstMode" type="radio" value="detailed"/>
+<label for="mewBerryBurstDetailed">詳細モード（チーム構成を個別設定）</label>
+</div>
+</div>
+<div style="margin-top: 10px; color: #666; font-size: 12px;">
+<strong>簡易モード：</strong>スキルで獲得する全てのきのみを自分のきのみとして計算します（チーム設定不要）<br/>
+<strong>詳細モード：</strong>チーム4匹のきのみとレベルを個別に設定して計算します（好きなきのみ判定あり）
+                </div>
+<div id="mewTeamComposition" style="margin-top: 15px; padding: 15px; background: #f0fff0; border-radius: 8px; border: 2px solid #90ee90;">
+<div style="font-size: 15px; font-weight: bold; margin-bottom: 10px; color: #2e7d32;">
+                    🌿 チーム構成（詳細モード）
+                </div>
+<div style="margin-bottom: 15px; color: #666; font-size: 13px;">
+                    きのみバーストは自分のきのみ + チーム4匹のきのみを獲得します。<br/>
+                    チーム内の他4匹のポケモンのきのみとレベルを設定してください。
+                </div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン1</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="mewTeamBerry1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="mewTeamLevel1" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン2</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="mewTeamBerry2" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="mewTeamLevel2" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン3</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="mewTeamBerry3" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="mewTeamLevel3" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン4</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="mewTeamBerry4" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="mewTeamLevel4" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="input-group" id="mewEnergyRecoverModeSection" style="display: none; margin-top: 15px;">
+<label class="input-label">げんきチャージS計算モード</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="mewEnergyRecoverMultiplier" name="mewEnergyRecoverMode" type="radio" value="multiplier"/>
+<label for="mewEnergyRecoverMultiplier">倍率モード</label>
+</div>
+<div class="radio-item">
+<input id="mewEnergyRecoverDirect" name="mewEnergyRecoverMode" type="radio" value="direct"/>
+<label for="mewEnergyRecoverDirect">直接入力モード</label>
+</div>
+<div class="radio-item">
+<input id="mewEnergyRecoverIgnore" name="mewEnergyRecoverMode" type="radio" value="ignore"/>
+<label for="mewEnergyRecoverIgnore">度外視モード</label>
+</div>
+</div>
+<div class="input-group" id="mewEnergyRecoverMultiplierInput" style="display: block; margin-top: 10px;">
+<label class="input-label" for="mewEnergyRecoverMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+<input id="mewEnergyRecoverMultiplierValue" max="10" min="0" step="0.1" type="number" value="1.0"/>
+</div>
+<div class="input-group" id="mewEnergyRecoverDirectInput" style="display: none; margin-top: 10px;">
+<label class="input-label" for="mewEnergyRecoverDirectValue">スキル1回あたりエナジー</label>
+<input id="mewEnergyRecoverDirectValue" min="0" step="100" type="number" value="0"/>
+</div>
+</div>
+
+<div class="input-group" id="mewYumeKakeraModeSection" style="display: none; margin-top: 15px;">
+<label class="input-label">ゆめのかけらゲットS計算モード</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="mewYumeKakeraMultiplier" name="mewYumeKakeraMode" type="radio" value="multiplier"/>
+<label for="mewYumeKakeraMultiplier">倍率モード</label>
+</div>
+<div class="radio-item">
+<input id="mewYumeKakeraDirect" name="mewYumeKakeraMode" type="radio" value="direct"/>
+<label for="mewYumeKakeraDirect">直接入力モード</label>
+</div>
+<div class="radio-item">
+<input id="mewYumeKakeraIgnore" name="mewYumeKakeraMode" type="radio" value="ignore"/>
+<label for="mewYumeKakeraIgnore">度外視モード</label>
+</div>
+</div>
+<div class="input-group" id="mewYumeKakeraMultiplierInput" style="display: block; margin-top: 10px;">
+<label class="input-label" for="mewYumeKakeraMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+<input id="mewYumeKakeraMultiplierValue" max="10" min="0" step="0.1" type="number" value="1.0"/>
+</div>
+<div class="input-group" id="mewYumeKakeraDirectInput" style="display: none; margin-top: 10px;">
+<label class="input-label" for="mewYumeKakeraDirectValue">スキル1回あたりエナジー</label>
+<input id="mewYumeKakeraDirectValue" min="0" step="100" type="number" value="0"/>
+</div>
+</div>
+
+<div class="input-group" id="mewHelpSupportModeSection" style="display: none; margin-top: 15px;">
+<label class="input-label">おてつだいサポートS計算モード</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="mewHelpSupportSelf" name="mewHelpSupportMode" type="radio" value="self"/>
+<label for="mewHelpSupportSelf">自分基準モード（スキル効果が全て自分に当たった場合）</label>
+</div>
+<div class="radio-item">
+<input id="mewHelpSupportMultiplier" name="mewHelpSupportMode" type="radio" value="multiplier"/>
+<label for="mewHelpSupportMultiplier">倍率モード</label>
+</div>
+<div class="radio-item">
+<input id="mewHelpSupportDirect" name="mewHelpSupportMode" type="radio" value="direct"/>
+<label for="mewHelpSupportDirect">直接入力モード</label>
+</div>
+</div>
+<div class="input-group" id="mewHelpSupportMultiplierInput" style="display: none; margin-top: 10px;">
+<label class="input-label" for="mewHelpSupportMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+<input id="mewHelpSupportMultiplierValue" max="10" min="0" step="0.1" type="number" value="1.0"/>
+</div>
+<div class="input-group" id="mewHelpSupportDirectInput" style="display: none; margin-top: 10px;">
+<label class="input-label" for="mewHelpSupportDirectValue">スキル1回あたりエナジー</label>
+<input id="mewHelpSupportDirectValue" min="0" step="100" type="number" value="0"/>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="mewSleepRibbon">おやすみリボン</label>
+<select id="mewSleepRibbon">
+<option value="0">なし</option>
+<option value="1">200時間（+1）</option>
+<option value="3">500時間（+3）</option>
+<option value="6">1,000時間（+6）</option>
+<option value="8">2,000時間（+8）</option>
+</select>
 </div>
 </div>
 <!-- バタフリー設定モード -->
@@ -11340,6 +11867,10 @@
 <button id="replacementSkillEffectToggle" onclick="toggleReplacementSkillEffectFormula()" style="display: none; margin-left: 8px; padding: 2px 8px; font-size: 11px; background: #1976D2; color: white; border: none; border-radius: 3px; cursor: pointer;">詳細</button>
 </span>
 </div>
+<div class="spec-row" id="replacementMewBonusCandyRow" style="display: none; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+<span class="spec-label" style="color: #666;">🍬 追加のアメ（期待値・1日）</span>
+<span class="spec-value" style="text-align: right;"><span id="replacementMewBonusCandyValue">--</span>個</span>
+</div>
 <div id="replacementSkillEffectFormulaContainer" style="display: none; margin-bottom: 12px; padding: 10px; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #555;">
 <div id="replacementSkillEffectFormula"></div>
 <div id="replacementSkillEffectExplanation" style="display: none; margin-top: 15px; padding: 12px; background: #fff3e0; border-radius: 5px; border-left: 4px solid #ff9800; font-size: 12px; line-height: 1.7;">
@@ -13285,6 +13816,56 @@
                         { label: 'A', name: 'とくせんリンゴ', count: 7, energy: 90 }
                     ]
                 }
+            },
+            mew: {
+                name: 'ミュウ',
+                dexNumber: 151,
+                rawBaseSpeed: 2900,
+                berryName: 'マゴのみ',
+                berryBaseEnergy: 26,
+                // ミュウは「SP逆算」が効かず、食材確率・メインスキル確率は公式に確定した値ではない（サイト予測値を初期値として使用、ユーザー入力で上書き可能にする）
+                foodProb: 0.200,
+                skillProb: 0.040,
+                foodProbUnreliable: true,  // ミュウ専用：確率をユーザー入力に切り替えるフラグ
+                skillCeiling: 49,
+                baseCapacity: 26,
+                maxSkillRights: 2,    // とくいなもの「オール」のため2（ダークライと同様）
+                defaultBerryCount: 2, // とくいなもの「オール」のため2（ダークライと同様）
+                specialty: 'オール',
+                type: 'エスパー',
+                mainSkill: 'metronome',  // オールマイティー未確定＝ゆびをふる扱い。ひらめきのたね使用後は確定スキルのキーに差し替わる
+                isMew: true,  // ミュウ専用UI（確定スキル選択・追加のアメ計算・確率手入力）を出し分けるためのフラグ
+                // Lv1は全7種類を同時所持（固定）。Lv30/Lv60はひらめきのたねで1種類を選択（ダークライの食材選択と同じ方式）
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'ふといながねぎ', count: 2, energy: 185 },
+                        { label: 'B', name: 'とくせんエッグ', count: 2, energy: 115 },
+                        { label: 'C', name: 'げきからハーブ', count: 2, energy: 130 },
+                        { label: 'D', name: 'マメミート', count: 2, energy: 103 },
+                        { label: 'E', name: 'ピュアなオイル', count: 2, energy: 121 },
+                        { label: 'F', name: 'ワカクサ大豆', count: 2, energy: 100 },
+                        { label: 'G', name: 'つやつやアボカド', count: 2, energy: 162 }
+                    ],
+                    lv30: [
+                        { label: 'negi', name: 'ふといながねぎ', count: 3, energy: 185 },
+                        { label: 'egg', name: 'とくせんエッグ', count: 4, energy: 115 },
+                        { label: 'herb', name: 'げきからハーブ', count: 4, energy: 130 },
+                        { label: 'meat', name: 'マメミート', count: 4, energy: 103 },
+                        { label: 'oil', name: 'ピュアなオイル', count: 4, energy: 121 },
+                        { label: 'soybean', name: 'ワカクサ大豆', count: 5, energy: 100 },
+                        { label: 'avocado', name: 'つやつやアボカド', count: 3, energy: 162 }
+                    ],
+                    lv60: [
+                        { label: 'negi', name: 'ふといながねぎ', count: 4, energy: 185 },
+                        { label: 'egg', name: 'とくせんエッグ', count: 6, energy: 115 },
+                        { label: 'herb', name: 'げきからハーブ', count: 5, energy: 130 },
+                        { label: 'meat', name: 'マメミート', count: 7, energy: 103 },
+                        { label: 'oil', name: 'ピュアなオイル', count: 6, energy: 121 },
+                        { label: 'tail', name: 'おいしいシッポ', count: 2, energy: 342 },
+                        { label: 'soybean', name: 'ワカクサ大豆', count: 7, energy: 100 },
+                        { label: 'avocado', name: 'つやつやアボカド', count: 4, energy: 162 }
+                    ]
+                }
             }
         };
         
@@ -13541,6 +14122,11 @@
                     katakana: 'ダークライ',
                     hiragana: 'だーくらい',
                     romaji: 'darkrai daakurai'
+                },
+                'mew': {
+                    katakana: 'ミュウ',
+                    hiragana: 'みゅう',
+                    romaji: 'mew myuu'
                 },
                 'butterfree': {
                     katakana: 'バタフリー',
@@ -14260,7 +14846,28 @@
             if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
             if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
         }
-        
+
+        // ミュウ（ゆびをふる／げんきエールS・オールS／げんきチャージS／ゆめのかけらゲットS／おてつだいサポートS／料理パワーアップS）のモード切替初期化
+        ['mewMetronomeMode', 'mewEnergyYellMode', 'mewEnergyRecoverMode', 'mewYumeKakeraMode', 'mewHelpSupportMode', 'mewCookingPowerMode'].forEach(groupName => {
+            const radios = document.querySelectorAll(`input[name="${groupName}"]`);
+            if (radios.length === 0) return;
+            const handlerMap = {
+                mewMetronomeMode: updateMewMetronomeInputDisplay,
+                mewEnergyYellMode: updateMewEnergyYellInputDisplay,
+                mewEnergyRecoverMode: updateMewEnergyRecoverInputDisplay,
+                mewYumeKakeraMode: updateMewYumeKakeraInputDisplay,
+                mewHelpSupportMode: updateMewHelpSupportInputDisplay,
+                mewCookingPowerMode: updateMewCookingPowerInputDisplay
+            };
+            radios.forEach(radio => {
+                radio.addEventListener('change', handlerMap[groupName]);
+            });
+            handlerMap[groupName]();
+        });
+        if (document.getElementById('mewConfirmedSkill')) {
+            updateMewConfirmedSkillDisplay();
+        }
+
         /**
          * 全ての入替候補ポケモンの食材ラベルを初期化
          */
@@ -14538,7 +15145,7 @@
             }).filter(([berryName, energy]) => energy !== undefined);
             
             // きのみバースト/ばけのかわ持ちポケモンのリスト
-            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia', 'latios'];  // 今後追加する場合はここに追加
+            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia', 'latios', 'mew'];  // 今後追加する場合はここに追加
             
             berryBurstPokemon.forEach(pokemonType => {
                 // 各ポケモンの4匹分のドロップダウンを初期化
@@ -14564,7 +15171,7 @@
          */
         function initializeBerryBurstModeToggle() {
             // きのみバースト/ばけのかわ持ちポケモンのリスト
-            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia', 'latios'];
+            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia', 'latios', 'mew'];
 
             berryBurstPokemon.forEach(pokemonType => {
                 const simpleRadio = document.getElementById(`${pokemonType}BerryBurstSimple`);
@@ -15193,6 +15800,7 @@
                 'replacementPokemonMode_pixie',
                 'replacementPokemonMode_fuwaride',
                 'replacementPokemonMode_darkrai',
+                'replacementPokemonMode_mew',
                 'replacementPokemonMode_butterfree',
                 'replacementPokemonMode_onix',
                 'replacementPokemonMode_xatu',
@@ -15226,16 +15834,23 @@
                 const pokemonMode = document.getElementById(pokemonModeId);
                 if (pokemonMode) {
                     pokemonMode.style.display = 'block';
-                    
-                    // ポケモンのmainSkillを確認
+
+                    // ポケモンのmainSkillを確認（ミュウは専用UIを使うため対象外）
                     const pokemon = POKEMON_STATS[selectedPokemon];
-                    if (pokemon && pokemon.mainSkill === 'cookingPower_S') {
+                    if (selectedPokemon !== 'mew' && pokemon && pokemon.mainSkill === 'cookingPower_S') {
                         // 料理パワーアップS持ちの場合、設定UIを表示
                         if (cookingPowerSettings) {
                             cookingPowerSettings.style.display = 'block';
                             // ラジオボタンの状態に応じて入力欄を表示/非表示
                             updateCookingPowerInputDisplay();
                         }
+                    } else if (selectedPokemon === 'mew' && cookingPowerSettings) {
+                        cookingPowerSettings.style.display = 'none';
+                    }
+
+                    // ミュウ：選択中のメインスキルに応じて関連UIを再同期
+                    if (selectedPokemon === 'mew' && typeof updateMewConfirmedSkillDisplay === 'function') {
+                        updateMewConfirmedSkillDisplay();
                     }
                 } else {
                     console.error(`Pokemon mode element not found: ${pokemonModeId}`);
@@ -15458,8 +16073,24 @@
             // 食材エナジー計算
             const foodSlots = pokemon.foodSlots;
             let selectedFoodSlots = [];
-            
-            if (level >= 60 && foodSlots.lv60) {
+
+            if (pokemonType === 'mew') {
+                // ミュウ：Lv1も選択制（実際の個体は1枠目食材として1種のみ持つ）
+                const lv1Choice = document.querySelector('input[name="mewFoodLv1"]:checked')?.value || 'A';
+                const lv1Slot = foodSlots.lv1.find(s => s.label === lv1Choice);
+                if (lv1Slot) selectedFoodSlots.push(lv1Slot);
+
+                if (level >= 30 && foodSlots.lv30) {
+                    const lv30Choice = document.querySelector('input[name="mewFoodLv30"]:checked')?.value || 'A';
+                    const lv30Slot = foodSlots.lv30.find(s => s.label === lv30Choice);
+                    if (lv30Slot) selectedFoodSlots.push(lv30Slot);
+                }
+                if (level >= 60 && foodSlots.lv60) {
+                    const lv60Choice = document.querySelector('input[name="mewFoodLv60"]:checked')?.value || 'A';
+                    const lv60Slot = foodSlots.lv60.find(s => s.label === lv60Choice);
+                    if (lv60Slot) selectedFoodSlots.push(lv60Slot);
+                }
+            } else if (level >= 60 && foodSlots.lv60) {
                 const lv30Choice = document.querySelector(`input[name="${pokemonType}FoodLv30"]:checked`)?.value || 'A';
                 const lv60Choice = document.querySelector(`input[name="${pokemonType}FoodLv60"]:checked`)?.value || 'A';
                 selectedFoodSlots.push(foodSlots.lv1[0]);
@@ -15475,7 +16106,7 @@
             } else if (foodSlots.lv1) {
                 selectedFoodSlots.push(foodSlots.lv1[0]);
             }
-            
+
             // 食材個数の計算
             let totalCount = 0;
             let totalEnergy = 0;
@@ -15558,6 +16189,16 @@
         function calculateReplacementPokemonEnergy(pokemonType, skipCapacityMode = false) {
             const pokemon = POKEMON_STATS[pokemonType];
 
+            // ミュウ専用：確定スキル・食材確率・スキル確率をユーザー入力/選択値で上書き
+            if (pokemonType === 'mew') {
+                const confirmedSkill = document.getElementById('mewConfirmedSkill')?.value;
+                if (confirmedSkill) pokemon.mainSkill = confirmedSkill;
+                const mewFoodProbInput = parseFloat(document.getElementById('mewFoodProb')?.value);
+                const mewSkillProbInput = parseFloat(document.getElementById('mewSkillProb')?.value);
+                if (!isNaN(mewFoodProbInput)) pokemon.foodProb = mewFoodProbInput / 100;
+                if (!isNaN(mewSkillProbInput)) pokemon.skillProb = mewSkillProbInput / 100;
+            }
+
             // ===== イベント補正マッチ判定（入替候補ポケモンのtype/specialtyで判定）=====
             const replacementEventMatch = checkEventTypeMatch(pokemonType);
 
@@ -15598,14 +16239,20 @@
                     lv60: { apple: 7, herb: 5, meat: 6, milk: 6, honey: 6, soybean: 6, corn: 4, coffee: 4 }
                 };
                 
-                // Lv1は全8種類固定（×2）
-                pokemon.foodSlots.lv1 = Object.keys(foodMapping).map((key, index) => ({
-                    label: String.fromCharCode(65 + index), // A, B, C, ...
-                    name: foodMapping[key].name,
-                    count: countMapping.lv1,
-                    energy: foodMapping[key].energy
-                }));
-                
+                // Lv1：8種類の選択肢から実際に持つ1種をユーザー選択に基づいて構築
+                // （Lv1で解放される食材は8種類の候補があるが、実際の個体が持つのは1種のみ）
+                const lv1Selected = document.querySelector('input[name="darkraiFoodLv1"]:checked')?.value || 'apple';
+                pokemon.foodSlots.lv1 = [];
+                if (foodMapping[lv1Selected]) {
+                    const lv1Food = foodMapping[lv1Selected];
+                    pokemon.foodSlots.lv1.push({
+                        label: lv1Selected,  // 'apple', 'herb' など（検索キーと一致させる）
+                        name: lv1Food.name,
+                        count: countMapping.lv1,
+                        energy: lv1Food.energy
+                    });
+                }
+
                 // Lv30: ユーザー選択に基づいて構築
                 const lv30Selected = document.querySelector('input[name="darkraiFoodLv30"]:checked')?.value;
                 pokemon.foodSlots.lv30 = [];
@@ -15636,6 +16283,7 @@
                     lv1Count: pokemon.foodSlots.lv1.length,
                     lv30Count: pokemon.foodSlots.lv30.length,
                     lv60Count: pokemon.foodSlots.lv60.length,
+                    lv1Selected: lv1Selected,
                     lv30Selected: lv30Selected,
                     lv60Selected: lv60Selected
                 });
@@ -15745,12 +16393,28 @@
             // 選択された食材スロットに基づいて食材エナジーを計算
             const foodSlots = pokemon.foodSlots;
             let selectedFoodSlots = [];
-            
-            if (level >= 60 && foodSlots.lv60) {
+
+            if (pokemonType === 'mew') {
+                // ミュウ：Lv1も選択制（実際の個体は1枠目食材として1種のみ持つ）
+                const lv1Choice = document.querySelector('input[name="mewFoodLv1"]:checked')?.value || 'A';
+                const lv1Slot = foodSlots.lv1.find(s => s.label === lv1Choice);
+                if (lv1Slot) selectedFoodSlots.push(lv1Slot);
+
+                if (level >= 30 && foodSlots.lv30) {
+                    const lv30Choice = document.querySelector('input[name="mewFoodLv30"]:checked')?.value || 'A';
+                    const lv30Slot = foodSlots.lv30.find(s => s.label === lv30Choice);
+                    if (lv30Slot) selectedFoodSlots.push(lv30Slot);
+                }
+                if (level >= 60 && foodSlots.lv60) {
+                    const lv60Choice = document.querySelector('input[name="mewFoodLv60"]:checked')?.value || 'A';
+                    const lv60Slot = foodSlots.lv60.find(s => s.label === lv60Choice);
+                    if (lv60Slot) selectedFoodSlots.push(lv60Slot);
+                }
+            } else if (level >= 60 && foodSlots.lv60) {
                 // Lv60: 選択されたLv30とLv60の食材
                 const lv30Choice = document.querySelector(`input[name="${pokemonType}FoodLv30"]:checked`)?.value || 'A';
                 const lv60Choice = document.querySelector(`input[name="${pokemonType}FoodLv60"]:checked`)?.value || 'A';
-                
+
                 // Lv1の食材は常に含まれる
                 selectedFoodSlots.push(foodSlots.lv1[0]);
                 // Lv30の選択
@@ -15762,7 +16426,7 @@
             } else if (level >= 30 && foodSlots.lv30) {
                 // Lv30-59: 選択されたLv30の食材
                 const lv30Choice = document.querySelector(`input[name="${pokemonType}FoodLv30"]:checked`)?.value || 'A';
-                
+
                 selectedFoodSlots.push(foodSlots.lv1[0]);
                 const lv30Slot = foodSlots.lv30.find(s => s.label === lv30Choice);
                 if (lv30Slot) selectedFoodSlots.push(lv30Slot);
@@ -15967,12 +16631,15 @@
                     energyPerSkill: energyPerSkill.toFixed(1)
                 });
             } else if (mainSkill === 'cookingPower_S') {
-                // 料理パワーアップS
-                const mode = document.querySelector('input[name="cookingPowerMode"]:checked')?.value || 'multiplier';
-                
+                // 料理パワーアップS（ミュウのみ専用ID、それ以外は共通UIを使用）
+                const cpModeName = pokemonType === 'mew' ? 'mewCookingPowerMode' : 'cookingPowerMode';
+                const cpMultiplierId = pokemonType === 'mew' ? 'mewCookingPowerMultiplierValue' : 'cookingPowerMultiplierValue';
+                const cpDirectId = pokemonType === 'mew' ? 'mewCookingPowerDirectValue' : 'cookingPowerDirectValue';
+                const mode = document.querySelector(`input[name="${cpModeName}"]:checked`)?.value || 'multiplier';
+
                 if (mode === 'multiplier') {
                     // エナジーチャージM倍率方式
-                    const multiplier = parseFloat(document.getElementById('cookingPowerMultiplierValue')?.value) || 1.0;
+                    const multiplier = parseFloat(document.getElementById(cpMultiplierId)?.value) || 1.0;
                     const ENERGY_CHARGE_M = {
                         1: 880, 2: 1251, 3: 1726, 4: 2383,
                         5: 3290, 6: 4546, 7: 6858
@@ -15981,7 +16648,7 @@
                     energyPerSkill = baseEnergy * multiplier;
                 } else if (mode === 'direct') {
                     // 直接入力方式
-                    energyPerSkill = parseFloat(document.getElementById('cookingPowerDirectValue')?.value) || 11000;
+                    energyPerSkill = parseFloat(document.getElementById(cpDirectId)?.value) || 11000;
                 } else if (mode === 'ignore') {
                     // 度外視方式
                     energyPerSkill = 0;
@@ -16481,17 +17148,18 @@
                     
                     console.log('[energyRecover_S スキル度外視モード] スキルエナジー = 0');
                 }
-            } else if (mainSkill === 'energyYell_S') {
-                // げんきエールS
-                console.log('[energyYell_S] 計算開始:', {
+            } else if (mainSkill === 'energyYell_S' || mainSkill === 'energyYell_All') {
+                // げんきエールS／げんきオールS（対象が1体か全体かの違いはエナジー換算では区別せず同じ計算式を使う）
+                console.log('[energyYell_S/All] 計算開始:', {
                     pokemonType: pokemonType,
-                    skillLevel: skillLevel
+                    skillLevel: skillLevel,
+                    mainSkill: mainSkill
                 });
-                
+
                 const energyYellMode = document.querySelector(`input[name="${pokemonType}EnergyYellMode"]:checked`)?.value || 'multiplier';
-                
-                console.log('[energyYell_S] モード:', energyYellMode);
-                
+
+                console.log('[energyYell_S/All] モード:', energyYellMode);
+
                 if (energyYellMode === 'multiplier') {
                     const multiplierValue = parseFloat(document.getElementById(`${pokemonType}EnergyYellMultiplierValue`)?.value) || 0.5;
                     const ENERGY_CHARGE_M = {
@@ -16499,8 +17167,8 @@
                     };
                     const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
                     energyPerSkill = baseEnergy * multiplierValue;
-                    
-                    console.log('[energyYell_S 倍率モード] 計算:', {
+
+                    console.log('[energyYell_S/All 倍率モード] 計算:', {
                         skillLevel: skillLevel,
                         baseEnergy: baseEnergy,
                         multiplierValue: multiplierValue,
@@ -16508,14 +17176,14 @@
                     });
                 } else if (energyYellMode === 'direct') {
                     energyPerSkill = parseFloat(document.getElementById(`${pokemonType}EnergyYellDirectValue`)?.value) || 5000;
-                    
-                    console.log('[energyYell_S 直接入力モード] 計算:', {
+
+                    console.log('[energyYell_S/All 直接入力モード] 計算:', {
                         energyPerSkill: Math.round(energyPerSkill)
                     });
                 } else if (energyYellMode === 'ignore') {
                     energyPerSkill = 0;
-                    
-                    console.log('[energyYell_S スキル度外視モード] スキルエナジー = 0');
+
+                    console.log('[energyYell_S/All スキル度外視モード] スキルエナジー = 0');
                 }
             } else if (mainSkill === 'healingWave') {
                 // いやしのはどう（倍率 / おてサポ / 直接入力）
@@ -16898,21 +17566,22 @@
                 } else if (mode === 'ignore') {
                     skillEffectFormula = `げんきチャージS (スキル度外視) Lv${skillLevel}: スキルエナジー = 0`;
                 }
-            } else if (mainSkill === 'energyYell_S') {
-                // げんきエールSの計算式表示
+            } else if (mainSkill === 'energyYell_S' || mainSkill === 'energyYell_All') {
+                // げんきエールS／げんきオールSの計算式表示
+                const skillDisplayName = mainSkill === 'energyYell_All' ? 'げんきオールS' : 'げんきエールS';
                 const mode = document.querySelector(`input[name="${pokemonType}EnergyYellMode"]:checked`)?.value || 'multiplier';
-                
+
                 if (mode === 'multiplier') {
                     const multiplier = parseFloat(document.getElementById(`${pokemonType}EnergyYellMultiplierValue`)?.value) || 0.5;
                     const ENERGY_CHARGE_M = {
                         1: 880, 2: 1251, 3: 1726, 4: 2383, 5: 3290, 6: 4546
                     };
                     const baseEnergy = ENERGY_CHARGE_M[skillLevel] || 4546;
-                    skillEffectFormula = `げんきエールS (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
+                    skillEffectFormula = `${skillDisplayName} (エナジーチャージM × ${multiplier.toFixed(1)}倍) Lv${skillLevel}: ${baseEnergy.toLocaleString()} × ${multiplier.toFixed(1)} = ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'direct') {
-                    skillEffectFormula = `げんきエールS (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
+                    skillEffectFormula = `${skillDisplayName} (直接入力) Lv${skillLevel}: ${energyPerSkill.toLocaleString()}`;
                 } else if (mode === 'ignore') {
-                    skillEffectFormula = `げんきエールS (スキル度外視) Lv${skillLevel}: スキルエナジー = 0`;
+                    skillEffectFormula = `${skillDisplayName} (スキル度外視) Lv${skillLevel}: スキルエナジー = 0`;
                 }
             } else if (mainSkill === 'healingWave') {
                 // いやしのはどうの計算式表示
@@ -17004,11 +17673,13 @@
                 const assistFoodCount = COOKING_ASSIST_FOOD_TABLE[skillLevel] || 21;
                 skillEffectFormula = `料理アシスト Lv${skillLevel}: 食材ゲット${assistFoodCount}個 + 料理チャンス+${(assistEffect*100).toFixed(0)}% (スキルエナジー: ${Math.round(energyPerSkill).toLocaleString()})`;
             } else if (mainSkill === 'cookingPower_S') {
-                // 料理パワーアップSの計算式表示
-                const mode = document.querySelector('input[name="cookingPowerMode"]:checked')?.value || 'multiplier';
-                
+                // 料理パワーアップSの計算式表示（ミュウのみ専用ID、それ以外は共通UIを使用）
+                const cpModeName = pokemonType === 'mew' ? 'mewCookingPowerMode' : 'cookingPowerMode';
+                const cpMultiplierId = pokemonType === 'mew' ? 'mewCookingPowerMultiplierValue' : 'cookingPowerMultiplierValue';
+                const mode = document.querySelector(`input[name="${cpModeName}"]:checked`)?.value || 'multiplier';
+
                 if (mode === 'multiplier') {
-                    const multiplier = parseFloat(document.getElementById('cookingPowerMultiplierValue')?.value) || 1.0;
+                    const multiplier = parseFloat(document.getElementById(cpMultiplierId)?.value) || 1.0;
                     const ENERGY_CHARGE_M = {
                         1: 880, 2: 1251, 3: 1726, 4: 2383,
                         5: 3290, 6: 4546, 7: 6858
@@ -17404,6 +18075,19 @@
                 skillProbFormulaElem.textContent = skillFormulaText;
             }
             
+            // ミュウ専用：追加のアメ（オールマイティー固有効果、確定スキルに関わらず発生）
+            const mewBonusCandyRow = document.getElementById('replacementMewBonusCandyRow');
+            const mewBonusCandyValueElem = document.getElementById('replacementMewBonusCandyValue');
+            if (mewBonusCandyRow && mewBonusCandyValueElem) {
+                if (pokemonType === 'mew') {
+                    const bonusCandy = calculateMewBonusCandy(effectiveSkillCount, skillLevel);
+                    mewBonusCandyValueElem.textContent = bonusCandy.toFixed(2);
+                    mewBonusCandyRow.style.display = 'flex';
+                } else {
+                    mewBonusCandyRow.style.display = 'none';
+                }
+            }
+
             // スキル1回あたりの効果量
             const skillEffectAmountElem = document.getElementById('replacementSkillEffectAmount');
             const skillEffectToggleBtn = document.getElementById('replacementSkillEffectToggle');
@@ -17422,9 +18106,13 @@
                     'stockpile': 'たくわえる',
                     'metronome': 'ゆびをふる',
                     'energyYell_S': 'げんきエールS',
+                    'energyYell_All': 'げんきオールS',
                     'nightmare': 'ナイトメア',
                     'cookingAssist': '料理アシスト',
-                    'healingWave': 'いやしのはどう'
+                    'healingWave': 'いやしのはどう',
+                    'yumeKakeraGetS': 'ゆめのかけらゲットS',
+                    'helpSupport_S': 'おてつだいサポートS',
+                    'energyRecover_S': 'げんきチャージS'
                 };
                 const mainSkill = pokemon.mainSkill || '';
                 const skillName = skillNames[mainSkill] || 'スキル';
@@ -17636,12 +18324,28 @@
             if (!foodSlots) return { text: '--', formula: '' };
             
             let selectedSlots = [];
-            
-            if (level >= 60 && foodSlots.lv60) {
+
+            if (pokemonType === 'mew') {
+                // ミュウ：Lv1も選択制（実際の個体は1枠目食材として1種のみ持つ）
+                const lv1Choice = document.querySelector('input[name="mewFoodLv1"]:checked')?.value || 'A';
+                const lv1Slot = foodSlots.lv1.find(s => s.label === lv1Choice);
+                if (lv1Slot) selectedSlots.push(lv1Slot);
+
+                if (level >= 30 && foodSlots.lv30) {
+                    const lv30Choice = document.querySelector('input[name="mewFoodLv30"]:checked')?.value || 'A';
+                    const lv30Slot = foodSlots.lv30.find(s => s.label === lv30Choice);
+                    if (lv30Slot) selectedSlots.push(lv30Slot);
+                }
+                if (level >= 60 && foodSlots.lv60) {
+                    const lv60Choice = document.querySelector('input[name="mewFoodLv60"]:checked')?.value || 'A';
+                    const lv60Slot = foodSlots.lv60.find(s => s.label === lv60Choice);
+                    if (lv60Slot) selectedSlots.push(lv60Slot);
+                }
+            } else if (level >= 60 && foodSlots.lv60) {
                 // Lv60: Lv1 + 選択されたLv30 + 選択されたLv60
                 const lv30Choice = document.querySelector(`input[name="${pokemonType}FoodLv30"]:checked`)?.value || 'A';
                 const lv60Choice = document.querySelector(`input[name="${pokemonType}FoodLv60"]:checked`)?.value || 'A';
-                
+
                 selectedSlots.push(foodSlots.lv1[0]);
                 const lv30Slot = foodSlots.lv30.find(s => s.label === lv30Choice);
                 if (lv30Slot) selectedSlots.push(lv30Slot);
@@ -17650,7 +18354,7 @@
             } else if (level >= 30 && foodSlots.lv30) {
                 // Lv30-59: Lv1 + 選択されたLv30
                 const lv30Choice = document.querySelector(`input[name="${pokemonType}FoodLv30"]:checked`)?.value || 'A';
-                
+
                 selectedSlots.push(foodSlots.lv1[0]);
                 const lv30Slot = foodSlots.lv30.find(s => s.label === lv30Choice);
                 if (lv30Slot) selectedSlots.push(lv30Slot);
@@ -18402,6 +19106,117 @@
             
             // ポケモン変更時に好物きのみも再判定
             updateFavoriteBerry();
+        }
+
+        // 主役スロット：ミュウ専用セクションと汎用食材セクションの表示切替
+        function updateMainPokemonModeVisibility() {
+            const pokemonType = getSelectedPokemon();
+            const genericSection = document.getElementById('mainGenericFoodSlotSection');
+            const mewSection = document.getElementById('mainMewSection');
+            if (!genericSection || !mewSection) return;
+            if (pokemonType === 'mew') {
+                genericSection.style.display = 'none';
+                mewSection.style.display = 'block';
+            } else {
+                genericSection.style.display = 'block';
+                mewSection.style.display = 'none';
+            }
+        }
+
+        // 入替候補ミュウ：確定スキルに応じてPOKEMON_STATS.mew.mainSkillと関連UIを更新
+        function updateMewConfirmedSkillDisplay() {
+            const select = document.getElementById('mewConfirmedSkill');
+            if (!select) return;
+            const confirmedSkill = select.value;
+            if (POKEMON_STATS.mew) {
+                POKEMON_STATS.mew.mainSkill = confirmedSkill;
+            }
+
+            const metronomeSection = document.getElementById('mewMetronomeModeSection');
+            const energyYellSection = document.getElementById('mewEnergyYellModeSection');
+            const berryBurstSection = document.getElementById('mewBerryBurstModeSection');
+            const energyRecoverSection = document.getElementById('mewEnergyRecoverModeSection');
+            const yumeKakeraSection = document.getElementById('mewYumeKakeraModeSection');
+            const helpSupportSection = document.getElementById('mewHelpSupportModeSection');
+            const cookingPowerSection = document.getElementById('mewCookingPowerModeSection');
+
+            if (metronomeSection) metronomeSection.style.display = (confirmedSkill === 'metronome') ? 'block' : 'none';
+            if (energyYellSection) energyYellSection.style.display = (confirmedSkill === 'energyYell_S' || confirmedSkill === 'energyYell_All') ? 'block' : 'none';
+            if (berryBurstSection) berryBurstSection.style.display = (confirmedSkill === 'berryBurst') ? 'block' : 'none';
+            if (energyRecoverSection) energyRecoverSection.style.display = (confirmedSkill === 'energyRecover_S') ? 'block' : 'none';
+            if (yumeKakeraSection) yumeKakeraSection.style.display = (confirmedSkill === 'yumeKakeraGetS') ? 'block' : 'none';
+            if (helpSupportSection) helpSupportSection.style.display = (confirmedSkill === 'helpSupport_S') ? 'block' : 'none';
+            if (cookingPowerSection) {
+                cookingPowerSection.style.display = (confirmedSkill === 'cookingPower_S') ? 'block' : 'none';
+                if (confirmedSkill === 'cookingPower_S' && typeof updateMewCookingPowerInputDisplay === 'function') {
+                    updateMewCookingPowerInputDisplay();
+                }
+            }
+        }
+
+        // ミュウのゆびをふる計算モード（倍率／直接入力）表示切替
+        function updateMewMetronomeInputDisplay() {
+            const mode = document.querySelector('input[name="mewMetronomeMode"]:checked')?.value || 'multiplier';
+            const multiplierInput = document.getElementById('mewMetronomeMultiplierInput');
+            const directInput = document.getElementById('mewMetronomeDirectInput');
+            if (multiplierInput) multiplierInput.style.display = (mode === 'multiplier') ? 'block' : 'none';
+            if (directInput) directInput.style.display = (mode === 'direct') ? 'block' : 'none';
+        }
+
+        // ミュウのげんきエールS／げんきオールS計算モード表示切替
+        function updateMewEnergyYellInputDisplay() {
+            const mode = document.querySelector('input[name="mewEnergyYellMode"]:checked')?.value || 'multiplier';
+            const multiplierInput = document.getElementById('mewEnergyYellMultiplierInput');
+            const directInput = document.getElementById('mewEnergyYellDirectInput');
+            if (multiplierInput) multiplierInput.style.display = (mode === 'multiplier') ? 'block' : 'none';
+            if (directInput) directInput.style.display = (mode === 'direct') ? 'block' : 'none';
+        }
+
+        // ミュウのげんきチャージS計算モード表示切替
+        function updateMewEnergyRecoverInputDisplay() {
+            const mode = document.querySelector('input[name="mewEnergyRecoverMode"]:checked')?.value || 'multiplier';
+            const multiplierInput = document.getElementById('mewEnergyRecoverMultiplierInput');
+            const directInput = document.getElementById('mewEnergyRecoverDirectInput');
+            if (multiplierInput) multiplierInput.style.display = (mode === 'multiplier') ? 'block' : 'none';
+            if (directInput) directInput.style.display = (mode === 'direct') ? 'block' : 'none';
+        }
+
+        // ミュウのゆめのかけらゲットS計算モード表示切替
+        function updateMewYumeKakeraInputDisplay() {
+            const mode = document.querySelector('input[name="mewYumeKakeraMode"]:checked')?.value || 'multiplier';
+            const multiplierInput = document.getElementById('mewYumeKakeraMultiplierInput');
+            const directInput = document.getElementById('mewYumeKakeraDirectInput');
+            if (multiplierInput) multiplierInput.style.display = (mode === 'multiplier') ? 'block' : 'none';
+            if (directInput) directInput.style.display = (mode === 'direct') ? 'block' : 'none';
+        }
+
+        // ミュウのおてつだいサポートS計算モード表示切替
+        function updateMewHelpSupportInputDisplay() {
+            const mode = document.querySelector('input[name="mewHelpSupportMode"]:checked')?.value || 'self';
+            const multiplierInput = document.getElementById('mewHelpSupportMultiplierInput');
+            const directInput = document.getElementById('mewHelpSupportDirectInput');
+            if (multiplierInput) multiplierInput.style.display = (mode === 'multiplier') ? 'block' : 'none';
+            if (directInput) directInput.style.display = (mode === 'direct') ? 'block' : 'none';
+        }
+
+        // ミュウの料理パワーアップS計算モード表示切替
+        function updateMewCookingPowerInputDisplay() {
+            const mode = document.querySelector('input[name="mewCookingPowerMode"]:checked')?.value || 'multiplier';
+            const multiplierInput = document.getElementById('mewCookingPowerMultiplierInput');
+            const directInput = document.getElementById('mewCookingPowerDirectInput');
+            if (multiplierInput) multiplierInput.style.display = (mode === 'multiplier') ? 'block' : 'none';
+            if (directInput) directInput.style.display = (mode === 'direct') ? 'block' : 'none';
+        }
+
+        // ミュウ「追加のアメ」期待値を計算（オールマイティー固有効果、メインスキルに関わらず並行して発生）
+        // どのスキルレベルでも最低1個は確定で入手。Lv6以上のときのみ、30%（サイト実験値）の確率で
+        // ボーナス分（Lv6:+1個 / Lv7:+2個 / Lv8:+3個）が上乗せされる
+        function calculateMewBonusCandy(skillCountPerDay, skillLevel) {
+            const GUARANTEED_CANDY = 1; // どのレベルでも確定で1個
+            const bonusCandy = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 2, 8: 3 }[skillLevel] || 0;
+            const BONUS_PROC_RATE = 0.30; // サイトの実験値。ゲーム内で明確に表示された値ではない
+            const candyPerProc = GUARANTEED_CANDY + (bonusCandy * BONUS_PROC_RATE);
+            return skillCountPerDay * candyPerProc;
         }
 
         // 指定されたきのみが好物きのみかどうかを判定
@@ -19200,7 +20015,15 @@
                 // ポケモン選択
                 const pokemonType = getSelectedPokemon();
                 const pokemon = POKEMON_STATS[pokemonType];
-            
+
+                // ミュウ専用：食材確率・スキル確率はSP逆算が効かないため、ユーザー入力値で上書きする
+                if (pokemonType === 'mew') {
+                    const mewFoodProbInput = parseFloat(document.getElementById('mewMainFoodProb')?.value);
+                    const mewSkillProbInput = parseFloat(document.getElementById('mewMainSkillProb')?.value);
+                    if (!isNaN(mewFoodProbInput)) pokemon.foodProb = mewFoodProbInput / 100;
+                    if (!isNaN(mewSkillProbInput)) pokemon.skillProb = mewSkillProbInput / 100;
+                }
+
             // 入力値の取得
             console.log('入力値を取得中...');
             const level = parseInt(document.getElementById('level').value);
@@ -19439,17 +20262,33 @@
                 }
             }
 
-            // 食材計算（ABCシステム）
-            const foodLv30Element = document.querySelector('input[name="foodLv30"]:checked');
-            const foodLv60Element = document.querySelector('input[name="foodLv60"]:checked');
-            
+            // 食材計算（ABCシステム。ミュウのみ専用のラジオボタン名から取得）
+            const foodLv1Element = pokemonType === 'mew'
+                ? document.querySelector('input[name="mewMainFoodLv1"]:checked')
+                : null;
+            const foodLv30Element = pokemonType === 'mew'
+                ? document.querySelector('input[name="mewMainFoodLv30"]:checked')
+                : document.querySelector('input[name="foodLv30"]:checked');
+            const foodLv60Element = pokemonType === 'mew'
+                ? document.querySelector('input[name="mewMainFoodLv60"]:checked')
+                : document.querySelector('input[name="foodLv60"]:checked');
+
+            const foodLv1 = foodLv1Element ? foodLv1Element.value : 'A';  // デフォルトA
             const foodLv30 = foodLv30Element ? foodLv30Element.value : 'A';  // デフォルトA
             const foodLv60 = foodLv60Element ? foodLv60Element.value : 'A';  // デフォルトA
-            
-            console.log('食材スロット:', {foodLv30, foodLv60});
+
+            console.log('食材スロット:', {foodLv1, foodLv30, foodLv60});
 
             const activeFoodSlots = [];
-            activeFoodSlots.push(...pokemon.foodSlots.lv1);
+            if (pokemonType === 'mew') {
+                // ミュウ：Lv1も選択制（実際の個体は1枠目食材として1種のみ持つ）。
+                // Lv30/Lv60で選んだ食材は、同じ食材でも別スロットとしてそのまま加算する
+                // （全て同じ食材を選んだ場合は個数の単純平均＝入替候補側と同じ考え方）。
+                const lv1Slot = pokemon.foodSlots.lv1.find(slot => slot.label === foodLv1);
+                if (lv1Slot) activeFoodSlots.push(lv1Slot);
+            } else {
+                activeFoodSlots.push(...pokemon.foodSlots.lv1);
+            }
 
             if (level >= 30) {
                 const lv30Slot = pokemon.foodSlots.lv30.find(slot => slot.label === foodLv30);
@@ -19480,8 +20319,17 @@
             const avgFoodCount = totalCount / activeFoodSlots.length;
             const avgFoodEnergy = totalEnergy / totalCount;  // 1個あたりの平均エネルギー
 
-            const foodDetailFormula = `（${countParts.join('+')}）÷${activeFoodSlots.length}個 × ${Math.floor(avgFoodEnergy)}`;
-            
+            // 食材ごとにエナジー単価が異なる場合（例：Lv1とLv30/Lv60で違う食材を選択）は、
+            // 単価を1つに丸めず「個数×単価」の内訳をそのまま表示する（入替候補側と同じ方式）
+            let foodDetailFormula;
+            const foodEnergyUnits = [...new Set(activeFoodSlots.map(s => s.energy))];
+            if (foodEnergyUnits.length === 1) {
+                foodDetailFormula = `（${countParts.join('+')}）÷${activeFoodSlots.length}個 × ${Math.floor(avgFoodEnergy)}`;
+            } else {
+                const foodDetails = activeFoodSlots.map((s, i) => `${countParts[i]}×${s.energy}`).join('+');
+                foodDetailFormula = `（${foodDetails}）÷${activeFoodSlots.length}`;
+            }
+
             // 料理エナジー（1回あたり）
             // 料理チャンスSスキルエナジー計算モードを確認
             const isSimpleMode = document.getElementById('skillMode_simple').checked;
@@ -19552,9 +20400,11 @@
             document.getElementById('berryHelpCount').textContent = berryHelpCount.toFixed(2);
             document.getElementById('berryProbPercent').textContent = (berryProb * 100).toFixed(1);
             
-            document.getElementById('foodEnergy').textContent = avgFoodEnergy.toFixed(1);
+            // 表示用「食材エナジー平均」は1回のおてつだいで得られる食材の期待エナジー（個数×単価の平均）。
+            // 実際のエナジー計算に使うavgFoodEnergy（1個あたり単価）自体は変更しない。
+            document.getElementById('foodEnergy').textContent = (avgFoodCount * avgFoodEnergy).toFixed(1);
             document.getElementById('foodEnergyFormula').textContent = foodDetailFormula;
-            
+
             const foodHelpCount = helpCount * foodProb;
             document.getElementById('foodHelpCount').textContent = foodHelpCount.toFixed(2);
             document.getElementById('foodProbPercent').textContent = (foodProb * 100).toFixed(1);
@@ -20326,29 +21176,45 @@
                 }
                 if (eventBerryCount) berryPerCount += 1;
                 
-                // 食材計算
-                const foodLv30Element = level >= 30 ? document.querySelector('input[name="foodLv30"]:checked') : null;
-                const foodLv60Element = level >= 60 ? document.querySelector('input[name="foodLv60"]:checked') : null;
-                
+                // 食材計算（ミュウのみ専用のラジオボタン名から取得）
+                const foodLv1Element = pokemonType === 'mew'
+                    ? document.querySelector('input[name="mewMainFoodLv1"]:checked')
+                    : null;
+                const foodLv30Element = pokemonType === 'mew'
+                    ? (level >= 30 ? document.querySelector('input[name="mewMainFoodLv30"]:checked') : null)
+                    : (level >= 30 ? document.querySelector('input[name="foodLv30"]:checked') : null);
+                const foodLv60Element = pokemonType === 'mew'
+                    ? (level >= 60 ? document.querySelector('input[name="mewMainFoodLv60"]:checked') : null)
+                    : (level >= 60 ? document.querySelector('input[name="foodLv60"]:checked') : null);
+
+                const foodLv1 = foodLv1Element ? foodLv1Element.value : 'A';
                 const foodLv30 = foodLv30Element ? foodLv30Element.value : 'A';
                 const foodLv60 = foodLv60Element ? foodLv60Element.value : 'A';
-                
+
                 const activeFoodSlots = [];
-                activeFoodSlots.push(...pokemon.foodSlots.lv1);
-                
+                if (pokemonType === 'mew') {
+                    // ミュウ：Lv1も選択制（実際の個体は1枠目食材として1種のみ持つ）。
+                    // Lv30/Lv60で選んだ食材は、同じ食材でも別スロットとしてそのまま加算する
+                    // （全て同じ食材を選んだ場合は個数の単純平均＝入替候補側と同じ考え方）。
+                    const lv1Slot = pokemon.foodSlots.lv1.find(slot => slot.label === foodLv1);
+                    if (lv1Slot) activeFoodSlots.push(lv1Slot);
+                } else {
+                    activeFoodSlots.push(...pokemon.foodSlots.lv1);
+                }
+
                 if (level >= 30) {
                     const lv30Slot = pokemon.foodSlots.lv30.find(slot => slot.label === foodLv30);
                     if (lv30Slot) activeFoodSlots.push(lv30Slot);
                 }
-                
+
                 if (level >= 60) {
                     const lv60Slot = pokemon.foodSlots.lv60.find(slot => slot.label === foodLv60);
                     if (lv60Slot) activeFoodSlots.push(lv60Slot);
                 }
-                
+
                 const exFoodBonus = (exOther === 'food') ? 1 : 0;
                 const eventFoodBonus = eventFoodCount;
-                
+
                 let totalCount = 0;
                 let totalEnergy = 0;
                 const countParts = [];
@@ -20363,9 +21229,16 @@
                 
                 const avgFoodCount = totalCount / activeFoodSlots.length;
                 const avgFoodEnergy = totalEnergy / totalCount;  // 1個あたりの平均エネルギー
-                
-                // 食材エナジーの途中式作成
-                const foodDetailFormula = `(${countParts.join('+')}) ÷ ${activeFoodSlots.length}個 = ${avgFoodCount.toFixed(1)} × ${Math.floor(avgFoodEnergy)} = ${(avgFoodCount * avgFoodEnergy).toFixed(1)}`;
+
+                // 食材エナジーの途中式作成（食材ごとに単価が異なる場合は内訳をそのまま表示）
+                let foodDetailFormula;
+                const foodEnergyUnitsCap = [...new Set(activeFoodSlots.map(s => s.energy))];
+                if (foodEnergyUnitsCap.length === 1) {
+                    foodDetailFormula = `(${countParts.join('+')}) ÷ ${activeFoodSlots.length}個 = ${avgFoodCount.toFixed(1)} × ${Math.floor(avgFoodEnergy)} = ${(avgFoodCount * avgFoodEnergy).toFixed(1)}`;
+                } else {
+                    const foodDetailsCap = activeFoodSlots.map((s, i) => `${countParts[i]}×${s.energy}`).join('+');
+                    foodDetailFormula = `(${foodDetailsCap}) ÷ ${activeFoodSlots.length} = ${(avgFoodCount * avgFoodEnergy).toFixed(1)}`;
+                }
                 
                 // 料理エナジー
                 // 料理チャンスSスキルエナジー計算モードを確認
@@ -20480,8 +21353,8 @@
                 document.getElementById('berryHelpCount').textContent = berryHelpCount.toFixed(2);
                 document.getElementById('berryProbPercent').textContent = (berryProb * 100).toFixed(1);
                 
-                // 食材エナジーと確率
-                document.getElementById('foodEnergy').textContent = avgFoodEnergy.toFixed(1);
+                // 食材エナジーと確率（表示は1回のおてつだいで得られる食材の期待エナジー＝個数×単価の平均。実計算用のavgFoodEnergyは変更しない）
+                document.getElementById('foodEnergy').textContent = (avgFoodCount * avgFoodEnergy).toFixed(1);
                 document.getElementById('foodEnergyFormula').textContent = foodDetailFormula;
                 
                 const foodHelpCount = helpCount * foodProb;
@@ -22263,9 +23136,10 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             'sudowoodo': ['いわ'],
             'ampharos': ['でんき'],
             'espeon': ['エスパー'],
-            'houndoom': ['あく']
+            'houndoom': ['あく'],
+            'mew': ['エスパー']
         };
-        
+
         // ポケモンの得意なもの定義
         const POKEMON_SPECIALTIES = {
             'swampert': 'きのみとくい',
@@ -22281,7 +23155,8 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
             'sudowoodo': 'スキルとくい',
             'ampharos': 'スキルとくい',
             'espeon': 'スキルとくい',
-            'houndoom': 'きのみとくい'
+            'houndoom': 'きのみとくい',
+            'mew': 'オール'
         };
         
         // タイプ選択エリアの表示/非表示を切り替え
@@ -22320,7 +23195,9 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 'swampert': 'ラグラージ',
                 'weavile': 'マニューラ',
                 'dedenne': 'デデンネ',
-                'spheal_holiday': 'タマザラシ(ホリデーリース)'
+                'spheal_holiday': 'タマザラシ(ホリデーリース)',
+                'heracross': 'ヘラクロス',
+                'mew': 'ミュウ'
             };
             
             infoDiv.innerHTML = `<strong>${pokemonNames[pokemon]}のタイプ：${types[0]}</strong>`;
@@ -22336,7 +23213,9 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 'swampert': 'ラグラージ',
                 'weavile': 'マニューラ',
                 'dedenne': 'デデンネ',
-                'spheal_holiday': 'タマザラシ(ホリデーリース)'
+                'spheal_holiday': 'タマザラシ(ホリデーリース)',
+                'heracross': 'ヘラクロス',
+                'mew': 'ミュウ'
             };
             
             infoDiv.innerHTML = `<strong>${pokemonNames[pokemon]}のとくいなもの：${specialty}</strong>`;
@@ -22792,6 +23671,7 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 'gallade': 'エルレイド',
                 'cresselia': 'クレセリア',
                 'darkrai': 'ダークライ',
+                'mew': 'ミュウ',
                 'musharna': 'ムシャーナ',
                 'braviary': 'ウォーグル',
                 'mimikyu': 'ミミッキュ',
@@ -23560,10 +24440,27 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 }
             });
             
+            // ミュウ専用：mainMewSection内の食材確率・スキル発動率（未確定値の注意書き含む）は
+            // 基本タブに丸ごと入ってしまうため、メインスキルタブへ個別に移動する
+            // （食材スロット選択はそのまま基本タブに残す）
+            const mewFoodProbInput = panels[0].querySelector('#mewMainFoodProb');
+            const mewSkillProbInput = panels[0].querySelector('#mewMainSkillProb');
+            if (mewFoodProbInput && mewSkillProbInput) {
+                const foodProbGroup = mewFoodProbInput.closest('.input-group');
+                const skillProbGroup = mewSkillProbInput.closest('.input-group');
+                const noteEl = foodProbGroup ? foodProbGroup.previousElementSibling : null;
+                if (noteEl && noteEl.classList.contains('note')) {
+                    panels[1].appendChild(noteEl);
+                }
+                if (foodProbGroup) panels[1].appendChild(foodProbGroup);
+                if (skillProbGroup) panels[1].appendChild(skillProbGroup);
+                console.log('[料理チャンスポケモン] ミュウの食材確率・スキル発動率をメインスキルタブに移動');
+            }
+
             panels.forEach(panel => tabContent.appendChild(panel));
             tabContainer.appendChild(tabContent);
             section.appendChild(tabContainer);
-            
+
             // タブパネルに振り分け後、料理チャンスポケモンの食材スロットを変換
             convertFoodSlotsForCookingPokemon(section);
             
@@ -23835,9 +24732,10 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     label.setAttribute('for', select.id);
                 }
                 
-                // onchangeイベントハンドラを追加（食材スロットラベル更新など）
+                // onchangeイベントハンドラを追加（食材スロットラベル更新・ミュウ専用セクションの表示切替など）
                 select.addEventListener('change', function() {
                     updateMainPokemonFoodSlotLabels();
+                    updateMainPokemonModeVisibility();
                     if (document.getElementById('eventTypeRestriction')?.checked) updatePokemonTypeInfo();
                     if (document.getElementById('eventSpecialtyRestriction')?.checked) updatePokemonSpecialtyInfo();
                 });
@@ -23929,14 +24827,84 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 lv60Group.replaceWith(select);
                 console.log('  → Lv60スロット変換完了');
             }
+
+            // ミュウ専用：Lv1/Lv30/Lv60食材スロット（mainMewSection内）
+            ['mewMainFoodLv1', 'mewMainFoodLv30', 'mewMainFoodLv60'].forEach(fieldName => {
+                const group = section.querySelector(`.radio-group:has(input[name="${fieldName}"])`);
+                if (!group) return;
+
+                const inputGroup = group.closest('.input-group');
+                const label = inputGroup ? inputGroup.querySelector('.input-label') : null;
+
+                const select = document.createElement('select');
+                select.id = fieldName;
+                select.name = fieldName;
+
+                const radioButtons = group.querySelectorAll('input[type="radio"]');
+                radioButtons.forEach(radio => {
+                    const option = document.createElement('option');
+                    option.value = radio.value;
+                    const radioLabel = group.querySelector(`label[for="${radio.id}"]`);
+                    option.textContent = radioLabel ? radioLabel.textContent : `食材${radio.value}`;
+                    if (radio.checked) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+
+                if (label) {
+                    label.setAttribute('for', select.id);
+                }
+
+                if (inputGroup) {
+                    inputGroup.setAttribute(`data-original-${fieldName}-group`, group.outerHTML);
+                }
+
+                group.replaceWith(select);
+                console.log(`  → ${fieldName}スロット変換完了`);
+            });
         }
-        
+
         /**
          * 特定のポケモンモード内の食材スロット選択をセレクトボックスに変換
          */
         function convertFoodSlotsForPokemon(modeDiv, pokemonId) {
             console.log(`[食材スロット変換] ${pokemonId} を変換中...`);
-            
+
+            // Lv1食材スロット（ミュウ・ダークライなど選択制の場合のみ存在）
+            const lv1Group = modeDiv.querySelector(`.radio-group:has(input[name="${pokemonId}FoodLv1"])`);
+            if (lv1Group) {
+                const inputGroup = lv1Group.closest('.input-group');
+                const label = inputGroup ? inputGroup.querySelector('.input-label') : null;
+
+                // セレクトボックスを作成
+                const select = document.createElement('select');
+                select.id = `${pokemonId}FoodLv1`;
+                select.name = `${pokemonId}FoodLv1`;
+
+                // ラジオボタンからオプションを生成
+                const radioButtons = lv1Group.querySelectorAll('input[type="radio"]');
+                radioButtons.forEach(radio => {
+                    const option = document.createElement('option');
+                    option.value = radio.value;
+                    const radioLabel = lv1Group.querySelector(`label[for="${radio.id}"]`);
+                    option.textContent = radioLabel ? radioLabel.textContent : `食材${radio.value}`;
+                    if (radio.checked) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+
+                // ラベルのfor属性を更新
+                if (label) {
+                    label.setAttribute('for', select.id);
+                }
+
+                // 置き換え
+                lv1Group.replaceWith(select);
+                console.log(`  → Lv1スロット変換完了`);
+            }
+
             // Lv30食材スロット
             const lv30Group = modeDiv.querySelector(`.radio-group:has(input[name="${pokemonId}FoodLv30"])`);
             if (lv30Group) {
@@ -24303,6 +25271,9 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                     } else if (labelText.includes('食材スロット')) {
                         panels[0].appendChild(el); // 基本
                         console.log(`    → 基本: ${labelText}`);
+                    } else if (labelText === '食材確率（%）' || labelText.includes('スキル発動率')) {
+                        panels[1].appendChild(el); // メインスキル（ミュウ専用：食材確率・スキル発動率）
+                        console.log(`    → メインスキル: ${labelText}（ミュウ確率設定）`);
                     } else if (labelText.includes('メインスキルレベル')) {
                         panels[1].appendChild(el); // メインスキル（index 1）
                         console.log(`    → メインスキル: ${labelText}`);
@@ -25586,6 +26557,15 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 // ===== お知らせ機能 =====
 
 const NOTICES = [
+    {
+        date: '2026/07/12',
+        tag: 'update',
+        tagLabel: '📢 アップデート',
+        text: 'ミュウを追加（料理チャンスポケモン・入替候補ポケモン）',
+        detail: '料理チャンスポケモン・入替候補ポケモンの両方に「ミュウ」を追加しました。\n\nミュウは「ひらめきのたね」を使うとメインスキルがランダムに決まる仕様のため、ゆびをふる／げんきオールS／きのみバースト／エナジーチャージM／げんきエールS／ゆめのかけらゲットS／おてつだいサポートS／食材ゲットS／料理パワーアップS／エナジーチャージS／げんきチャージSの中から、確定したメインスキルをツール側で入力できるようにしています。\n※食材確率・スキル発動率は公式未確定のため、pks.raenonx.ccによる暫定値をベースにユーザー側で入力・調整できるようにしています。',
+        pinned: true,
+        featured: true
+    },
     {
         date: '2026/07/11',
         tag: 'update',
