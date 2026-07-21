@@ -2047,6 +2047,10 @@
 <div class="pokemon-option" data-value="latias" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ラティアス</div>
 <div class="pokemon-option" data-value="latios" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ラティオス</div>
 <div class="pokemon-option" data-value="tyrantrum" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ガチゴラス</div>
+<div class="pokemon-option" data-value="infernape" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ゴウカザル</div>
+<div class="pokemon-option" data-value="empoleon" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">エンペルト</div>
+<div class="pokemon-option" data-value="chimchar" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ヒコザル</div>
+<div class="pokemon-option" data-value="prinplup" style="padding: 8px 12px; cursor: pointer; font-size: 14px;">ポッタイシ</div>
 </div>
 </div>
 <input id="replacementPokemonValue" type="hidden" value="none"/>
@@ -10968,6 +10972,924 @@
 </select>
 </div>
 </div>
+<!-- ゴウカザル設定モード -->
+<div class="section" id="replacementPokemonMode_infernape" style="display: none;">
+<div class="input-group">
+<label class="input-label" for="infernapeLevel">レベル（1-100）</label>
+<input id="infernapeLevel" max="100" min="1" type="number" value="60"/>
+</div>
+<div class="input-group">
+<label class="input-label">Lv30で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="infernapeFoodLv30_A" name="infernapeFoodLv30" type="radio" value="A"/>
+<label for="infernapeFoodLv30_A" id="infernapeFoodLv30LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="infernapeFoodLv30_B" name="infernapeFoodLv30" type="radio" value="B"/>
+<label for="infernapeFoodLv30_B" id="infernapeFoodLv30LabelB">食材B</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv60で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="infernapeFoodLv60_A" name="infernapeFoodLv60" type="radio" value="A"/>
+<label for="infernapeFoodLv60_A" id="infernapeFoodLv60LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="infernapeFoodLv60_B" name="infernapeFoodLv60" type="radio" value="B"/>
+<label for="infernapeFoodLv60_B" id="infernapeFoodLv60LabelB">食材B</label>
+</div>
+<div class="radio-item">
+<input id="infernapeFoodLv60_C" name="infernapeFoodLv60" type="radio" value="C"/>
+<label for="infernapeFoodLv60_C" id="infernapeFoodLv60LabelC">食材C</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">メインスキルレベル</label>
+<select id="infernapeSkillLevel">
+<option value="1">Lv1</option>
+<option value="2">Lv2</option>
+<option value="3">Lv3</option>
+<option value="4">Lv4</option>
+<option value="5">Lv5</option>
+<option selected="" value="6">Lv6</option>
+<option value="7">Lv7</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">サブスキル</label>
+<div class="checkbox-group">
+<div class="checkbox-item">
+<input id="infernapeSpeedM" type="checkbox"/>
+<label for="infernapeSpeedM">おてつだいスピードM</label>
+</div>
+<div class="checkbox-item">
+<input id="infernapeSpeedS" type="checkbox"/>
+<label for="infernapeSpeedS">おてつだいスピードS</label>
+</div>
+<div class="checkbox-item">
+<input id="infernapeSkillM" type="checkbox"/>
+<label for="infernapeSkillM">スキル確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="infernapeSkillS" type="checkbox"/>
+<label for="infernapeSkillS">スキル確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="infernapeFoodM" type="checkbox"/>
+<label for="infernapeFoodM">食材確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="infernapeFoodS" type="checkbox"/>
+<label for="infernapeFoodS">食材確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="infernapeBerryS" type="checkbox"/>
+<label for="infernapeBerryS">きのみの数S</label>
+</div>
+<div class="checkbox-item">
+<input id="infernapeCapacityL" type="checkbox"/>
+<label for="infernapeCapacityL">所持数アップL</label>
+</div>
+<div class="checkbox-item">
+<input id="infernapeCapacityM" type="checkbox"/>
+<label for="infernapeCapacityM">所持数アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="infernapeCapacityS" type="checkbox"/>
+<label for="infernapeCapacityS">所持数アップS</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="infernapeOtebonus">おてつだいボーナス</label>
+<select id="infernapeOtebonus">
+<option value="0">0枚</option>
+<option value="1">1枚</option>
+<option value="2">2枚</option>
+<option value="3">3枚</option>
+<option value="4">4枚</option>
+<option value="5">5枚</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">おてスピ補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="infernapeSpeedNature_plus" name="infernapeSpeedNature" type="radio" value="0.9"/>
+<label for="infernapeSpeedNature_plus">おてスピ△△(-10%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="infernapeSpeedNature_normal" name="infernapeSpeedNature" type="radio" value="1.0"/>
+<label for="infernapeSpeedNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="infernapeSpeedNature_minus" name="infernapeSpeedNature" type="radio" value="1.075"/>
+<label for="infernapeSpeedNature_minus">おてスピ▽▽(+7.5%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">スキル確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="infernapeSkillNature_plus" name="infernapeSkillNature" type="radio" value="1.2"/>
+<label for="infernapeSkillNature_plus">スキル確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="infernapeSkillNature_normal" name="infernapeSkillNature" type="radio" value="1.0"/>
+<label for="infernapeSkillNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="infernapeSkillNature_minus" name="infernapeSkillNature" type="radio" value="0.8"/>
+<label for="infernapeSkillNature_minus">スキル確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">食材確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="infernapeFoodNature_plus" name="infernapeFoodNature" type="radio" value="1.2"/>
+<label for="infernapeFoodNature_plus">食材確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="infernapeFoodNature_normal" name="infernapeFoodNature" type="radio" value="1.0"/>
+<label for="infernapeFoodNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="infernapeFoodNature_minus" name="infernapeFoodNature" type="radio" value="0.8"/>
+<label for="infernapeFoodNature_minus">食材確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="infernapeSleepRibbon">おやすみリボン</label>
+<select id="infernapeSleepRibbon">
+<option value="0">なし</option>
+<option value="1">200時間（+1）</option>
+<option value="3">500時間（+3）</option>
+<option value="6">1,000時間（+6）</option>
+<option value="8">2,000時間（+8）</option>
+</select>
+</div>
+
+<!-- きのみバーストモード選択 -->
+<div style="margin-top: 20px; padding: 15px; background: #f0fff0; border-radius: 8px; border: 2px solid #90ee90;">
+<div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #2e7d32;">
+                        🌿 きのみバースト計算モード
+                    </div>
+<div class="radio-group">
+<div class="radio-item">
+<input id="infernapeBerryBurstSimple" name="infernapeBerryBurstMode" type="radio" value="simple"/>
+<label for="infernapeBerryBurstSimple">簡易モード（全てを自分のきのみとして計算）</label>
+</div>
+<div class="radio-item">
+<input checked="" id="infernapeBerryBurstDetailed" name="infernapeBerryBurstMode" type="radio" value="detailed"/>
+<label for="infernapeBerryBurstDetailed">詳細モード（チーム構成を個別設定）</label>
+</div>
+</div>
+<div style="margin-top: 10px; color: #666; font-size: 12px;">
+<strong>簡易モード：</strong>スキルで獲得する全てのきのみを自分のきのみとして計算します（チーム設定不要）<br/>
+<strong>詳細モード：</strong>チーム4匹のきのみとレベルを個別に設定して計算します（好きなきのみ判定あり）
+                    </div>
+</div>
+<!-- チーム構成（きのみバースト用・詳細モード） -->
+<div id="infernapeTeamComposition" style="margin-top: 20px; padding: 15px; background: #f0fff0; border-radius: 8px; border: 2px solid #90ee90;">
+<div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #2e7d32;">
+                        🌿 チーム構成（詳細モード）
+                    </div>
+<div style="margin-bottom: 15px; color: #666; font-size: 13px;">
+                        きのみバーストは自分のきのみ + チーム4匹のきのみを獲得します。<br/>
+                        チーム内の他4匹のポケモンのきのみとレベルを設定してください。
+                    </div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px;">
+<!-- チームポケモン1 -->
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン1</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="infernapeTeamBerry1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="infernapeTeamLevel1" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+<!-- チームポケモン2 -->
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン2</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="infernapeTeamBerry2" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="infernapeTeamLevel2" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+<!-- チームポケモン3 -->
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン3</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="infernapeTeamBerry3" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="infernapeTeamLevel3" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+<!-- チームポケモン4 -->
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン4</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="infernapeTeamBerry4" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="infernapeTeamLevel4" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- エンペルト設定モード -->
+<div class="section" id="replacementPokemonMode_empoleon" style="display: none;">
+<div class="input-group">
+<label class="input-label" for="empoleonLevel">レベル（1-100）</label>
+<input id="empoleonLevel" max="100" min="1" type="number" value="60"/>
+</div>
+<div class="input-group">
+<label class="input-label">Lv30で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="empoleonFoodLv30_A" name="empoleonFoodLv30" type="radio" value="A"/>
+<label for="empoleonFoodLv30_A" id="empoleonFoodLv30LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="empoleonFoodLv30_B" name="empoleonFoodLv30" type="radio" value="B"/>
+<label for="empoleonFoodLv30_B" id="empoleonFoodLv30LabelB">食材B</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv60で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="empoleonFoodLv60_A" name="empoleonFoodLv60" type="radio" value="A"/>
+<label for="empoleonFoodLv60_A" id="empoleonFoodLv60LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="empoleonFoodLv60_B" name="empoleonFoodLv60" type="radio" value="B"/>
+<label for="empoleonFoodLv60_B" id="empoleonFoodLv60LabelB">食材B</label>
+</div>
+<div class="radio-item">
+<input id="empoleonFoodLv60_C" name="empoleonFoodLv60" type="radio" value="C"/>
+<label for="empoleonFoodLv60_C" id="empoleonFoodLv60LabelC">食材C</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">メインスキルレベル</label>
+<select id="empoleonSkillLevel">
+<option value="1">Lv1</option>
+<option value="2">Lv2</option>
+<option value="3">Lv3</option>
+<option value="4">Lv4</option>
+<option value="5">Lv5</option>
+<option selected="" value="6">Lv6</option>
+<option value="7">Lv7</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">サブスキル</label>
+<div class="checkbox-group">
+<div class="checkbox-item">
+<input id="empoleonSpeedM" type="checkbox"/>
+<label for="empoleonSpeedM">おてつだいスピードM</label>
+</div>
+<div class="checkbox-item">
+<input id="empoleonSpeedS" type="checkbox"/>
+<label for="empoleonSpeedS">おてつだいスピードS</label>
+</div>
+<div class="checkbox-item">
+<input id="empoleonSkillM" type="checkbox"/>
+<label for="empoleonSkillM">スキル確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="empoleonSkillS" type="checkbox"/>
+<label for="empoleonSkillS">スキル確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="empoleonFoodM" type="checkbox"/>
+<label for="empoleonFoodM">食材確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="empoleonFoodS" type="checkbox"/>
+<label for="empoleonFoodS">食材確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="empoleonBerryS" type="checkbox"/>
+<label for="empoleonBerryS">きのみの数S</label>
+</div>
+<div class="checkbox-item">
+<input id="empoleonCapacityL" type="checkbox"/>
+<label for="empoleonCapacityL">所持数アップL</label>
+</div>
+<div class="checkbox-item">
+<input id="empoleonCapacityM" type="checkbox"/>
+<label for="empoleonCapacityM">所持数アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="empoleonCapacityS" type="checkbox"/>
+<label for="empoleonCapacityS">所持数アップS</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="empoleonOtebonus">おてつだいボーナス</label>
+<select id="empoleonOtebonus">
+<option value="0">0枚</option>
+<option value="1">1枚</option>
+<option value="2">2枚</option>
+<option value="3">3枚</option>
+<option value="4">4枚</option>
+<option value="5">5枚</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">おてスピ補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="empoleonSpeedNature_plus" name="empoleonSpeedNature" type="radio" value="0.9"/>
+<label for="empoleonSpeedNature_plus">おてスピ△△(-10%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="empoleonSpeedNature_normal" name="empoleonSpeedNature" type="radio" value="1.0"/>
+<label for="empoleonSpeedNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="empoleonSpeedNature_minus" name="empoleonSpeedNature" type="radio" value="1.075"/>
+<label for="empoleonSpeedNature_minus">おてスピ▽▽(+7.5%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">スキル確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="empoleonSkillNature_plus" name="empoleonSkillNature" type="radio" value="1.2"/>
+<label for="empoleonSkillNature_plus">スキル確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="empoleonSkillNature_normal" name="empoleonSkillNature" type="radio" value="1.0"/>
+<label for="empoleonSkillNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="empoleonSkillNature_minus" name="empoleonSkillNature" type="radio" value="0.8"/>
+<label for="empoleonSkillNature_minus">スキル確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">食材確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="empoleonFoodNature_plus" name="empoleonFoodNature" type="radio" value="1.2"/>
+<label for="empoleonFoodNature_plus">食材確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="empoleonFoodNature_normal" name="empoleonFoodNature" type="radio" value="1.0"/>
+<label for="empoleonFoodNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="empoleonFoodNature_minus" name="empoleonFoodNature" type="radio" value="0.8"/>
+<label for="empoleonFoodNature_minus">食材確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="empoleonSleepRibbon">おやすみリボン</label>
+<select id="empoleonSleepRibbon">
+<option value="0">なし</option>
+<option value="1">200時間（+1）</option>
+<option value="3">500時間（+3）</option>
+<option value="6">1,000時間（+6）</option>
+<option value="8">2,000時間（+8）</option>
+</select>
+</div>
+
+<!-- おてつだいサポートS計算モード選択 -->
+<div class="skill-mode-section">
+<div class="skill-mode-section-title">
+                        🤝 おてつだいサポートS計算モード
+                    </div>
+<div class="radio-group radio-group-compact">
+<div class="radio-item">
+<input checked="" id="empoleonHelpSupportSelf" name="empoleonHelpSupportMode" type="radio" value="self"/>
+<label for="empoleonHelpSupportSelf">自分基準</label>
+</div>
+<div class="radio-item">
+<input id="empoleonHelpSupportMultiplier" name="empoleonHelpSupportMode" type="radio" value="multiplier"/>
+<label for="empoleonHelpSupportMultiplier">倍率モード</label>
+</div>
+<div class="radio-item">
+<input id="empoleonHelpSupportDirect" name="empoleonHelpSupportMode" type="radio" value="direct"/>
+<label for="empoleonHelpSupportDirect">直接入力</label>
+</div>
+</div>
+<div class="detail-description">
+<strong>自分基準：</strong>自分の1回のおてつだいで得られるエナジー（きのみ+食材）× スキル効果量で計算します<br/>
+<strong>倍率モード：</strong>エナジーチャージMの効果量を基準に、指定した倍率で計算します<br/>
+<strong>直接入力：</strong>任意のエナジー値を直接入力します
+                    </div>
+</div>
+<!-- エナジーチャージM倍率入力 -->
+<div class="input-group" id="empoleonHelpSupportMultiplierInput" style="display: none; margin-top: 15px;">
+<label class="input-label" for="empoleonHelpSupportMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+<input id="empoleonHelpSupportMultiplierValue" max="10" min="0" step="0.1" type="number" value="1.0"/>
+<small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等、2.0 = エナジーチャージMの2倍）</small>
+</div>
+<!-- 直接入力 -->
+<div class="input-group" id="empoleonHelpSupportDirectInput" style="display: none; margin-top: 15px;">
+<label class="input-label" for="empoleonHelpSupportDirectValue">1回あたりエナジー</label>
+<input id="empoleonHelpSupportDirectValue" min="0" step="100" type="number" value="5000"/>
+<small style="color: #666; margin-top: 5px; display: block;">※スキルレベルに関係なく固定値</small>
+</div>
+</div>
+<!-- ヒコザル設定モード -->
+<div class="section" id="replacementPokemonMode_chimchar" style="display: none;">
+<div class="input-group">
+<label class="input-label" for="chimcharLevel">レベル（1-100）</label>
+<input id="chimcharLevel" max="100" min="1" type="number" value="60"/>
+</div>
+<div class="input-group">
+<label class="input-label">Lv30で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="chimcharFoodLv30_A" name="chimcharFoodLv30" type="radio" value="A"/>
+<label for="chimcharFoodLv30_A" id="chimcharFoodLv30LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="chimcharFoodLv30_B" name="chimcharFoodLv30" type="radio" value="B"/>
+<label for="chimcharFoodLv30_B" id="chimcharFoodLv30LabelB">食材B</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv60で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="chimcharFoodLv60_A" name="chimcharFoodLv60" type="radio" value="A"/>
+<label for="chimcharFoodLv60_A" id="chimcharFoodLv60LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="chimcharFoodLv60_B" name="chimcharFoodLv60" type="radio" value="B"/>
+<label for="chimcharFoodLv60_B" id="chimcharFoodLv60LabelB">食材B</label>
+</div>
+<div class="radio-item">
+<input id="chimcharFoodLv60_C" name="chimcharFoodLv60" type="radio" value="C"/>
+<label for="chimcharFoodLv60_C" id="chimcharFoodLv60LabelC">食材C</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">メインスキルレベル</label>
+<select id="chimcharSkillLevel">
+<option value="1">Lv1</option>
+<option value="2">Lv2</option>
+<option value="3">Lv3</option>
+<option value="4">Lv4</option>
+<option value="5">Lv5</option>
+<option selected="" value="6">Lv6</option>
+<option value="7">Lv7</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">サブスキル</label>
+<div class="checkbox-group">
+<div class="checkbox-item">
+<input id="chimcharSpeedM" type="checkbox"/>
+<label for="chimcharSpeedM">おてつだいスピードM</label>
+</div>
+<div class="checkbox-item">
+<input id="chimcharSpeedS" type="checkbox"/>
+<label for="chimcharSpeedS">おてつだいスピードS</label>
+</div>
+<div class="checkbox-item">
+<input id="chimcharSkillM" type="checkbox"/>
+<label for="chimcharSkillM">スキル確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="chimcharSkillS" type="checkbox"/>
+<label for="chimcharSkillS">スキル確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="chimcharFoodM" type="checkbox"/>
+<label for="chimcharFoodM">食材確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="chimcharFoodS" type="checkbox"/>
+<label for="chimcharFoodS">食材確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="chimcharBerryS" type="checkbox"/>
+<label for="chimcharBerryS">きのみの数S</label>
+</div>
+<div class="checkbox-item">
+<input id="chimcharCapacityL" type="checkbox"/>
+<label for="chimcharCapacityL">所持数アップL</label>
+</div>
+<div class="checkbox-item">
+<input id="chimcharCapacityM" type="checkbox"/>
+<label for="chimcharCapacityM">所持数アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="chimcharCapacityS" type="checkbox"/>
+<label for="chimcharCapacityS">所持数アップS</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="chimcharOtebonus">おてつだいボーナス</label>
+<select id="chimcharOtebonus">
+<option value="0">0枚</option>
+<option value="1">1枚</option>
+<option value="2">2枚</option>
+<option value="3">3枚</option>
+<option value="4">4枚</option>
+<option value="5">5枚</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">おてスピ補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="chimcharSpeedNature_plus" name="chimcharSpeedNature" type="radio" value="0.9"/>
+<label for="chimcharSpeedNature_plus">おてスピ△△(-10%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="chimcharSpeedNature_normal" name="chimcharSpeedNature" type="radio" value="1.0"/>
+<label for="chimcharSpeedNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="chimcharSpeedNature_minus" name="chimcharSpeedNature" type="radio" value="1.075"/>
+<label for="chimcharSpeedNature_minus">おてスピ▽▽(+7.5%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">スキル確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="chimcharSkillNature_plus" name="chimcharSkillNature" type="radio" value="1.2"/>
+<label for="chimcharSkillNature_plus">スキル確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="chimcharSkillNature_normal" name="chimcharSkillNature" type="radio" value="1.0"/>
+<label for="chimcharSkillNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="chimcharSkillNature_minus" name="chimcharSkillNature" type="radio" value="0.8"/>
+<label for="chimcharSkillNature_minus">スキル確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">食材確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="chimcharFoodNature_plus" name="chimcharFoodNature" type="radio" value="1.2"/>
+<label for="chimcharFoodNature_plus">食材確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="chimcharFoodNature_normal" name="chimcharFoodNature" type="radio" value="1.0"/>
+<label for="chimcharFoodNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="chimcharFoodNature_minus" name="chimcharFoodNature" type="radio" value="0.8"/>
+<label for="chimcharFoodNature_minus">食材確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="chimcharSleepRibbon">おやすみリボン</label>
+<select id="chimcharSleepRibbon">
+<option value="0">なし</option>
+<option value="1">200時間（+1）</option>
+<option value="3">500時間（+3）</option>
+<option value="6">1,000時間（+6）</option>
+<option value="8">2,000時間（+8）</option>
+</select>
+</div>
+
+<!-- きのみバーストモード選択 -->
+<div style="margin-top: 20px; padding: 15px; background: #f0fff0; border-radius: 8px; border: 2px solid #90ee90;">
+<div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #2e7d32;">
+                        🌿 きのみバースト計算モード
+                    </div>
+<div class="radio-group">
+<div class="radio-item">
+<input id="chimcharBerryBurstSimple" name="chimcharBerryBurstMode" type="radio" value="simple"/>
+<label for="chimcharBerryBurstSimple">簡易モード（全てを自分のきのみとして計算）</label>
+</div>
+<div class="radio-item">
+<input checked="" id="chimcharBerryBurstDetailed" name="chimcharBerryBurstMode" type="radio" value="detailed"/>
+<label for="chimcharBerryBurstDetailed">詳細モード（チーム構成を個別設定）</label>
+</div>
+</div>
+<div style="margin-top: 10px; color: #666; font-size: 12px;">
+<strong>簡易モード：</strong>スキルで獲得する全てのきのみを自分のきのみとして計算します（チーム設定不要）<br/>
+<strong>詳細モード：</strong>チーム4匹のきのみとレベルを個別に設定して計算します（好きなきのみ判定あり）
+                    </div>
+</div>
+<!-- チーム構成（きのみバースト用・詳細モード） -->
+<div id="chimcharTeamComposition" style="margin-top: 20px; padding: 15px; background: #f0fff0; border-radius: 8px; border: 2px solid #90ee90;">
+<div style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #2e7d32;">
+                        🌿 チーム構成（詳細モード）
+                    </div>
+<div style="margin-bottom: 15px; color: #666; font-size: 13px;">
+                        きのみバーストは自分のきのみ + チーム4匹のきのみを獲得します。<br/>
+                        チーム内の他4匹のポケモンのきのみとレベルを設定してください。
+                    </div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px;">
+<!-- チームポケモン1 -->
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン1</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="chimcharTeamBerry1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="chimcharTeamLevel1" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+<!-- チームポケモン2 -->
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン2</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="chimcharTeamBerry2" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="chimcharTeamLevel2" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+<!-- チームポケモン3 -->
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン3</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="chimcharTeamBerry3" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="chimcharTeamLevel3" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+<!-- チームポケモン4 -->
+<div style="padding: 12px; background: white; border-radius: 6px; border: 1px solid #ddd;">
+<div style="font-weight: bold; margin-bottom: 8px; color: #555; font-size: 13px;">チームポケモン4</div>
+<div style="margin-bottom: 8px;">
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">きのみの種類</label>
+<select id="chimcharTeamBerry4" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+<option value="">-- 選択 --</option>
+</select>
+</div>
+<div>
+<label style="display: block; margin-bottom: 4px; font-size: 12px; color: #777;">レベル（1-100）</label>
+<input id="chimcharTeamLevel4" max="100" min="1" style="width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;" type="number" value="60"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ポッタイシ設定モード -->
+<div class="section" id="replacementPokemonMode_prinplup" style="display: none;">
+<div class="input-group">
+<label class="input-label" for="prinplupLevel">レベル（1-100）</label>
+<input id="prinplupLevel" max="100" min="1" type="number" value="60"/>
+</div>
+<div class="input-group">
+<label class="input-label">Lv30で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="prinplupFoodLv30_A" name="prinplupFoodLv30" type="radio" value="A"/>
+<label for="prinplupFoodLv30_A" id="prinplupFoodLv30LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="prinplupFoodLv30_B" name="prinplupFoodLv30" type="radio" value="B"/>
+<label for="prinplupFoodLv30_B" id="prinplupFoodLv30LabelB">食材B</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">Lv60で解放される食材スロット</label>
+<div class="radio-group">
+<div class="radio-item">
+<input checked="" id="prinplupFoodLv60_A" name="prinplupFoodLv60" type="radio" value="A"/>
+<label for="prinplupFoodLv60_A" id="prinplupFoodLv60LabelA">食材A</label>
+</div>
+<div class="radio-item">
+<input id="prinplupFoodLv60_B" name="prinplupFoodLv60" type="radio" value="B"/>
+<label for="prinplupFoodLv60_B" id="prinplupFoodLv60LabelB">食材B</label>
+</div>
+<div class="radio-item">
+<input id="prinplupFoodLv60_C" name="prinplupFoodLv60" type="radio" value="C"/>
+<label for="prinplupFoodLv60_C" id="prinplupFoodLv60LabelC">食材C</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">メインスキルレベル</label>
+<select id="prinplupSkillLevel">
+<option value="1">Lv1</option>
+<option value="2">Lv2</option>
+<option value="3">Lv3</option>
+<option value="4">Lv4</option>
+<option value="5">Lv5</option>
+<option selected="" value="6">Lv6</option>
+<option value="7">Lv7</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">サブスキル</label>
+<div class="checkbox-group">
+<div class="checkbox-item">
+<input id="prinplupSpeedM" type="checkbox"/>
+<label for="prinplupSpeedM">おてつだいスピードM</label>
+</div>
+<div class="checkbox-item">
+<input id="prinplupSpeedS" type="checkbox"/>
+<label for="prinplupSpeedS">おてつだいスピードS</label>
+</div>
+<div class="checkbox-item">
+<input id="prinplupSkillM" type="checkbox"/>
+<label for="prinplupSkillM">スキル確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="prinplupSkillS" type="checkbox"/>
+<label for="prinplupSkillS">スキル確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="prinplupFoodM" type="checkbox"/>
+<label for="prinplupFoodM">食材確率アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="prinplupFoodS" type="checkbox"/>
+<label for="prinplupFoodS">食材確率アップS</label>
+</div>
+<div class="checkbox-item">
+<input id="prinplupBerryS" type="checkbox"/>
+<label for="prinplupBerryS">きのみの数S</label>
+</div>
+<div class="checkbox-item">
+<input id="prinplupCapacityL" type="checkbox"/>
+<label for="prinplupCapacityL">所持数アップL</label>
+</div>
+<div class="checkbox-item">
+<input id="prinplupCapacityM" type="checkbox"/>
+<label for="prinplupCapacityM">所持数アップM</label>
+</div>
+<div class="checkbox-item">
+<input id="prinplupCapacityS" type="checkbox"/>
+<label for="prinplupCapacityS">所持数アップS</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="prinplupOtebonus">おてつだいボーナス</label>
+<select id="prinplupOtebonus">
+<option value="0">0枚</option>
+<option value="1">1枚</option>
+<option value="2">2枚</option>
+<option value="3">3枚</option>
+<option value="4">4枚</option>
+<option value="5">5枚</option>
+</select>
+</div>
+<div class="input-group">
+<label class="input-label">おてスピ補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="prinplupSpeedNature_plus" name="prinplupSpeedNature" type="radio" value="0.9"/>
+<label for="prinplupSpeedNature_plus">おてスピ△△(-10%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="prinplupSpeedNature_normal" name="prinplupSpeedNature" type="radio" value="1.0"/>
+<label for="prinplupSpeedNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="prinplupSpeedNature_minus" name="prinplupSpeedNature" type="radio" value="1.075"/>
+<label for="prinplupSpeedNature_minus">おてスピ▽▽(+7.5%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">スキル確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="prinplupSkillNature_plus" name="prinplupSkillNature" type="radio" value="1.2"/>
+<label for="prinplupSkillNature_plus">スキル確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="prinplupSkillNature_normal" name="prinplupSkillNature" type="radio" value="1.0"/>
+<label for="prinplupSkillNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="prinplupSkillNature_minus" name="prinplupSkillNature" type="radio" value="0.8"/>
+<label for="prinplupSkillNature_minus">スキル確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label">食材確率補正</label>
+<div class="radio-group">
+<div class="radio-item">
+<input id="prinplupFoodNature_plus" name="prinplupFoodNature" type="radio" value="1.2"/>
+<label for="prinplupFoodNature_plus">食材確率△△(+20%)</label>
+</div>
+<div class="radio-item">
+<input checked="" id="prinplupFoodNature_normal" name="prinplupFoodNature" type="radio" value="1.0"/>
+<label for="prinplupFoodNature_normal">通常</label>
+</div>
+<div class="radio-item">
+<input id="prinplupFoodNature_minus" name="prinplupFoodNature" type="radio" value="0.8"/>
+<label for="prinplupFoodNature_minus">食材確率▽▽(-20%)</label>
+</div>
+</div>
+</div>
+<div class="input-group">
+<label class="input-label" for="prinplupSleepRibbon">おやすみリボン</label>
+<select id="prinplupSleepRibbon">
+<option value="0">なし</option>
+<option value="1">200時間（+1）</option>
+<option value="3">500時間（+3）</option>
+<option value="6">1,000時間（+6）</option>
+<option value="8">2,000時間（+8）</option>
+</select>
+</div>
+
+<!-- おてつだいサポートS計算モード選択 -->
+<div class="skill-mode-section">
+<div class="skill-mode-section-title">
+                        🤝 おてつだいサポートS計算モード
+                    </div>
+<div class="radio-group radio-group-compact">
+<div class="radio-item">
+<input checked="" id="prinplupHelpSupportSelf" name="prinplupHelpSupportMode" type="radio" value="self"/>
+<label for="prinplupHelpSupportSelf">自分基準</label>
+</div>
+<div class="radio-item">
+<input id="prinplupHelpSupportMultiplier" name="prinplupHelpSupportMode" type="radio" value="multiplier"/>
+<label for="prinplupHelpSupportMultiplier">倍率モード</label>
+</div>
+<div class="radio-item">
+<input id="prinplupHelpSupportDirect" name="prinplupHelpSupportMode" type="radio" value="direct"/>
+<label for="prinplupHelpSupportDirect">直接入力</label>
+</div>
+</div>
+<div class="detail-description">
+<strong>自分基準：</strong>自分の1回のおてつだいで得られるエナジー（きのみ+食材）× スキル効果量で計算します<br/>
+<strong>倍率モード：</strong>エナジーチャージMの効果量を基準に、指定した倍率で計算します<br/>
+<strong>直接入力：</strong>任意のエナジー値を直接入力します
+                    </div>
+</div>
+<!-- エナジーチャージM倍率入力 -->
+<div class="input-group" id="prinplupHelpSupportMultiplierInput" style="display: none; margin-top: 15px;">
+<label class="input-label" for="prinplupHelpSupportMultiplierValue">効果量倍率（エナジーチャージMを基準）</label>
+<input id="prinplupHelpSupportMultiplierValue" max="10" min="0" step="0.1" type="number" value="1.0"/>
+<small style="color: #666; margin-top: 5px; display: block;">※エナジーチャージMのn倍の効果量として扱います（1.0 = エナジーチャージMと同等、2.0 = エナジーチャージMの2倍）</small>
+</div>
+<!-- 直接入力 -->
+<div class="input-group" id="prinplupHelpSupportDirectInput" style="display: none; margin-top: 15px;">
+<label class="input-label" for="prinplupHelpSupportDirectValue">1回あたりエナジー</label>
+<input id="prinplupHelpSupportDirectValue" min="0" step="100" type="number" value="5000"/>
+<small style="color: #666; margin-top: 5px; display: block;">※スキルレベルに関係なく固定値</small>
+</div>
+</div>
 <!-- エラーメッセージ -->
 <div class="error-box" id="errorMessage" style="display: none;">
 <div class="error-title">❌ エラー</div>
@@ -13866,6 +14788,126 @@
                         { label: 'avocado', name: 'つやつやアボカド', count: 4, energy: 162 }
                     ]
                 }
+            },
+            infernape: {
+                name: 'ゴウカザル',
+                dexNumber: 392,
+                rawBaseSpeed: 2400,  // Lv1基礎おてスピ（お手伝い時間40分00秒）
+                berryName: 'クラボのみ',
+                berryBaseEnergy: 27,  // きのみ基礎値
+                foodProb: 0.106,      // 10.6%（検証中の参考値）
+                skillProb: 0.033,     // 3.3%（検証中の参考値）
+                skillCeiling: 60,     // スキル天井
+                baseCapacity: 28,     // 所持数
+                maxSkillRights: 2,    // スキル発動権上限（スキルとくい）
+                defaultBerryCount: 1, // デフォルトきのみ個数（スキルとくい）
+                specialty: 'スキルとくい',
+                type: 'かくとう',
+                mainSkill: 'berryBurst',  // きのみバースト
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'げきからハーブ', count: 1, energy: 130 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'げきからハーブ', count: 2, energy: 130 },
+                        { label: 'B', name: 'あったかジンジャー', count: 3, energy: 109 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'げきからハーブ', count: 4, energy: 130 },
+                        { label: 'B', name: 'あったかジンジャー', count: 5, energy: 109 },
+                        { label: 'C', name: 'めざましコーヒー', count: 3, energy: 153 }
+                    ]
+                }
+            },
+            empoleon: {
+                name: 'エンペルト',
+                dexNumber: 395,
+                rawBaseSpeed: 3200,  // Lv1基礎おてスピ（お手伝い時間53分20秒）
+                berryName: 'ベリブのみ',
+                berryBaseEnergy: 33,  // きのみ基礎値
+                foodProb: 0.168,      // 16.8%（検証中の参考値）
+                skillProb: 0.038,     // 3.8%（検証中の参考値）
+                skillCeiling: 78,     // スキル天井
+                baseCapacity: 28,     // 所持数
+                maxSkillRights: 1,    // スキル発動権上限（きのみとくい）
+                defaultBerryCount: 2, // デフォルトきのみ個数（きのみとくい×2）
+                specialty: 'きのみとくい',
+                type: 'はがね',
+                mainSkill: 'helpSupport_S',  // おてつだいサポートS
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'とくせんエッグ', count: 1, energy: 115 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'とくせんエッグ', count: 2, energy: 115 },
+                        { label: 'B', name: 'ふといながねぎ', count: 1, energy: 185 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'とくせんエッグ', count: 4, energy: 115 },
+                        { label: 'B', name: 'ふといながねぎ', count: 2, energy: 185 },
+                        { label: 'C', name: 'あまいミツ', count: 4, energy: 100 }
+                    ]
+                }
+            },
+            chimchar: {
+                name: 'ヒコザル',
+                dexNumber: 390,
+                rawBaseSpeed: 4100,  // Lv1基礎おてスピ（お手伝い時間68分20秒）
+                berryName: 'ヒメリのみ',
+                berryBaseEnergy: 27,  // きのみ基礎値
+                foodProb: 0.114,      // 11.4%（RaenonX公式サイトで確認済み）
+                skillProb: 0.033,     // 3.3%（RaenonX公式サイトで確認済み）
+                skillCeiling: 35,     // スキル天井（RaenonX公式サイトで確認済み）
+                baseCapacity: 10,     // 所持数
+                maxSkillRights: 2,    // スキル発動権上限（スキルとくい）
+                defaultBerryCount: 1, // デフォルトきのみ個数（スキルとくい）
+                specialty: 'スキルとくい',
+                type: 'ほのお',
+                mainSkill: 'berryBurst',  // きのみバースト
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'げきからハーブ', count: 1, energy: 130 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'げきからハーブ', count: 2, energy: 130 },
+                        { label: 'B', name: 'あったかジンジャー', count: 3, energy: 109 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'げきからハーブ', count: 4, energy: 130 },
+                        { label: 'B', name: 'あったかジンジャー', count: 5, energy: 109 },
+                        { label: 'C', name: 'めざましコーヒー', count: 3, energy: 153 }
+                    ]
+                }
+            },
+            prinplup: {
+                name: 'ポッタイシ',
+                dexNumber: 394,
+                rawBaseSpeed: 3700,  // Lv1基礎おてスピ（お手伝い時間61分40秒）
+                berryName: 'オレンのみ',
+                berryBaseEnergy: 31,  // きのみ基礎値
+                foodProb: 0.163,      // 16.3%（RaenonX公式サイトで確認済み）
+                skillProb: 0.035,     // 3.5%（RaenonX公式サイトで確認済み）
+                skillCeiling: 78,     // スキル天井（RaenonX公式サイトで確認済み）
+                baseCapacity: 20,     // 所持数
+                maxSkillRights: 1,    // スキル発動権上限（きのみとくい）
+                defaultBerryCount: 2, // デフォルトきのみ個数（きのみとくい×2）
+                specialty: 'きのみとくい',
+                type: 'みず',
+                mainSkill: 'helpSupport_S',  // おてつだいサポートS
+                foodSlots: {
+                    lv1: [
+                        { label: 'A', name: 'とくせんエッグ', count: 1, energy: 115 }
+                    ],
+                    lv30: [
+                        { label: 'A', name: 'とくせんエッグ', count: 2, energy: 115 },
+                        { label: 'B', name: 'ふといながねぎ', count: 1, energy: 185 }
+                    ],
+                    lv60: [
+                        { label: 'A', name: 'とくせんエッグ', count: 4, energy: 115 },
+                        { label: 'B', name: 'ふといながねぎ', count: 2, energy: 185 },
+                        { label: 'C', name: 'あまいミツ', count: 4, energy: 100 }
+                    ]
+                }
             }
         };
         
@@ -14172,6 +15214,26 @@
                     katakana: 'ガチゴラス',
                     hiragana: 'がちごらす',
                     romaji: 'tyrantrum gachigorasu'
+                },
+                'infernape': {
+                    katakana: 'ゴウカザル',
+                    hiragana: 'ごうかざる',
+                    romaji: 'infernape goukazaru'
+                },
+                'empoleon': {
+                    katakana: 'エンペルト',
+                    hiragana: 'えんぺると',
+                    romaji: 'empoleon enperuto'
+                },
+                'chimchar': {
+                    katakana: 'ヒコザル',
+                    hiragana: 'ひこざる',
+                    romaji: 'chimchar hikozaru'
+                },
+                'prinplup': {
+                    katakana: 'ポッタイシ',
+                    hiragana: 'ぽったいし',
+                    romaji: 'prinplup pottaishi'
                 }
             };
             
@@ -14448,6 +15510,64 @@
             // 各入力フィールドの表示/非表示
             const multiplierInput = document.getElementById('galladeHelpSupportMultiplierInput');
             const directInput = document.getElementById('galladeHelpSupportDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
+        /**
+         * エンペルトのおてつだいサポートSモード切り替えを初期化
+         */
+        function initializeEmpoleonHelpSupportMode() {
+            const radios = document.querySelectorAll('input[name="empoleonHelpSupportMode"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updateEmpoleonHelpSupportInputDisplay();
+                });
+            });
+            
+            // 初期状態を設定
+            updateEmpoleonHelpSupportInputDisplay();
+        }
+        
+        /**
+         * エンペルトの入力フィールドの表示/非表示を更新
+         */
+        function updateEmpoleonHelpSupportInputDisplay() {
+            const mode = document.querySelector('input[name="empoleonHelpSupportMode"]:checked')?.value || 'self';
+            
+            // 各入力フィールドの表示/非表示
+            const multiplierInput = document.getElementById('empoleonHelpSupportMultiplierInput');
+            const directInput = document.getElementById('empoleonHelpSupportDirectInput');
+            
+            if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
+            if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
+        }
+        
+        /**
+         * ポッタイシのおてつだいサポートSモード切り替えを初期化
+         */
+        function initializePrinplupHelpSupportMode() {
+            const radios = document.querySelectorAll('input[name="prinplupHelpSupportMode"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    updatePrinplupHelpSupportInputDisplay();
+                });
+            });
+            
+            // 初期状態を設定
+            updatePrinplupHelpSupportInputDisplay();
+        }
+        
+        /**
+         * ポッタイシの入力フィールドの表示/非表示を更新
+         */
+        function updatePrinplupHelpSupportInputDisplay() {
+            const mode = document.querySelector('input[name="prinplupHelpSupportMode"]:checked')?.value || 'self';
+            
+            // 各入力フィールドの表示/非表示
+            const multiplierInput = document.getElementById('prinplupHelpSupportMultiplierInput');
+            const directInput = document.getElementById('prinplupHelpSupportDirectInput');
             
             if (multiplierInput) multiplierInput.style.display = mode === 'multiplier' ? 'block' : 'none';
             if (directInput) directInput.style.display = mode === 'direct' ? 'block' : 'none';
@@ -15145,7 +16265,7 @@
             }).filter(([berryName, energy]) => energy !== undefined);
             
             // きのみバースト/ばけのかわ持ちポケモンのリスト
-            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia', 'latios', 'mew'];  // 今後追加する場合はここに追加
+            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia', 'latios', 'mew', 'infernape', 'chimchar'];  // 今後追加する場合はここに追加
             
             berryBurstPokemon.forEach(pokemonType => {
                 // 各ポケモンの4匹分のドロップダウンを初期化
@@ -15171,7 +16291,7 @@
          */
         function initializeBerryBurstModeToggle() {
             // きのみバースト/ばけのかわ持ちポケモンのリスト
-            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia', 'latios', 'mew'];
+            const berryBurstPokemon = ['sceptile', 'braviary', 'mimikyu', 'cresselia', 'latios', 'mew', 'infernape', 'chimchar'];
 
             berryBurstPokemon.forEach(pokemonType => {
                 const simpleRadio = document.getElementById(`${pokemonType}BerryBurstSimple`);
@@ -15221,6 +16341,8 @@
                 initializeArcanineHelpSupportMode();
                 initializeJolteonHelpSupportMode();
                 initializeGalladeHelpSupportMode();
+                initializeEmpoleonHelpSupportMode();
+                initializePrinplupHelpSupportMode();
                 initializeRaikouOtetsudaiBoostMode();
                 initializeEnteiOtetsudaiBoostMode();
                 initializeSuicuneOtetsudaiBoostMode();
@@ -15249,6 +16371,8 @@
             initializeArcanineHelpSupportMode();
             initializeJolteonHelpSupportMode();
             initializeGalladeHelpSupportMode();
+            initializeEmpoleonHelpSupportMode();
+            initializePrinplupHelpSupportMode();
             initializeRaikouOtetsudaiBoostMode();
             initializeEnteiOtetsudaiBoostMode();
             initializeSuicuneOtetsudaiBoostMode();
@@ -15809,7 +16933,11 @@
                 'replacementPokemonMode_walrein',
                 'replacementPokemonMode_latias',
                 'replacementPokemonMode_latios',
-                'replacementPokemonMode_tyrantrum'
+                'replacementPokemonMode_tyrantrum',
+                'replacementPokemonMode_infernape',
+                'replacementPokemonMode_empoleon',
+                'replacementPokemonMode_chimchar',
+                'replacementPokemonMode_prinplup'
             ];
             
             pokemonModes.forEach(modeId => {
@@ -15932,9 +17060,11 @@
             const speedAfterNature = speedAfterSubskill * speedNature;
             console.log('[DEBUG getReplacementPokemonSpeed] speedNature=' + speedNature + ', speedAfterNature=' + speedAfterNature);
             
-            // おやすみリボン：進化前ポケモン（ヤルキモノ・イワーク）限定のおてスピ短縮
+            // おやすみリボン：進化前ポケモン限定のおてスピ短縮
+            // あと1回進化可能（ヤルキモノ・イワーク・ポッタイシ）：500時間5%短縮/2000時間12%短縮
+            // あと2回進化可能（ヒコザル）：500時間11%短縮/2000時間25%短縮
             let ribbonSpeedMultiplier = 1.0;
-            if (pokemonType === 'vigoroth' || pokemonType === 'onix') {
+            if (pokemonType === 'vigoroth' || pokemonType === 'onix' || pokemonType === 'prinplup') {
                 const ribbonVal = parseInt(document.getElementById(`${pokemonType}SleepRibbon`)?.value) || 0;
                 // 200時間(+1)：影響なし / 500時間(+3)：5%短縮 / 1000時間(+6)：5%短縮 / 2000時間(+8)：12%短縮
                 if (ribbonVal >= 8) {
@@ -15943,6 +17073,15 @@
                     ribbonSpeedMultiplier = 0.95;
                 }
                 console.log('[DEBUG getReplacementPokemonSpeed] ribbonSpeedMultiplier=' + ribbonSpeedMultiplier);
+            } else if (pokemonType === 'chimchar') {
+                const ribbonVal = parseInt(document.getElementById(`${pokemonType}SleepRibbon`)?.value) || 0;
+                // 200時間(+1)：影響なし / 500時間(+3)：11%短縮 / 1000時間(+6)：11%短縮 / 2000時間(+8)：25%短縮
+                if (ribbonVal >= 8) {
+                    ribbonSpeedMultiplier = 0.75;
+                } else if (ribbonVal >= 3) {
+                    ribbonSpeedMultiplier = 0.89;
+                }
+                console.log('[DEBUG getReplacementPokemonSpeed] ribbonSpeedMultiplier(2段階進化)=' + ribbonSpeedMultiplier);
             }
             const speedAfterRibbon = speedAfterNature * ribbonSpeedMultiplier;
             console.log('[DEBUG getReplacementPokemonSpeed] speedAfterRibbon=' + speedAfterRibbon);
@@ -18216,14 +19355,23 @@
                 formulaParts.push(`×${speedNature.toFixed(2)}(性格)`);
             }
             
-            // おやすみリボン：進化前ポケモン（ヤルキモノ・イワーク）限定
-            if (pokemonType === 'vigoroth' || pokemonType === 'onix') {
+            // おやすみリボン：進化前ポケモン限定
+            // あと1回進化可能（ヤルキモノ・イワーク・ポッタイシ）/ あと2回進化可能（ヒコザル）で短縮率が異なる
+            if (pokemonType === 'vigoroth' || pokemonType === 'onix' || pokemonType === 'prinplup') {
                 const ribbonVal = parseInt(document.getElementById(`${pokemonType}SleepRibbon`)?.value) || 0;
                 let ribbonMult = 1.0;
                 if (ribbonVal >= 8) ribbonMult = 0.88;
                 else if (ribbonVal >= 3) ribbonMult = 0.95;
                 if (ribbonMult !== 1.0) {
                     formulaParts.push(`×${ribbonMult.toFixed(2)}(リボン)`);
+                }
+            } else if (pokemonType === 'chimchar') {
+                const ribbonVal = parseInt(document.getElementById(`${pokemonType}SleepRibbon`)?.value) || 0;
+                let ribbonMult = 1.0;
+                if (ribbonVal >= 8) ribbonMult = 0.75;
+                else if (ribbonVal >= 3) ribbonMult = 0.89;
+                if (ribbonMult !== 1.0) {
+                    formulaParts.push(`×${ribbonMult.toFixed(2)}(リボン・2段階進化)`);
                 }
             }
 
@@ -23678,7 +24826,11 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
                 'noivern': 'オンバーン',
                 'latias': 'ラティアス',
                 'latios': 'ラティオス',
-                'tyrantrum': 'ガチゴラス'
+                'tyrantrum': 'ガチゴラス',
+                'infernape': 'ゴウカザル',
+                'empoleon': 'エンペルト',
+                'chimchar': 'ヒコザル',
+                'prinplup': 'ポッタイシ'
             };
             return names[pokemonId] || pokemonId;
         }
@@ -26557,6 +27709,15 @@ T_fill：${simulation.tFill.hours.toFixed(2)}時間
 // ===== お知らせ機能 =====
 
 const NOTICES = [
+    {
+        date: '2026/07/21',
+        tag: 'update',
+        tagLabel: '📢 アップデート',
+        text: 'ゴウカザル・エンペルト・ヒコザル・ポッタイシを入替候補に追加',
+        detail: '入替候補ポケモンに「ゴウカザル」「エンペルト」「ヒコザル」「ポッタイシ」の4匹を追加しました。\n\n【ゴウカザル・ヒコザル】\nメインスキル「きのみバースト」に対応。他のきのみバースト持ちポケモンと同様、簡易モード（自分のきのみとして計算）・詳細モード（チーム構成を個別設定）を選択できます。\n\n【エンペルト・ポッタイシ】\nメインスキル「おてつだいサポートS」に対応。自分基準・倍率モード・直接入力の3モードから選択できます。\n\n【おやすみリボン】\nヒコザルはまだ2回進化できるポケモンのため、ヤルキモノ・イワーク・ポッタイシ（あと1回進化）とはおてつだいスピードの短縮率が異なります（500時間で11%短縮、2000時間で合計25%短縮）。この違いを反映しています。\n\n食材確率・スキル確率・スキル天井はpks.raenonx.ccの公式データで確認済みです。',
+        pinned: true,
+        featured: true
+    },
     {
         date: '2026/07/12',
         tag: 'update',
